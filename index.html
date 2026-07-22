@@ -162,9 +162,12 @@ function nameOf(code){
 }
 
 function header(){
-  var gear='<button class="lang" onclick="go(\'settings\')">⚙️</button>';
-  return '<header><div class="brand">Singapore Skills Academy<small>Junior • 5–7 yosh</small></div>'
-       + '<div class="langs">'+gear+'</div></header>';
+  var gear='<button class="lang" title="'+T('settings')+'" onclick="go(\'settings\')">⚙️</button>';
+  var cab='<button class="lang" title="'+T('cabinet')+'" onclick="openCabinet()">📱</button>';
+  return '<header>'
+       + '<div class="langs">'+gear+'</div>'
+       + '<div class="brand" style="flex:1;text-align:center">Singapore Skills Academy<small>Junior • 5–7 yosh</small></div>'
+       + '<div class="langs">'+cab+'</div></header>';
 }
 
 function render(){
@@ -186,7 +189,6 @@ function renderHome(){
   app.innerHTML=header()
     +'<div class="muted" style="margin-bottom:10px">'+T('choose')+'</div>'
     +'<div class="grid">'+cards+'</div>'
-    +'<button class="btn" onclick="openCabinet()">'+T('cabinet')+'</button>'
     +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>'
     +'<button class="btn sec" onclick="go(\'reviews\')">'+T('reviews')+'</button>'
     +'<button class="btn sec" onclick="go(\'contact\')">'+T('contact')+'</button>';
