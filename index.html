@@ -74,6 +74,32 @@ function toggleTheme(){ THEME=(THEME==="dark")?"light":"dark";
   try{localStorage.setItem("ssa_theme",THEME);}catch(e){} applyTheme(); render(); }
 applyTheme();
 
+// Tugma bosilganda ovoz + tebranish
+var SOUND="on", AC=null;
+try{ SOUND = (localStorage.getItem("ssa_sound")==="off")?"off":"on"; }catch(e){}
+function beep(){
+  if(SOUND!=="on") return;
+  try{
+    if(!AC) AC=new (window.AudioContext||window.webkitAudioContext)();
+    if(AC.state==="suspended") AC.resume();
+    var o=AC.createOscillator(), g=AC.createGain();
+    o.type="triangle"; o.frequency.setValueAtTime(660,AC.currentTime);
+    o.frequency.exponentialRampToValueAtTime(440,AC.currentTime+0.08);
+    g.gain.setValueAtTime(0.0001,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.18,AC.currentTime+0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001,AC.currentTime+0.12);
+    o.connect(g); g.connect(AC.destination);
+    o.start(); o.stop(AC.currentTime+0.13);
+  }catch(e){}
+}
+function haptic(){ try{ if(tg&&tg.HapticFeedback) tg.HapticFeedback.impactOccurred("light"); }catch(e){} }
+function toggleSound(){ SOUND=(SOUND==="on")?"off":"on";
+  try{localStorage.setItem("ssa_sound",SOUND);}catch(e){} if(SOUND==="on")beep(); render(); }
+document.addEventListener("click", function(e){
+  var el=e.target.closest && e.target.closest(".btn,.lang,.tab,.card,.back,.rev");
+  if(el){ beep(); haptic(); }
+}, true);
+
 var UI = {
   uz:{choose:"Bo'limni tanlang",about:"Kurs haqida",plan:"O'quv reja",price:"Narx",faq:"Savol-javob",
       enroll:"📝 Kursga yozilish",contact:"📞 Bog'lanish",reviews:"⭐ Sharhlar",back:"‹ Orqaga",
@@ -116,8 +142,9 @@ function header(){
     return '<button class="lang '+(l===LANG?'active':'')+'" onclick="setLang(\''+l+'\')">'+l.toUpperCase()+'</button>';
   }).join("");
   var themeBtn='<button class="lang" onclick="toggleTheme()">'+(THEME==="dark"?"☀️":"🌙")+'</button>';
+  var soundBtn='<button class="lang" onclick="toggleSound()">'+(SOUND==="on"?"🔊":"🔇")+'</button>';
   return '<header><div class="brand">Singapore Skills Academy<small>Junior • 5–7 yosh</small></div>'
-       + '<div class="langs">'+themeBtn+lg+'</div></header>';
+       + '<div class="langs">'+soundBtn+themeBtn+lg+'</div></header>';
 }
 
 function render(){
