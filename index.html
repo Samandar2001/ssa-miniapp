@@ -61,6 +61,8 @@
   .rev .who{font-weight:700;margin-bottom:2px}
   .contact .row{margin:8px 0;font-size:15px}
   .contact a{color:var(--link);text-decoration:none}
+  .srow{margin:6px 0 16px}
+  .slbl{font-weight:700;margin-bottom:8px;font-size:15px}
 </style>
 </head>
 <body>
@@ -100,6 +102,8 @@ function beep(){
 function haptic(){ try{ if(tg&&tg.HapticFeedback) tg.HapticFeedback.impactOccurred("light"); }catch(e){} }
 function toggleSound(){ SOUND=(SOUND==="on")?"off":"on";
   try{localStorage.setItem("ssa_sound",SOUND);}catch(e){} if(SOUND==="on")beep(); render(); }
+function setTheme(v){ THEME=v; try{localStorage.setItem("ssa_theme",v);}catch(e){} applyTheme(); render(); }
+function setSound(v){ SOUND=v; try{localStorage.setItem("ssa_sound",v);}catch(e){} if(v==="on")beep(); render(); }
 document.addEventListener("click", function(e){
   var el=e.target.closest && e.target.closest(".btn,.lang,.tab,.card,.back,.rev");
   if(el){ beep(); haptic(); }
@@ -112,6 +116,8 @@ var UI = {
       lName:"👤 Farzand",lCourse:"📚 Kurs",lType:"🏷 Yo'nalish",lLogin:"🔐 LMS login",lPass:"🔑 Parol",
       lSched:"📅 Dars jadvali",lCert:"🎓 Sertifikat",certNone:"hali tayyor emas",lmsGo:"🌐 LMS saytiga kirish",
       cabNone:"Siz hali ro'yxatda yo'qsiz. Kursga yozilsangiz — ma'lumotlaringiz shu yerda chiqadi.",
+      settings:"⚙️ Sozlamalar",sLang:"🌐 Til",sTheme:"🎨 Ko'rinish",sSound:"🔊 Ovoz",
+      day:"☀️ Kunduzgi",night:"🌙 Tungi",on:"🔊 Yoniq",off:"🔇 O'chiq",
       norev:"Hali sharhlar yo'q.",per:"oy",err:"Ma'lumot topilmadi. Bot ishga tushirilganini tekshiring."},
   ru:{choose:"Выберите раздел",about:"О курсе",plan:"Учебный план",price:"Цена",faq:"Вопросы",
       enroll:"📝 Записаться",contact:"📞 Связаться",reviews:"⭐ Отзывы",back:"‹ Назад",
@@ -119,6 +125,8 @@ var UI = {
       lName:"👤 Ребёнок",lCourse:"📚 Курс",lType:"🏷 Направление",lLogin:"🔐 LMS логин",lPass:"🔑 Пароль",
       lSched:"📅 Расписание",lCert:"🎓 Сертификат",certNone:"ещё не готов",lmsGo:"🌐 Войти на LMS",
       cabNone:"Вас пока нет в списке. Запишитесь на курс — и данные появятся здесь.",
+      settings:"⚙️ Настройки",sLang:"🌐 Язык",sTheme:"🎨 Тема",sSound:"🔊 Звук",
+      day:"☀️ Светлая",night:"🌙 Тёмная",on:"🔊 Вкл",off:"🔇 Выкл",
       norev:"Отзывов пока нет.",per:"мес",err:"Данные не найдены. Проверьте, запущен ли бот."},
   en:{choose:"Choose a section",about:"About",plan:"Curriculum",price:"Price",faq:"FAQ",
       enroll:"📝 Enroll",contact:"📞 Contact",reviews:"⭐ Reviews",back:"‹ Back",
@@ -126,6 +134,8 @@ var UI = {
       lName:"👤 Child",lCourse:"📚 Course",lType:"🏷 Track",lLogin:"🔐 LMS login",lPass:"🔑 Password",
       lSched:"📅 Schedule",lCert:"🎓 Certificate",certNone:"not ready yet",lmsGo:"🌐 Go to LMS",
       cabNone:"You're not on the list yet. Enroll and your details will appear here.",
+      settings:"⚙️ Settings",sLang:"🌐 Language",sTheme:"🎨 Theme",sSound:"🔊 Sound",
+      day:"☀️ Light",night:"🌙 Dark",on:"🔊 On",off:"🔇 Off",
       norev:"No reviews yet.",per:"mo",err:"Data not found. Make sure the bot is running."}
 };
 var EMOJI={math:"🔢",english:"📖",science:"🔬",literacy:"✍️",it:"💻"};
@@ -152,13 +162,9 @@ function nameOf(code){
 }
 
 function header(){
-  var lg=["uz","ru","en"].map(function(l){
-    return '<button class="lang '+(l===LANG?'active':'')+'" onclick="setLang(\''+l+'\')">'+l.toUpperCase()+'</button>';
-  }).join("");
-  var themeBtn='<button class="lang" onclick="toggleTheme()">'+(THEME==="dark"?"☀️":"🌙")+'</button>';
-  var soundBtn='<button class="lang" onclick="toggleSound()">'+(SOUND==="on"?"🔊":"🔇")+'</button>';
+  var gear='<button class="lang" onclick="go(\'settings\')">⚙️</button>';
   return '<header><div class="brand">Singapore Skills Academy<small>Junior • 5–7 yosh</small></div>'
-       + '<div class="langs">'+soundBtn+themeBtn+lg+'</div></header>';
+       + '<div class="langs">'+gear+'</div></header>';
 }
 
 function render(){
@@ -167,6 +173,7 @@ function render(){
   if(view.name==="contact") return renderContact();
   if(view.name==="reviews") return renderReviews();
   if(view.name==="cabinet") return renderCabinet();
+  if(view.name==="settings") return renderSettings();
   return renderHome();
 }
 
@@ -281,6 +288,24 @@ function renderCabinet(){
     .catch(function(){ app.innerHTML=head+'<div class="content">'+T('err')+'</div>'+bot; });
 }
 
+function renderSettings(){
+  var top='<button class="back" onclick="go(\'home\')">'+T('back')+'</button>';
+  function opt(active,onclick,label){
+    return '<button class="tab '+(active?'active':'')+'" onclick="'+onclick+'">'+label+'</button>'; }
+  var langRow=["uz","ru","en"].map(function(l){
+    return opt(l===LANG,"setLang('"+l+"')",l.toUpperCase()); }).join(" ");
+  var themeRow=opt(THEME==="light","setTheme('light')",T('day'))+" "
+              +opt(THEME==="dark","setTheme('dark')",T('night'));
+  var soundRow=opt(SOUND==="on","setSound('on')",T('on'))+" "
+              +opt(SOUND==="off","setSound('off')",T('off'));
+  app.innerHTML=header()+top+'<h2>'+T('settings')+'</h2>'
+    +'<div class="content">'
+    +'<div class="srow"><div class="slbl">'+T('sLang')+'</div><div class="tabs">'+langRow+'</div></div>'
+    +'<div class="srow"><div class="slbl">'+T('sTheme')+'</div><div class="tabs">'+themeRow+'</div></div>'
+    +'<div class="srow"><div class="slbl">'+T('sSound')+'</div><div class="tabs">'+soundRow+'</div></div>'
+    +'</div>'
+    +'<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
+}
 function go(name,code){ view={name:name,code:code,tab:"about"}; window.scrollTo(0,0); render(); }
 function setTab(t){ view.tab=t; render(); }
 function setLang(l){ LANG=l; try{document.documentElement.lang=l;}catch(e){} render(); }
