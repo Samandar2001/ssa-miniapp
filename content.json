@@ -1,0 +1,98 @@
+{
+  "prices": {
+    "math": 500000,
+    "english": 500000,
+    "science": 500000,
+    "literacy": 500000,
+    "full": 1500000,
+    "book": 80000
+  },
+  "family_cashback": 60000,
+  "referral": {
+    "it": 200000,
+    "junior": 60000
+  },
+  "contact": {
+    "phone": "+998 94 552 10 09",
+    "site": "www.ssa.uz",
+    "telegram": "@singapore_skills_academy"
+  },
+  "links": {
+    "bot": "https://t.me/ssa_uzbot",
+    "signup": "https://t.me/singapore_skills_academy",
+    "lms": "https://lms.timedooracademy.com/login"
+  },
+  "sheet_id": "15PLCqSZFR0vJilwgqAUjTrkCr6K9Lf4A6Ihd3Ov9OIU",
+  "sections": [
+    "math",
+    "english",
+    "science",
+    "literacy",
+    "it"
+  ],
+  "price_text": {
+    "uz": "💰 **Kurs narxi va to'lov shartlari**\n\nOylik to'lov (haftasiga 2 marta):\n• Junior Math — **500 000 so'm**\n• Junior English — **500 000 so'm**\n• Junior Science — **500 000 so'm**\n• Junior Literacy — **500 000 so'm**\n• 🎁 Full Pack (barcha fanlar) — **1 500 000 so'm**\n\n📘 Kitob narxi: 80 000 so'm\n👨‍👩‍👧 Oilaviy chegirma: 60 000 so'm keshbek (har bola uchun, oyma-oy)",
+    "ru": "💰 **Цена и условия оплаты**\n\nЕжемесячная оплата (2 раза в неделю):\n• Junior Math — **500 000 сум**\n• Junior English — **500 000 сум**\n• Junior Science — **500 000 сум**\n• Junior Literacy — **500 000 сум**\n• 🎁 Full Pack (все предметы) — **1 500 000 сум**\n\n📘 Цена книги: 80 000 сум\n👨‍👩‍👧 Семейная скидка: 60 000 сум кэшбэк (за каждого ребёнка, ежемесячно)",
+    "en": "💰 **Price & payment terms**\n\nMonthly fee (2 times a week):\n• Junior Math — **500 000 UZS**\n• Junior English — **500 000 UZS**\n• Junior Science — **500 000 UZS**\n• Junior Literacy — **500 000 UZS**\n• 🎁 Full Pack (all subjects) — **1 500 000 UZS**\n\n📘 Book price: 80 000 UZS\n👨‍👩‍👧 Family discount: 60 000 UZS cashback (per child, monthly)"
+  },
+  "faq": {
+    "uz": "❓ **Tez-tez so'raladigan savollar**\n\n**Oldindan bilim kerakmi?**\nYo'q. Kurs eng boshlang'ich darajadan boshlanadi.\n\n**Qaysi yoshdagi bolalar uchun?**\n5–6 yoshli bolalar uchun ishlab chiqilgan.\n\n**Darslar haftasiga necha marta?**\nHaftasiga 2 marta — bolalar charchamasligi uchun qulay davomiylikda.\n\n**Guruhda nechta bola bo'ladi?**\n6 ta — har bir bolaga individual e'tibor beriladi.\n\n**Darslar onlaynmi yoki oflayn?**\nHozircha barcha darslar oflayn formatda o'tkaziladi.\n\n**Sinov darsida qatnashsa bo'ladimi?**\nHa, farzandingiz kurs bilan tanishishi uchun sinov darsi bor.",
+    "ru": "❓ **Часто задаваемые вопросы**\n\n**Нужны ли базовые знания заранее?**\nНет. Курс начинается с самого начального уровня.\n\n**Для какого возраста?**\nРазработан для детей 5–6 лет.\n\n**Сколько занятий в неделю?**\n2 раза в неделю — в удобном ритме, чтобы дети не уставали.\n\n**Сколько детей в группе?**\n6 — индивидуальное внимание каждому.\n\n**Занятия онлайн или офлайн?**\nПока все занятия проходят офлайн.\n\n**Можно прийти на пробный урок?**\nДа, чтобы ребёнок познакомился с курсом.",
+    "en": "❓ **Frequently asked questions**\n\n**Is prior knowledge required?**\nNo. The course starts from the very beginning.\n\n**What age is it for?**\nDesigned for children aged 5–6.\n\n**How many lessons per week?**\nTwice a week — at a comfortable pace so kids don't get tired.\n\n**How many children per group?**\n6 — individual attention for each child.\n\n**Online or offline?**\nFor now all lessons are held offline.\n\n**Can we attend a trial lesson?**\nYes, so your child can get to know the course."
+  },
+  "subjects": {
+    "english": {
+      "title": "📖 Junior English",
+      "about": {
+        "uz": "📖 **Junior English** — 5–7 yosh\n_Build the joys of English communication!_\n\n📅 40 hafta • 80 dars • har biri 30 daqiqa\n🎓 4 chorak • 1-sinfga tayyorlov • sertifikat\n📚 Asos: Family and Friends 1 + Oxford Phonics World 1\n\n**Farzandingiz o'rganadi:**\n• Salomlashish va tanishish dialoglari\n• 26 harfni katta-kichik shaklda yozish\n• Eshitib tushunish, har tovushni to'g'ri talaffuz qilish\n• Harfni tovushga bog'lab mustaqil o'qish\n• Oila, do'stlar, ranglar va shakllar haqida gapirish\n• 1–10 gacha sanash\n• Qo'shiq va she'rlar orqali so'z boyligini oshirish\n• His-tuyg'ularni ingliz tilida ifodalash",
+        "ru": "📖 **Junior English** — 5–7 лет\n_Build the joys of English communication!_\n\n📅 40 недель • 80 уроков • по 30 минут\n🎓 4 четверти • подготовка к 1 классу • сертификат\n📚 Основа: Family and Friends 1 + Oxford Phonics World 1\n\n**Ребёнок научится:**\n• Диалогам приветствия и знакомства\n• Писать 26 букв (заглавные и строчные)\n• Понимать на слух, правильно произносить звуки\n• Самостоятельно читать по буквам\n• Говорить о семье, друзьях, цветах и формах\n• Считать от 1 до 10\n• Расширять словарь через песни и стихи\n• Выражать чувства на английском",
+        "en": "📖 **Junior English** — ages 5–7\n_Build the joys of English communication!_\n\n📅 40 weeks • 80 lessons • 30 min each\n🎓 4 terms • 1st-grade prep • certificate\n📚 Based on: Family and Friends 1 + Oxford Phonics World 1\n\n**Your child will learn to:**\n• Use greeting and introduction dialogues\n• Write all 26 letters (upper & lower case)\n• Listen and pronounce sounds correctly\n• Read independently by blending sounds\n• Talk about family, friends, colors and shapes\n• Count from 1 to 10\n• Build vocabulary through songs and rhymes\n• Express feelings in English"
+      },
+      "plan": {
+        "uz": "📖 **Junior English — O'quv reja**\n\n**1-chorak — Harflar va tovushlar** (Aa–Hh)\nSalomlashish, maktab buyumlari, kasblar, park va oila.\n\n**2-chorak — So'zlar va jumlalar** (Ii–Pp)\nTana, kiyimlar, uy, tushlik, do'stlar, hayvonlar, taomlar.\n\n**3-chorak — O'qish va muloqot** (Qq–Uu)\nXona, harakatlar, o'yinlar, madaniyat, Alifbo bayrami.\n\n**4-chorak — Erkin ingliz tili** (Vv–Zz)\nKundalik hayot, odamlar-hayvonlar-ovqatlar, uy va faoliyatlar. The Alphabet Song bilan yakunlanadi.",
+        "ru": "📖 **Junior English — учебный план**\n\n**1 четверть — Буквы и звуки** (Aa–Hh)\nПриветствие, школьные предметы, профессии, парк и семья.\n\n**2 четверть — Слова и фразы** (Ii–Pp)\nТело, одежда, дом, обед, друзья, животные, еда.\n\n**3 четверть — Чтение и общение** (Qq–Uu)\nКомната, действия, игры, культура, праздник алфавита.\n\n**4 четверть — Свободный английский** (Vv–Zz)\nПовседневная жизнь, люди-животные-еда, дом. Завершение The Alphabet Song.",
+        "en": "📖 **Junior English — Curriculum**\n\n**Term 1 — Letters & Sounds** (Aa–Hh)\nGreetings, school items, jobs, park and family.\n\n**Term 2 — Words & Phrases** (Ii–Pp)\nBody, clothes, home, lunch, friends, animals, food.\n\n**Term 3 — Reading & Communication** (Qq–Uu)\nRoom, actions, games, culture, Alphabet festival.\n\n**Term 4 — Free English** (Vv–Zz)\nEveryday life, people-animals-food, home. Finishing with The Alphabet Song."
+      }
+    },
+    "math": {
+      "title": "🔢 Junior Math",
+      "about": {
+        "uz": "🔢 **Junior Math** — 5–6 yosh\n_Mustahkam asos. Yaxshi start. Yorqin kelajak._\n\n📅 40 hafta • 80 dars • har biri 30 daqiqa\n🎓 4 chorak • 1-sinfga tayyorlov • sertifikat\n\n**Farzandingiz o'rganadi:**\n• 1–20 sonlarni tanish va yozish\n• 100 gacha erkin sanash\n• Sonlarni bir-biri bilan taqqoslash (< = >)\n• Sonlarni qismlarga ajratish\n• Asosiy geometrik shakllarni tanish\n• Uzunlik, balandlik va og'irlikni taqqoslash\n• 10 ichida qo'shish va ayirish\n• 100 gacha sonlar bilan dastlabki tanishuv",
+        "ru": "🔢 **Junior Math** — 5–6 лет\n_Прочная основа. Хороший старт. Светлое будущее._\n\n📅 40 недель • 80 уроков • по 30 минут\n🎓 4 четверти • подготовка к 1 классу • сертификат\n\n**Ребёнок научится:**\n• Узнавать и писать числа 1–20\n• Свободно считать до 100\n• Сравнивать числа (< = >)\n• Разбивать числа на части\n• Узнавать основные геометрические фигуры\n• Сравнивать длину, высоту и вес\n• Складывать и вычитать в пределах 10\n• Знакомиться с числами до 100",
+        "en": "🔢 **Junior Math** — ages 5–6\n_Strong foundation. Good start. Bright future._\n\n📅 40 weeks • 80 lessons • 30 min each\n🎓 4 terms • 1st-grade prep • certificate\n\n**Your child will learn to:**\n• Recognize and write numbers 1–20\n• Count freely up to 100\n• Compare numbers (< = >)\n• Break numbers into parts\n• Recognize basic geometric shapes\n• Compare length, height and weight\n• Add and subtract within 10\n• Get introduced to numbers up to 100"
+      },
+      "plan": {
+        "uz": "🔢 **Junior Math — O'quv reja**\n\n**1-chorak — Sonlar olami**\n1–5 va 6–10 gacha sanash, sonlarni yozish.\n\n**2-chorak — Shakllar va taqqoslash**\nGeometrik shakllar, sonlarni taqqoslash.\n\n**3-chorak — Sonlar tarkibi va o'lchash**\nSonlarni bo'laklarga ajratish, 20 gacha sonlar, o'lchash.\n\n**4-chorak — Arifmetik amallar**\nQo'shish, ayirish, 100 gacha bo'lgan sonlar.",
+        "ru": "🔢 **Junior Math — учебный план**\n\n**1 четверть — Мир чисел**\nСчёт 1–5 и 6–10, письмо чисел.\n\n**2 четверть — Фигуры и сравнение**\nГеометрические фигуры, сравнение чисел.\n\n**3 четверть — Состав чисел и измерение**\nРазбиение чисел, числа до 20, измерение.\n\n**4 четверть — Арифметика**\nСложение, вычитание, числа до 100.",
+        "en": "🔢 **Junior Math — Curriculum**\n\n**Term 1 — World of Numbers**\nCounting 1–5 and 6–10, writing numbers.\n\n**Term 2 — Shapes & Comparison**\nGeometric shapes, comparing numbers.\n\n**Term 3 — Number Composition & Measuring**\nBreaking numbers, numbers to 20, measuring.\n\n**Term 4 — Arithmetic**\nAddition, subtraction, numbers up to 100."
+      }
+    },
+    "science": {
+      "title": "🔬 Junior Science",
+      "about": {
+        "uz": "🔬 **Junior Science** — 5–6 yosh\n_Kuzat. Tushun. Tajriba qil. Kelajakni yarat!_\n\n📅 40 hafta • 80 dars • har biri 30 daqiqa\n🎓 4 chorak • 1-sinfga tayyorlov • sertifikat\n📚 Asos: STEAM & STEM o'quv dasturi\n\n**Farzandingiz o'rganadi:**\n• Kuzatish, taqqoslash va bashorat qilish\n• Tajriba o'tkazib mustaqil xulosa chiqarish\n• Modda holatlari (qattiq–suyuq–gaz)\n• Inson tanasi, gigiyena va mikroblardan himoya\n• Tabiat, suv va resurslarni asrash\n• O'simlik o'stirish va o'sishini kuzatish\n• Kuch, magnit va elektrni sinash\n• Muhandis kabi loyihalar qurish",
+        "ru": "🔬 **Junior Science** — 5–6 лет\n_Наблюдай. Пойми. Экспериментируй. Создавай будущее!_\n\n📅 40 недель • 80 уроков • по 30 минут\n🎓 4 четверти • подготовка к 1 классу • сертификат\n📚 Основа: программа STEAM & STEM\n\n**Ребёнок научится:**\n• Наблюдать, сравнивать и прогнозировать\n• Проводить опыты и делать выводы\n• Состояниям вещества (твёрдое–жидкое–газ)\n• Телу человека, гигиене и защите от микробов\n• Беречь природу, воду и ресурсы\n• Выращивать растения и наблюдать за ними\n• Исследовать силу, магнит и электричество\n• Строить проекты как инженер",
+        "en": "🔬 **Junior Science** — ages 5–6\n_Observe. Understand. Experiment. Create the future!_\n\n📅 40 weeks • 80 lessons • 30 min each\n🎓 4 terms • 1st-grade prep • certificate\n📚 Based on: STEAM & STEM program\n\n**Your child will learn to:**\n• Observe, compare and predict\n• Run experiments and draw conclusions\n• States of matter (solid–liquid–gas)\n• The human body, hygiene and germs\n• Care for nature, water and resources\n• Grow plants and observe them\n• Explore force, magnets and electricity\n• Build projects like an engineer"
+      },
+      "plan": {
+        "uz": "🔬 **Junior Science — O'quv reja**\n\n**1-chorak — Ilk kashfiyotlar**\nFizik o'zgarishlar, atrof-muhit, mikroblar, o'zaro ta'sirlar.\n\n**2-chorak — Sirli tajribalar**\nAtrofimizdagi moddalar, okean, tana, gigiyena, kimyoviy reaksiyalar.\n\n**3-chorak — Kichik olimlar**\nModdalar, tabiat, odam tanasi, viruslar, koinot.\n\n**4-chorak — Yosh muhandis**\nUchish siri, laboratoriya, kimyogar, rassom, quruvchi. Yakuniy STEM kechasi.",
+        "ru": "🔬 **Junior Science — учебный план**\n\n**1 четверть — Первые открытия**\nФизические изменения, природа, микробы, взаимодействия.\n\n**2 четверть — Тайные опыты**\nВещества, океан, тело, гигиена, химические реакции.\n\n**3 четверть — Маленькие учёные**\nВещества, природа, тело человека, вирусы, космос.\n\n**4 четверть — Юный инженер**\nСекрет полёта, лаборатория, химик, художник, строитель. Финальный STEM-вечер.",
+        "en": "🔬 **Junior Science — Curriculum**\n\n**Term 1 — First Discoveries**\nPhysical changes, nature, germs, interactions.\n\n**Term 2 — Secret Experiments**\nMaterials, ocean, body, hygiene, chemical reactions.\n\n**Term 3 — Little Scientists**\nMaterials, nature, human body, viruses, space.\n\n**Term 4 — Young Engineer**\nSecret of flight, lab, chemist, artist, builder. Final STEM night."
+      }
+    },
+    "literacy": {
+      "title": "✍️ Junior Literacy",
+      "about": {
+        "uz": "✍️ **Junior Literacy** — 5–7 yosh\n_O'qish va yozishga mustahkam tayyorgarlik._\n\n📅 40 hafta • 80 dars • har biri 30 daqiqa\n🎓 4 chorak • 1-sinfga tayyorlov • sertifikat\n\n**Farzandingiz o'rganadi:**\n• Harflarni tanish va to'g'ri yozish\n• Bo'g'inlab o'qishni boshlash\n• Eshitgan matnni tushunish\n• So'z boyligini oshirish\n• Chiroyli va tartibli yozuv (xattotlik)\n• O'z fikrini og'zaki ifodalash\n• Diqqat, xotira va mayda motorikani rivojlantirish",
+        "ru": "✍️ **Junior Literacy** — 5–7 лет\n_Прочная подготовка к чтению и письму._\n\n📅 40 недель • 80 уроков • по 30 минут\n🎓 4 четверти • подготовка к 1 классу • сертификат\n\n**Ребёнок научится:**\n• Узнавать и правильно писать буквы\n• Начинать читать по слогам\n• Понимать услышанный текст\n• Расширять словарный запас\n• Красивому и аккуратному письму\n• Выражать мысли устно\n• Развивать внимание, память и мелкую моторику",
+        "en": "✍️ **Junior Literacy** — ages 5–7\n_Strong preparation for reading and writing._\n\n📅 40 weeks • 80 lessons • 30 min each\n🎓 4 terms • 1st-grade prep • certificate\n\n**Your child will learn to:**\n• Recognize and write letters correctly\n• Start reading by syllables\n• Understand what they hear\n• Expand vocabulary\n• Write neatly and tidily\n• Express thoughts out loud\n• Develop attention, memory and fine motor skills"
+      },
+      "plan": {
+        "uz": "✍️ **Junior Literacy — O'quv reja**\n\n**1-chorak — Harflar olami**\nHarflar bilan tanishish, tovushlar, mayda motorika.\n\n**2-chorak — Bo'g'inlar va so'zlar**\nBo'g'inlab o'qish, oddiy so'zlarni yozish.\n\n**3-chorak — Jumlalar**\nKichik jumlalarni o'qish va yozish, matnni tushunish.\n\n**4-chorak — Erkin o'qish va yozuv**\nMustaqil o'qish, hikoya aytish, chiroyli yozuv.",
+        "ru": "✍️ **Junior Literacy — учебный план**\n\n**1 четверть — Мир букв**\nЗнакомство с буквами, звуки, мелкая моторика.\n\n**2 четверть — Слоги и слова**\nЧтение по слогам, письмо простых слов.\n\n**3 четверть — Предложения**\nЧтение и письмо коротких предложений, понимание текста.\n\n**4 четверть — Свободное чтение и письмо**\nСамостоятельное чтение, рассказы, красивое письмо.",
+        "en": "✍️ **Junior Literacy — Curriculum**\n\n**Term 1 — World of Letters**\nMeeting letters, sounds, fine motor skills.\n\n**Term 2 — Syllables & Words**\nReading by syllables, writing simple words.\n\n**Term 3 — Sentences**\nReading and writing short sentences, understanding text.\n\n**Term 4 — Free Reading & Writing**\nIndependent reading, storytelling, neat writing."
+      }
+    }
+  },
+  "reviews": []
+}
