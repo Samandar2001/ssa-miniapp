@@ -68,12 +68,15 @@ if (tg){ try{ tg.ready(); tg.expand(); document.body.classList.add('tg'); }catch
 var UI = {
   uz:{choose:"Bo'limni tanlang",about:"Kurs haqida",plan:"O'quv reja",price:"Narx",faq:"Savol-javob",
       enroll:"📝 Kursga yozilish",contact:"📞 Bog'lanish",reviews:"⭐ Sharhlar",back:"‹ Orqaga",
+      addrev:"✍️ Sharh qoldirish",
       norev:"Hali sharhlar yo'q.",per:"oy",err:"Ma'lumot topilmadi. Bot ishga tushirilganini tekshiring."},
   ru:{choose:"Выберите раздел",about:"О курсе",plan:"Учебный план",price:"Цена",faq:"Вопросы",
       enroll:"📝 Записаться",contact:"📞 Связаться",reviews:"⭐ Отзывы",back:"‹ Назад",
+      addrev:"✍️ Оставить отзыв",
       norev:"Отзывов пока нет.",per:"мес",err:"Данные не найдены. Проверьте, запущен ли бот."},
   en:{choose:"Choose a section",about:"About",plan:"Curriculum",price:"Price",faq:"FAQ",
       enroll:"📝 Enroll",contact:"📞 Contact",reviews:"⭐ Reviews",back:"‹ Back",
+      addrev:"✍️ Leave a review",
       norev:"No reviews yet.",per:"mo",err:"Data not found. Make sure the bot is running."}
 };
 var EMOJI={math:"🔢",english:"📖",science:"🔬",literacy:"✍️",it:"💻"};
@@ -174,7 +177,15 @@ function renderReviews(){
     }).join(""):'<div class="muted">'+T('norev')+'</div>';
   app.innerHTML=header()
     +'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>'
-    +'<h2>'+T('reviews')+'</h2>'+body;
+    +'<h2>'+T('reviews')+'</h2>'
+    +'<button class="btn" onclick="writeReview()">'+T('addrev')+'</button>'
+    +'<div style="height:8px"></div>'+body;
+}
+function writeReview(){
+  var bot=(DATA.links&&DATA.links.bot)||"";
+  if(!bot){ return; }
+  var url=bot+"?start=review";
+  if(tg&&tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url,"_blank");
 }
 
 function go(name,code){ view={name:name,code:code,tab:"about"}; window.scrollTo(0,0); render(); }
