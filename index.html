@@ -373,12 +373,13 @@ function renderSettings(){
               +opt(THEME==="dark","setTheme('dark')",T('night'));
   var soundRow=opt(SOUND==="on","setSound('on')",T('on'))+" "
               +opt(SOUND==="off","setSound('off')",T('off'));
+  function block(label, row){
+    return '<div class="content" style="margin-bottom:10px">'
+         + '<div class="slbl">'+label+'</div><div class="tabs">'+row+'</div></div>'; }
   app.innerHTML=header()+top+'<h2>'+T('settings')+'</h2>'
-    +'<div class="content">'
-    +'<div class="srow"><div class="slbl">'+T('sLang')+'</div><div class="tabs">'+langRow+'</div></div>'
-    +'<div class="srow"><div class="slbl">'+T('sTheme')+'</div><div class="tabs">'+themeRow+'</div></div>'
-    +'<div class="srow"><div class="slbl">'+T('sSound')+'</div><div class="tabs">'+soundRow+'</div></div>'
-    +'</div>'
+    +block(T('sLang'), langRow)
+    +block(T('sTheme'), themeRow)
+    +block(T('sSound'), soundRow)
     +'<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
 }
 function myRefLink(){
