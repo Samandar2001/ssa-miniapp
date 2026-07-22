@@ -6,14 +6,15 @@
 <title>Singapore Skills Academy</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-  :root{
-    --bg:#ffffff; --sec:#f3f2f7; --text:#141416; --hint:#8b8b90;
+  :root, body.light{
+    --sec:#f0f0f4; --text:#141416; --hint:#8b8b90;
     --link:#2f8fed; --btn:#7c1c3a; --btn-text:#ffffff; --accent:#7c1c3a; --card:#ffffff;
+    --line:#e3e2e8;
   }
-  body.tg{
-    --bg:var(--tg-theme-bg-color,#fff); --sec:var(--tg-theme-secondary-bg-color,#f3f2f7);
-    --text:var(--tg-theme-text-color,#141416); --hint:var(--tg-theme-hint-color,#8b8b90);
-    --link:var(--tg-theme-link-color,#2f8fed); --card:var(--tg-theme-bg-color,#fff);
+  body.dark{
+    --sec:#0e0f12; --text:#f0f0f2; --hint:#9a9aa0;
+    --link:#6ab3f3; --btn:#a83557; --btn-text:#ffffff; --accent:#e86f92; --card:#1c1d22;
+    --line:#2b2c31;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
@@ -23,7 +24,7 @@
   .brand{font-weight:800;font-size:17px;color:var(--accent);line-height:1.15}
   .brand small{display:block;font-weight:500;color:var(--hint);font-size:11px;margin-top:2px}
   .langs{display:flex;gap:5px;flex-shrink:0}
-  .lang{border:none;background:var(--card);color:var(--text);border:1px solid #e3e2e8;
+  .lang{border:none;background:var(--card);color:var(--text);border:1px solid var(--line);
         border-radius:18px;padding:5px 10px;font-size:13px;cursor:pointer;font-weight:600}
   .lang.active{background:var(--accent);color:#fff;border-color:var(--accent)}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
@@ -40,7 +41,7 @@
   .tabs{display:flex;gap:6px;overflow-x:auto;margin:12px 0 10px;padding-bottom:2px}
   .tabs::-webkit-scrollbar{display:none}
   .tab{white-space:nowrap;border:none;background:var(--card);color:var(--text);
-       border:1px solid #e3e2e8;border-radius:18px;padding:8px 14px;font-size:14px;cursor:pointer}
+       border:1px solid var(--line);border-radius:18px;padding:8px 14px;font-size:14px;cursor:pointer}
   .tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
   .content{background:var(--card);border-radius:16px;padding:16px;font-size:15px;
            box-shadow:0 1px 4px rgba(0,0,0,.06)}
@@ -63,7 +64,15 @@
 <script>
 "use strict";
 var tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
-if (tg){ try{ tg.ready(); tg.expand(); document.body.classList.add('tg'); }catch(e){} }
+if (tg){ try{ tg.ready(); tg.expand(); }catch(e){} }
+
+// Kunduzgi/tungi rejim
+var THEME="light";
+try{ THEME = localStorage.getItem("ssa_theme") || ((tg && tg.colorScheme==="dark")?"dark":"light"); }catch(e){}
+function applyTheme(){ document.body.classList.remove("light","dark"); document.body.classList.add(THEME); }
+function toggleTheme(){ THEME=(THEME==="dark")?"light":"dark";
+  try{localStorage.setItem("ssa_theme",THEME);}catch(e){} applyTheme(); render(); }
+applyTheme();
 
 var UI = {
   uz:{choose:"Bo'limni tanlang",about:"Kurs haqida",plan:"O'quv reja",price:"Narx",faq:"Savol-javob",
@@ -106,8 +115,9 @@ function header(){
   var lg=["uz","ru","en"].map(function(l){
     return '<button class="lang '+(l===LANG?'active':'')+'" onclick="setLang(\''+l+'\')">'+l.toUpperCase()+'</button>';
   }).join("");
+  var themeBtn='<button class="lang" onclick="toggleTheme()">'+(THEME==="dark"?"☀️":"🌙")+'</button>';
   return '<header><div class="brand">Singapore Skills Academy<small>Junior • 5–7 yosh</small></div>'
-       + '<div class="langs">'+lg+'</div></header>';
+       + '<div class="langs">'+themeBtn+lg+'</div></header>';
 }
 
 function render(){
