@@ -116,6 +116,8 @@ var UI = {
       lName:"👤 Farzand",lCourse:"📚 Kurs",lType:"🏷 Yo'nalish",lLogin:"🔐 LMS login",lPass:"🔑 Parol",
       lSched:"📅 Dars jadvali",lCert:"🎓 Sertifikat",certNone:"hali tayyor emas",lmsGo:"🌐 LMS saytiga kirish",
       cabNone:"Siz hali ro'yxatda yo'qsiz. Kursga yozilsangiz — ma'lumotlaringiz shu yerda chiqadi.",
+      acc:"Akkaunt",cabFull:"🔐 To'liq ma'lumot (botda)",
+      cabHint:"LMS login, parol, dars jadvali va sertifikat — botda ko'rsatiladi 👇",
       settings:"⚙️ Sozlamalar",sLang:"🌐 Til",sTheme:"🎨 Ko'rinish",sSound:"🔊 Ovoz",
       day:"☀️ Kunduzgi",night:"🌙 Tungi",on:"🔊 Yoniq",off:"🔇 O'chiq",
       norev:"Hali sharhlar yo'q.",per:"oy",err:"Ma'lumot topilmadi. Bot ishga tushirilganini tekshiring."},
@@ -125,6 +127,8 @@ var UI = {
       lName:"👤 Ребёнок",lCourse:"📚 Курс",lType:"🏷 Направление",lLogin:"🔐 LMS логин",lPass:"🔑 Пароль",
       lSched:"📅 Расписание",lCert:"🎓 Сертификат",certNone:"ещё не готов",lmsGo:"🌐 Войти на LMS",
       cabNone:"Вас пока нет в списке. Запишитесь на курс — и данные появятся здесь.",
+      acc:"Аккаунт",cabFull:"🔐 Полная информация (в боте)",
+      cabHint:"LMS логин, пароль, расписание и сертификат — в боте 👇",
       settings:"⚙️ Настройки",sLang:"🌐 Язык",sTheme:"🎨 Тема",sSound:"🔊 Звук",
       day:"☀️ Светлая",night:"🌙 Тёмная",on:"🔊 Вкл",off:"🔇 Выкл",
       norev:"Отзывов пока нет.",per:"мес",err:"Данные не найдены. Проверьте, запущен ли бот."},
@@ -134,6 +138,8 @@ var UI = {
       lName:"👤 Child",lCourse:"📚 Course",lType:"🏷 Track",lLogin:"🔐 LMS login",lPass:"🔑 Password",
       lSched:"📅 Schedule",lCert:"🎓 Certificate",certNone:"not ready yet",lmsGo:"🌐 Go to LMS",
       cabNone:"You're not on the list yet. Enroll and your details will appear here.",
+      acc:"Account",cabFull:"🔐 Full details (in bot)",
+      cabHint:"LMS login, password, schedule and certificate — in the bot 👇",
       settings:"⚙️ Settings",sLang:"🌐 Language",sTheme:"🎨 Theme",sSound:"🔊 Sound",
       day:"☀️ Light",night:"🌙 Dark",on:"🔊 On",off:"🔇 Off",
       norev:"No reviews yet.",per:"mo",err:"Data not found. Make sure the bot is running."}
@@ -253,24 +259,36 @@ function openBot(param){
   if(tg&&tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url,"_blank");
 }
 function writeReview(){ openBot("review"); }
-function openCabinet(){
-  var api=(DATA.links&&DATA.links.cabinet_api)||"";
-  if(api){ go("cabinet"); } else { openBot("cabinet"); }
-}
+function openCabinet(){ go("cabinet"); }   // har doim ilova ichida
 function openLmsSite(){ var u=(DATA.links&&DATA.links.lms)||"";
   if(u){ if(tg&&tg.openLink) tg.openLink(u); else window.open(u,"_blank"); } }
+
+// Backend'siz — Telegram profil + botga to'liq ma'lumot tugmasi
+function cabinetLite(head, backBtn){
+  var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
+  var name=((u.first_name||"")+" "+(u.last_name||"")).trim();
+  var rows="";
+  if(name) rows+='<div class="row"><b>👤 '+T('acc')+':</b> '+esc(name)+'</div>';
+  if(u.username) rows+='<div class="row"><b>🔗 Username:</b> @'+esc(u.username)+'</div>';
+  rows+='<div class="row muted" style="margin-top:10px">'+esc(T('cabHint'))+'</div>';
+  var body='<div class="content">'+rows+'</div>'
+    +'<button class="btn" onclick="openBot(\'cabinet\')">'+T('cabFull')+'</button>'
+    +'<button class="btn sec" onclick="openLmsSite()">'+T('lmsGo')+'</button>';
+  app.innerHTML=head+body+backBtn;
+}
+
 function renderCabinet(){
   var api=(DATA.links&&DATA.links.cabinet_api)||"";
   var top='<button class="back" onclick="go(\'home\')">'+T('back')+'</button>';
-  var bot='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
+  var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
   var head=header()+top+'<h2>'+T('cabinet')+'</h2>';
+  if(!api){ cabinetLite(head, backBtn); return; }   // backend yo'q -> lite
   app.innerHTML=head+'<div class="content muted">'+T('loading')+'</div>';
   var initData=(tg&&tg.initData)||"";
   fetch(api+"?initData="+encodeURIComponent(initData))
     .then(function(r){return r.json();})
     .then(function(d){
-      // Backend hali tayyor emas / texnik xato -> botda ochamiz (fallback)
-      if(!d || d.error){ openBot("cabinet"); go("home"); return; }
+      if(!d || d.error){ cabinetLite(head, backBtn); return; }   // xato -> lite
       var body;
       if(!d.found){
         body='<div class="content">'+esc(T('cabNone'))+'</div>'
@@ -287,9 +305,9 @@ function renderCabinet(){
             +'<button class="btn" onclick="openLmsSite()">'+T('lmsGo')+'</button>';
         if(c && /^https?:/.test(c)) body+='<button class="btn sec" onclick="window.open(\''+esc(c)+'\',\'_blank\')">'+T('lCert')+'</button>';
       }
-      app.innerHTML=head+body+bot;
+      app.innerHTML=head+body+backBtn;
     })
-    .catch(function(){ app.innerHTML=head+'<div class="content">'+T('err')+'</div>'+bot; });
+    .catch(function(){ cabinetLite(head, backBtn); });
 }
 
 function renderSettings(){
