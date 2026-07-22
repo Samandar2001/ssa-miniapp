@@ -267,8 +267,10 @@ function renderCabinet(){
   fetch(api+"?initData="+encodeURIComponent(initData))
     .then(function(r){return r.json();})
     .then(function(d){
+      // Backend hali tayyor emas / texnik xato -> botda ochamiz (fallback)
+      if(!d || d.error){ openBot("cabinet"); go("home"); return; }
       var body;
-      if(!d||!d.found){
+      if(!d.found){
         body='<div class="content">'+esc(T('cabNone'))+'</div>'
             +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>';
       } else {
