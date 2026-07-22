@@ -124,6 +124,10 @@ var UI = {
       cabHint:"LMS login, parol, dars jadvali va sertifikat — botda ko'rsatiladi 👇",
       top:"🏆 Reyting",topTitle:"🏆 Do'st taklif reytingi",tInv:"taklif",tEnr:"yozildi",
       topEmpty:"Hali reyting bo'sh. Do'st taklif qilib birinchi bo'ling! 🎁",
+      refer:"🎁 Do'st taklif qilish",referTitle:"🎁 Do'stingizni taklif qiling",
+      yourLink:"🔗 Shaxsiy havolangiz:",shareBtn:"📤 Do'stga ulashish",
+      shareText:"Farzandingiz uchun IT, English, Math, Science kurslari! 👇",
+      referHow:"Do'stingiz havola orqali kirib kursga yozilsa — **sizga bonus!** 💸\nIT: 200 000 so'm • boshqa fanlar: 60 000 so'm",
       settings:"⚙️ Sozlamalar",sLang:"🌐 Til",sTheme:"🎨 Ko'rinish",sSound:"🔊 Ovoz",
       day:"☀️ Kunduzgi",night:"🌙 Tungi",on:"🔊 Yoniq",off:"🔇 O'chiq",
       norev:"Hali sharhlar yo'q.",per:"oy",err:"Ma'lumot topilmadi. Bot ishga tushirilganini tekshiring."},
@@ -137,6 +141,10 @@ var UI = {
       cabHint:"LMS логин, пароль, расписание и сертификат — в боте 👇",
       top:"🏆 Рейтинг",topTitle:"🏆 Рейтинг приглашений",tInv:"приглашено",tEnr:"записалось",
       topEmpty:"Рейтинг пока пуст. Пригласите друга и станьте первым! 🎁",
+      refer:"🎁 Пригласить друга",referTitle:"🎁 Пригласите друга",
+      yourLink:"🔗 Ваша персональная ссылка:",shareBtn:"📤 Поделиться с другом",
+      shareText:"Курсы IT, English, Math, Science для вашего ребёнка! 👇",
+      referHow:"Если друг перейдёт по ссылке и запишется — **вам бонус!** 💸\nIT: 200 000 сум • другие предметы: 60 000 сум",
       settings:"⚙️ Настройки",sLang:"🌐 Язык",sTheme:"🎨 Тема",sSound:"🔊 Звук",
       day:"☀️ Светлая",night:"🌙 Тёмная",on:"🔊 Вкл",off:"🔇 Выкл",
       norev:"Отзывов пока нет.",per:"мес",err:"Данные не найдены. Проверьте, запущен ли бот."},
@@ -150,6 +158,10 @@ var UI = {
       cabHint:"LMS login, password, schedule and certificate — in the bot 👇",
       top:"🏆 Leaderboard",topTitle:"🏆 Referral leaderboard",tInv:"invited",tEnr:"enrolled",
       topEmpty:"Leaderboard is empty. Invite a friend and be the first! 🎁",
+      refer:"🎁 Invite a friend",referTitle:"🎁 Invite your friend",
+      yourLink:"🔗 Your personal link:",shareBtn:"📤 Share with a friend",
+      shareText:"IT, English, Math, Science courses for your child! 👇",
+      referHow:"If your friend opens the link and enrolls — **you get a bonus!** 💸\nIT: 200 000 UZS • other subjects: 60 000 UZS",
       settings:"⚙️ Settings",sLang:"🌐 Language",sTheme:"🎨 Theme",sSound:"🔊 Sound",
       day:"☀️ Light",night:"🌙 Dark",on:"🔊 On",off:"🔇 Off",
       norev:"No reviews yet.",per:"mo",err:"Data not found. Make sure the bot is running."}
@@ -203,6 +215,7 @@ function render(){
   if(view.name==="cabinet") return renderCabinet();
   if(view.name==="settings") return renderSettings();
   if(view.name==="top") return renderTop();
+  if(view.name==="refer") return renderRefer();
   return renderHome();
 }
 
@@ -216,6 +229,7 @@ function renderHome(){
     +'<div class="muted" style="margin-bottom:10px">'+T('choose')+'</div>'
     +'<div class="grid">'+cards+'</div>'
     +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>'
+    +'<button class="btn" onclick="go(\'refer\')">'+T('refer')+'</button>'
     +'<button class="btn sec" onclick="go(\'top\')">'+T('top')+'</button>'
     +'<button class="btn sec" onclick="go(\'reviews\')">'+T('reviews')+'</button>'
     +'<button class="btn sec" onclick="go(\'contact\')">'+T('contact')+'</button>';
@@ -349,6 +363,27 @@ function renderSettings(){
     +'</div>'
     +'<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
 }
+function myRefLink(){
+  var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
+  var bot=(DATA.links&&DATA.links.bot)||"";
+  return (u.id&&bot)?(bot+"?start=ref"+u.id):bot;
+}
+function shareLink(){
+  var url="https://t.me/share/url?url="+encodeURIComponent(myRefLink())
+        +"&text="+encodeURIComponent(T('shareText'));
+  if(tg&&tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url,"_blank");
+}
+function renderRefer(){
+  var top='<button class="back" onclick="go(\'home\')">'+T('back')+'</button>';
+  var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
+  var body='<div class="content">'+fmt(T('referHow'))
+    +'<div class="row" style="margin-top:12px"><b>'+T('yourLink')+'</b></div>'
+    +'<div class="row"><code>'+esc(myRefLink())+'</code></div></div>'
+    +'<button class="btn" onclick="shareLink()">'+T('shareBtn')+'</button>'
+    +'<button class="btn sec" onclick="go(\'top\')">'+T('top')+'</button>';
+  app.innerHTML=header()+top+'<h2>'+T('referTitle')+'</h2>'+body+backBtn;
+}
+
 function renderTop(){
   var lb=DATA.leaderboard||[];
   var top='<button class="back" onclick="go(\'home\')">'+T('back')+'</button>';
