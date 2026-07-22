@@ -27,6 +27,8 @@
   .lang{border:none;background:var(--card);color:var(--text);border:1px solid var(--line);
         border-radius:18px;padding:5px 10px;font-size:13px;cursor:pointer;font-weight:600}
   .lang.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .lang.avatar{padding:0;overflow:hidden;width:32px;height:32px;border-radius:50%}
+  .lang.avatar img{width:100%;height:100%;object-fit:cover;display:block}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
   .card{background:var(--card);border-radius:16px;padding:16px;cursor:pointer;
         box-shadow:0 1px 4px rgba(0,0,0,.06);transition:transform .08s}
@@ -169,7 +171,11 @@ function nameOf(code){
 
 function header(){
   var gear='<button class="lang" title="'+T('settings')+'" onclick="go(\'settings\')">⚙️</button>';
-  var cab='<button class="lang" title="'+T('cabinet')+'" onclick="openCabinet()">📱</button>';
+  var pu=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user&&tg.initDataUnsafe.user.photo_url)||"";
+  var cab = pu
+    ? '<button class="lang avatar" title="'+T('cabinet')+'" onclick="openCabinet()">'
+      + '<img src="'+esc(pu)+'" alt="👤"></button>'
+    : '<button class="lang" title="'+T('cabinet')+'" onclick="openCabinet()">📱</button>';
   var logo=(THEME==="dark")?"logo-white.png":"logo-color.png";
   return '<header>'
        + '<div class="langs">'+gear+'</div>'
