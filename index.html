@@ -170,9 +170,12 @@ function nameOf(code){
 function header(){
   var gear='<button class="lang" title="'+T('settings')+'" onclick="go(\'settings\')">⚙️</button>';
   var cab='<button class="lang" title="'+T('cabinet')+'" onclick="openCabinet()">📱</button>';
+  var logo=(THEME==="dark")?"logo-white.png":"logo-color.png";
   return '<header>'
        + '<div class="langs">'+gear+'</div>'
-       + '<div class="brand" style="flex:1;text-align:center">Singapore Skills Academy</div>'
+       + '<div class="brand" style="flex:1;text-align:center">'
+       +   '<img src="'+logo+'" alt="Singapore Skills Academy" '
+       +   'style="height:30px;max-width:78%;object-fit:contain;vertical-align:middle"></div>'
        + '<div class="langs">'+cab+'</div></header>';
 }
 
