@@ -29,6 +29,8 @@
   .lang.active{background:var(--accent);color:#fff;border-color:var(--accent)}
   .lang.avatar{padding:0;overflow:hidden;width:32px;height:32px;border-radius:50%}
   .lang.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+  .lang.avatar.ini{background:linear-gradient(135deg,var(--accent),#b03a5b);color:#fff;
+        border:none;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
   .card{background:var(--card);border-radius:16px;padding:16px;cursor:pointer;
         box-shadow:0 1px 4px rgba(0,0,0,.06);transition:transform .08s}
@@ -171,11 +173,13 @@ function nameOf(code){
 
 function header(){
   var gear='<button class="lang" title="'+T('settings')+'" onclick="go(\'settings\')">⚙️</button>';
-  var pu=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user&&tg.initDataUnsafe.user.photo_url)||"";
+  var us=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
+  var pu=us.photo_url||"";
+  var nm=(us.first_name||us.username||"").trim();
+  var ini=nm?nm.charAt(0).toUpperCase():"";
   var cab = pu
-    ? '<button class="lang avatar" title="'+T('cabinet')+'" onclick="openCabinet()">'
-      + '<img src="'+esc(pu)+'" alt="👤"></button>'
-    : '<button class="lang" title="'+T('cabinet')+'" onclick="openCabinet()">📱</button>';
+    ? '<button class="lang avatar" title="'+T('cabinet')+'" onclick="openCabinet()"><img src="'+esc(pu)+'"></button>'
+    : '<button class="lang avatar ini" title="'+T('cabinet')+'" onclick="openCabinet()">'+(esc(ini)||'👤')+'</button>';
   var logo=(THEME==="dark")?"logo-white.png":"logo-color.png";
   return '<header>'
        + '<div class="langs">'+gear+'</div>'
