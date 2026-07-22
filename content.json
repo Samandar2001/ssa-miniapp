@@ -98,5 +98,11 @@
       }
     }
   },
-  "reviews": []
+  "reviews": [
+    {
+      "uid": 6571850343,
+      "name": "Baxmal Print",
+      "text": "Zoʻr"
+    }
+  ]
 }
