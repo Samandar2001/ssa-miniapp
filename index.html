@@ -47,8 +47,11 @@
            box-shadow:0 1px 4px rgba(0,0,0,.06)}
   .content .row{margin:3px 0}
   .content b{font-weight:700}
-  .back{background:none;border:none;color:var(--link);font-size:15px;cursor:pointer;
-        padding:6px 0;margin-bottom:4px;font-weight:600}
+  .back{display:inline-flex;align-items:center;gap:5px;background:var(--card);
+        border:1px solid var(--line);color:var(--text);font-size:14px;cursor:pointer;
+        padding:9px 16px;margin-bottom:10px;border-radius:20px;font-weight:600;
+        box-shadow:0 1px 3px rgba(0,0,0,.06)}
+  .back:active{transform:scale(.96)}
   h2{font-size:21px;margin:4px 0 2px}
   .muted{color:var(--hint);font-size:14px}
   .rev{background:var(--card);border-radius:14px;padding:12px 14px;margin-bottom:8px;
@@ -190,7 +193,8 @@ function renderSec(){
     +'<h2>'+(EMOJI[code]||"")+' '+esc(nameOf(code))+'</h2>'
     +'<div class="tabs">'+tabsHtml+'</div>'
     +'<div class="content">'+body+'</div>'
-    +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>';
+    +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>'
+    +'<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
 }
 
 function renderContact(){
@@ -204,7 +208,8 @@ function renderContact(){
     +'<div class="row">🌐 <a target="_blank" href="https://'+esc((c.site||"").replace(/^https?:\/\//,""))+'">'+esc(c.site)+'</a></div>'
     +'<div class="row">✈️ <a target="_blank" href="https://t.me/'+esc(tgu)+'">'+esc(c.telegram)+'</a></div>'
     +'</div>'
-    +'<button class="btn" onclick="openTg(\''+esc(c.telegram)+'\')">'+T('contact')+'</button>';
+    +'<button class="btn" onclick="openTg(\''+esc(c.telegram)+'\')">'+T('contact')+'</button>'
+    +'<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
 }
 
 function renderReviews(){
@@ -216,7 +221,8 @@ function renderReviews(){
     +'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>'
     +'<h2>'+T('reviews')+'</h2>'
     +'<button class="btn" onclick="writeReview()">'+T('addrev')+'</button>'
-    +'<div style="height:8px"></div>'+body;
+    +'<div style="height:8px"></div>'+body
+    +'<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
 }
 function writeReview(){
   var bot=(DATA.links&&DATA.links.bot)||"";
