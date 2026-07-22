@@ -1,4 +1,8 @@
 {
+  "it_info": {
+    "about": "💻 **IT kurslari**\n\nYosh va darajaga qarab yo'nalishlar:\n• 🧒 Junior Coder (5–7)\n• 🎮 Code Adventure (8–14)\n• 🐍 Python Developer (10–15)\n• 🤖 IoT & Robotic (10–15)\n• 💻 Software Engineer (15–18)\n• 🧠 AI Engineer (15–18)\n\nHar yo'nalish bo'yicha to'liq ma'lumot — kursga yozilganда yoki biz bilan bog'lanib olasiz.",
+    "price": "📋 **UMUMIY MA'LUMOT**\n\n**💰 Oylik narxlar:**\n• 5–7 yosh — 850 000 (1×/hafta) / 1 400 000 (2×/hafta)\n• 8–12 yosh — 900 000 / 1 600 000\n• 13–17 yosh — 900 000 / 1 600 000\n• Private Class — 2 500 000\n• Ro'yxatdan o'tish — 200 000 (LMS, o'quv vositalari, sertifikat)\n\n**🎁 Chegirmalar:**\n• Oilaviy — 100 000 so'm keshbek (har bola uchun, oyma-oy)\n• Referral — do'st taklif qilsangiz 200 000 so'm\n• Laptop ijarasi — 200 000/oy (4 dars) yoki 300 000/oy (8 dars)\n\n**ℹ️ Tez-tez so'raladigan savollar:**\n• Guruhda maksimal **6 o'quvchi**\n• Dars: junior **60 daqiqa**, kattalar **90 daqiqa**\n• Onlayn darslar mavjud (jonli, o'qituvchi bilan)\n• Qoldirilgan dars yo'qolmaydi — faqat qatnashgan darslar hisoblanadi\n• Moslashuvchan LMS — har bola o'z sur'atida\n• Daraja yakunida sertifikat\n\n📞 +998945521009 | 🌐 www.ssa.uz"
+  },
   "prices": {
     "math": 500000,
     "english": 500000,
