@@ -45,8 +45,10 @@
   .tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
   .content{background:var(--card);border-radius:16px;padding:16px;font-size:15px;
            box-shadow:0 1px 4px rgba(0,0,0,.06)}
-  .content .row{margin:3px 0}
+  .content .row{margin:5px 0}
   .content b{font-weight:700}
+  .content code{font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--sec);
+                padding:2px 7px;border-radius:6px;font-size:14px}
   .back{display:inline-flex;align-items:center;gap:5px;background:var(--card);
         border:1px solid var(--line);color:var(--text);font-size:14px;cursor:pointer;
         padding:9px 16px;margin-bottom:10px;border-radius:20px;font-weight:600;
@@ -106,15 +108,24 @@ document.addEventListener("click", function(e){
 var UI = {
   uz:{choose:"Bo'limni tanlang",about:"Kurs haqida",plan:"O'quv reja",price:"Narx",faq:"Savol-javob",
       enroll:"📝 Kursga yozilish",contact:"📞 Bog'lanish",reviews:"⭐ Sharhlar",back:"‹ Orqaga",
-      addrev:"✍️ Sharh qoldirish",cabinet:"📱 Shaxsiy kabinet",
+      addrev:"✍️ Sharh qoldirish",cabinet:"📱 Shaxsiy kabinet",loading:"Yuklanmoqda…",
+      lName:"👤 Farzand",lCourse:"📚 Kurs",lType:"🏷 Yo'nalish",lLogin:"🔐 LMS login",lPass:"🔑 Parol",
+      lSched:"📅 Dars jadvali",lCert:"🎓 Sertifikat",certNone:"hali tayyor emas",lmsGo:"🌐 LMS saytiga kirish",
+      cabNone:"Siz hali ro'yxatda yo'qsiz. Kursga yozilsangiz — ma'lumotlaringiz shu yerda chiqadi.",
       norev:"Hali sharhlar yo'q.",per:"oy",err:"Ma'lumot topilmadi. Bot ishga tushirilganini tekshiring."},
   ru:{choose:"Выберите раздел",about:"О курсе",plan:"Учебный план",price:"Цена",faq:"Вопросы",
       enroll:"📝 Записаться",contact:"📞 Связаться",reviews:"⭐ Отзывы",back:"‹ Назад",
-      addrev:"✍️ Оставить отзыв",cabinet:"📱 Личный кабинет",
+      addrev:"✍️ Оставить отзыв",cabinet:"📱 Личный кабинет",loading:"Загрузка…",
+      lName:"👤 Ребёнок",lCourse:"📚 Курс",lType:"🏷 Направление",lLogin:"🔐 LMS логин",lPass:"🔑 Пароль",
+      lSched:"📅 Расписание",lCert:"🎓 Сертификат",certNone:"ещё не готов",lmsGo:"🌐 Войти на LMS",
+      cabNone:"Вас пока нет в списке. Запишитесь на курс — и данные появятся здесь.",
       norev:"Отзывов пока нет.",per:"мес",err:"Данные не найдены. Проверьте, запущен ли бот."},
   en:{choose:"Choose a section",about:"About",plan:"Curriculum",price:"Price",faq:"FAQ",
       enroll:"📝 Enroll",contact:"📞 Contact",reviews:"⭐ Reviews",back:"‹ Back",
-      addrev:"✍️ Leave a review",cabinet:"📱 My account",
+      addrev:"✍️ Leave a review",cabinet:"📱 My account",loading:"Loading…",
+      lName:"👤 Child",lCourse:"📚 Course",lType:"🏷 Track",lLogin:"🔐 LMS login",lPass:"🔑 Password",
+      lSched:"📅 Schedule",lCert:"🎓 Certificate",certNone:"not ready yet",lmsGo:"🌐 Go to LMS",
+      cabNone:"You're not on the list yet. Enroll and your details will appear here.",
       norev:"No reviews yet.",per:"mo",err:"Data not found. Make sure the bot is running."}
 };
 var EMOJI={math:"🔢",english:"📖",science:"🔬",literacy:"✍️",it:"💻"};
@@ -155,6 +166,7 @@ function render(){
   if(view.name==="sec") return renderSec();
   if(view.name==="contact") return renderContact();
   if(view.name==="reviews") return renderReviews();
+  if(view.name==="cabinet") return renderCabinet();
   return renderHome();
 }
 
@@ -167,7 +179,7 @@ function renderHome(){
   app.innerHTML=header()
     +'<div class="muted" style="margin-bottom:10px">'+T('choose')+'</div>'
     +'<div class="grid">'+cards+'</div>'
-    +'<button class="btn" onclick="openBot(\'cabinet\')">'+T('cabinet')+'</button>'
+    +'<button class="btn" onclick="openCabinet()">'+T('cabinet')+'</button>'
     +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>'
     +'<button class="btn sec" onclick="go(\'reviews\')">'+T('reviews')+'</button>'
     +'<button class="btn sec" onclick="go(\'contact\')">'+T('contact')+'</button>';
@@ -232,6 +244,42 @@ function openBot(param){
   if(tg&&tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url,"_blank");
 }
 function writeReview(){ openBot("review"); }
+function openCabinet(){
+  var api=(DATA.links&&DATA.links.cabinet_api)||"";
+  if(api){ go("cabinet"); } else { openBot("cabinet"); }
+}
+function openLmsSite(){ var u=(DATA.links&&DATA.links.lms)||"";
+  if(u){ if(tg&&tg.openLink) tg.openLink(u); else window.open(u,"_blank"); } }
+function renderCabinet(){
+  var api=(DATA.links&&DATA.links.cabinet_api)||"";
+  var top='<button class="back" onclick="go(\'home\')">'+T('back')+'</button>';
+  var bot='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
+  var head=header()+top+'<h2>'+T('cabinet')+'</h2>';
+  app.innerHTML=head+'<div class="content muted">'+T('loading')+'</div>';
+  var initData=(tg&&tg.initData)||"";
+  fetch(api+"?initData="+encodeURIComponent(initData))
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var body;
+      if(!d||!d.found){
+        body='<div class="content">'+esc(T('cabNone'))+'</div>'
+            +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>';
+      } else {
+        var rows=[];
+        function add(lbl,val,mono){ if(val) rows.push('<div class="row"><b>'+lbl
+          +':</b> '+(mono?'<code>'+esc(val)+'</code>':esc(val))+'</div>'); }
+        add(T('lName'),d.name); add(T('lCourse'),d.course); add(T('lType'),d.type);
+        add(T('lLogin'),d.login,true); add(T('lPass'),d.parol,true);
+        add(T('lSched'),d.schedule);
+        var c=d.cert; add(T('lCert'), (c && /^https?:/.test(c))? c : (c||T('certNone')));
+        body='<div class="content">'+rows.join("")+'</div>'
+            +'<button class="btn" onclick="openLmsSite()">'+T('lmsGo')+'</button>';
+        if(c && /^https?:/.test(c)) body+='<button class="btn sec" onclick="window.open(\''+esc(c)+'\',\'_blank\')">'+T('lCert')+'</button>';
+      }
+      app.innerHTML=head+body+bot;
+    })
+    .catch(function(){ app.innerHTML=head+'<div class="content">'+T('err')+'</div>'+bot; });
+}
 
 function go(name,code){ view={name:name,code:code,tab:"about"}; window.scrollTo(0,0); render(); }
 function setTab(t){ view.tab=t; render(); }
