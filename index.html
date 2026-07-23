@@ -150,6 +150,7 @@ var UI = {
       market:"🛒 Market",marketTitle:"🛒 Coin market",mBuy:"Sotib olish",mHave:"Sizda",mBought:"✅ Xarid muvaffaqiyatli!\n🎟 Kod: {code}\n\nBu kodni administratorga yuboring — sovg'a faollashtiriladi.",mPoor:"❌ Coin yetarli emas. Kerak: {need} 🪙",mEmpty:"Market hozircha bo'sh.",
       tabHome:"Bosh",tabCoin:"Coin",tabMarket:"Market",tabFriends:"Do'stlar",tabCabinet:"Kabinet",
       dailyTitle:"Kunlik bonus",dailyGotLine:"🎁 Bugun +{n} coin olindi!",dailyDoneLine:"✅ Bugungi bonus olingan · ertaga yana +{n} 🪙",dailyStreak:"🔥 Streak: {n} kun",dailyGotMsg:"🎁 Kunlik bonus: +{n} coin!\n🔥 Streak: {s} kun\n\nHar kuni Mini App'ni oching — yig'ilib boradi!",
+      myBuys:"🎟 Xaridlarim",noBuys:"Hali sovg'a sotib olmagansiz.",buyCode:"Kod",buyPending:"⏳ Faollashtirilmagan",buyRedeemed:"✅ Faollashtirilgan",buysHint:"Kodni administratorga yuboring — sovg'a faollashtiriladi.",
       refer:"🎁 Do'st taklif qilish",referTitle:"🎁 Do'stingizni taklif qiling",
       yourLink:"🔗 Shaxsiy havolangiz:",shareBtn:"📤 Do'stga ulashish",
       shareText:"Farzandingiz uchun IT, English, Math, Science kurslari! 👇",
@@ -172,6 +173,7 @@ var UI = {
       market:"🛒 Магазин",marketTitle:"🛒 Магазин коинов",mBuy:"Купить",mHave:"У вас",mBought:"✅ Покупка совершена!\n🎟 Код: {code}\n\nОтправьте код администратору — подарок активируют.",mPoor:"❌ Недостаточно коинов. Нужно: {need} 🪙",mEmpty:"Магазин пока пуст.",
       tabHome:"Главная",tabCoin:"Коины",tabMarket:"Магазин",tabFriends:"Друзья",tabCabinet:"Кабинет",
       dailyTitle:"Ежедневный бонус",dailyGotLine:"🎁 Сегодня получено +{n} коинов!",dailyDoneLine:"✅ Сегодня уже получено · завтра ещё +{n} 🪙",dailyStreak:"🔥 Серия: {n} дн.",dailyGotMsg:"🎁 Ежедневный бонус: +{n} коинов!\n🔥 Серия: {s} дн.\n\nОткрывайте Mini App каждый день — копится!",
+      myBuys:"🎟 Мои покупки",noBuys:"Вы ещё ничего не купили.",buyCode:"Код",buyPending:"⏳ Не активировано",buyRedeemed:"✅ Активировано",buysHint:"Отправьте код администратору — подарок активируют.",
       refer:"🎁 Пригласить друга",referTitle:"🎁 Пригласите друга",
       yourLink:"🔗 Ваша персональная ссылка:",shareBtn:"📤 Поделиться с другом",
       shareText:"Курсы IT, English, Math, Science для вашего ребёнка! 👇",
@@ -194,6 +196,7 @@ var UI = {
       market:"🛒 Market",marketTitle:"🛒 Coin market",mBuy:"Buy",mHave:"You have",mBought:"✅ Purchase successful!\n🎟 Code: {code}\n\nSend this code to the administrator to activate your reward.",mPoor:"❌ Not enough coins. Need: {need} 🪙",mEmpty:"Market is empty for now.",
       tabHome:"Home",tabCoin:"Coins",tabMarket:"Market",tabFriends:"Friends",tabCabinet:"Account",
       dailyTitle:"Daily bonus",dailyGotLine:"🎁 +{n} coins received today!",dailyDoneLine:"✅ Already claimed today · tomorrow +{n} 🪙 more",dailyStreak:"🔥 Streak: {n} days",dailyGotMsg:"🎁 Daily bonus: +{n} coins!\n🔥 Streak: {s} days\n\nOpen the Mini App every day — it adds up!",
+      myBuys:"🎟 My purchases",noBuys:"You haven't bought anything yet.",buyCode:"Code",buyPending:"⏳ Not activated",buyRedeemed:"✅ Activated",buysHint:"Send the code to the administrator to activate your reward.",
       refer:"🎁 Invite a friend",referTitle:"🎁 Invite your friend",
       yourLink:"🔗 Your personal link:",shareBtn:"📤 Share with a friend",
       shareText:"IT, English, Math, Science courses for your child! 👇",
@@ -264,6 +267,7 @@ function render(){
   else if(view.name==="top") renderTop();
   else if(view.name==="coins") renderCoins();
   else if(view.name==="market") renderMarket();
+  else if(view.name==="purchases") renderPurchases();
   else if(view.name==="coinTop") renderCoinTop();
   else if(view.name==="refer") renderRefer();
   else renderHome();
@@ -500,7 +504,10 @@ function renderCoins(){
     var how='<div class="rev"><div class="who">'+T('coinsHowT')+'</div>'
       +'<div class="muted">'+fmt(T('coinsHow'))+'</div></div>';
     var btns='<button class="btn" onclick="go(\'market\')">'+T('market')+'</button>'
-      +'<button class="btn sec" onclick="go(\'coinTop\')">'+T('coinTop')+'</button>'
+      +'<div class="rowbtns">'
+      +  '<button class="btn sec" onclick="go(\'purchases\')">'+T('myBuys')+'</button>'
+      +  '<button class="btn sec" onclick="go(\'coinTop\')">'+T('coinTop')+'</button>'
+      +'</div>'
       +'<button class="btn sec" onclick="openBot(\'coins\')">'+T('openBotBtn')+'</button>';
     app.innerHTML=head+big+daily+how+btns+backBtn;
   }
@@ -601,7 +608,8 @@ function marketView(head, backBtn, bal, items, cats){
   } else {
     body=items.map(function(it){return marketCard(bal,it);}).join("");
   }
-  app.innerHTML=head+top+body+backBtn;
+  app.innerHTML=head+top+body
+    +'<button class="btn sec" onclick="go(\'purchases\')">'+T('myBuys')+'</button>'+backBtn;
 }
 function buyItem(id){
   var url=marketApi("/buy"), initData=(tg&&tg.initData)||"";
@@ -614,6 +622,32 @@ function buyItem(id){
       else { alertMsg(T('err')); }
     })
     .catch(function(){ alertMsg(T('err')); });
+}
+function renderPurchases(){
+  var backBtn='<button class="btn sec" onclick="go(\'coins\')">'+T('back')+'</button>';
+  var head=header()+'<button class="back" onclick="go(\'coins\')">'+T('back')+'</button>'
+    +'<h2>'+T('myBuys')+'</h2>';
+  app.innerHTML=head+'<div class="content muted">'+T('loading')+'</div>'+backBtn;
+  var url=marketApi("/purchases"), initData=(tg&&tg.initData)||"";
+  if(!url||!initData){ app.innerHTML=head+'<div class="content muted">'+esc(T('err'))+'</div>'+backBtn; return; }
+  fetch(url+"?initData="+encodeURIComponent(initData))
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var list=(d&&d.purchases)||[];
+      var body;
+      if(!list.length){ body='<div class="content muted">'+esc(T('noBuys'))+'</div>'; }
+      else{
+        body=list.map(function(p){
+          var st=p.redeemed?T('buyRedeemed'):T('buyPending');
+          return '<div class="rev"><div class="who">'+(p.emoji||'🎁')+' '+esc(p.name)+'</div>'
+            +'<div class="muted" style="margin:2px 0">'+T('buyCode')+': <b>'+esc(p.code)+'</b></div>'
+            +'<div class="muted">🪙 '+nf(p.cost)+' · '+esc(p.date)+' · '+st+'</div></div>';
+        }).join("")
+        +'<div class="content muted" style="text-align:center">'+esc(T('buysHint'))+'</div>';
+      }
+      app.innerHTML=head+body+backBtn;
+    })
+    .catch(function(){ app.innerHTML=head+'<div class="content muted">'+esc(T('err'))+'</div>'+backBtn; });
 }
 function go(name,code){ view={name:name,code:code,tab:"about"}; window.scrollTo(0,0); render(); }
 function setTab(t){ view.tab=t; render(); }
