@@ -27,6 +27,10 @@
     font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;
     padding:8px 0 7px;transition:color .12s}
   .tabitem .ti-ic{font-size:21px;line-height:1;transition:transform .12s}
+  .ti-av{width:23px;height:23px;border-radius:50%;object-fit:cover;display:block}
+  .ti-av.ini{background:linear-gradient(135deg,var(--accent),#b03a5b);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+  .tabitem.active .ti-av{box-shadow:0 0 0 2px var(--accent)}
   .tabitem .ti-lb{font-size:11px;font-weight:600;letter-spacing:.1px}
   .tabitem.active{color:var(--accent)}
   .tabitem.active .ti-ic{transform:translateY(-1px) scale(1.1)}
@@ -297,12 +301,23 @@ var TABS=[
 var TAB_OF={home:"home",coins:"coins",coinTop:"coins",market:"market",
             refer:"refer",top:"refer",cabinet:"cabinet"};
 function tabGo(i){ TABS[i].act(); }
+function tabIcon(it){
+  // Kabinet — tepadagi avatar kabi: profil rasmi yoki ism harfi
+  if(it.k==="cabinet"){
+    var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
+    if(u.photo_url) return '<img class="ti-av" src="'+esc(u.photo_url)+'">';
+    var nm=(u.first_name||u.username||"").trim();
+    var ini=nm?esc(nm.charAt(0).toUpperCase()):"";
+    if(ini) return '<span class="ti-av ini">'+ini+'</span>';
+  }
+  return it.ic;
+}
 function paintTabs(){
   var tb=document.getElementById("tabbar"); if(!tb) return;
   var active=TAB_OF[view.name]||"";
   tb.innerHTML=TABS.map(function(it,i){
     return '<button class="tabitem'+(active===it.k?' active':'')+'" onclick="tabGo('+i+')">'
-      +'<span class="ti-ic">'+it.ic+'</span>'
+      +'<span class="ti-ic">'+tabIcon(it)+'</span>'
       +'<span class="ti-lb">'+T(it.lb)+'</span></button>';
   }).join("");
 }
