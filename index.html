@@ -149,6 +149,7 @@ var UI = {
       coins:"🪙 Coinlarim",coinsHowT:"Coin qanday to'planadi:",coinsHow:"🔗 Do'st havola orqali kirsa — +5 000\n🎁 Do'st kursga yozilsa — +60 000 dan\n✍️ Sharh qoldirsangiz — +20\n📝 Sinov darsiga — +30\n📅 Kunlik bonus — +5\n🎮 LMS o'yinlari — tez orada",coinsRank:"📍 Sizning o'rningiz",coinsBotNote:"🎁 Kunlik bonus va 🛒 do'kon — botda",openBotBtn:"🤖 Botni ochish",
       market:"🛒 Market",marketTitle:"🛒 Coin market",mBuy:"Sotib olish",mHave:"Sizda",mBought:"✅ Xarid muvaffaqiyatli!\n🎟 Kod: {code}\n\nBu kodni administratorga yuboring — sovg'a faollashtiriladi.",mPoor:"❌ Coin yetarli emas. Kerak: {need} 🪙",mEmpty:"Market hozircha bo'sh.",
       tabHome:"Bosh",tabCoin:"Coin",tabMarket:"Market",tabFriends:"Do'stlar",tabCabinet:"Kabinet",
+      dailyTitle:"Kunlik bonus",dailyGotLine:"🎁 Bugun +{n} coin olindi!",dailyDoneLine:"✅ Bugungi bonus olingan · ertaga yana +{n} 🪙",dailyStreak:"🔥 Streak: {n} kun",dailyGotMsg:"🎁 Kunlik bonus: +{n} coin!\n🔥 Streak: {s} kun\n\nHar kuni Mini App'ni oching — yig'ilib boradi!",
       refer:"🎁 Do'st taklif qilish",referTitle:"🎁 Do'stingizni taklif qiling",
       yourLink:"🔗 Shaxsiy havolangiz:",shareBtn:"📤 Do'stga ulashish",
       shareText:"Farzandingiz uchun IT, English, Math, Science kurslari! 👇",
@@ -170,6 +171,7 @@ var UI = {
       coins:"🪙 Мои коины",coinsHowT:"Как копятся коины:",coinsHow:"🔗 Друг зайдёт по ссылке — +5 000\n🎁 Друг записался — от +60 000\n✍️ Отзыв — +20\n📝 Пробный урок — +30\n📅 Ежедневный бонус — +5\n🎮 LMS-игры — скоро",coinsRank:"📍 Ваше место",coinsBotNote:"🎁 Ежедневный бонус и 🛒 магазин — в боте",openBotBtn:"🤖 Открыть бота",
       market:"🛒 Магазин",marketTitle:"🛒 Магазин коинов",mBuy:"Купить",mHave:"У вас",mBought:"✅ Покупка совершена!\n🎟 Код: {code}\n\nОтправьте код администратору — подарок активируют.",mPoor:"❌ Недостаточно коинов. Нужно: {need} 🪙",mEmpty:"Магазин пока пуст.",
       tabHome:"Главная",tabCoin:"Коины",tabMarket:"Магазин",tabFriends:"Друзья",tabCabinet:"Кабинет",
+      dailyTitle:"Ежедневный бонус",dailyGotLine:"🎁 Сегодня получено +{n} коинов!",dailyDoneLine:"✅ Сегодня уже получено · завтра ещё +{n} 🪙",dailyStreak:"🔥 Серия: {n} дн.",dailyGotMsg:"🎁 Ежедневный бонус: +{n} коинов!\n🔥 Серия: {s} дн.\n\nОткрывайте Mini App каждый день — копится!",
       refer:"🎁 Пригласить друга",referTitle:"🎁 Пригласите друга",
       yourLink:"🔗 Ваша персональная ссылка:",shareBtn:"📤 Поделиться с другом",
       shareText:"Курсы IT, English, Math, Science для вашего ребёнка! 👇",
@@ -191,6 +193,7 @@ var UI = {
       coins:"🪙 My coins",coinsHowT:"How to earn coins:",coinsHow:"🔗 Friend joins via link — +5 000\n🎁 Friend enrolls — from +60 000\n✍️ Review — +20\n📝 Trial lesson — +30\n📅 Daily bonus — +5\n🎮 LMS games — soon",coinsRank:"📍 Your rank",coinsBotNote:"🎁 Daily bonus & 🛒 shop — in the bot",openBotBtn:"🤖 Open bot",
       market:"🛒 Market",marketTitle:"🛒 Coin market",mBuy:"Buy",mHave:"You have",mBought:"✅ Purchase successful!\n🎟 Code: {code}\n\nSend this code to the administrator to activate your reward.",mPoor:"❌ Not enough coins. Need: {need} 🪙",mEmpty:"Market is empty for now.",
       tabHome:"Home",tabCoin:"Coins",tabMarket:"Market",tabFriends:"Friends",tabCabinet:"Account",
+      dailyTitle:"Daily bonus",dailyGotLine:"🎁 +{n} coins received today!",dailyDoneLine:"✅ Already claimed today · tomorrow +{n} 🪙 more",dailyStreak:"🔥 Streak: {n} days",dailyGotMsg:"🎁 Daily bonus: +{n} coins!\n🔥 Streak: {s} days\n\nOpen the Mini App every day — it adds up!",
       refer:"🎁 Invite a friend",referTitle:"🎁 Invite your friend",
       yourLink:"🔗 Your personal link:",shareBtn:"📤 Share with a friend",
       shareText:"IT, English, Math, Science courses for your child! 👇",
@@ -213,7 +216,7 @@ var ICONS={
 var NAME={math:"Junior Math",english:"Junior English",science:"Junior Science",literacy:"Junior Literacy",it:"IT"};
 var CUR={uz:"so'm",ru:"сум",en:"UZS"};
 
-var DATA=null, LANG="uz";
+var DATA=null, LANG="uz", DAILY=null;
 var view={name:"home"};           // {name:'home'|'sec'|'contact'|'reviews', code, tab}
 var app=document.getElementById('app');
 
@@ -484,13 +487,22 @@ function renderCoins(){
       +'<div class="muted">'+T('coinUnit')+' = '+money(bal)+'</div>'
       +(rank?('<div class="muted" style="margin-top:6px">'+T('coinsRank')+': <b>#'+rank+'</b></div>'):'')
       +'</div>';
+    var daily='';
+    if(DAILY){
+      var line=DAILY.claimed
+        ? T('dailyGotLine').replace("{n}", nf(DAILY.reward))
+        : T('dailyDoneLine').replace("{n}", nf(DAILY.base||100));
+      var st=DAILY.streak?(' · '+T('dailyStreak').replace("{n}", DAILY.streak)):'';
+      daily='<div class="rev" style="border:1px solid var(--accent)">'
+        +'<div class="who">🎁 '+T('dailyTitle')+'</div>'
+        +'<div class="muted">'+line+st+'</div></div>';
+    }
     var how='<div class="rev"><div class="who">'+T('coinsHowT')+'</div>'
       +'<div class="muted">'+fmt(T('coinsHow'))+'</div></div>';
-    var note='<div class="content muted" style="text-align:center">'+esc(T('coinsBotNote'))+'</div>';
     var btns='<button class="btn" onclick="go(\'market\')">'+T('market')+'</button>'
       +'<button class="btn sec" onclick="go(\'coinTop\')">'+T('coinTop')+'</button>'
       +'<button class="btn sec" onclick="openBot(\'coins\')">'+T('openBotBtn')+'</button>';
-    app.innerHTML=head+big+how+note+btns+backBtn;
+    app.innerHTML=head+big+daily+how+btns+backBtn;
   }
   var api=(DATA.links&&DATA.links.cabinet_api)||"";
   var coinsUrl=api.replace(/\/cabinet\/?$/,"/coins");
@@ -534,6 +546,21 @@ function alertMsg(m){
 function marketApi(path){
   var api=(DATA.links&&DATA.links.cabinet_api)||"";
   return api.replace(/\/cabinet\/?$/,path);
+}
+// Kunlik bonus — Mini App ochilganda (kuniga 1 marta) chaqiriladi
+function claimDaily(){
+  var url=marketApi("/daily"), initData=(tg&&tg.initData)||"";
+  if(!url||!initData) return;
+  fetch(url+"?initData="+encodeURIComponent(initData))
+    .then(function(r){return r.json();})
+    .then(function(d){
+      DAILY=d;
+      if(d&&d.claimed){
+        alertMsg(T('dailyGotMsg').replace("{n}", nf(d.reward)).replace("{s}", d.streak));
+      }
+      if(view.name==="coins") render();   // balans + bonus kartani yangilash
+    })
+    .catch(function(){});
 }
 function renderMarket(){
   var backBtn='<button class="btn sec" onclick="go(\'coins\')">'+T('back')+'</button>';
@@ -603,7 +630,7 @@ function detectLang(){
 
 fetch("content.json?_="+Date.now())
   .then(function(r){ return r.json(); })
-  .then(function(d){ DATA=d; LANG=detectLang(); render(); })
+  .then(function(d){ DATA=d; LANG=detectLang(); render(); claimDaily(); })
   .catch(function(){ app.innerHTML='<div class="muted">'+T('err')+'</div>'; });
 </script>
 </body>
