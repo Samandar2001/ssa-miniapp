@@ -482,7 +482,18 @@ function renderSettings(){
 function myRefLink(){
   var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
   var bot=(DATA.links&&DATA.links.bot)||"";
-  return (u.id&&bot)?(bot+"?start=ref"+u.id):bot;
+  return (u.id&&bot)?(bot+"?startapp=ref"+u.id):bot;
+}
+// Do'st havola (?startapp=ref<id>) orqali ilovani ochsa — referralni yozamiz
+function captureRef(){
+  var sp=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.start_param)||"";
+  if(sp.indexOf("ref")!==0) return;
+  var id=sp.slice(3);
+  if(!/^\d+$/.test(id)) return;
+  var url=marketApi("/invite"), initData=(tg&&tg.initData)||"";
+  if(!url||!initData) return;
+  fetch(url+"?ref="+encodeURIComponent(id)+"&initData="+encodeURIComponent(initData))
+    .catch(function(){});
 }
 function shareLink(){
   var link=myRefLink();
@@ -702,7 +713,7 @@ function detectLang(){
 
 fetch("content.json?_="+Date.now())
   .then(function(r){ return r.json(); })
-  .then(function(d){ DATA=d; LANG=detectLang(); render(); claimDaily();
+  .then(function(d){ DATA=d; LANG=detectLang(); render(); claimDaily(); captureRef();
     setInterval(function(){
       var bs=banners();
       if(view.name==="home"&&bs.length>1){ BIDX=BIDX+1; paintBanner(); }
