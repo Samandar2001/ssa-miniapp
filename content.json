@@ -38,6 +38,39 @@
       ],
       "btn": "🎁 Taklif qilish",
       "link": "go:refer"
+    },
+    {
+      "title": "🛒 Coin market",
+      "text": "Coinlaringizni chegirma va sovg'alarga almashtiring!",
+      "emoji": "🎁",
+      "grad": [
+        "#059669",
+        "#10b981"
+      ],
+      "btn": "🛒 Marketga",
+      "link": "go:market"
+    },
+    {
+      "title": "📅 Kunlik bonus",
+      "text": "Har kuni ilovani oching — +100 coin qo'lga kiriting!",
+      "emoji": "🔥",
+      "grad": [
+        "#d97706",
+        "#f59e0b"
+      ],
+      "btn": "🪙 Coinlarim",
+      "link": "go:coins"
+    },
+    {
+      "title": "🏆 Reyting",
+      "text": "Eng ko'p coin yig'ganlar orasida birinchi bo'ling!",
+      "emoji": "🥇",
+      "grad": [
+        "#7c3aed",
+        "#a78bfa"
+      ],
+      "btn": "🏆 Reyting",
+      "link": "go:coinTop"
     }
   ],
   "contact": {
