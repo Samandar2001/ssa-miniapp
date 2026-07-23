@@ -46,6 +46,10 @@
   .lang.avatar img{width:100%;height:100%;object-fit:cover;display:block}
   .lang.avatar.ini{background:linear-gradient(135deg,var(--accent),#b03a5b);color:#fff;
         border:none;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
+  .coinchip{border:1px solid var(--line);background:var(--card);color:var(--text);
+        border-radius:18px;padding:6px 12px;font-size:14px;font-weight:800;cursor:pointer;
+        display:flex;align-items:center;gap:4px;white-space:nowrap}
+  .coinchip:active{transform:scale(.95)}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
   .card{background:var(--card);border-radius:16px;padding:16px;cursor:pointer;
         box-shadow:0 1px 4px rgba(0,0,0,.06);transition:transform .08s}
@@ -144,7 +148,7 @@ function toggleSound(){ SOUND=(SOUND==="on")?"off":"on";
 function setTheme(v){ THEME=v; try{localStorage.setItem("ssa_theme",v);}catch(e){} applyTheme(); render(); }
 function setSound(v){ SOUND=v; try{localStorage.setItem("ssa_sound",v);}catch(e){} if(v==="on")beep(); render(); }
 document.addEventListener("click", function(e){
-  var el=e.target.closest && e.target.closest(".btn,.lang,.tab,.card,.back,.rev,.tabitem");
+  var el=e.target.closest && e.target.closest(".btn,.lang,.tab,.card,.back,.rev,.tabitem,.coinchip");
   if(el){ beep(); haptic(); }
 }, true);
 
@@ -233,7 +237,7 @@ var ICONS={
 var NAME={math:"Junior Math",english:"Junior English",science:"Junior Science",literacy:"Junior Literacy",it:"IT"};
 var CUR={uz:"so'm",ru:"сум",en:"UZS"};
 
-var DATA=null, LANG="uz", DAILY=null;
+var DATA=null, LANG="uz", DAILY=null, MYCOINS=null;
 var view={name:"home"};           // {name:'home'|'sec'|'contact'|'reviews', code, tab}
 var app=document.getElementById('app');
 
@@ -255,20 +259,16 @@ function nameOf(code){
 
 function header(){
   var gear='<button class="lang" title="'+T('settings')+'" onclick="go(\'settings\')">⚙️</button>';
-  var us=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
-  var pu=us.photo_url||"";
-  var nm=(us.first_name||us.username||"").trim();
-  var ini=nm?nm.charAt(0).toUpperCase():"";
-  var cab = pu
-    ? '<button class="lang avatar" title="'+T('cabinet')+'" onclick="openCabinet()"><img src="'+esc(pu)+'"></button>'
-    : '<button class="lang avatar ini" title="'+T('cabinet')+'" onclick="openCabinet()">'+(esc(ini)||'👤')+'</button>';
+  // Tepa o'ng — coin balans chip'i (bosilsa Coin bo'limi)
+  var chip='<button class="coinchip" title="'+T('coins')+'" onclick="go(\'coins\')">🪙 '
+          +(MYCOINS!=null?nf(MYCOINS):'—')+'</button>';
   var logo=(THEME==="dark")?"logo-white.png":"logo-color.png";
   return '<header>'
        + '<div class="langs">'+gear+'</div>'
        + '<div class="brand" style="flex:1;text-align:center">'
        +   '<img src="'+logo+'" alt="Singapore Skills Academy" '
        +   'style="height:30px;max-width:78%;object-fit:contain;vertical-align:middle"></div>'
-       + '<div class="langs">'+cab+'</div></header>';
+       + '<div class="langs">'+chip+'</div></header>';
 }
 
 function render(){
@@ -583,7 +583,7 @@ function renderCoins(){
   app.innerHTML=head+'<div class="content muted">'+T('loading')+'</div>'+backBtn;
   fetch(coinsUrl+"?initData="+encodeURIComponent(initData))
     .then(function(r){return r.json();})
-    .then(function(d){ view((d&&d.coins!=null)?d.coins:0, d&&d.rank); })
+    .then(function(d){ if(d&&d.coins!=null)MYCOINS=d.coins; view((d&&d.coins!=null)?d.coins:0, d&&d.rank); })
     .catch(function(){ view(0,null); });
 }
 
@@ -627,10 +627,11 @@ function claimDaily(){
     .then(function(r){return r.json();})
     .then(function(d){
       DAILY=d;
+      if(d&&d.coins!=null) MYCOINS=d.coins;   // tepa chip uchun balans
       if(d&&d.claimed){
         alertMsg(T('dailyGotMsg').replace("{n}", nf(d.reward)).replace("{s}", d.streak));
       }
-      if(view.name==="coins") render();   // balans + bonus kartani yangilash
+      render();   // balans chip + bonus kartani hamma joyda yangilash
     })
     .catch(function(){});
 }
@@ -699,8 +700,8 @@ function buyItem(id){
   fetch(url+"?item="+encodeURIComponent(id)+"&initData="+encodeURIComponent(initData))
     .then(function(r){return r.json();})
     .then(function(d){
-      if(d&&d.ok){ if(SHOP)SHOP.coins=d.coins; alertMsg(T('mBought').replace("{code}", d.code)); render(); }
-      else if(d&&d.error==="poor"){ if(SHOP&&d.coins!=null)SHOP.coins=d.coins; alertMsg(T('mPoor').replace("{need}", nf(d.need))); }
+      if(d&&d.ok){ if(SHOP)SHOP.coins=d.coins; MYCOINS=d.coins; alertMsg(T('mBought').replace("{code}", d.code)); render(); }
+      else if(d&&d.error==="poor"){ if(d.coins!=null){ if(SHOP)SHOP.coins=d.coins; MYCOINS=d.coins; } alertMsg(T('mPoor').replace("{need}", nf(d.need))); }
       else { alertMsg(T('err')); }
     })
     .catch(function(){ alertMsg(T('err')); });
