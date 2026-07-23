@@ -120,12 +120,38 @@
     border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.35);transition:transform .2s}
   .sw.on .knob{transform:translateX(20px)}
   .appfoot{text-align:center;color:var(--hint);font-size:12px;margin:14px 0 4px;line-height:1.5}
-  @keyframes appIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-  #app.anim{animation:appIn .26s cubic-bezier(.2,.7,.3,1)}
+  @keyframes appIn{from{opacity:0}to{opacity:1}}
+  #app.anim{animation:appIn .22s ease}
   @keyframes spin{to{transform:rotate(360deg)}}
   .spin{width:34px;height:34px;border-radius:50%;border:3px solid var(--line);
     border-top-color:var(--accent);animation:spin .8s linear infinite;margin:44px auto}
   .card,.rev,.qtile,.pstat,.btn,.coinchip,.iconbtn,.tabitem{will-change:transform}
+  /* Ketma-ket (stagger) chiqish */
+  @keyframes itemIn{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:none}}
+  .stg>*{animation:itemIn .42s cubic-bezier(.2,.7,.3,1) both}
+  .stg>*:nth-child(2){animation-delay:.045s}
+  .stg>*:nth-child(3){animation-delay:.09s}
+  .stg>*:nth-child(4){animation-delay:.135s}
+  .stg>*:nth-child(5){animation-delay:.18s}
+  .stg>*:nth-child(6){animation-delay:.225s}
+  .stg>*:nth-child(7){animation-delay:.27s}
+  .stg>*:nth-child(8){animation-delay:.315s}
+  .stg>*:nth-child(n+9){animation-delay:.36s}
+  /* Coin chip puls */
+  @keyframes cpulse{0%{transform:scale(1)}45%{transform:scale(1.16)}100%{transform:scale(1)}}
+  .coinchip.puls{animation:cpulse .45s ease}
+  /* Konfetti */
+  .confetti{position:fixed;inset:0;pointer-events:none;z-index:200;overflow:hidden}
+  .confetti span{position:absolute;top:-34px;will-change:transform}
+  @keyframes fall{to{transform:translateY(112vh) rotate(560deg);opacity:.85}}
+  /* Banner sirg'alib kirishi */
+  @keyframes bnIn{from{opacity:0;transform:translateX(22px)}to{opacity:1;transform:none}}
+  .banner{animation:bnIn .32s ease}
+  /* Skeleton (miltillovchi) yuklash */
+  @keyframes shim{100%{background-position:-200% 0}}
+  .skel{border-radius:12px;margin-bottom:10px;
+    background:linear-gradient(90deg,var(--card) 25%,var(--line) 37%,var(--card) 63%);
+    background-size:200% 100%;animation:shim 1.15s infinite}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
   .card{background:var(--card);border-radius:16px;padding:16px;cursor:pointer;
         box-shadow:0 1px 4px rgba(0,0,0,.06);transition:transform .08s}
@@ -352,7 +378,7 @@ var GEAR_SVG=SV+'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 
 var NAME={math:"Junior Math",english:"Junior English",science:"Junior Science",literacy:"Junior Literacy",it:"IT"};
 var CUR={uz:"so'm",ru:"сум",en:"UZS"};
 
-var DATA=null, LANG="uz", DAILY=null, MYCOINS=null;
+var DATA=null, LANG="uz", DAILY=null, MYCOINS=null, COINDISP=null;
 var view={name:"home"};           // {name:'home'|'sec'|'contact'|'reviews', code, tab}
 var app=document.getElementById('app');
 
@@ -360,6 +386,48 @@ function T(k){ return (UI[LANG]||UI.uz)[k]; }
 function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 function nf(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g," "); }
 function money(n){ return nf(n)+" "+CUR[LANG]; }
+// Coin balansini animatsiya bilan yangilash (sanab o'sadi + puls)
+function paintCoinChip(){ var e=document.getElementById("coinval");
+  if(e) e.textContent=(COINDISP!=null?nf(Math.round(COINDISP)):"—"); }
+var _ctw=null;
+function tweenCoin(from,to){
+  if(_ctw&&window.cancelAnimationFrame) cancelAnimationFrame(_ctw);
+  var dur=650, t0=null;
+  var chip=document.getElementById("coinchip");
+  if(chip&&to>from){ chip.classList.remove("puls"); void chip.offsetWidth; chip.classList.add("puls"); }
+  function step(ts){
+    if(t0==null) t0=ts;
+    var p=Math.min(1,(ts-t0)/dur), e=1-Math.pow(1-p,3);
+    COINDISP=from+(to-from)*e; paintCoinChip();
+    if(p<1){ _ctw=requestAnimationFrame(step); } else { COINDISP=to; paintCoinChip(); _ctw=null; }
+  }
+  if(window.requestAnimationFrame) _ctw=requestAnimationFrame(step);
+  else { COINDISP=to; paintCoinChip(); }
+}
+function setCoins(v){
+  v=Math.round(+v||0); MYCOINS=v;
+  if(COINDISP==null){ COINDISP=v; paintCoinChip(); return; }
+  if(v!==COINDISP) tweenCoin(COINDISP, v);
+}
+// Konfetti / coin yomg'iri
+function confetti(list){
+  list=list||["🪙","🎉","⭐","✨"];
+  try{
+    var box=document.createElement("div"); box.className="confetti";
+    for(var i=0;i<28;i++){
+      var s=document.createElement("span");
+      s.textContent=list[i%list.length];
+      s.style.left=(Math.random()*100)+"%";
+      s.style.fontSize=(15+Math.random()*18)+"px";
+      s.style.animation="fall "+(1.1+Math.random()*0.9)+"s linear "+(Math.random()*0.35)+"s forwards";
+      box.appendChild(s);
+    }
+    document.body.appendChild(box);
+    setTimeout(function(){ try{document.body.removeChild(box);}catch(e){} }, 2400);
+  }catch(e){}
+}
+// Skeleton (yuklanish) qatorlari
+function skel(n){ n=n||4; var h=""; for(var i=0;i<n;i++){ h+='<div class="skel" style="height:'+(i%2?58:46)+'px"></div>'; } return h; }
 // **bold** -> <b>, `x` -> <b>, qatorlarni saqlaydi
 function fmt(s){
   var safe=esc(s);
@@ -375,8 +443,8 @@ function nameOf(code){
 function header(){
   var gear='<button class="iconbtn" title="'+T('settings')+'" onclick="go(\'settings\')">'+GEAR_SVG+'</button>';
   // Tepa o'ng — coin balans chip'i (bosilsa Coin bo'limi)
-  var chip='<button class="coinchip" title="'+T('coins')+'" onclick="go(\'coins\')">🪙 '
-          +(MYCOINS!=null?nf(MYCOINS):'—')+'</button>';
+  var chip='<button class="coinchip" id="coinchip" title="'+T('coins')+'" onclick="go(\'coins\')">🪙 '
+          +'<span id="coinval">'+(COINDISP!=null?nf(Math.round(COINDISP)):'—')+'</span></button>';
   var logo=(THEME==="dark")?"logo-white.png":"logo-color.png";
   return '<header>'
        + '<div class="langs">'+gear+'</div>'
@@ -492,7 +560,7 @@ function renderHome(){
   app.innerHTML=header()
     +'<div id="bnr">'+bannerHTML()+'</div>'
     +'<div class="muted" style="margin-bottom:10px">'+T('choose')+'</div>'
-    +'<div class="grid">'+cards+'</div>'
+    +'<div class="grid stg">'+cards+'</div>'
     +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>'
     +'<div class="rowbtns">'
     +  '<button class="btn sec" onclick="go(\'reviews\')">'+T('reviews')+'</button>'
@@ -670,21 +738,21 @@ function cabView(){
     +qtile("🛒","Market","go('market')")
     +qtile("🎁",shortName(T('tabFriends')),"go('refer')")
     +'</div>';
-  app.innerHTML=head+hero+stats+quick+info+creds+certcard+backBtn;
+  app.innerHTML=head+'<div class="stg">'+hero+stats+quick+info+creds+certcard+'</div>'+backBtn;
 }
 function renderCabinet(){
   var api=(DATA.links&&DATA.links.cabinet_api)||"";
   var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
   var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>';
   if(!api){ cabinetLite(head, backBtn); return; }   // backend yo'q -> lite
-  app.innerHTML=head+'<div class="spin"></div>'+backBtn;
+  app.innerHTML=head+skel(4)+backBtn;
   PWSHOW=false;
   var initData=(tg&&tg.initData)||"";
   fetch(api+"?initData="+encodeURIComponent(initData))
     .then(function(r){return r.json();})
     .then(function(d){
       if(!d || d.error){ cabinetLite(head, backBtn); return; }   // xato -> lite
-      if(d.coins!=null) MYCOINS=d.coins;
+      if(d.coins!=null) setCoins(d.coins);
       CAB=d; cabView();
     })
     .catch(function(){ cabinetLite(head, backBtn); });
@@ -779,7 +847,7 @@ function renderTop(){
           +'<div class="muted">👥 '+r.invited+' '+T('tInv')+' • ✅ <b>'+r.enrolled+'</b> '+T('tEnr')+'</div></div>';
       }).join("")
     : '<div class="content muted">'+esc(T('topEmpty'))+'</div>';
-  app.innerHTML=header()+top+'<h2>'+T('topTitle')+'</h2>'+body+backBtn;
+  app.innerHTML=header()+top+'<h2>'+T('topTitle')+'</h2><div class="stg">'+body+'</div>'+backBtn;
 }
 
 function renderCoins(){
@@ -816,10 +884,10 @@ function renderCoins(){
   var coinsUrl=api.replace(/\/cabinet\/?$/,"/coins");
   var initData=(tg&&tg.initData)||"";
   if(!coinsUrl||!initData){ view(0,null); return; }
-  app.innerHTML=head+'<div class="spin"></div>'+backBtn;
+  app.innerHTML=head+skel(4)+backBtn;
   fetch(coinsUrl+"?initData="+encodeURIComponent(initData))
     .then(function(r){return r.json();})
-    .then(function(d){ if(d&&d.coins!=null)MYCOINS=d.coins; view((d&&d.coins!=null)?d.coins:0, d&&d.rank); })
+    .then(function(d){ if(d&&d.coins!=null)setCoins(d.coins); view((d&&d.coins!=null)?d.coins:0, d&&d.rank); })
     .catch(function(){ view(0,null); });
 }
 
@@ -827,7 +895,7 @@ function renderCoinTop(){
   var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
   var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>'
     +'<h2>'+T('coinTopTitle')+'</h2>';
-  app.innerHTML=head+'<div class="spin"></div>'+backBtn;
+  app.innerHTML=head+skel(4)+backBtn;
   var api=(DATA.links&&DATA.links.cabinet_api)||"";
   var topUrl=api.replace(/\/cabinet\/?$/,"/top");
   if(!topUrl){ app.innerHTML=head+'<div class="content muted">'+esc(T('coinTopEmpty'))+'</div>'+backBtn; return; }
@@ -842,7 +910,7 @@ function renderCoinTop(){
               +'<div class="muted">🪙 <b>'+nf(r.coins)+'</b> = '+money(r.coins)+'</div></div>';
           }).join("")
         : '<div class="content muted">'+esc(T('coinTopEmpty'))+'</div>';
-      app.innerHTML=head+body+backBtn;
+      app.innerHTML=head+'<div class="stg">'+body+'</div>'+backBtn;
     })
     .catch(function(){ app.innerHTML=head+'<div class="content muted">'+esc(T('coinTopEmpty'))+'</div>'+backBtn; });
 }
@@ -863,11 +931,12 @@ function claimDaily(){
     .then(function(r){return r.json();})
     .then(function(d){
       DAILY=d;
-      if(d&&d.coins!=null) MYCOINS=d.coins;   // tepa chip uchun balans
+      render();   // bonus kartani hamma joyda yangilash
       if(d&&d.claimed){
+        confetti(["🪙","🎉","🎁","⭐"]);
         alertMsg(T('dailyGotMsg').replace("{n}", nf(d.reward)).replace("{s}", d.streak));
       }
-      render();   // balans chip + bonus kartani hamma joyda yangilash
+      if(d&&d.coins!=null) setCoins(d.coins);   // sanab o'sadi
     })
     .catch(function(){});
 }
@@ -905,7 +974,7 @@ function renderMarket(){
     +'<div class="badge" style="font-size:26px;background:linear-gradient(135deg,#f59e0b,#d97706)">🎟</div>'
     +'<div class="nm">'+esc(shortName(T('myBuys')))+'</div>'
     +'<div class="pr">&nbsp;</div></div>';
-  app.innerHTML=head+top+'<div class="grid">'+tiles+'</div>'+backBtn;
+  app.innerHTML=head+top+'<div class="grid stg">'+tiles+'</div>'+backBtn;
 }
 // Bitta kategoriya sovg'alari
 function renderMarketCat(){
@@ -921,7 +990,7 @@ function renderMarketCat(){
     +'<b>'+T('mHave')+': 🪙 '+nf(bal)+' = '+money(bal)+'</b></div>';
   var body=its.length?its.map(function(it){return marketCard(bal,it);}).join("")
     :'<div class="content muted">'+esc(T('mEmpty'))+'</div>';
-  app.innerHTML=head+top+body+backBtn;
+  app.innerHTML=head+top+'<div class="stg">'+body+'</div>'+backBtn;
 }
 function marketCard(bal, it){
   var afford=bal>=it.cost;
@@ -936,8 +1005,9 @@ function buyItem(id){
   fetch(url+"?item="+encodeURIComponent(id)+"&initData="+encodeURIComponent(initData))
     .then(function(r){return r.json();})
     .then(function(d){
-      if(d&&d.ok){ if(SHOP)SHOP.coins=d.coins; MYCOINS=d.coins; alertMsg(T('mBought').replace("{code}", d.code)); render(); }
-      else if(d&&d.error==="poor"){ if(d.coins!=null){ if(SHOP)SHOP.coins=d.coins; MYCOINS=d.coins; } alertMsg(T('mPoor').replace("{need}", nf(d.need))); }
+      if(d&&d.ok){ if(SHOP)SHOP.coins=d.coins; render(); confetti(["🎁","🎉","✨","🛍️"]);
+        alertMsg(T('mBought').replace("{code}", d.code)); setCoins(d.coins); }
+      else if(d&&d.error==="poor"){ if(d.coins!=null){ if(SHOP)SHOP.coins=d.coins; setCoins(d.coins); } alertMsg(T('mPoor').replace("{need}", nf(d.need))); }
       else { alertMsg(T('err')); }
     })
     .catch(function(){ alertMsg(T('err')); });
@@ -946,7 +1016,7 @@ function renderPurchases(){
   var backBtn='<button class="btn sec" onclick="go(\'coins\')">'+T('back')+'</button>';
   var head=header()+'<button class="back" onclick="go(\'coins\')">'+T('back')+'</button>'
     +'<h2>'+T('myBuys')+'</h2>';
-  app.innerHTML=head+'<div class="spin"></div>'+backBtn;
+  app.innerHTML=head+skel(4)+backBtn;
   var url=marketApi("/purchases"), initData=(tg&&tg.initData)||"";
   if(!url||!initData){ app.innerHTML=head+'<div class="content muted">'+esc(T('err'))+'</div>'+backBtn; return; }
   fetch(url+"?initData="+encodeURIComponent(initData))
@@ -964,7 +1034,7 @@ function renderPurchases(){
         }).join("")
         +'<div class="content muted" style="text-align:center">'+esc(T('buysHint'))+'</div>';
       }
-      app.innerHTML=head+body+backBtn;
+      app.innerHTML=head+'<div class="stg">'+body+'</div>'+backBtn;
     })
     .catch(function(){ app.innerHTML=head+'<div class="content muted">'+esc(T('err'))+'</div>'+backBtn; });
 }
