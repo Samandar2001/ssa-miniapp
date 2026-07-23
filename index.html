@@ -85,6 +85,8 @@
   .contact a{color:var(--link);text-decoration:none}
   .srow{margin:6px 0 16px}
   .slbl{font-weight:700;margin-bottom:8px;font-size:15px}
+  .mcat{font-weight:800;font-size:13px;color:var(--accent);margin:16px 2px 7px;
+        text-transform:uppercase;letter-spacing:.5px}
 </style>
 </head>
 <body>
@@ -542,20 +544,37 @@ function renderMarket(){
   if(!url||!initData){ app.innerHTML=head+'<div class="content muted">'+esc(T('err'))+'</div>'+backBtn; return; }
   fetch(url+"?initData="+encodeURIComponent(initData))
     .then(function(r){return r.json();})
-    .then(function(d){ marketView(head, backBtn, (d&&d.coins)||0, (d&&d.items)||[]); })
+    .then(function(d){ marketView(head, backBtn, (d&&d.coins)||0, (d&&d.items)||[], (d&&d.cats)||[]); })
     .catch(function(){ app.innerHTML=head+'<div class="content muted">'+esc(T('err'))+'</div>'+backBtn; });
 }
-function marketView(head, backBtn, bal, items){
+function marketCard(bal, it){
+  var afford=bal>=it.cost;
+  return '<div class="rev"><div class="who">'+it.emoji+' '+esc(it.name)+'</div>'
+    +'<div class="muted" style="margin-bottom:8px">🪙 '+nf(it.cost)+' = '+money(it.cost)+'</div>'
+    +'<button class="btn'+(afford?'':' sec')+'" style="margin-top:0" '
+    +(afford?('onclick="buyItem(\''+esc(it.id)+'\')"'):'disabled')+'>'+T('mBuy')+'</button></div>';
+}
+function marketView(head, backBtn, bal, items, cats){
   var top='<div class="content" style="text-align:center;margin-bottom:10px">'
     +'<b>'+T('mHave')+': 🪙 '+nf(bal)+' = '+money(bal)+'</b></div>';
-  var cards=items.length?items.map(function(it){
-    var afford=bal>=it.cost;
-    return '<div class="rev"><div class="who">'+it.emoji+' '+esc(it.name)+'</div>'
-      +'<div class="muted" style="margin-bottom:8px">🪙 '+nf(it.cost)+' = '+money(it.cost)+'</div>'
-      +'<button class="btn'+(afford?'':' sec')+'" style="margin-top:0" '
-      +(afford?('onclick="buyItem(\''+esc(it.id)+'\')"'):'disabled')+'>'+T('mBuy')+'</button></div>';
-  }).join(""):'<div class="content muted">'+esc(T('mEmpty'))+'</div>';
-  app.innerHTML=head+top+cards+backBtn;
+  var body="";
+  if(!items.length){
+    body='<div class="content muted">'+esc(T('mEmpty'))+'</div>';
+  } else if(cats&&cats.length){
+    var known={};
+    cats.forEach(function(c){
+      known[c.key]=1;
+      var its=items.filter(function(it){return (it.cat||"all")===c.key;});
+      if(!its.length) return;
+      body+='<div class="mcat">'+esc(c.name)+'</div>'
+          +its.map(function(it){return marketCard(bal,it);}).join("");
+    });
+    var rest=items.filter(function(it){return !known[it.cat||"all"];});
+    if(rest.length) body+=rest.map(function(it){return marketCard(bal,it);}).join("");
+  } else {
+    body=items.map(function(it){return marketCard(bal,it);}).join("");
+  }
+  app.innerHTML=head+top+body+backBtn;
 }
 function buyItem(id){
   var url=marketApi("/buy"), initData=(tg&&tg.initData)||"";
