@@ -107,6 +107,14 @@
     color:var(--text);border-radius:18px;padding:7px 15px;font-size:14px;font-weight:700;
     cursor:pointer;flex-shrink:0}
   .childsel .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .lvcard{padding:14px}
+  .lvhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+  .lvbadge{font-weight:800;font-size:17px}
+  .lvnext{font-size:13px;color:var(--hint);font-weight:700}
+  .lvbar{height:11px;border-radius:6px;background:var(--sec);overflow:hidden}
+  .lvfill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--btn),var(--accent));
+    transition:width .7s cubic-bezier(.2,.7,.3,1)}
+  .lvmax{color:var(--accent);font-weight:800;font-size:14px}
   .setcard{background:var(--card);border-radius:16px;padding:2px 14px;margin-bottom:12px;
     box-shadow:0 1px 4px rgba(0,0,0,.06)}
   .setrow{display:flex;align-items:center;justify-content:space-between;gap:10px;
@@ -343,6 +351,7 @@ var UI = {
       settings:"⚙️ Sozlamalar",sLang:"🌐 Til",sTheme:"🎨 Ko'rinish",sSound:"🔊 Ovoz",sAbout:"Ilova haqida",sInvite:"🎁 Do'stni taklif qilish",
       trialBtn:"🎓 Bepul sinov darsi",trialT:"🎓 Bepul sinov darsi",trialName:"Farzand ismi",trialPhone:"Telefon raqami",trialHint:"Ma'lumotlaringizni qoldiring — biz tez orada bog'lanamiz. Ariza uchun +30 🪙!",trialSend:"📩 Ariza yuborish",trialOk:"✅ Arizangiz qabul qilindi! Tez orada bog'lanamiz.",trialFill:"Iltimos, ism va telefon raqamini to'g'ri kiriting.",
       wheelBtn:"🎡 Omad g'ildiragi",wheelT:"🎡 Omad g'ildiragi",wheelSpin:"🎯 Aylantirish",wheelWait:"Keyingi aylantirish",wheelWon:"🎉 Tabriklaymiz! Siz {n} 🪙 yutdingiz!",wheelFree:"Bepul • 24 soatda 1 marta",
+      lvl:[["🌱","Yangi"],["🥉","Bronza"],["🥈","Kumush"],["🥇","Oltin"],["💠","Platina"],["💎","Olmos"]],lvlToGo:"gacha qoldi",lvlMax:"Eng yuqori daraja!",lvlTitle:"Daraja",
       day:"☀️ Kunduzgi",night:"🌙 Tungi",on:"🔊 Yoniq",off:"🔇 O'chiq",
       norev:"Hali sharhlar yo'q.",per:"oy",err:"Ma'lumot topilmadi. Bot ishga tushirilganini tekshiring."},
   ru:{choose:"Выберите раздел",about:"О курсе",plan:"Учебный план",price:"Цена",faq:"Вопросы",
@@ -369,6 +378,7 @@ var UI = {
       settings:"⚙️ Настройки",sLang:"🌐 Язык",sTheme:"🎨 Тема",sSound:"🔊 Звук",sAbout:"О приложении",sInvite:"🎁 Пригласить друга",
       trialBtn:"🎓 Бесплатный пробный урок",trialT:"🎓 Бесплатный пробный урок",trialName:"Имя ребёнка",trialPhone:"Номер телефона",trialHint:"Оставьте свои данные — мы скоро свяжемся. За заявку +30 🪙!",trialSend:"📩 Отправить заявку",trialOk:"✅ Заявка принята! Мы скоро свяжемся.",trialFill:"Пожалуйста, введите имя и номер телефона правильно.",
       wheelBtn:"🎡 Колесо фортуны",wheelT:"🎡 Колесо фортуны",wheelSpin:"🎯 Крутить",wheelWait:"Следующее вращение",wheelWon:"🎉 Поздравляем! Вы выиграли {n} 🪙!",wheelFree:"Бесплатно • 1 раз в 24 часа",
+      lvl:[["🌱","Новичок"],["🥉","Бронза"],["🥈","Серебро"],["🥇","Золото"],["💠","Платина"],["💎","Алмаз"]],lvlToGo:"осталось",lvlMax:"Максимальный уровень!",lvlTitle:"Уровень",
       day:"☀️ Светлая",night:"🌙 Тёмная",on:"🔊 Вкл",off:"🔇 Выкл",
       norev:"Отзывов пока нет.",per:"мес",err:"Данные не найдены. Проверьте, запущен ли бот."},
   en:{choose:"Choose a section",about:"About",plan:"Curriculum",price:"Price",faq:"FAQ",
@@ -395,6 +405,7 @@ var UI = {
       settings:"⚙️ Settings",sLang:"🌐 Language",sTheme:"🎨 Theme",sSound:"🔊 Sound",sAbout:"About",sInvite:"🎁 Invite a friend",
       trialBtn:"🎓 Free trial lesson",trialT:"🎓 Free trial lesson",trialName:"Child's name",trialPhone:"Phone number",trialHint:"Leave your details — we'll contact you soon. +30 🪙 for applying!",trialSend:"📩 Send request",trialOk:"✅ Request received! We'll contact you soon.",trialFill:"Please enter a valid name and phone number.",
       wheelBtn:"🎡 Wheel of Fortune",wheelT:"🎡 Wheel of Fortune",wheelSpin:"🎯 Spin",wheelWait:"Next spin",wheelWon:"🎉 Congratulations! You won {n} 🪙!",wheelFree:"Free • once every 24 hours",
+      lvl:[["🌱","Rookie"],["🥉","Bronze"],["🥈","Silver"],["🥇","Gold"],["💠","Platinum"],["💎","Diamond"]],lvlToGo:"to go",lvlMax:"Max level!",lvlTitle:"Level",
       day:"☀️ Light",night:"🌙 Dark",on:"🔊 On",off:"🔇 Off",
       norev:"No reviews yet.",per:"mo",err:"Data not found. Make sure the bot is running."}
 };
@@ -871,6 +882,25 @@ function statTiles(c, rank, friends){
     +tile((friends!=null?friends:0)+'', T('stFriends'))
     +'</div>';
 }
+function levelCard(lv){
+  if(!lv) return "";
+  var names=(UI[LANG]||UI.uz).lvl||[];
+  var cur=names[lv.index]||["🏅",""];
+  if(lv.next==null){
+    return '<div class="pcard lvcard"><div class="lvhead">'
+      +'<span class="lvbadge">'+cur[0]+' '+esc(cur[1])+'</span>'
+      +'<span class="lvmax">💎 '+esc(T('lvlMax'))+'</span></div></div>';
+  }
+  var nxt=names[lv.index+1]||["",""];
+  var span=Math.max(1,lv.next-lv.min), done=Math.max(0,lv.earned-lv.min);
+  var pct=Math.max(3,Math.min(100,Math.round(done/span*100)));
+  return '<div class="pcard lvcard">'
+    +'<div class="lvhead"><span class="lvbadge">'+cur[0]+' '+esc(cur[1])+'</span>'
+    +'<span class="lvnext">→ '+nxt[0]+' '+esc(nxt[1])+'</span></div>'
+    +'<div class="lvbar"><div class="lvfill" style="width:'+pct+'%"></div></div>'
+    +'<div class="muted" style="font-size:12px;margin-top:6px;text-align:center">'
+    +nf(lv.next-lv.earned)+' 🪙 '+esc(T('lvlToGo'))+'</div></div>';
+}
 function crow(label, val, mono, copy){
   var v='<span class="cv'+(mono?' mono':'')+'">'+esc(val)+'</span>';
   var btn=copy?('<button class="cbtn" data-c="'+esc(val)+'" onclick="copyText(this.getAttribute(\'data-c\'))">📋</button>'):"";
@@ -957,7 +987,7 @@ function cabView(){
     +qtile("🛒","Market","go('market')")
     +qtile("🎁",shortName(T('tabFriends')),"go('refer')")
     +'</div>';
-  app.innerHTML=head+sel+'<div class="stg">'+hero+stats+quick+info+creds+certcard+'</div>'+backBtn;
+  app.innerHTML=head+sel+'<div class="stg">'+hero+stats+levelCard(d.level)+quick+info+creds+certcard+'</div>'+backBtn;
 }
 function renderCabinet(){
   var api=(DATA.links&&DATA.links.cabinet_api)||"";
@@ -1073,7 +1103,7 @@ function renderCoins(){
   var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
   var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>'
     +'<h2>'+T('coins')+'</h2>';
-  function view(bal, rank){
+  function view(bal, rank, lv){
     var big='<div style="text-align:center;padding:18px 0">'
       +'<div style="font-size:44px;font-weight:800">🪙 <span id="coinbig">0</span></div>'
       +'<div class="muted">'+T('coinUnit')+' = '+money(bal)+'</div>'
@@ -1098,7 +1128,7 @@ function renderCoins(){
       +  '<button class="btn sec" onclick="go(\'coinTop\')">'+T('coinTop')+'</button>'
       +'</div>'
       +'<button class="btn sec" onclick="openBot(\'coins\')">'+T('openBotBtn')+'</button>';
-    app.innerHTML=head+big+daily+how+btns+backBtn;
+    app.innerHTML=head+big+levelCard(lv)+daily+how+btns+backBtn;
     countEl("coinbig", 0, bal);
   }
   var api=(DATA.links&&DATA.links.cabinet_api)||"";
@@ -1108,8 +1138,8 @@ function renderCoins(){
   app.innerHTML=head+skel(4)+backBtn;
   fetch(coinsUrl+"?initData="+encodeURIComponent(initData))
     .then(function(r){return r.json();})
-    .then(function(d){ if(d&&d.coins!=null)setCoins(d.coins); view((d&&d.coins!=null)?d.coins:0, d&&d.rank); })
-    .catch(function(){ view(0,null); });
+    .then(function(d){ if(d&&d.coins!=null)setCoins(d.coins); view((d&&d.coins!=null)?d.coins:0, d&&d.rank, d&&d.level); })
+    .catch(function(){ view(0,null,null); });
 }
 
 function renderCoinTop(){
