@@ -128,5 +128,11 @@
       "text": "Zoʻr"
     }
   ],
-  "leaderboard": []
+  "leaderboard": [
+    {
+      "name": "MUSTAFO",
+      "invited": 1,
+      "enrolled": 0
+    }
+  ]
 }
