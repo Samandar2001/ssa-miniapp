@@ -16,6 +16,28 @@
     "it": 200000,
     "junior": 60000
   },
+  "banners": [
+    {
+      "title": "🎉 Yozgi aksiya!",
+      "text": "IT kursiga yozilganlarga maxsus chegirma — faqat shu oy!",
+      "emoji": "🚀",
+      "grad": [
+        "#7c1c3a",
+        "#b03a5b"
+      ],
+      "link": ""
+    },
+    {
+      "title": "🎁 Do'st taklif qiling",
+      "text": "Har bir do'st uchun 5 000 coin, kursga yozilsa 200 000 gacha!",
+      "emoji": "🪙",
+      "grad": [
+        "#4f46e5",
+        "#818cf8"
+      ],
+      "link": ""
+    }
+  ],
   "contact": {
     "phone": "+998 94 552 10 09",
     "site": "www.ssa.uz",
