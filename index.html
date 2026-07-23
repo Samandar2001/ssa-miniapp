@@ -19,7 +19,18 @@
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
        background:var(--sec);color:var(--text);font-size:16px;line-height:1.5}
-  .wrap{max-width:600px;margin:0 auto;padding:12px 12px 48px}
+  .wrap{max-width:600px;margin:0 auto;padding:12px 12px 84px}
+  .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:100;max-width:600px;margin:0 auto;
+    display:flex;background:var(--card);border-top:1px solid var(--line);
+    box-shadow:0 -2px 14px rgba(0,0,0,.08);padding-bottom:env(safe-area-inset-bottom,0)}
+  .tabitem{flex:1;border:none;background:none;color:var(--hint);cursor:pointer;
+    font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;
+    padding:8px 0 7px;transition:color .12s}
+  .tabitem .ti-ic{font-size:21px;line-height:1;transition:transform .12s}
+  .tabitem .ti-lb{font-size:11px;font-weight:600;letter-spacing:.1px}
+  .tabitem.active{color:var(--accent)}
+  .tabitem.active .ti-ic{transform:translateY(-1px) scale(1.1)}
+  .tabitem:active .ti-ic{transform:scale(.85)}
   header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px}
   .brand{font-weight:800;font-size:17px;color:var(--accent);line-height:1.15}
   .brand small{display:block;font-weight:500;color:var(--hint);font-size:11px;margin-top:2px}
@@ -76,6 +87,7 @@
 </head>
 <body>
 <div class="wrap" id="app"><div class="muted">Yuklanmoqda…</div></div>
+<nav class="tabbar" id="tabbar"></nav>
 
 <script>
 "use strict";
@@ -114,7 +126,7 @@ function toggleSound(){ SOUND=(SOUND==="on")?"off":"on";
 function setTheme(v){ THEME=v; try{localStorage.setItem("ssa_theme",v);}catch(e){} applyTheme(); render(); }
 function setSound(v){ SOUND=v; try{localStorage.setItem("ssa_sound",v);}catch(e){} if(v==="on")beep(); render(); }
 document.addEventListener("click", function(e){
-  var el=e.target.closest && e.target.closest(".btn,.lang,.tab,.card,.back,.rev");
+  var el=e.target.closest && e.target.closest(".btn,.lang,.tab,.card,.back,.rev,.tabitem");
   if(el){ beep(); haptic(); }
 }, true);
 
@@ -132,6 +144,7 @@ var UI = {
       coinTop:"🏆 Coin reyting",coinTopTitle:"🪙 Coin reyting — Top 10",coinTopEmpty:"Hali hech kim coin yig'magan. Birinchi bo'ling! 🪙",coinUnit:"coin",
       coins:"🪙 Coinlarim",coinsHowT:"Coin qanday to'planadi:",coinsHow:"🎁 Do'st kursga yozilsa — +100\n✍️ Sharh qoldirsangiz — +20\n📝 Sinov darsiga — +30\n📅 Kunlik bonus — +5\n🎮 LMS o'yinlari — tez orada",coinsRank:"📍 Sizning o'rningiz",coinsBotNote:"🎁 Kunlik bonus va 🛒 do'kon — botda",openBotBtn:"🤖 Botni ochish",
       market:"🛒 Market",marketTitle:"🛒 Coin market",mBuy:"Sotib olish",mHave:"Sizda",mBought:"✅ Xarid muvaffaqiyatli!\n🎟 Kod: {code}\n\nBu kodni administratorga yuboring — sovg'a faollashtiriladi.",mPoor:"❌ Coin yetarli emas. Kerak: {need} 🪙",mEmpty:"Market hozircha bo'sh.",
+      tabHome:"Bosh",tabCoin:"Coin",tabMarket:"Market",tabFriends:"Do'stlar",tabCabinet:"Kabinet",
       refer:"🎁 Do'st taklif qilish",referTitle:"🎁 Do'stingizni taklif qiling",
       yourLink:"🔗 Shaxsiy havolangiz:",shareBtn:"📤 Do'stga ulashish",
       shareText:"Farzandingiz uchun IT, English, Math, Science kurslari! 👇",
@@ -152,6 +165,7 @@ var UI = {
       coinTop:"🏆 Рейтинг коинов",coinTopTitle:"🪙 Рейтинг коинов — Топ 10",coinTopEmpty:"Пока никто не накопил коины. Будьте первым! 🪙",coinUnit:"коинов",
       coins:"🪙 Мои коины",coinsHowT:"Как копятся коины:",coinsHow:"🎁 Друг записался — +100\n✍️ Отзыв — +20\n📝 Пробный урок — +30\n📅 Ежедневный бонус — +5\n🎮 LMS-игры — скоро",coinsRank:"📍 Ваше место",coinsBotNote:"🎁 Ежедневный бонус и 🛒 магазин — в боте",openBotBtn:"🤖 Открыть бота",
       market:"🛒 Магазин",marketTitle:"🛒 Магазин коинов",mBuy:"Купить",mHave:"У вас",mBought:"✅ Покупка совершена!\n🎟 Код: {code}\n\nОтправьте код администратору — подарок активируют.",mPoor:"❌ Недостаточно коинов. Нужно: {need} 🪙",mEmpty:"Магазин пока пуст.",
+      tabHome:"Главная",tabCoin:"Коины",tabMarket:"Магазин",tabFriends:"Друзья",tabCabinet:"Кабинет",
       refer:"🎁 Пригласить друга",referTitle:"🎁 Пригласите друга",
       yourLink:"🔗 Ваша персональная ссылка:",shareBtn:"📤 Поделиться с другом",
       shareText:"Курсы IT, English, Math, Science для вашего ребёнка! 👇",
@@ -172,6 +186,7 @@ var UI = {
       coinTop:"🏆 Coin leaderboard",coinTopTitle:"🪙 Coin leaderboard — Top 10",coinTopEmpty:"No one has earned coins yet. Be the first! 🪙",coinUnit:"coins",
       coins:"🪙 My coins",coinsHowT:"How to earn coins:",coinsHow:"🎁 Friend enrolls — +100\n✍️ Review — +20\n📝 Trial lesson — +30\n📅 Daily bonus — +5\n🎮 LMS games — soon",coinsRank:"📍 Your rank",coinsBotNote:"🎁 Daily bonus & 🛒 shop — in the bot",openBotBtn:"🤖 Open bot",
       market:"🛒 Market",marketTitle:"🛒 Coin market",mBuy:"Buy",mHave:"You have",mBought:"✅ Purchase successful!\n🎟 Code: {code}\n\nSend this code to the administrator to activate your reward.",mPoor:"❌ Not enough coins. Need: {need} 🪙",mEmpty:"Market is empty for now.",
+      tabHome:"Home",tabCoin:"Coins",tabMarket:"Market",tabFriends:"Friends",tabCabinet:"Account",
       refer:"🎁 Invite a friend",referTitle:"🎁 Invite your friend",
       yourLink:"🔗 Your personal link:",shareBtn:"📤 Share with a friend",
       shareText:"IT, English, Math, Science courses for your child! 👇",
@@ -232,18 +247,41 @@ function header(){
 }
 
 function render(){
-  if(!DATA){ app.innerHTML='<div class="muted">'+T('err')+'</div>'; return; }
-  if(view.name==="sec") return renderSec();
-  if(view.name==="contact") return renderContact();
-  if(view.name==="reviews") return renderReviews();
-  if(view.name==="cabinet") return renderCabinet();
-  if(view.name==="settings") return renderSettings();
-  if(view.name==="top") return renderTop();
-  if(view.name==="coins") return renderCoins();
-  if(view.name==="market") return renderMarket();
-  if(view.name==="coinTop") return renderCoinTop();
-  if(view.name==="refer") return renderRefer();
-  return renderHome();
+  if(!DATA){ app.innerHTML='<div class="muted">'+T('err')+'</div>'; paintTabs(); return; }
+  if(view.name==="sec") renderSec();
+  else if(view.name==="contact") renderContact();
+  else if(view.name==="reviews") renderReviews();
+  else if(view.name==="cabinet") renderCabinet();
+  else if(view.name==="settings") renderSettings();
+  else if(view.name==="top") renderTop();
+  else if(view.name==="coins") renderCoins();
+  else if(view.name==="market") renderMarket();
+  else if(view.name==="coinTop") renderCoinTop();
+  else if(view.name==="refer") renderRefer();
+  else renderHome();
+  paintTabs();
+}
+
+// Pastki navigatsiya (telefon ilovalari kabi) — 5 ta bo'lim
+var TABS=[
+  {k:"home",   ic:"🏠", lb:"tabHome",    act:function(){go("home");}},
+  {k:"coins",  ic:"🪙", lb:"tabCoin",    act:function(){go("coins");}},
+  {k:"market", ic:"🛒", lb:"tabMarket",  act:function(){go("market");}},
+  {k:"refer",  ic:"🎁", lb:"tabFriends", act:function(){go("refer");}},
+  {k:"cabinet",ic:"👤", lb:"tabCabinet", act:function(){go("cabinet");}}
+];
+// Qaysi ekran qaysi tabni yoqadi
+var TAB_OF={home:"home",coins:"coins",coinTop:"coins",market:"market",
+            refer:"refer",top:"refer",cabinet:"cabinet"};
+function tabGo(i){ TABS[i].act(); }
+function paintTabs(){
+  var tb=document.getElementById("tabbar"); if(!tb) return;
+  var active=TAB_OF[view.name]||"";
+  tb.innerHTML=TABS.map(function(it,i){
+    return '<button class="tabitem'+(active===it.k?' active':'')+'" onclick="tabGo('+i+')">'
+      +'<span class="ti-ic">'+it.ic+'</span>'
+      +'<span class="ti-lb">'+T(it.lb)+'</span></button>';
+  }).join("");
 }
 
 function renderHome(){
