@@ -682,8 +682,11 @@ function submitTrial(){
 var WSEG=[], WROT=0, SPINNING=false, WTIMER=null;
 var WCOLS=["#7c1c3a","#a83557","#4f46e5","#059669","#d97706","#2563eb","#9333ea","#e11d48"];
 function wheelBg(){
-  var n=WSEG.length||1, seg=360/n, st=[];
-  for(var i=0;i<n;i++){ st.push(WCOLS[i%WCOLS.length]+" "+(i*seg)+"deg "+((i+1)*seg)+"deg"); }
+  var n=WSEG.length||1, seg=360/n, st=[], mx=Math.max.apply(null,WSEG.length?WSEG:[0]);
+  for(var i=0;i<n;i++){
+    var col=(WSEG[i]===mx&&mx>=100000)?"#f5b301":WCOLS[i%WCOLS.length];
+    st.push(col+" "+(i*seg)+"deg "+((i+1)*seg)+"deg");
+  }
   return "conic-gradient("+st.join(",")+")";
 }
 function fmtDur(s){ s=Math.max(0,s|0); var h=(s/3600)|0,m=((s%3600)/60)|0,x=s%60;
