@@ -50,6 +50,35 @@
         border-radius:18px;padding:6px 12px;font-size:14px;font-weight:800;cursor:pointer;
         display:flex;align-items:center;gap:4px;white-space:nowrap}
   .coinchip:active{transform:scale(.95)}
+  .phero{position:relative;overflow:hidden;border-radius:18px;padding:18px;margin-bottom:12px;
+    color:#fff;background:linear-gradient(135deg,var(--btn),var(--accent));
+    box-shadow:0 10px 26px -10px rgba(124,28,58,.6);display:flex;align-items:center;gap:14px}
+  .phero .pav{width:58px;height:58px;border-radius:50%;object-fit:cover;flex-shrink:0;
+    border:2px solid rgba(255,255,255,.6)}
+  .phero .pav.ini{background:rgba(255,255,255,.22);display:flex;align-items:center;
+    justify-content:center;font-size:24px;font-weight:800}
+  .phero .pnm{font-weight:800;font-size:19px;line-height:1.15;word-break:break-word}
+  .phero .psub{font-size:13px;opacity:.92;margin-top:3px}
+  .pbadge{display:inline-block;background:rgba(255,255,255,.22);border-radius:10px;
+    padding:2px 10px;font-size:12px;font-weight:700;margin-top:7px}
+  .pstats{display:flex;gap:10px;margin-bottom:12px}
+  .pstat{flex:1;background:var(--card);border-radius:14px;padding:12px 6px;text-align:center;
+    box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  .pstat .v{font-weight:800;font-size:17px}
+  .pstat .l{font-size:11px;color:var(--hint);margin-top:3px;font-weight:600}
+  .pcard{background:var(--card);border-radius:16px;padding:2px 14px 8px;margin-bottom:12px;
+    box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  .pcard .ph{font-weight:700;font-size:12px;color:var(--hint);padding:12px 0 2px;
+    text-transform:uppercase;letter-spacing:.4px}
+  .crow{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:11px 0;border-top:1px solid var(--line)}
+  .crow:first-of-type{border-top:none}
+  .crow .cl{font-size:13px;color:var(--hint);flex-shrink:0}
+  .crow .cv{font-weight:700;font-size:14px;text-align:right;word-break:break-word}
+  .crow .cv.mono{font-family:ui-monospace,Menlo,Consolas,monospace}
+  .cbtn{border:none;background:var(--sec);color:var(--accent);border-radius:8px;
+    padding:6px 10px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0}
+  .cbtn:active{transform:scale(.9)}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
   .card{background:var(--card);border-radius:16px;padding:16px;cursor:pointer;
         box-shadow:0 1px 4px rgba(0,0,0,.06);transition:transform .08s}
@@ -152,7 +181,7 @@ function toggleSound(){ SOUND=(SOUND==="on")?"off":"on";
 function setTheme(v){ THEME=v; try{localStorage.setItem("ssa_theme",v);}catch(e){} applyTheme(); render(); }
 function setSound(v){ SOUND=v; try{localStorage.setItem("ssa_sound",v);}catch(e){} if(v==="on")beep(); render(); }
 document.addEventListener("click", function(e){
-  var el=e.target.closest && e.target.closest(".btn,.lang,.tab,.card,.back,.rev,.tabitem,.coinchip,.bbtn");
+  var el=e.target.closest && e.target.closest(".btn,.lang,.tab,.card,.back,.rev,.tabitem,.coinchip,.bbtn,.cbtn");
   if(el){ beep(); haptic(); }
 }, true);
 
@@ -177,6 +206,7 @@ var UI = {
       addrev:"✍️ Sharh qoldirish",cabinet:"📱 Shaxsiy kabinet",loading:"Yuklanmoqda…",
       lName:"👤 Farzand",lCourse:"📚 Kurs",lType:"🏷 Yo'nalish",lLogin:"🔐 LMS login",lPass:"🔑 Parol",
       lSched:"📅 Dars jadvali",lCert:"🎓 Sertifikat",certNone:"hali tayyor emas",lmsGo:"🌐 LMS saytiga kirish",
+      copied:"✅ Nusxa olindi",stRank:"O'rin",stFriends:"Do'stlar",cabCreds:"🔐 LMS ma'lumotlari",cabCertReady:"Tayyor — ochish uchun bosing",certOpen:"🎓 Sertifikatni ochish",
       cabNone:"Siz hali ro'yxatda yo'qsiz. Kursga yozilsangiz — ma'lumotlaringiz shu yerda chiqadi.",
       acc:"Akkaunt",cabFull:"🔐 To'liq ma'lumot (botda)",
       cabHint:"LMS login, parol, dars jadvali va sertifikat — botda ko'rsatiladi 👇",
@@ -200,6 +230,7 @@ var UI = {
       addrev:"✍️ Оставить отзыв",cabinet:"📱 Личный кабинет",loading:"Загрузка…",
       lName:"👤 Ребёнок",lCourse:"📚 Курс",lType:"🏷 Направление",lLogin:"🔐 LMS логин",lPass:"🔑 Пароль",
       lSched:"📅 Расписание",lCert:"🎓 Сертификат",certNone:"ещё не готов",lmsGo:"🌐 Войти на LMS",
+      copied:"✅ Скопировано",stRank:"Место",stFriends:"Друзья",cabCreds:"🔐 Данные LMS",cabCertReady:"Готов — нажмите, чтобы открыть",certOpen:"🎓 Открыть сертификат",
       cabNone:"Вас пока нет в списке. Запишитесь на курс — и данные появятся здесь.",
       acc:"Аккаунт",cabFull:"🔐 Полная информация (в боте)",
       cabHint:"LMS логин, пароль, расписание и сертификат — в боте 👇",
@@ -223,6 +254,7 @@ var UI = {
       addrev:"✍️ Leave a review",cabinet:"📱 My account",loading:"Loading…",
       lName:"👤 Child",lCourse:"📚 Course",lType:"🏷 Track",lLogin:"🔐 LMS login",lPass:"🔑 Password",
       lSched:"📅 Schedule",lCert:"🎓 Certificate",certNone:"not ready yet",lmsGo:"🌐 Go to LMS",
+      copied:"✅ Copied",stRank:"Rank",stFriends:"Friends",cabCreds:"🔐 LMS details",cabCertReady:"Ready — tap to open",certOpen:"🎓 Open certificate",
       cabNone:"You're not on the list yet. Enroll and your details will appear here.",
       acc:"Account",cabFull:"🔐 Full details (in bot)",
       cabHint:"LMS login, password, schedule and certificate — in the bot 👇",
@@ -466,15 +498,52 @@ function openCabinet(){ go("cabinet"); }   // har doim ilova ichida
 function openLmsSite(){ var u=(DATA.links&&DATA.links.lms)||"";
   if(u){ if(tg&&tg.openLink) tg.openLink(u); else window.open(u,"_blank"); } }
 
-// Backend'siz — Telegram profil + botga to'liq ma'lumot tugmasi
+// Nusxa olish (clipboard) + toast
+function fallbackCopy(t){
+  try{ var ta=document.createElement("textarea"); ta.value=t; ta.style.position="fixed";
+    ta.style.opacity="0"; document.body.appendChild(ta); ta.focus(); ta.select();
+    document.execCommand("copy"); document.body.removeChild(ta); }catch(e){}
+}
+function copyText(t){
+  var ok=function(){ haptic(); alertMsg(T('copied')); };
+  try{ if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).then(ok,function(){ fallbackCopy(t); ok(); }); return; } }catch(e){}
+  fallbackCopy(t); ok();
+}
+// Profil hero (avatar + ism)
+function profHero(subtitle, badge){
+  var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
+  var name=((u.first_name||"")+" "+(u.last_name||"")).trim()||u.username||T('acc');
+  var av=u.photo_url
+    ? '<img class="pav" src="'+esc(u.photo_url)+'">'
+    : '<div class="pav ini">'+esc((name.charAt(0)||"👤").toUpperCase())+'</div>';
+  return '<div class="phero">'+av
+    +'<div style="min-width:0"><div class="pnm">'+esc(name)+'</div>'
+    +(subtitle?('<div class="psub">'+esc(subtitle)+'</div>'):"")
+    +(badge?('<span class="pbadge">'+esc(badge)+'</span>'):"")
+    +'</div></div>';
+}
+function statTiles(c, rank, friends){
+  function tile(v,l){ return '<div class="pstat"><div class="v">'+v+'</div><div class="l">'+esc(l)+'</div></div>'; }
+  return '<div class="pstats">'
+    +tile('🪙 '+nf(c||0), T('coinUnit'))
+    +tile(rank?('#'+rank):'—', T('stRank'))
+    +tile((friends!=null?friends:0)+'', T('stFriends'))
+    +'</div>';
+}
+function crow(label, val, mono, copy){
+  var v='<span class="cv'+(mono?' mono':'')+'">'+esc(val)+'</span>';
+  var btn=copy?('<button class="cbtn" data-c="'+esc(val)+'" onclick="copyText(this.getAttribute(\'data-c\'))">📋</button>'):"";
+  return '<div class="crow"><span class="cl">'+esc(label)+'</span>'
+    +'<span style="display:flex;align-items:center;gap:8px;min-width:0;justify-content:flex-end">'+v+btn+'</span></div>';
+}
+
 function cabinetLite(head, backBtn){
   var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
-  var name=((u.first_name||"")+" "+(u.last_name||"")).trim();
-  var rows="";
-  if(name) rows+='<div class="row"><b>👤 '+T('acc')+':</b> '+esc(name)+'</div>';
-  if(u.username) rows+='<div class="row"><b>🔗 Username:</b> @'+esc(u.username)+'</div>';
-  rows+='<div class="row muted" style="margin-top:10px">'+esc(T('cabHint'))+'</div>';
-  var body='<div class="content">'+rows+'</div>'
+  var body=profHero(u.username?('@'+u.username):null, null);
+  body+='<div class="pcard"><div class="ph">👤 '+esc(T('acc'))+'</div>';
+  if(u.username) body+=crow("Username","@"+u.username,false,false);
+  body+='<div class="crow"><span class="cl">'+esc(T('cabHint'))+'</span></div></div>'
     +'<button class="btn" onclick="openBot(\'cabinet\')">'+T('cabFull')+'</button>'
     +'<button class="btn sec" onclick="openLmsSite()">'+T('lmsGo')+'</button>';
   app.innerHTML=head+body+backBtn;
@@ -482,34 +551,48 @@ function cabinetLite(head, backBtn){
 
 function renderCabinet(){
   var api=(DATA.links&&DATA.links.cabinet_api)||"";
-  var top='<button class="back" onclick="go(\'home\')">'+T('back')+'</button>';
   var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
-  var head=header()+top+'<h2>'+T('cabinet')+'</h2>';
+  var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>';
   if(!api){ cabinetLite(head, backBtn); return; }   // backend yo'q -> lite
-  app.innerHTML=head+'<div class="content muted">'+T('loading')+'</div>';
+  app.innerHTML=head+'<div class="content muted">'+T('loading')+'</div>'+backBtn;
   var initData=(tg&&tg.initData)||"";
   fetch(api+"?initData="+encodeURIComponent(initData))
     .then(function(r){return r.json();})
     .then(function(d){
       if(!d || d.error){ cabinetLite(head, backBtn); return; }   // xato -> lite
-      var body;
+      if(d.coins!=null) MYCOINS=d.coins;
+      var stats=statTiles(d.coins, d.rank, d.invited);
       if(!d.found){
-        body='<div class="content">'+esc(T('cabNone'))+'</div>'
-            +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>';
-      } else {
-        var rows=[];
-        function add(lbl,val,mono){ if(val) rows.push('<div class="row"><b>'+lbl
-          +':</b> '+(mono?'<code>'+esc(val)+'</code>':esc(val))+'</div>'); }
-        add(T('lName'),d.name); add(T('lCourse'),d.course); add(T('lType'),d.type);
-        add(T('lLogin'),d.login,true); add(T('lPass'),d.parol,true);
-        add(T('lSched'),d.schedule);
-        if(d.coins!=null) rows.push('<div class="row"><b>🪙 Coin:</b> <b>'+nf(d.coins)+'</b> = '+money(d.coins)+'</div>');
-        var c=d.cert; add(T('lCert'), (c && /^https?:/.test(c))? c : (c||T('certNone')));
-        body='<div class="content">'+rows.join("")+'</div>'
-            +'<button class="btn" onclick="openLmsSite()">'+T('lmsGo')+'</button>';
-        if(c && /^https?:/.test(c)) body+='<button class="btn sec" onclick="window.open(\''+esc(c)+'\',\'_blank\')">'+T('lCert')+'</button>';
+        var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
+        app.innerHTML=head+profHero(u.username?('@'+u.username):null,null)+stats
+          +'<div class="content">'+esc(T('cabNone'))+'</div>'
+          +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>'+backBtn;
+        return;
       }
-      app.innerHTML=head+body+backBtn;
+      var hero=profHero(d.course||"", d.type||"");
+      // Ma'lumot kartasi
+      var info='<div class="pcard"><div class="ph">👤 '+esc(T('acc'))+'</div>';
+      if(d.name) info+=crow(T('lName'), d.name, false, false);
+      if(d.course) info+=crow(T('lCourse'), d.course, false, false);
+      if(d.type) info+=crow(T('lType'), d.type, false, false);
+      info+='</div>';
+      // LMS ma'lumotlari (nusxa olinadigan)
+      var creds="";
+      if(d.login||d.parol||d.schedule){
+        creds='<div class="pcard"><div class="ph">'+esc(T('cabCreds'))+'</div>';
+        if(d.login) creds+=crow(T('lLogin'), d.login, true, true);
+        if(d.parol) creds+=crow(T('lPass'), d.parol, true, true);
+        if(d.schedule) creds+=crow(T('lSched'), d.schedule, false, false);
+        creds+='</div>';
+      }
+      // Sertifikat
+      var c=d.cert, hasCert=c&&/^https?:/.test(c);
+      var certcard='<div class="pcard"><div class="ph">'+esc(T('lCert'))+'</div>'
+        +'<div class="crow"><span class="cl">'
+        +esc(hasCert?T('cabCertReady'):(c||T('certNone')))+'</span></div></div>';
+      var btns='<button class="btn" onclick="openLmsSite()">'+T('lmsGo')+'</button>';
+      if(hasCert) btns+='<button class="btn sec" onclick="openUrl(\''+esc(c)+'\')">'+T('certOpen')+'</button>';
+      app.innerHTML=head+hero+stats+info+creds+certcard+btns+backBtn;
     })
     .catch(function(){ cabinetLite(head, backBtn); });
 }
