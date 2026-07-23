@@ -406,8 +406,16 @@ function tweenCoin(from,to){
 }
 function setCoins(v){
   v=Math.round(+v||0); MYCOINS=v;
-  if(COINDISP==null){ COINDISP=v; paintCoinChip(); return; }
+  if(COINDISP==null){ COINDISP=0; paintCoinChip(); if(v>0) tweenCoin(0, v); return; }  // birinchi marta — 0 dan sanaydi
   if(v!==COINDISP) tweenCoin(COINDISP, v);
+}
+// Element ichidagi raqamni from->to gacha sanaydi
+function countEl(id, from, to, dur){
+  var el=document.getElementById(id); if(!el) return;
+  dur=dur||750; var t0=null;
+  function step(ts){ if(t0==null)t0=ts; var p=Math.min(1,(ts-t0)/dur), e=1-Math.pow(1-p,3);
+    el.textContent=nf(Math.round(from+(to-from)*e)); if(p<1) requestAnimationFrame(step); }
+  if(window.requestAnimationFrame) requestAnimationFrame(step); else el.textContent=nf(to);
 }
 // Konfetti / coin yomg'iri
 function confetti(list){
@@ -856,7 +864,7 @@ function renderCoins(){
     +'<h2>'+T('coins')+'</h2>';
   function view(bal, rank){
     var big='<div style="text-align:center;padding:18px 0">'
-      +'<div style="font-size:44px;font-weight:800">🪙 '+nf(bal)+'</div>'
+      +'<div style="font-size:44px;font-weight:800">🪙 <span id="coinbig">0</span></div>'
       +'<div class="muted">'+T('coinUnit')+' = '+money(bal)+'</div>'
       +(rank?('<div class="muted" style="margin-top:6px">'+T('coinsRank')+': <b>#'+rank+'</b></div>'):'')
       +'</div>';
@@ -879,6 +887,7 @@ function renderCoins(){
       +'</div>'
       +'<button class="btn sec" onclick="openBot(\'coins\')">'+T('openBotBtn')+'</button>';
     app.innerHTML=head+big+daily+how+btns+backBtn;
+    countEl("coinbig", 0, bal);
   }
   var api=(DATA.links&&DATA.links.cabinet_api)||"";
   var coinsUrl=api.replace(/\/cabinet\/?$/,"/coins");
