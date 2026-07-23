@@ -485,8 +485,12 @@ function myRefLink(){
   return (u.id&&bot)?(bot+"?start=ref"+u.id):bot;
 }
 function shareLink(){
-  var url="https://t.me/share/url?url="+encodeURIComponent(myRefLink())
-        +"&text="+encodeURIComponent(T('shareText'));
+  var link=myRefLink();
+  // Havolani matn ichiga ham qo'shamiz — uzun matnda Telegram url'ni tushirib
+  // qoldirmasligi uchun (link doim ko'rinadi).
+  var text=T('shareText')+"\n"+link;
+  var url="https://t.me/share/url?url="+encodeURIComponent(link)
+        +"&text="+encodeURIComponent(text);
   if(tg&&tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url,"_blank");
 }
 function renderRefer(){
