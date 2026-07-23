@@ -55,6 +55,23 @@
         background:var(--sec);color:var(--accent);transition:transform .2s}
   .iconbtn svg{width:20px;height:20px}
   .iconbtn:active{transform:rotate(90deg) scale(.9)}
+  .phero:after{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;
+    border-radius:50%;background:rgba(255,255,255,.14);pointer-events:none}
+  .phero .pbody{position:relative;z-index:1;min-width:0}
+  .credrow{padding:11px 0;border-top:1px solid var(--line)}
+  .credrow:first-of-type{border-top:none}
+  .credrow .cl{font-size:12px;color:var(--hint);margin-bottom:6px;font-weight:600}
+  .credline{display:flex;align-items:center;gap:8px}
+  .credval{flex:1;min-width:0;font-family:ui-monospace,Menlo,Consolas,monospace;
+    background:var(--sec);border-radius:9px;padding:8px 11px;font-weight:700;font-size:14px;
+    letter-spacing:.3px;word-break:break-all}
+  .qgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:2px 0 12px}
+  .qtile{background:var(--card);border-radius:14px;padding:12px 4px;text-align:center;
+    cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.06);transition:transform .08s}
+  .qtile:active{transform:scale(.94)}
+  .qtile.off{opacity:.4}
+  .qtile .qi{font-size:22px;line-height:1}
+  .qtile .ql{font-size:11px;color:var(--hint);margin-top:5px;font-weight:600}
   .phero{position:relative;overflow:hidden;border-radius:18px;padding:18px;margin-bottom:12px;
     color:#fff;background:linear-gradient(135deg,var(--btn),var(--accent));
     box-shadow:0 10px 26px -10px rgba(124,28,58,.6);display:flex;align-items:center;gap:14px}
@@ -221,7 +238,7 @@ function toggleSound(){ SOUND=(SOUND==="on")?"off":"on";
 function setTheme(v){ THEME=v; try{localStorage.setItem("ssa_theme",v);}catch(e){} applyTheme(); render(); }
 function setSound(v){ SOUND=v; try{localStorage.setItem("ssa_sound",v);}catch(e){} if(v==="on")beep(); render(); }
 document.addEventListener("click", function(e){
-  var el=e.target.closest && e.target.closest(".btn,.lang,.tab,.card,.back,.rev,.tabitem,.coinchip,.bbtn,.cbtn,.seg,.sw,.iconbtn");
+  var el=e.target.closest && e.target.closest(".btn,.lang,.tab,.card,.back,.rev,.tabitem,.coinchip,.bbtn,.cbtn,.seg,.sw,.iconbtn,.qtile");
   if(el){ beep(); haptic(); }
 }, true);
 
@@ -559,7 +576,7 @@ function profHero(subtitle, badge){
     ? '<img class="pav" src="'+esc(u.photo_url)+'">'
     : '<div class="pav ini">'+esc((name.charAt(0)||"👤").toUpperCase())+'</div>';
   return '<div class="phero">'+av
-    +'<div style="min-width:0"><div class="pnm">'+esc(name)+'</div>'
+    +'<div class="pbody"><div class="pnm">'+esc(name)+'</div>'
     +(subtitle?('<div class="psub">'+esc(subtitle)+'</div>'):"")
     +(badge?('<span class="pbadge">'+esc(badge)+'</span>'):"")
     +'</div></div>';
@@ -578,6 +595,19 @@ function crow(label, val, mono, copy){
   return '<div class="crow"><span class="cl">'+esc(label)+'</span>'
     +'<span style="display:flex;align-items:center;gap:8px;min-width:0;justify-content:flex-end">'+v+btn+'</span></div>';
 }
+// LMS ma'lumot qatori — qutili monospace qiymat + nusxa (+ parol yashirish)
+function credRow(label, val, secret){
+  var shown=(secret&&!PWSHOW)?String(val).replace(/./g,"•"):val;
+  var eye=secret?('<button class="cbtn" onclick="pwToggle()">'+(PWSHOW?"🙈":"👁")+'</button>'):"";
+  return '<div class="credrow"><div class="cl">'+esc(label)+'</div>'
+    +'<div class="credline"><span class="credval">'+esc(shown)+'</span>'
+    +'<button class="cbtn" data-c="'+esc(val)+'" onclick="copyText(this.getAttribute(\'data-c\'))">📋</button>'
+    +eye+'</div></div>';
+}
+function qtile(icon,label,onclick,off){
+  return '<div class="qtile'+(off?' off':'')+'"'+(off?"":' onclick="'+onclick+'"')+'>'
+    +'<div class="qi">'+icon+'</div><div class="ql">'+esc(label)+'</div></div>';
+}
 
 function cabinetLite(head, backBtn){
   var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
@@ -590,50 +620,65 @@ function cabinetLite(head, backBtn){
   app.innerHTML=head+body+backBtn;
 }
 
+var CAB=null, PWSHOW=false;
+function pwToggle(){ PWSHOW=!PWSHOW; cabView(); }   // faqat qayta chizadi (qayta yuklamaydi)
+function cabView(){
+  var d=CAB||{};
+  var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
+  var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>';
+  if(!d.found){
+    var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
+    app.innerHTML=head+profHero(u.username?('@'+u.username):null,null)
+      +statTiles(d.coins, d.rank, d.invited)
+      +'<div class="content">'+esc(T('cabNone'))+'</div>'
+      +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>'+backBtn;
+    return;
+  }
+  var c=d.cert, hasCert=c&&/^https?:/.test(c);
+  var hero=profHero(d.course||"", d.type||"");
+  var stats=statTiles(d.coins, d.rank, d.invited);
+  // Ma'lumot kartasi
+  var info='<div class="pcard"><div class="ph">👤 '+esc(T('acc'))+'</div>';
+  if(d.name) info+=crow(T('lName'), d.name, false, false);
+  if(d.course) info+=crow(T('lCourse'), d.course, false, false);
+  if(d.type) info+=crow(T('lType'), d.type, false, false);
+  info+='</div>';
+  // LMS ma'lumotlari (qutili, nusxa + parol yashirish)
+  var creds="";
+  if(d.login||d.parol||d.schedule){
+    creds='<div class="pcard"><div class="ph">'+esc(T('cabCreds'))+'</div>';
+    if(d.login) creds+=credRow(T('lLogin'), d.login, false);
+    if(d.parol) creds+=credRow(T('lPass'), d.parol, true);
+    if(d.schedule) creds+=crow(T('lSched'), d.schedule, false, false);
+    creds+='</div>';
+  }
+  // Sertifikat
+  var certcard='<div class="pcard"><div class="ph">'+esc(T('lCert'))+'</div>'
+    +'<div class="crow"><span class="cl">'
+    +esc(hasCert?T('cabCertReady'):(c||T('certNone')))+'</span></div></div>';
+  // Tez amallar
+  var quick='<div class="qgrid">'
+    +qtile("🌐","LMS","openLmsSite()")
+    +qtile("🎓","Sertifikat",hasCert?("openUrl('"+esc(c)+"')"):"",!hasCert)
+    +qtile("🛒","Market","go('market')")
+    +qtile("🎁",shortName(T('tabFriends')),"go('refer')")
+    +'</div>';
+  app.innerHTML=head+hero+stats+quick+info+creds+certcard+backBtn;
+}
 function renderCabinet(){
   var api=(DATA.links&&DATA.links.cabinet_api)||"";
   var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
   var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>';
   if(!api){ cabinetLite(head, backBtn); return; }   // backend yo'q -> lite
   app.innerHTML=head+'<div class="content muted">'+T('loading')+'</div>'+backBtn;
+  PWSHOW=false;
   var initData=(tg&&tg.initData)||"";
   fetch(api+"?initData="+encodeURIComponent(initData))
     .then(function(r){return r.json();})
     .then(function(d){
       if(!d || d.error){ cabinetLite(head, backBtn); return; }   // xato -> lite
       if(d.coins!=null) MYCOINS=d.coins;
-      var stats=statTiles(d.coins, d.rank, d.invited);
-      if(!d.found){
-        var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
-        app.innerHTML=head+profHero(u.username?('@'+u.username):null,null)+stats
-          +'<div class="content">'+esc(T('cabNone'))+'</div>'
-          +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>'+backBtn;
-        return;
-      }
-      var hero=profHero(d.course||"", d.type||"");
-      // Ma'lumot kartasi
-      var info='<div class="pcard"><div class="ph">👤 '+esc(T('acc'))+'</div>';
-      if(d.name) info+=crow(T('lName'), d.name, false, false);
-      if(d.course) info+=crow(T('lCourse'), d.course, false, false);
-      if(d.type) info+=crow(T('lType'), d.type, false, false);
-      info+='</div>';
-      // LMS ma'lumotlari (nusxa olinadigan)
-      var creds="";
-      if(d.login||d.parol||d.schedule){
-        creds='<div class="pcard"><div class="ph">'+esc(T('cabCreds'))+'</div>';
-        if(d.login) creds+=crow(T('lLogin'), d.login, true, true);
-        if(d.parol) creds+=crow(T('lPass'), d.parol, true, true);
-        if(d.schedule) creds+=crow(T('lSched'), d.schedule, false, false);
-        creds+='</div>';
-      }
-      // Sertifikat
-      var c=d.cert, hasCert=c&&/^https?:/.test(c);
-      var certcard='<div class="pcard"><div class="ph">'+esc(T('lCert'))+'</div>'
-        +'<div class="crow"><span class="cl">'
-        +esc(hasCert?T('cabCertReady'):(c||T('certNone')))+'</span></div></div>';
-      var btns='<button class="btn" onclick="openLmsSite()">'+T('lmsGo')+'</button>';
-      if(hasCert) btns+='<button class="btn sec" onclick="openUrl(\''+esc(c)+'\')">'+T('certOpen')+'</button>';
-      app.innerHTML=head+hero+stats+info+creds+certcard+btns+backBtn;
+      CAB=d; cabView();
     })
     .catch(function(){ cabinetLite(head, backBtn); });
 }
