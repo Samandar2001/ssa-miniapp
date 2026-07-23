@@ -165,14 +165,30 @@ function beep(){
   try{
     if(!AC) AC=new (window.AudioContext||window.webkitAudioContext)();
     if(AC.state==="suspended") AC.resume();
+    var t=AC.currentTime;
+    // Yumshoq lowpass — tiniq, lekin qattiq/o'tkir emas
+    var lp=AC.createBiquadFilter(); lp.type="lowpass";
+    lp.frequency.setValueAtTime(5200,t);
+    lp.frequency.exponentialRampToValueAtTime(1500,t+0.11);
+    lp.Q.value=0.7;
+    lp.connect(AC.destination);
+    // Asosiy "pop" toni — mayin pasayuvchi sinus
     var o=AC.createOscillator(), g=AC.createGain();
-    o.type="triangle"; o.frequency.setValueAtTime(660,AC.currentTime);
-    o.frequency.exponentialRampToValueAtTime(440,AC.currentTime+0.08);
-    g.gain.setValueAtTime(0.0001,AC.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.18,AC.currentTime+0.008);
-    g.gain.exponentialRampToValueAtTime(0.0001,AC.currentTime+0.12);
-    o.connect(g); g.connect(AC.destination);
-    o.start(); o.stop(AC.currentTime+0.13);
+    o.type="sine"; o.frequency.setValueAtTime(780,t);
+    o.frequency.exponentialRampToValueAtTime(540,t+0.09);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.15,t+0.006);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+0.14);
+    o.connect(g); g.connect(lp);
+    o.start(t); o.stop(t+0.15);
+    // Qisqa yorqin "tiniqlik" qatlami (tap hissi)
+    var o2=AC.createOscillator(), g2=AC.createGain();
+    o2.type="triangle"; o2.frequency.setValueAtTime(1560,t);
+    g2.gain.setValueAtTime(0.0001,t);
+    g2.gain.exponentialRampToValueAtTime(0.05,t+0.004);
+    g2.gain.exponentialRampToValueAtTime(0.0001,t+0.05);
+    o2.connect(g2); g2.connect(lp);
+    o2.start(t); o2.stop(t+0.06);
   }catch(e){}
 }
 function haptic(){ try{ if(tg&&tg.HapticFeedback) tg.HapticFeedback.impactOccurred("light"); }catch(e){} }
