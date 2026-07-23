@@ -138,6 +138,11 @@
   .whub{position:absolute;top:50%;left:50%;width:46px;height:46px;transform:translate(-50%,-50%);
     background:var(--card);border-radius:50%;z-index:2;display:flex;align-items:center;
     justify-content:center;font-size:22px;box-shadow:0 2px 10px rgba(0,0,0,.35)}
+  .hwcard{background:linear-gradient(180deg,var(--card),var(--sec));border-radius:18px;
+    padding:14px 12px 16px;margin-bottom:14px;text-align:center;
+    box-shadow:0 8px 24px -10px rgba(0,0,0,.35);border:1px solid var(--line)}
+  .hwtitle{font-weight:800;font-size:16px}
+  .hwfree{display:block;font-size:12px;color:var(--hint);font-weight:600;margin-top:2px}
   @keyframes appIn{from{opacity:0}to{opacity:1}}
   #app.anim{animation:appIn .22s ease}
   @keyframes spin{to{transform:rotate(360deg)}}
@@ -593,6 +598,7 @@ function renderHome(){
   }).join("");
   app.innerHTML=header()
     +'<div id="bnr">'+bannerHTML()+'</div>'
+    +'<div id="homewheel"></div>'
     +'<div class="muted" style="margin-bottom:10px">'+T('choose')+'</div>'
     +'<div class="grid stg">'+cards+'</div>'
     +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>'
@@ -604,6 +610,7 @@ function renderHome(){
     +  '<button class="btn sec" onclick="go(\'reviews\')">'+T('reviews')+'</button>'
     +  '<button class="btn sec" onclick="go(\'contact\')">'+T('contact')+'</button>'
     +'</div>';
+  paintHomeWheel();
 }
 
 function renderSec(){
@@ -679,7 +686,55 @@ function submitTrial(){
     .catch(function(){ alertMsg(T('err')); });
 }
 // ---- Omad g'ildiragi ----
-var WSEG=[], WROT=0, SPINNING=false, WTIMER=null;
+var WSEG=[], WROT=0, SPINNING=false, WTIMER=null, WSTAT=null;
+function loadWheelStat(cb){
+  var url=marketApi("/wheel"), initData=(tg&&tg.initData)||"";
+  if(!url||!initData){ WSTAT={can:false}; if(cb)cb(); return; }
+  fetch(url+"?initData="+encodeURIComponent(initData))
+    .then(function(r){return r.json();})
+    .then(function(d){ WSTAT=d||{can:false}; if(d&&d.segments)WSEG=d.segments; if(cb)cb(); })
+    .catch(function(){ WSTAT={can:false}; if(cb)cb(); });
+}
+function wheelMarkup(){
+  var n=WSEG.length||1, seg=360/n;
+  var labs=WSEG.map(function(a,i){ var ang=i*seg+seg/2;
+    return '<span class="wlab" style="transform:translate(-50%,-50%) rotate('+ang+'deg) translateY(-84px)">'+nf(a)+'</span>';
+  }).join("");
+  return '<div class="wheelwrap"><div class="wptr"></div>'
+    +'<div class="wheel"><div class="wface" id="wface" style="background:'+wheelBg()+'">'+labs+'</div></div>'
+    +'<div class="whub">🎡</div></div>';
+}
+// Home'dagi doira — faqat aylantirish mumkin bo'lsa chiqadi (aylantirilgach yo'qoladi)
+function paintHomeWheel(){
+  var el=document.getElementById("homewheel"); if(!el) return;
+  if(!WSTAT){ el.innerHTML=""; loadWheelStat(function(){ if(view.name==="home") paintHomeWheel(); }); return; }
+  if(!WSTAT.can || !WSEG.length){ el.innerHTML=""; return; }
+  WROT=0;
+  el.innerHTML='<div class="hwcard">'
+    +'<div class="hwtitle">'+T('wheelT')+'<span class="hwfree">'+esc(T('wheelFree'))+'</span></div>'
+    +wheelMarkup()
+    +'<button class="btn" id="spinbtn" onclick="doSpinHome()">'+T('wheelSpin')+'</button></div>';
+}
+function doSpinHome(){
+  if(SPINNING) return; SPINNING=true;
+  var b=document.getElementById("spinbtn"); if(b){ b.disabled=true; b.style.opacity=".6"; }
+  var url=marketApi("/spin"), initData=(tg&&tg.initData)||"";
+  fetch(url+"?initData="+encodeURIComponent(initData))
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(!(d&&d.ok)){ SPINNING=false; WSTAT={can:false}; paintHomeWheel(); return; }
+      spinTo(d.index);
+      setTimeout(function(){
+        confetti(["🪙","🎉","🎡","✨","🎊"]); setCoins(d.coins);
+        alertMsg(T('wheelWon').replace("{n}", nf(d.prize)));
+        SPINNING=false; WSTAT={can:false};   // aylantirildi -> yo'qoladi
+        var el=document.getElementById("homewheel");
+        if(el){ el.style.transition="opacity .45s,transform .45s"; el.style.opacity="0"; el.style.transform="scale(.9)";
+          setTimeout(function(){ if(view.name==="home") paintHomeWheel(); }, 460); }
+      }, 4600);
+    })
+    .catch(function(){ SPINNING=false; alertMsg(T('err')); });
+}
 var WCOLS=["#7c1c3a","#a83557","#4f46e5","#059669","#d97706","#2563eb","#9333ea","#e11d48"];
 function wheelBg(){
   var n=WSEG.length||1, seg=360/n, st=[], mx=Math.max.apply(null,WSEG.length?WSEG:[0]);
