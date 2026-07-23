@@ -79,6 +79,25 @@
   .cbtn{border:none;background:var(--sec);color:var(--accent);border-radius:8px;
     padding:6px 10px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0}
   .cbtn:active{transform:scale(.9)}
+  .setcard{background:var(--card);border-radius:16px;padding:2px 14px;margin-bottom:12px;
+    box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  .setrow{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:13px 0;border-top:1px solid var(--line)}
+  .setrow:first-child{border-top:none}
+  .setrow .sl{display:flex;align-items:center;gap:12px;font-weight:600;font-size:15px}
+  .setrow .si{font-size:19px;width:24px;text-align:center;flex-shrink:0}
+  .setrow a.slink{color:var(--link);text-decoration:none;font-weight:700;font-size:14px}
+  .seg{display:flex;gap:3px;background:var(--sec);border-radius:12px;padding:3px}
+  .seg button{border:none;background:none;color:var(--text);border-radius:9px;padding:6px 12px;
+    font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;line-height:1}
+  .seg button.on{background:var(--card);color:var(--accent);box-shadow:0 1px 4px rgba(0,0,0,.15)}
+  .sw{width:48px;height:28px;border-radius:20px;background:var(--line);position:relative;
+    cursor:pointer;transition:background .2s;flex-shrink:0}
+  .sw.on{background:var(--accent)}
+  .sw .knob{position:absolute;width:22px;height:22px;top:3px;left:3px;background:#fff;
+    border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.35);transition:transform .2s}
+  .sw.on .knob{transform:translateX(20px)}
+  .appfoot{text-align:center;color:var(--hint);font-size:12px;margin:14px 0 4px;line-height:1.5}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
   .card{background:var(--card);border-radius:16px;padding:16px;cursor:pointer;
         box-shadow:0 1px 4px rgba(0,0,0,.06);transition:transform .08s}
@@ -197,7 +216,7 @@ function toggleSound(){ SOUND=(SOUND==="on")?"off":"on";
 function setTheme(v){ THEME=v; try{localStorage.setItem("ssa_theme",v);}catch(e){} applyTheme(); render(); }
 function setSound(v){ SOUND=v; try{localStorage.setItem("ssa_sound",v);}catch(e){} if(v==="on")beep(); render(); }
 document.addEventListener("click", function(e){
-  var el=e.target.closest && e.target.closest(".btn,.lang,.tab,.card,.back,.rev,.tabitem,.coinchip,.bbtn,.cbtn");
+  var el=e.target.closest && e.target.closest(".btn,.lang,.tab,.card,.back,.rev,.tabitem,.coinchip,.bbtn,.cbtn,.seg,.sw");
   if(el){ beep(); haptic(); }
 }, true);
 
@@ -238,7 +257,7 @@ var UI = {
       yourLink:"🔗 Shaxsiy havolangiz:",shareBtn:"📤 Do'stga ulashish",
       shareText:"🎓 Singapore Skills Academy — farzandingiz kelajagi uchun!\n\n💻 IT · 📖 English · 🔢 Math · 🔬 Science\n🏆 Xalqaro dastur · 🎖 Sertifikat · 👶 5–17 yosh\n\n📱 Havola orqali botni oching — ilovada kurslar, narxlar va sovg'alar bir joyda!\n🎁 Maxsus bonuslar sizni kutmoqda 👇",
       referHow:"Do'stingiz havola orqali botga kirsa — **+5 000 🪙**\nKursga yozilsa — 💻 IT: **+200 000 🪙**, 📚 boshqa fanlar: **+60 000 🪙** 🎉",
-      settings:"⚙️ Sozlamalar",sLang:"🌐 Til",sTheme:"🎨 Ko'rinish",sSound:"🔊 Ovoz",
+      settings:"⚙️ Sozlamalar",sLang:"🌐 Til",sTheme:"🎨 Ko'rinish",sSound:"🔊 Ovoz",sAbout:"Ilova haqida",sInvite:"🎁 Do'stni taklif qilish",
       day:"☀️ Kunduzgi",night:"🌙 Tungi",on:"🔊 Yoniq",off:"🔇 O'chiq",
       norev:"Hali sharhlar yo'q.",per:"oy",err:"Ma'lumot topilmadi. Bot ishga tushirilganini tekshiring."},
   ru:{choose:"Выберите раздел",about:"О курсе",plan:"Учебный план",price:"Цена",faq:"Вопросы",
@@ -262,7 +281,7 @@ var UI = {
       yourLink:"🔗 Ваша персональная ссылка:",shareBtn:"📤 Поделиться с другом",
       shareText:"🎓 Singapore Skills Academy — для будущего вашего ребёнка!\n\n💻 IT · 📖 English · 🔢 Math · 🔬 Science\n🏆 Международная программа · 🎖 Сертификат · 👶 5–17 лет\n\n📱 Откройте бота по ссылке — в приложении курсы, цены и подарки в одном месте!\n🎁 Вас ждут особые бонусы 👇",
       referHow:"Друг зайдёт по ссылке — **+5 000 🪙**\nЗапишется на курс — 💻 IT: **+200 000 🪙**, 📚 другие: **+60 000 🪙** 🎉",
-      settings:"⚙️ Настройки",sLang:"🌐 Язык",sTheme:"🎨 Тема",sSound:"🔊 Звук",
+      settings:"⚙️ Настройки",sLang:"🌐 Язык",sTheme:"🎨 Тема",sSound:"🔊 Звук",sAbout:"О приложении",sInvite:"🎁 Пригласить друга",
       day:"☀️ Светлая",night:"🌙 Тёмная",on:"🔊 Вкл",off:"🔇 Выкл",
       norev:"Отзывов пока нет.",per:"мес",err:"Данные не найдены. Проверьте, запущен ли бот."},
   en:{choose:"Choose a section",about:"About",plan:"Curriculum",price:"Price",faq:"FAQ",
@@ -286,7 +305,7 @@ var UI = {
       yourLink:"🔗 Your personal link:",shareBtn:"📤 Share with a friend",
       shareText:"🎓 Singapore Skills Academy — for your child's future!\n\n💻 IT · 📖 English · 🔢 Math · 🔬 Science\n🏆 International program · 🎖 Certificate · 👶 ages 5–17\n\n📱 Open our bot via the link — courses, prices and gifts all in the app!\n🎁 Special bonuses await you 👇",
       referHow:"Friend joins via your link — **+5 000 🪙**\nEnrolls — 💻 IT: **+200 000 🪙**, 📚 other: **+60 000 🪙** 🎉",
-      settings:"⚙️ Settings",sLang:"🌐 Language",sTheme:"🎨 Theme",sSound:"🔊 Sound",
+      settings:"⚙️ Settings",sLang:"🌐 Language",sTheme:"🎨 Theme",sSound:"🔊 Sound",sAbout:"About",sInvite:"🎁 Invite a friend",
       day:"☀️ Light",night:"🌙 Dark",on:"🔊 On",off:"🔇 Off",
       norev:"No reviews yet.",per:"mo",err:"Data not found. Make sure the bot is running."}
 };
@@ -614,23 +633,45 @@ function renderCabinet(){
 }
 
 function renderSettings(){
-  var top='<button class="back" onclick="go(\'home\')">'+T('back')+'</button>';
-  function opt(active,onclick,label){
-    return '<button class="tab '+(active?'active':'')+'" onclick="'+onclick+'">'+label+'</button>'; }
-  var langRow=["uz","ru","en"].map(function(l){
-    return opt(l===LANG,"setLang('"+l+"')",l.toUpperCase()); }).join(" ");
-  var themeRow=opt(THEME==="light","setTheme('light')",T('day'))+" "
-              +opt(THEME==="dark","setTheme('dark')",T('night'));
-  var soundRow=opt(SOUND==="on","setSound('on')",T('on'))+" "
-              +opt(SOUND==="off","setSound('off')",T('off'));
-  function block(label, row){
-    return '<div class="content" style="margin-bottom:10px">'
-         + '<div class="slbl">'+label+'</div><div class="tabs">'+row+'</div></div>'; }
-  app.innerHTML=header()+top+'<h2>'+T('settings')+'</h2>'
-    +block(T('sLang'), langRow)
-    +block(T('sTheme'), themeRow)
-    +block(T('sSound'), soundRow)
-    +'<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
+  var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
+  var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>'
+    +'<h2>'+T('settings')+'</h2>';
+  function seg(opts){
+    return '<div class="seg">'+opts.map(function(o){
+      return '<button class="'+(o.on?"on":"")+'" onclick="'+o.onclick+'">'+o.label+'</button>';
+    }).join("")+'</div>';
+  }
+  function row(icon,label,ctrl){
+    return '<div class="setrow"><div class="sl"><span class="si">'+icon+'</span><span>'
+      +esc(label)+'</span></div><div class="sr">'+ctrl+'</div></div>';
+  }
+  var langSeg=seg([
+    {on:LANG==="uz",onclick:"setLang('uz')",label:"🇺🇿"},
+    {on:LANG==="ru",onclick:"setLang('ru')",label:"🇷🇺"},
+    {on:LANG==="en",onclick:"setLang('en')",label:"🇬🇧"}]);
+  var themeSeg=seg([
+    {on:THEME==="light",onclick:"setTheme('light')",label:"☀️"},
+    {on:THEME==="dark",onclick:"setTheme('dark')",label:"🌙"}]);
+  var soundSw='<div class="sw'+(SOUND==="on"?" on":"")+'" onclick="toggleSound()"><span class="knob"></span></div>';
+  var settingsCard='<div class="setcard">'
+    +row("🌐", shortName(T('sLang')), langSeg)
+    +row("🎨", shortName(T('sTheme')), themeSeg)
+    +row("🔊", shortName(T('sSound')), soundSw)
+    +'</div>';
+  // Ilova haqida / aloqa
+  var c=(DATA.contact||{});
+  var tgu=String(c.telegram||"").replace("@","");
+  var about='<div class="pcard"><div class="ph">'+esc(T('sAbout'))+'</div>';
+  if(c.phone) about+=row("📞", "Telefon",
+    '<a class="slink" href="tel:'+esc(c.phone.replace(/\s/g,""))+'">'+esc(c.phone)+'</a>');
+  if(c.site) about+=row("🌐", "Sayt",
+    '<a class="slink" target="_blank" href="https://'+esc(c.site.replace(/^https?:\/\//,""))+'">'+esc(c.site)+'</a>');
+  if(c.telegram) about+=row("✈️", "Telegram",
+    '<a class="slink" target="_blank" href="https://t.me/'+esc(tgu)+'">'+esc(c.telegram)+'</a>');
+  about+='</div>';
+  var invite='<button class="btn" onclick="go(\'refer\')">'+T('sInvite')+'</button>';
+  var foot='<div class="appfoot">Singapore Skills Academy<br>Mini App • v1.0</div>';
+  app.innerHTML=head+settingsCard+about+invite+foot+backBtn;
 }
 function myRefLink(){
   var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
