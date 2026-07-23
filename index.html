@@ -120,6 +120,12 @@
     border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.35);transition:transform .2s}
   .sw.on .knob{transform:translateX(20px)}
   .appfoot{text-align:center;color:var(--hint);font-size:12px;margin:14px 0 4px;line-height:1.5}
+  @keyframes appIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  #app.anim{animation:appIn .26s cubic-bezier(.2,.7,.3,1)}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .spin{width:34px;height:34px;border-radius:50%;border:3px solid var(--line);
+    border-top-color:var(--accent);animation:spin .8s linear infinite;margin:44px auto}
+  .card,.rev,.qtile,.pstat,.btn,.coinchip,.iconbtn,.tabitem{will-change:transform}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
   .card{background:var(--card);border-radius:16px;padding:16px;cursor:pointer;
         box-shadow:0 1px 4px rgba(0,0,0,.06);transition:transform .08s}
@@ -182,7 +188,7 @@
 </style>
 </head>
 <body>
-<div class="wrap" id="app"><div class="muted">Yuklanmoqda…</div></div>
+<div class="wrap" id="app"><div class="spin"></div></div>
 <nav class="tabbar" id="tabbar"></nav>
 
 <script>
@@ -396,6 +402,7 @@ function render(){
   else if(view.name==="refer") renderRefer();
   else renderHome();
   paintTabs();
+  try{ app.classList.remove("anim"); void app.offsetWidth; app.classList.add("anim"); }catch(e){}
 }
 
 // Pastki navigatsiya (telefon ilovalari kabi) — 5 ta bo'lim
@@ -670,7 +677,7 @@ function renderCabinet(){
   var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
   var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>';
   if(!api){ cabinetLite(head, backBtn); return; }   // backend yo'q -> lite
-  app.innerHTML=head+'<div class="content muted">'+T('loading')+'</div>'+backBtn;
+  app.innerHTML=head+'<div class="spin"></div>'+backBtn;
   PWSHOW=false;
   var initData=(tg&&tg.initData)||"";
   fetch(api+"?initData="+encodeURIComponent(initData))
@@ -809,7 +816,7 @@ function renderCoins(){
   var coinsUrl=api.replace(/\/cabinet\/?$/,"/coins");
   var initData=(tg&&tg.initData)||"";
   if(!coinsUrl||!initData){ view(0,null); return; }
-  app.innerHTML=head+'<div class="content muted">'+T('loading')+'</div>'+backBtn;
+  app.innerHTML=head+'<div class="spin"></div>'+backBtn;
   fetch(coinsUrl+"?initData="+encodeURIComponent(initData))
     .then(function(r){return r.json();})
     .then(function(d){ if(d&&d.coins!=null)MYCOINS=d.coins; view((d&&d.coins!=null)?d.coins:0, d&&d.rank); })
@@ -820,7 +827,7 @@ function renderCoinTop(){
   var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
   var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>'
     +'<h2>'+T('coinTopTitle')+'</h2>';
-  app.innerHTML=head+'<div class="content muted">⏳…</div>'+backBtn;
+  app.innerHTML=head+'<div class="spin"></div>'+backBtn;
   var api=(DATA.links&&DATA.links.cabinet_api)||"";
   var topUrl=api.replace(/\/cabinet\/?$/,"/top");
   if(!topUrl){ app.innerHTML=head+'<div class="content muted">'+esc(T('coinTopEmpty'))+'</div>'+backBtn; return; }
@@ -881,7 +888,7 @@ function renderMarket(){
   var backBtn='<button class="btn sec" onclick="go(\'coins\')">'+T('back')+'</button>';
   var head=header()+'<button class="back" onclick="go(\'coins\')">'+T('back')+'</button>'
     +'<h2>'+T('marketTitle')+'</h2>';
-  if(!SHOP){ app.innerHTML=head+'<div class="content muted">'+T('loading')+'</div>'+backBtn;
+  if(!SHOP){ app.innerHTML=head+'<div class="spin"></div>'+backBtn;
     loadShop(function(){ if(view.name==="market") renderMarket(); }); return; }
   var bal=SHOP.coins||0, cats=SHOP.cats||[], items=SHOP.items||[];
   var top='<div class="content" style="text-align:center;margin-bottom:12px">'
@@ -904,7 +911,7 @@ function renderMarket(){
 function renderMarketCat(){
   var backBtn='<button class="btn sec" onclick="go(\'market\')">'+T('back')+'</button>';
   var head=header()+'<button class="back" onclick="go(\'market\')">'+T('back')+'</button>';
-  if(!SHOP){ app.innerHTML=head+'<h2>'+T('marketTitle')+'</h2><div class="content muted">'+T('loading')+'</div>'+backBtn;
+  if(!SHOP){ app.innerHTML=head+'<h2>'+T('marketTitle')+'</h2><div class="spin"></div>'+backBtn;
     loadShop(function(){ if(view.name==="marketCat") renderMarketCat(); }); return; }
   var key=view.code, bal=SHOP.coins||0;
   var cat=(SHOP.cats||[]).filter(function(c){return c.key===key;})[0];
@@ -939,7 +946,7 @@ function renderPurchases(){
   var backBtn='<button class="btn sec" onclick="go(\'coins\')">'+T('back')+'</button>';
   var head=header()+'<button class="back" onclick="go(\'coins\')">'+T('back')+'</button>'
     +'<h2>'+T('myBuys')+'</h2>';
-  app.innerHTML=head+'<div class="content muted">'+T('loading')+'</div>'+backBtn;
+  app.innerHTML=head+'<div class="spin"></div>'+backBtn;
   var url=marketApi("/purchases"), initData=(tg&&tg.initData)||"";
   if(!url||!initData){ app.innerHTML=head+'<div class="content muted">'+esc(T('err'))+'</div>'+backBtn; return; }
   fetch(url+"?initData="+encodeURIComponent(initData))
