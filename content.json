@@ -25,7 +25,8 @@
         "#7c1c3a",
         "#b03a5b"
       ],
-      "link": ""
+      "btn": "📞 Bog'lanish",
+      "link": "go:contact"
     },
     {
       "title": "🎁 Do'st taklif qiling",
@@ -35,7 +36,8 @@
         "#4f46e5",
         "#818cf8"
       ],
-      "link": ""
+      "btn": "🎁 Taklif qilish",
+      "link": "go:refer"
     }
   ],
   "contact": {
