@@ -353,6 +353,7 @@ function renderCabinet(){
         add(T('lName'),d.name); add(T('lCourse'),d.course); add(T('lType'),d.type);
         add(T('lLogin'),d.login,true); add(T('lPass'),d.parol,true);
         add(T('lSched'),d.schedule);
+        if(d.coins!=null) rows.push('<div class="row"><b>🪙 Coin:</b> <b>'+d.coins+'</b></div>');
         var c=d.cert; add(T('lCert'), (c && /^https?:/.test(c))? c : (c||T('certNone')));
         body='<div class="content">'+rows.join("")+'</div>'
             +'<button class="btn" onclick="openLmsSite()">'+T('lmsGo')+'</button>';
