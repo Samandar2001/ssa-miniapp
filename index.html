@@ -79,8 +79,8 @@
     box-shadow:0 3px 10px -3px rgba(0,0,0,.35)}
   .banner .bbtn:active{transform:scale(.96)}
   .bdots{display:flex;gap:5px;margin-top:11px}
-  .bdots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.45);
-    transition:width .2s}
+  .bdots span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.45);
+    transition:width .2s;cursor:pointer}
   .bdots span.on{background:#fff;width:16px;border-radius:3px}
   .tabs{display:flex;gap:6px;overflow-x:auto;margin:12px 0 10px;padding-bottom:2px}
   .tabs::-webkit-scrollbar{display:none}
@@ -155,6 +155,21 @@ document.addEventListener("click", function(e){
   var el=e.target.closest && e.target.closest(".btn,.lang,.tab,.card,.back,.rev,.tabitem,.coinchip,.bbtn");
   if(el){ beep(); haptic(); }
 }, true);
+
+// Bannerni barmoq bilan surib almashtirish (swipe)
+var _bnx=null, _bny=null;
+document.addEventListener("touchstart", function(e){
+  var b=e.target.closest && e.target.closest(".banner");
+  if(b && e.touches[0]){ _bnx=e.touches[0].clientX; _bny=e.touches[0].clientY; }
+  else _bnx=null;
+}, {passive:true});
+document.addEventListener("touchend", function(e){
+  if(_bnx===null) return;
+  var t=(e.changedTouches&&e.changedTouches[0]);
+  var dx=t?(t.clientX-_bnx):0, dy=t?(t.clientY-_bny):0;
+  _bnx=null;
+  if(Math.abs(dx)>40 && Math.abs(dx)>Math.abs(dy)){ beep(); haptic(); bannerSwipe(dx<0?1:-1); }
+}, {passive:true});
 
 var UI = {
   uz:{choose:"Bo'limni tanlang",about:"Kurs haqida",plan:"O'quv reja",price:"Narx",faq:"Savol-javob",
@@ -340,12 +355,22 @@ function bannerAction(link){
   if(link.indexOf("go:")===0){ go(link.slice(3)); return; }
   openUrl(link);
 }
+// Qo'lda tanlangan slaydga o'tish
+function bannerGo(k){
+  var bs=banners(); if(!bs.length) return;
+  BIDX=((k%bs.length)+bs.length)%bs.length; paintBanner();
+}
+// Surish (swipe): yo'nalish bo'yicha oldingi/keyingi
+function bannerSwipe(dir){
+  var bs=banners(); if(bs.length<2) return;
+  bannerGo((BIDX%bs.length)+(dir>0?1:-1));
+}
 function bannerHTML(){
   var bs=banners(); if(!bs.length) return "";
   var i=BIDX%bs.length, b=bs[i];
   var g=(b.grad&&b.grad.length>=2)?b.grad:["#7c1c3a","#b03a5b"];
   var dots=bs.length>1?('<div class="bdots">'+bs.map(function(_,k){
-      return '<span class="'+(k===i?"on":"")+'"></span>';}).join("")+'</div>'):"";
+      return '<span class="'+(k===i?"on":"")+'" onclick="event.stopPropagation();bannerGo('+k+')"></span>';}).join("")+'</div>'):"";
   var btn=b.btn?('<button class="bbtn" onclick="event.stopPropagation();bannerAction(\''
       +esc(b.link||"")+'\')">'+esc(b.btn)+'</button>'):"";
   // Knopka bo'lsa — faqat knopka bosiladi; bo'lmasa butun banner bosiladi
