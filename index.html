@@ -129,7 +129,9 @@ var UI = {
       cabHint:"LMS login, parol, dars jadvali va sertifikat — botda ko'rsatiladi 👇",
       top:"🏆 Reyting",topTitle:"🏆 Do'st taklif reytingi",tInv:"taklif",tEnr:"yozildi",
       topEmpty:"Hali reyting bo'sh. Do'st taklif qilib birinchi bo'ling! 🎁",
-      coinTop:"🪙 Coin reyting",coinTopTitle:"🪙 Coin reyting — Top 10",coinTopEmpty:"Hali hech kim coin yig'magan. Birinchi bo'ling! 🪙",coinUnit:"coin",
+      coinTop:"🏆 Coin reyting",coinTopTitle:"🪙 Coin reyting — Top 10",coinTopEmpty:"Hali hech kim coin yig'magan. Birinchi bo'ling! 🪙",coinUnit:"coin",
+      coins:"🪙 Coinlarim",coinsHowT:"Coin qanday to'planadi:",coinsHow:"🎁 Do'st kursga yozilsa — +100\n✍️ Sharh qoldirsangiz — +20\n📝 Sinov darsiga — +30\n📅 Kunlik bonus — +5\n🎮 LMS o'yinlari — tez orada",coinsRank:"📍 Sizning o'rningiz",coinsBotNote:"🎁 Kunlik bonus va 🛒 do'kon — botda",openBotBtn:"🤖 Botni ochish",
+      market:"🛒 Market",marketTitle:"🛒 Coin market",mBuy:"Sotib olish",mHave:"Sizda",mBought:"✅ Xarid muvaffaqiyatli!\n🎟 Kod: {code}\n\nBu kodni administratorga yuboring — sovg'a faollashtiriladi.",mPoor:"❌ Coin yetarli emas. Kerak: {need} 🪙",mEmpty:"Market hozircha bo'sh.",
       refer:"🎁 Do'st taklif qilish",referTitle:"🎁 Do'stingizni taklif qiling",
       yourLink:"🔗 Shaxsiy havolangiz:",shareBtn:"📤 Do'stga ulashish",
       shareText:"Farzandingiz uchun IT, English, Math, Science kurslari! 👇",
@@ -147,7 +149,9 @@ var UI = {
       cabHint:"LMS логин, пароль, расписание и сертификат — в боте 👇",
       top:"🏆 Рейтинг",topTitle:"🏆 Рейтинг приглашений",tInv:"приглашено",tEnr:"записалось",
       topEmpty:"Рейтинг пока пуст. Пригласите друга и станьте первым! 🎁",
-      coinTop:"🪙 Рейтинг коинов",coinTopTitle:"🪙 Рейтинг коинов — Топ 10",coinTopEmpty:"Пока никто не накопил коины. Будьте первым! 🪙",coinUnit:"коинов",
+      coinTop:"🏆 Рейтинг коинов",coinTopTitle:"🪙 Рейтинг коинов — Топ 10",coinTopEmpty:"Пока никто не накопил коины. Будьте первым! 🪙",coinUnit:"коинов",
+      coins:"🪙 Мои коины",coinsHowT:"Как копятся коины:",coinsHow:"🎁 Друг записался — +100\n✍️ Отзыв — +20\n📝 Пробный урок — +30\n📅 Ежедневный бонус — +5\n🎮 LMS-игры — скоро",coinsRank:"📍 Ваше место",coinsBotNote:"🎁 Ежедневный бонус и 🛒 магазин — в боте",openBotBtn:"🤖 Открыть бота",
+      market:"🛒 Магазин",marketTitle:"🛒 Магазин коинов",mBuy:"Купить",mHave:"У вас",mBought:"✅ Покупка совершена!\n🎟 Код: {code}\n\nОтправьте код администратору — подарок активируют.",mPoor:"❌ Недостаточно коинов. Нужно: {need} 🪙",mEmpty:"Магазин пока пуст.",
       refer:"🎁 Пригласить друга",referTitle:"🎁 Пригласите друга",
       yourLink:"🔗 Ваша персональная ссылка:",shareBtn:"📤 Поделиться с другом",
       shareText:"Курсы IT, English, Math, Science для вашего ребёнка! 👇",
@@ -165,7 +169,9 @@ var UI = {
       cabHint:"LMS login, password, schedule and certificate — in the bot 👇",
       top:"🏆 Leaderboard",topTitle:"🏆 Referral leaderboard",tInv:"invited",tEnr:"enrolled",
       topEmpty:"Leaderboard is empty. Invite a friend and be the first! 🎁",
-      coinTop:"🪙 Coin leaderboard",coinTopTitle:"🪙 Coin leaderboard — Top 10",coinTopEmpty:"No one has earned coins yet. Be the first! 🪙",coinUnit:"coins",
+      coinTop:"🏆 Coin leaderboard",coinTopTitle:"🪙 Coin leaderboard — Top 10",coinTopEmpty:"No one has earned coins yet. Be the first! 🪙",coinUnit:"coins",
+      coins:"🪙 My coins",coinsHowT:"How to earn coins:",coinsHow:"🎁 Friend enrolls — +100\n✍️ Review — +20\n📝 Trial lesson — +30\n📅 Daily bonus — +5\n🎮 LMS games — soon",coinsRank:"📍 Your rank",coinsBotNote:"🎁 Daily bonus & 🛒 shop — in the bot",openBotBtn:"🤖 Open bot",
+      market:"🛒 Market",marketTitle:"🛒 Coin market",mBuy:"Buy",mHave:"You have",mBought:"✅ Purchase successful!\n🎟 Code: {code}\n\nSend this code to the administrator to activate your reward.",mPoor:"❌ Not enough coins. Need: {need} 🪙",mEmpty:"Market is empty for now.",
       refer:"🎁 Invite a friend",referTitle:"🎁 Invite your friend",
       yourLink:"🔗 Your personal link:",shareBtn:"📤 Share with a friend",
       shareText:"IT, English, Math, Science courses for your child! 👇",
@@ -233,6 +239,8 @@ function render(){
   if(view.name==="cabinet") return renderCabinet();
   if(view.name==="settings") return renderSettings();
   if(view.name==="top") return renderTop();
+  if(view.name==="coins") return renderCoins();
+  if(view.name==="market") return renderMarket();
   if(view.name==="coinTop") return renderCoinTop();
   if(view.name==="refer") return renderRefer();
   return renderHome();
@@ -253,7 +261,7 @@ function renderHome(){
     +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>'
     +'<button class="btn" onclick="go(\'refer\')">'+T('refer')+'</button>'
     +'<button class="btn sec" onclick="go(\'top\')">'+T('top')+'</button>'
-    +'<button class="btn sec" onclick="go(\'coinTop\')">'+T('coinTop')+'</button>'
+    +'<button class="btn sec" onclick="go(\'coins\')">'+T('coins')+'</button>'
     +'<button class="btn sec" onclick="go(\'reviews\')">'+T('reviews')+'</button>'
     +'<button class="btn sec" onclick="go(\'contact\')">'+T('contact')+'</button>';
 }
@@ -424,6 +432,35 @@ function renderTop(){
   app.innerHTML=header()+top+'<h2>'+T('topTitle')+'</h2>'+body+backBtn;
 }
 
+function renderCoins(){
+  var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
+  var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>'
+    +'<h2>'+T('coins')+'</h2>';
+  function view(bal, rank){
+    var big='<div style="text-align:center;padding:18px 0">'
+      +'<div style="font-size:44px;font-weight:800">🪙 '+bal+'</div>'
+      +'<div class="muted">'+T('coinUnit')+'</div>'
+      +(rank?('<div class="muted" style="margin-top:6px">'+T('coinsRank')+': <b>#'+rank+'</b></div>'):'')
+      +'</div>';
+    var how='<div class="rev"><div class="who">'+T('coinsHowT')+'</div>'
+      +'<div class="muted">'+fmt(T('coinsHow'))+'</div></div>';
+    var note='<div class="content muted" style="text-align:center">'+esc(T('coinsBotNote'))+'</div>';
+    var btns='<button class="btn" onclick="go(\'market\')">'+T('market')+'</button>'
+      +'<button class="btn sec" onclick="go(\'coinTop\')">'+T('coinTop')+'</button>'
+      +'<button class="btn sec" onclick="openBot(\'coins\')">'+T('openBotBtn')+'</button>';
+    app.innerHTML=head+big+how+note+btns+backBtn;
+  }
+  var api=(DATA.links&&DATA.links.cabinet_api)||"";
+  var coinsUrl=api.replace(/\/cabinet\/?$/,"/coins");
+  var initData=(tg&&tg.initData)||"";
+  if(!coinsUrl||!initData){ view(0,null); return; }
+  app.innerHTML=head+'<div class="content muted">'+T('loading')+'</div>'+backBtn;
+  fetch(coinsUrl+"?initData="+encodeURIComponent(initData))
+    .then(function(r){return r.json();})
+    .then(function(d){ view((d&&d.coins!=null)?d.coins:0, d&&d.rank); })
+    .catch(function(){ view(0,null); });
+}
+
 function renderCoinTop(){
   var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
   var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>'
@@ -448,6 +485,50 @@ function renderCoinTop(){
     .catch(function(){ app.innerHTML=head+'<div class="content muted">'+esc(T('coinTopEmpty'))+'</div>'+backBtn; });
 }
 
+function alertMsg(m){
+  try{ if(tg&&tg.showAlert){ tg.showAlert(m); return; } }catch(e){}
+  try{ alert(m); }catch(e){}
+}
+function marketApi(path){
+  var api=(DATA.links&&DATA.links.cabinet_api)||"";
+  return api.replace(/\/cabinet\/?$/,path);
+}
+function renderMarket(){
+  var backBtn='<button class="btn sec" onclick="go(\'coins\')">'+T('back')+'</button>';
+  var head=header()+'<button class="back" onclick="go(\'coins\')">'+T('back')+'</button>'
+    +'<h2>'+T('marketTitle')+'</h2>';
+  app.innerHTML=head+'<div class="content muted">'+T('loading')+'</div>'+backBtn;
+  var url=marketApi("/shop"), initData=(tg&&tg.initData)||"";
+  if(!url||!initData){ app.innerHTML=head+'<div class="content muted">'+esc(T('err'))+'</div>'+backBtn; return; }
+  fetch(url+"?initData="+encodeURIComponent(initData))
+    .then(function(r){return r.json();})
+    .then(function(d){ marketView(head, backBtn, (d&&d.coins)||0, (d&&d.items)||[]); })
+    .catch(function(){ app.innerHTML=head+'<div class="content muted">'+esc(T('err'))+'</div>'+backBtn; });
+}
+function marketView(head, backBtn, bal, items){
+  var top='<div class="content" style="text-align:center;margin-bottom:10px">'
+    +'<b>'+T('mHave')+': 🪙 '+bal+'</b></div>';
+  var cards=items.length?items.map(function(it){
+    var afford=bal>=it.cost;
+    return '<div class="rev"><div class="who">'+it.emoji+' '+esc(it.name)+'</div>'
+      +'<div class="muted" style="margin-bottom:8px">🪙 '+it.cost+' '+T('coinUnit')+'</div>'
+      +'<button class="btn'+(afford?'':' sec')+'" style="margin-top:0" '
+      +(afford?('onclick="buyItem(\''+esc(it.id)+'\')"'):'disabled')+'>'+T('mBuy')+'</button></div>';
+  }).join(""):'<div class="content muted">'+esc(T('mEmpty'))+'</div>';
+  app.innerHTML=head+top+cards+backBtn;
+}
+function buyItem(id){
+  var url=marketApi("/buy"), initData=(tg&&tg.initData)||"";
+  if(!url||!initData) return;
+  fetch(url+"?item="+encodeURIComponent(id)+"&initData="+encodeURIComponent(initData))
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d&&d.ok){ alertMsg(T('mBought').replace("{code}", d.code)); go('market'); }
+      else if(d&&d.error==="poor"){ alertMsg(T('mPoor').replace("{need}", d.need)); }
+      else { alertMsg(T('err')); }
+    })
+    .catch(function(){ alertMsg(T('err')); });
+}
 function go(name,code){ view={name:name,code:code,tab:"about"}; window.scrollTo(0,0); render(); }
 function setTab(t){ view.tab=t; render(); }
 function setLang(l){ LANG=l; try{document.documentElement.lang=l;}catch(e){} render(); }
