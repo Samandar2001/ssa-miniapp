@@ -50,6 +50,11 @@
         border-radius:18px;padding:6px 12px;font-size:14px;font-weight:800;cursor:pointer;
         display:flex;align-items:center;gap:4px;white-space:nowrap}
   .coinchip:active{transform:scale(.95)}
+  .iconbtn{width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;flex-shrink:0;
+        display:flex;align-items:center;justify-content:center;
+        background:var(--sec);color:var(--accent);transition:transform .2s}
+  .iconbtn svg{width:20px;height:20px}
+  .iconbtn:active{transform:rotate(90deg) scale(.9)}
   .phero{position:relative;overflow:hidden;border-radius:18px;padding:18px;margin-bottom:12px;
     color:#fff;background:linear-gradient(135deg,var(--btn),var(--accent));
     box-shadow:0 10px 26px -10px rgba(124,28,58,.6);display:flex;align-items:center;gap:14px}
@@ -216,7 +221,7 @@ function toggleSound(){ SOUND=(SOUND==="on")?"off":"on";
 function setTheme(v){ THEME=v; try{localStorage.setItem("ssa_theme",v);}catch(e){} applyTheme(); render(); }
 function setSound(v){ SOUND=v; try{localStorage.setItem("ssa_sound",v);}catch(e){} if(v==="on")beep(); render(); }
 document.addEventListener("click", function(e){
-  var el=e.target.closest && e.target.closest(".btn,.lang,.tab,.card,.back,.rev,.tabitem,.coinchip,.bbtn,.cbtn,.seg,.sw");
+  var el=e.target.closest && e.target.closest(".btn,.lang,.tab,.card,.back,.rev,.tabitem,.coinchip,.bbtn,.cbtn,.seg,.sw,.iconbtn");
   if(el){ beep(); haptic(); }
 }, true);
 
@@ -320,6 +325,7 @@ var ICONS={
   literacy: SV+'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>',
   it: SV+'<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>'
 };
+var GEAR_SVG=SV+'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>';
 var NAME={math:"Junior Math",english:"Junior English",science:"Junior Science",literacy:"Junior Literacy",it:"IT"};
 var CUR={uz:"so'm",ru:"сум",en:"UZS"};
 
@@ -344,7 +350,7 @@ function nameOf(code){
 }
 
 function header(){
-  var gear='<button class="lang" title="'+T('settings')+'" onclick="go(\'settings\')">⚙️</button>';
+  var gear='<button class="iconbtn" title="'+T('settings')+'" onclick="go(\'settings\')">'+GEAR_SVG+'</button>';
   // Tepa o'ng — coin balans chip'i (bosilsa Coin bo'limi)
   var chip='<button class="coinchip" title="'+T('coins')+'" onclick="go(\'coins\')">🪙 '
           +(MYCOINS!=null?nf(MYCOINS):'—')+'</button>';
