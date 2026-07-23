@@ -125,6 +125,19 @@
     border-radius:12px;padding:12px 14px;font-size:16px;font-family:inherit;outline:none;
     transition:border-color .15s}
   .tform input:focus{border-color:var(--accent)}
+  .wheelwrap{position:relative;width:270px;max-width:80vw;margin:8px auto 16px}
+  .wheel{position:relative;width:100%;padding-top:100%;border-radius:50%;overflow:hidden;
+    border:6px solid var(--card);box-shadow:0 12px 34px -12px rgba(0,0,0,.55)}
+  .wface{position:absolute;inset:0;border-radius:50%;
+    transition:transform 4.4s cubic-bezier(.12,.82,.18,1)}
+  .wlab{position:absolute;top:50%;left:50%;color:#fff;font-weight:800;font-size:13px;
+    white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,.45)}
+  .wptr{position:absolute;top:-4px;left:50%;transform:translateX(-50%);z-index:3;width:0;height:0;
+    border-left:13px solid transparent;border-right:13px solid transparent;
+    border-top:22px solid var(--accent);filter:drop-shadow(0 2px 2px rgba(0,0,0,.35))}
+  .whub{position:absolute;top:50%;left:50%;width:46px;height:46px;transform:translate(-50%,-50%);
+    background:var(--card);border-radius:50%;z-index:2;display:flex;align-items:center;
+    justify-content:center;font-size:22px;box-shadow:0 2px 10px rgba(0,0,0,.35)}
   @keyframes appIn{from{opacity:0}to{opacity:1}}
   #app.anim{animation:appIn .22s ease}
   @keyframes spin{to{transform:rotate(360deg)}}
@@ -318,6 +331,7 @@ var UI = {
       referHow:"Do'stingiz havola orqali botga kirsa — **+5 000 🪙**\nKursga yozilsa — 💻 IT: **+200 000 🪙**, 📚 boshqa fanlar: **+60 000 🪙** 🎉",
       settings:"⚙️ Sozlamalar",sLang:"🌐 Til",sTheme:"🎨 Ko'rinish",sSound:"🔊 Ovoz",sAbout:"Ilova haqida",sInvite:"🎁 Do'stni taklif qilish",
       trialBtn:"🎓 Bepul sinov darsi",trialT:"🎓 Bepul sinov darsi",trialName:"Farzand ismi",trialPhone:"Telefon raqami",trialHint:"Ma'lumotlaringizni qoldiring — biz tez orada bog'lanamiz. Ariza uchun +30 🪙!",trialSend:"📩 Ariza yuborish",trialOk:"✅ Arizangiz qabul qilindi! Tez orada bog'lanamiz.",trialFill:"Iltimos, ism va telefon raqamini to'g'ri kiriting.",
+      wheelBtn:"🎡 Omad g'ildiragi",wheelT:"🎡 Omad g'ildiragi",wheelSpin:"🎯 Aylantirish",wheelWait:"Keyingi aylantirish",wheelWon:"🎉 Tabriklaymiz! Siz {n} 🪙 yutdingiz!",wheelFree:"Bepul • 24 soatda 1 marta",
       day:"☀️ Kunduzgi",night:"🌙 Tungi",on:"🔊 Yoniq",off:"🔇 O'chiq",
       norev:"Hali sharhlar yo'q.",per:"oy",err:"Ma'lumot topilmadi. Bot ishga tushirilganini tekshiring."},
   ru:{choose:"Выберите раздел",about:"О курсе",plan:"Учебный план",price:"Цена",faq:"Вопросы",
@@ -343,6 +357,7 @@ var UI = {
       referHow:"Друг зайдёт по ссылке — **+5 000 🪙**\nЗапишется на курс — 💻 IT: **+200 000 🪙**, 📚 другие: **+60 000 🪙** 🎉",
       settings:"⚙️ Настройки",sLang:"🌐 Язык",sTheme:"🎨 Тема",sSound:"🔊 Звук",sAbout:"О приложении",sInvite:"🎁 Пригласить друга",
       trialBtn:"🎓 Бесплатный пробный урок",trialT:"🎓 Бесплатный пробный урок",trialName:"Имя ребёнка",trialPhone:"Номер телефона",trialHint:"Оставьте свои данные — мы скоро свяжемся. За заявку +30 🪙!",trialSend:"📩 Отправить заявку",trialOk:"✅ Заявка принята! Мы скоро свяжемся.",trialFill:"Пожалуйста, введите имя и номер телефона правильно.",
+      wheelBtn:"🎡 Колесо фортуны",wheelT:"🎡 Колесо фортуны",wheelSpin:"🎯 Крутить",wheelWait:"Следующее вращение",wheelWon:"🎉 Поздравляем! Вы выиграли {n} 🪙!",wheelFree:"Бесплатно • 1 раз в 24 часа",
       day:"☀️ Светлая",night:"🌙 Тёмная",on:"🔊 Вкл",off:"🔇 Выкл",
       norev:"Отзывов пока нет.",per:"мес",err:"Данные не найдены. Проверьте, запущен ли бот."},
   en:{choose:"Choose a section",about:"About",plan:"Curriculum",price:"Price",faq:"FAQ",
@@ -368,6 +383,7 @@ var UI = {
       referHow:"Friend joins via your link — **+5 000 🪙**\nEnrolls — 💻 IT: **+200 000 🪙**, 📚 other: **+60 000 🪙** 🎉",
       settings:"⚙️ Settings",sLang:"🌐 Language",sTheme:"🎨 Theme",sSound:"🔊 Sound",sAbout:"About",sInvite:"🎁 Invite a friend",
       trialBtn:"🎓 Free trial lesson",trialT:"🎓 Free trial lesson",trialName:"Child's name",trialPhone:"Phone number",trialHint:"Leave your details — we'll contact you soon. +30 🪙 for applying!",trialSend:"📩 Send request",trialOk:"✅ Request received! We'll contact you soon.",trialFill:"Please enter a valid name and phone number.",
+      wheelBtn:"🎡 Wheel of Fortune",wheelT:"🎡 Wheel of Fortune",wheelSpin:"🎯 Spin",wheelWait:"Next spin",wheelWon:"🎉 Congratulations! You won {n} 🪙!",wheelFree:"Free • once every 24 hours",
       day:"☀️ Light",night:"🌙 Dark",on:"🔊 On",off:"🔇 Off",
       norev:"No reviews yet.",per:"mo",err:"Data not found. Make sure the bot is running."}
 };
@@ -481,6 +497,7 @@ function render(){
   else if(view.name==="coins") renderCoins();
   else if(view.name==="market") renderMarket();
   else if(view.name==="trial") renderTrial();
+  else if(view.name==="wheel") renderWheel();
   else if(view.name==="marketCat") renderMarketCat();
   else if(view.name==="purchases") renderPurchases();
   else if(view.name==="coinTop") renderCoinTop();
@@ -579,7 +596,10 @@ function renderHome(){
     +'<div class="muted" style="margin-bottom:10px">'+T('choose')+'</div>'
     +'<div class="grid stg">'+cards+'</div>'
     +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>'
-    +'<button class="btn sec" onclick="go(\'trial\')">'+T('trialBtn')+'</button>'
+    +'<div class="rowbtns">'
+    +  '<button class="btn sec" onclick="go(\'trial\')">'+T('trialBtn')+'</button>'
+    +  '<button class="btn sec" onclick="go(\'wheel\')">'+T('wheelBtn')+'</button>'
+    +'</div>'
     +'<div class="rowbtns">'
     +  '<button class="btn sec" onclick="go(\'reviews\')">'+T('reviews')+'</button>'
     +  '<button class="btn sec" onclick="go(\'contact\')">'+T('contact')+'</button>'
@@ -657,6 +677,82 @@ function submitTrial(){
       else alertMsg(T('trialFill'));
     })
     .catch(function(){ alertMsg(T('err')); });
+}
+// ---- Omad g'ildiragi ----
+var WSEG=[], WROT=0, SPINNING=false, WTIMER=null;
+var WCOLS=["#7c1c3a","#a83557","#4f46e5","#059669","#d97706","#2563eb","#9333ea","#e11d48"];
+function wheelBg(){
+  var n=WSEG.length||1, seg=360/n, st=[];
+  for(var i=0;i<n;i++){ st.push(WCOLS[i%WCOLS.length]+" "+(i*seg)+"deg "+((i+1)*seg)+"deg"); }
+  return "conic-gradient("+st.join(",")+")";
+}
+function fmtDur(s){ s=Math.max(0,s|0); var h=(s/3600)|0,m=((s%3600)/60)|0,x=s%60;
+  function p(n){return (n<10?"0":"")+n;} return p(h)+":"+p(m)+":"+p(x); }
+function spinTo(i){
+  var n=WSEG.length||1, seg=360/n;
+  var base=WROT-(WROT%360);
+  var target=base+360*5+(360-(i*seg+seg/2));
+  while(target<=WROT+360*4) target+=360;
+  WROT=target;
+  var f=document.getElementById("wface"); if(f) f.style.transform="rotate("+WROT+"deg)";
+}
+function startWTimer(sec){
+  if(WTIMER) clearInterval(WTIMER);
+  var left=sec|0;
+  WTIMER=setInterval(function(){
+    var el=document.getElementById("wtimer");
+    if(!el||view.name!=="wheel"){ clearInterval(WTIMER); WTIMER=null; return; }
+    left--; if(left<=0){ clearInterval(WTIMER); WTIMER=null; renderWheel(); return; }
+    el.textContent=fmtDur(left);
+  },1000);
+}
+function renderWheel(){
+  var backBtn='<button class="btn sec" onclick="go(\'coins\')">'+T('back')+'</button>';
+  var head=header()+'<button class="back" onclick="go(\'coins\')">'+T('back')+'</button>'
+    +'<h2>'+T('wheelT')+'</h2>';
+  app.innerHTML=head+skel(3)+backBtn;
+  var url=marketApi("/wheel"), initData=(tg&&tg.initData)||"";
+  if(!url||!initData){ app.innerHTML=head+'<div class="content muted">'+esc(T('err'))+'</div>'+backBtn; return; }
+  fetch(url+"?initData="+encodeURIComponent(initData))
+    .then(function(r){return r.json();})
+    .then(function(d){
+      WSEG=(d&&d.segments)||[]; WROT=0;
+      if(d&&d.coins!=null) setCoins(d.coins);
+      var n=WSEG.length||1, seg=360/n;
+      var labs=WSEG.map(function(a,i){
+        var ang=i*seg+seg/2;
+        return '<span class="wlab" style="transform:translate(-50%,-50%) rotate('+ang+'deg) translateY(-84px)">'+nf(a)+'</span>';
+      }).join("");
+      var wheelHtml='<div class="wheelwrap"><div class="wptr"></div>'
+        +'<div class="wheel"><div class="wface" id="wface" style="background:'+wheelBg()+'">'+labs+'</div></div>'
+        +'<div class="whub">🎡</div></div>';
+      var ctrl=(d&&d.can)
+        ? '<button class="btn" id="spinbtn" onclick="doSpin()">'+T('wheelSpin')+'</button>'
+        : '<button class="btn sec" disabled>'+T('wheelWait')+': <span id="wtimer">'+fmtDur(d&&d.wait||0)+'</span></button>';
+      var note='<div class="content muted" style="text-align:center">'+esc(T('wheelFree'))+'</div>';
+      app.innerHTML=head+wheelHtml+ctrl+note+backBtn;
+      if(!(d&&d.can)) startWTimer(d&&d.wait||0);
+    })
+    .catch(function(){ app.innerHTML=head+'<div class="content muted">'+esc(T('err'))+'</div>'+backBtn; });
+}
+function doSpin(){
+  if(SPINNING) return; SPINNING=true;
+  var b=document.getElementById("spinbtn"); if(b){ b.disabled=true; b.style.opacity=".6"; }
+  var url=marketApi("/spin"), initData=(tg&&tg.initData)||"";
+  fetch(url+"?initData="+encodeURIComponent(initData))
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(!(d&&d.ok)){ SPINNING=false; renderWheel(); return; }
+      spinTo(d.index);
+      setTimeout(function(){
+        confetti(["🪙","🎉","🎡","✨","🎊"]);
+        setCoins(d.coins);
+        alertMsg(T('wheelWon').replace("{n}", nf(d.prize)));
+        SPINNING=false;
+        if(view.name==="wheel") renderWheel();
+      }, 4600);
+    })
+    .catch(function(){ SPINNING=false; alertMsg(T('err')); });
 }
 function renderReviews(){
   var rv=DATA.reviews||[];
@@ -923,6 +1019,7 @@ function renderCoins(){
     var how='<div class="rev"><div class="who">'+T('coinsHowT')+'</div>'
       +'<div class="muted">'+fmt(T('coinsHow'))+'</div></div>';
     var btns='<button class="btn" onclick="go(\'market\')">'+T('market')+'</button>'
+      +'<button class="btn sec" onclick="go(\'wheel\')">'+T('wheelBtn')+'</button>'
       +'<div class="rowbtns">'
       +  '<button class="btn sec" onclick="go(\'purchases\')">'+T('myBuys')+'</button>'
       +  '<button class="btn sec" onclick="go(\'coinTop\')">'+T('coinTop')+'</button>'
