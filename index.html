@@ -129,6 +129,7 @@ var UI = {
       cabHint:"LMS login, parol, dars jadvali va sertifikat — botda ko'rsatiladi 👇",
       top:"🏆 Reyting",topTitle:"🏆 Do'st taklif reytingi",tInv:"taklif",tEnr:"yozildi",
       topEmpty:"Hali reyting bo'sh. Do'st taklif qilib birinchi bo'ling! 🎁",
+      coinTop:"🪙 Coin reyting",coinTopTitle:"🪙 Coin reyting — Top 10",coinTopEmpty:"Hali hech kim coin yig'magan. Birinchi bo'ling! 🪙",coinUnit:"coin",
       refer:"🎁 Do'st taklif qilish",referTitle:"🎁 Do'stingizni taklif qiling",
       yourLink:"🔗 Shaxsiy havolangiz:",shareBtn:"📤 Do'stga ulashish",
       shareText:"Farzandingiz uchun IT, English, Math, Science kurslari! 👇",
@@ -146,6 +147,7 @@ var UI = {
       cabHint:"LMS логин, пароль, расписание и сертификат — в боте 👇",
       top:"🏆 Рейтинг",topTitle:"🏆 Рейтинг приглашений",tInv:"приглашено",tEnr:"записалось",
       topEmpty:"Рейтинг пока пуст. Пригласите друга и станьте первым! 🎁",
+      coinTop:"🪙 Рейтинг коинов",coinTopTitle:"🪙 Рейтинг коинов — Топ 10",coinTopEmpty:"Пока никто не накопил коины. Будьте первым! 🪙",coinUnit:"коинов",
       refer:"🎁 Пригласить друга",referTitle:"🎁 Пригласите друга",
       yourLink:"🔗 Ваша персональная ссылка:",shareBtn:"📤 Поделиться с другом",
       shareText:"Курсы IT, English, Math, Science для вашего ребёнка! 👇",
@@ -163,6 +165,7 @@ var UI = {
       cabHint:"LMS login, password, schedule and certificate — in the bot 👇",
       top:"🏆 Leaderboard",topTitle:"🏆 Referral leaderboard",tInv:"invited",tEnr:"enrolled",
       topEmpty:"Leaderboard is empty. Invite a friend and be the first! 🎁",
+      coinTop:"🪙 Coin leaderboard",coinTopTitle:"🪙 Coin leaderboard — Top 10",coinTopEmpty:"No one has earned coins yet. Be the first! 🪙",coinUnit:"coins",
       refer:"🎁 Invite a friend",referTitle:"🎁 Invite your friend",
       yourLink:"🔗 Your personal link:",shareBtn:"📤 Share with a friend",
       shareText:"IT, English, Math, Science courses for your child! 👇",
@@ -230,6 +233,7 @@ function render(){
   if(view.name==="cabinet") return renderCabinet();
   if(view.name==="settings") return renderSettings();
   if(view.name==="top") return renderTop();
+  if(view.name==="coinTop") return renderCoinTop();
   if(view.name==="refer") return renderRefer();
   return renderHome();
 }
@@ -249,6 +253,7 @@ function renderHome(){
     +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>'
     +'<button class="btn" onclick="go(\'refer\')">'+T('refer')+'</button>'
     +'<button class="btn sec" onclick="go(\'top\')">'+T('top')+'</button>'
+    +'<button class="btn sec" onclick="go(\'coinTop\')">'+T('coinTop')+'</button>'
     +'<button class="btn sec" onclick="go(\'reviews\')">'+T('reviews')+'</button>'
     +'<button class="btn sec" onclick="go(\'contact\')">'+T('contact')+'</button>';
 }
@@ -417,6 +422,30 @@ function renderTop(){
       }).join("")
     : '<div class="content muted">'+esc(T('topEmpty'))+'</div>';
   app.innerHTML=header()+top+'<h2>'+T('topTitle')+'</h2>'+body+backBtn;
+}
+
+function renderCoinTop(){
+  var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
+  var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>'
+    +'<h2>'+T('coinTopTitle')+'</h2>';
+  app.innerHTML=head+'<div class="content muted">⏳…</div>'+backBtn;
+  var api=(DATA.links&&DATA.links.cabinet_api)||"";
+  var topUrl=api.replace(/\/cabinet\/?$/,"/top");
+  if(!topUrl){ app.innerHTML=head+'<div class="content muted">'+esc(T('coinTopEmpty'))+'</div>'+backBtn; return; }
+  fetch(topUrl+"?_="+Date.now())
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      var lb=(d&&d.top)||[]; var medals=["🥇","🥈","🥉"];
+      var body = lb.length
+        ? lb.map(function(r,i){
+            var rank=(i<3)?medals[i]:('<b>#'+(i+1)+'</b>');
+            return '<div class="rev"><div class="who">'+rank+' '+esc(r.name||'Anonim')+'</div>'
+              +'<div class="muted">🪙 <b>'+r.coins+'</b> '+T('coinUnit')+'</div></div>';
+          }).join("")
+        : '<div class="content muted">'+esc(T('coinTopEmpty'))+'</div>';
+      app.innerHTML=head+body+backBtn;
+    })
+    .catch(function(){ app.innerHTML=head+'<div class="content muted">'+esc(T('coinTopEmpty'))+'</div>'+backBtn; });
 }
 
 function go(name,code){ view={name:name,code:code,tab:"about"}; window.scrollTo(0,0); render(); }
