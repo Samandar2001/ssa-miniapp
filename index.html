@@ -366,7 +366,7 @@ function renderCabinet(){
         add(T('lName'),d.name); add(T('lCourse'),d.course); add(T('lType'),d.type);
         add(T('lLogin'),d.login,true); add(T('lPass'),d.parol,true);
         add(T('lSched'),d.schedule);
-        if(d.coins!=null) rows.push('<div class="row"><b>🪙 Coin:</b> <b>'+d.coins+'</b></div>');
+        if(d.coins!=null) rows.push('<div class="row"><b>🪙 Coin:</b> <b>'+d.coins+'</b> = '+money(d.coins)+'</div>');
         var c=d.cert; add(T('lCert'), (c && /^https?:/.test(c))? c : (c||T('certNone')));
         body='<div class="content">'+rows.join("")+'</div>'
             +'<button class="btn" onclick="openLmsSite()">'+T('lmsGo')+'</button>';
@@ -439,7 +439,7 @@ function renderCoins(){
   function view(bal, rank){
     var big='<div style="text-align:center;padding:18px 0">'
       +'<div style="font-size:44px;font-weight:800">🪙 '+bal+'</div>'
-      +'<div class="muted">'+T('coinUnit')+'</div>'
+      +'<div class="muted">'+T('coinUnit')+' = '+money(bal)+'</div>'
       +(rank?('<div class="muted" style="margin-top:6px">'+T('coinsRank')+': <b>#'+rank+'</b></div>'):'')
       +'</div>';
     var how='<div class="rev"><div class="who">'+T('coinsHowT')+'</div>'
@@ -477,7 +477,7 @@ function renderCoinTop(){
         ? lb.map(function(r,i){
             var rank=(i<3)?medals[i]:('<b>#'+(i+1)+'</b>');
             return '<div class="rev"><div class="who">'+rank+' '+esc(r.name||'Anonim')+'</div>'
-              +'<div class="muted">🪙 <b>'+r.coins+'</b> '+T('coinUnit')+'</div></div>';
+              +'<div class="muted">🪙 <b>'+r.coins+'</b> = '+money(r.coins)+'</div></div>';
           }).join("")
         : '<div class="content muted">'+esc(T('coinTopEmpty'))+'</div>';
       app.innerHTML=head+body+backBtn;
@@ -507,11 +507,11 @@ function renderMarket(){
 }
 function marketView(head, backBtn, bal, items){
   var top='<div class="content" style="text-align:center;margin-bottom:10px">'
-    +'<b>'+T('mHave')+': 🪙 '+bal+'</b></div>';
+    +'<b>'+T('mHave')+': 🪙 '+bal+' = '+money(bal)+'</b></div>';
   var cards=items.length?items.map(function(it){
     var afford=bal>=it.cost;
     return '<div class="rev"><div class="who">'+it.emoji+' '+esc(it.name)+'</div>'
-      +'<div class="muted" style="margin-bottom:8px">🪙 '+it.cost+' '+T('coinUnit')+'</div>'
+      +'<div class="muted" style="margin-bottom:8px">🪙 '+it.cost+' = '+money(it.cost)+'</div>'
       +'<button class="btn'+(afford?'':' sec')+'" style="margin-top:0" '
       +(afford?('onclick="buyItem(\''+esc(it.id)+'\')"'):'disabled')+'>'+T('mBuy')+'</button></div>';
   }).join(""):'<div class="content muted">'+esc(T('mEmpty'))+'</div>';
