@@ -120,6 +120,11 @@
     border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.35);transition:transform .2s}
   .sw.on .knob{transform:translateX(20px)}
   .appfoot{text-align:center;color:var(--hint);font-size:12px;margin:14px 0 4px;line-height:1.5}
+  .tform label{display:block;font-size:12px;color:var(--hint);font-weight:600;margin:12px 0 5px}
+  .tform input{width:100%;border:1px solid var(--line);background:var(--sec);color:var(--text);
+    border-radius:12px;padding:12px 14px;font-size:16px;font-family:inherit;outline:none;
+    transition:border-color .15s}
+  .tform input:focus{border-color:var(--accent)}
   @keyframes appIn{from{opacity:0}to{opacity:1}}
   #app.anim{animation:appIn .22s ease}
   @keyframes spin{to{transform:rotate(360deg)}}
@@ -312,6 +317,7 @@ var UI = {
       shareText:"🎓 Singapore Skills Academy — farzandingiz kelajagi uchun!\n\n💻 IT · 📖 English · 🔢 Math · 🔬 Science\n🏆 Xalqaro dastur · 🎖 Sertifikat · 👶 5–17 yosh\n\n📱 Havola orqali botni oching — ilovada kurslar, narxlar va sovg'alar bir joyda!\n🎁 Maxsus bonuslar sizni kutmoqda 👇",
       referHow:"Do'stingiz havola orqali botga kirsa — **+5 000 🪙**\nKursga yozilsa — 💻 IT: **+200 000 🪙**, 📚 boshqa fanlar: **+60 000 🪙** 🎉",
       settings:"⚙️ Sozlamalar",sLang:"🌐 Til",sTheme:"🎨 Ko'rinish",sSound:"🔊 Ovoz",sAbout:"Ilova haqida",sInvite:"🎁 Do'stni taklif qilish",
+      trialBtn:"🎓 Bepul sinov darsi",trialT:"🎓 Bepul sinov darsi",trialName:"Farzand ismi",trialPhone:"Telefon raqami",trialHint:"Ma'lumotlaringizni qoldiring — biz tez orada bog'lanamiz. Ariza uchun +30 🪙!",trialSend:"📩 Ariza yuborish",trialOk:"✅ Arizangiz qabul qilindi! Tez orada bog'lanamiz.",trialFill:"Iltimos, ism va telefon raqamini to'g'ri kiriting.",
       day:"☀️ Kunduzgi",night:"🌙 Tungi",on:"🔊 Yoniq",off:"🔇 O'chiq",
       norev:"Hali sharhlar yo'q.",per:"oy",err:"Ma'lumot topilmadi. Bot ishga tushirilganini tekshiring."},
   ru:{choose:"Выберите раздел",about:"О курсе",plan:"Учебный план",price:"Цена",faq:"Вопросы",
@@ -336,6 +342,7 @@ var UI = {
       shareText:"🎓 Singapore Skills Academy — для будущего вашего ребёнка!\n\n💻 IT · 📖 English · 🔢 Math · 🔬 Science\n🏆 Международная программа · 🎖 Сертификат · 👶 5–17 лет\n\n📱 Откройте бота по ссылке — в приложении курсы, цены и подарки в одном месте!\n🎁 Вас ждут особые бонусы 👇",
       referHow:"Друг зайдёт по ссылке — **+5 000 🪙**\nЗапишется на курс — 💻 IT: **+200 000 🪙**, 📚 другие: **+60 000 🪙** 🎉",
       settings:"⚙️ Настройки",sLang:"🌐 Язык",sTheme:"🎨 Тема",sSound:"🔊 Звук",sAbout:"О приложении",sInvite:"🎁 Пригласить друга",
+      trialBtn:"🎓 Бесплатный пробный урок",trialT:"🎓 Бесплатный пробный урок",trialName:"Имя ребёнка",trialPhone:"Номер телефона",trialHint:"Оставьте свои данные — мы скоро свяжемся. За заявку +30 🪙!",trialSend:"📩 Отправить заявку",trialOk:"✅ Заявка принята! Мы скоро свяжемся.",trialFill:"Пожалуйста, введите имя и номер телефона правильно.",
       day:"☀️ Светлая",night:"🌙 Тёмная",on:"🔊 Вкл",off:"🔇 Выкл",
       norev:"Отзывов пока нет.",per:"мес",err:"Данные не найдены. Проверьте, запущен ли бот."},
   en:{choose:"Choose a section",about:"About",plan:"Curriculum",price:"Price",faq:"FAQ",
@@ -360,6 +367,7 @@ var UI = {
       shareText:"🎓 Singapore Skills Academy — for your child's future!\n\n💻 IT · 📖 English · 🔢 Math · 🔬 Science\n🏆 International program · 🎖 Certificate · 👶 ages 5–17\n\n📱 Open our bot via the link — courses, prices and gifts all in the app!\n🎁 Special bonuses await you 👇",
       referHow:"Friend joins via your link — **+5 000 🪙**\nEnrolls — 💻 IT: **+200 000 🪙**, 📚 other: **+60 000 🪙** 🎉",
       settings:"⚙️ Settings",sLang:"🌐 Language",sTheme:"🎨 Theme",sSound:"🔊 Sound",sAbout:"About",sInvite:"🎁 Invite a friend",
+      trialBtn:"🎓 Free trial lesson",trialT:"🎓 Free trial lesson",trialName:"Child's name",trialPhone:"Phone number",trialHint:"Leave your details — we'll contact you soon. +30 🪙 for applying!",trialSend:"📩 Send request",trialOk:"✅ Request received! We'll contact you soon.",trialFill:"Please enter a valid name and phone number.",
       day:"☀️ Light",night:"🌙 Dark",on:"🔊 On",off:"🔇 Off",
       norev:"No reviews yet.",per:"mo",err:"Data not found. Make sure the bot is running."}
 };
@@ -472,6 +480,7 @@ function render(){
   else if(view.name==="top") renderTop();
   else if(view.name==="coins") renderCoins();
   else if(view.name==="market") renderMarket();
+  else if(view.name==="trial") renderTrial();
   else if(view.name==="marketCat") renderMarketCat();
   else if(view.name==="purchases") renderPurchases();
   else if(view.name==="coinTop") renderCoinTop();
@@ -570,6 +579,7 @@ function renderHome(){
     +'<div class="muted" style="margin-bottom:10px">'+T('choose')+'</div>'
     +'<div class="grid stg">'+cards+'</div>'
     +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>'
+    +'<button class="btn sec" onclick="go(\'trial\')">'+T('trialBtn')+'</button>'
     +'<div class="rowbtns">'
     +  '<button class="btn sec" onclick="go(\'reviews\')">'+T('reviews')+'</button>'
     +  '<button class="btn sec" onclick="go(\'contact\')">'+T('contact')+'</button>'
@@ -616,6 +626,38 @@ function renderContact(){
     +'<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
 }
 
+function renderTrial(){
+  var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
+  var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>'
+    +'<h2>'+T('trialT')+'</h2>';
+  var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
+  var nm=((u.first_name||"")+" "+(u.last_name||"")).trim();
+  var form='<div class="pcard" style="padding:6px 14px 16px"><div class="tform">'
+    +'<label>'+esc(T('trialName'))+'</label>'
+    +'<input id="tName" type="text" value="'+esc(nm)+'" placeholder="'+esc(T('trialName'))+'">'
+    +'<label>'+esc(T('trialPhone'))+'</label>'
+    +'<input id="tPhone" type="tel" inputmode="tel" placeholder="+998 ..">'
+    +'</div></div>'
+    +'<div class="content muted">'+esc(T('trialHint'))+'</div>'
+    +'<button class="btn" onclick="submitTrial()">'+T('trialSend')+'</button>';
+  app.innerHTML=head+form+backBtn;
+}
+function submitTrial(){
+  var ne=document.getElementById("tName"), pe=document.getElementById("tPhone");
+  var name=(ne&&ne.value||"").trim(), phone=(pe&&pe.value||"").trim();
+  if(!name || phone.replace(/\D/g,"").length<7){ alertMsg(T('trialFill')); return; }
+  var url=marketApi("/trial"), initData=(tg&&tg.initData)||"";
+  if(!url||!initData){ alertMsg(T('err')); return; }
+  fetch(url+"?name="+encodeURIComponent(name)+"&phone="+encodeURIComponent(phone)
+        +"&initData="+encodeURIComponent(initData))
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d&&d.ok){ confetti(["🎓","🎉","✨","📚"]); if(d.coins!=null) setCoins(d.coins);
+        alertMsg(T('trialOk')); go("home"); }
+      else alertMsg(T('trialFill'));
+    })
+    .catch(function(){ alertMsg(T('err')); });
+}
 function renderReviews(){
   var rv=DATA.reviews||[];
   var body=rv.length?rv.map(function(r){
