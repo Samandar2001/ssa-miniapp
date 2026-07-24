@@ -338,7 +338,7 @@ document.addEventListener("touchend", function(e){
 
 var UI = {
   uz:{choose:"Bo'limni tanlang",about:"Kurs haqida",plan:"O'quv reja",price:"Narx",faq:"Savol-javob",
-      enroll:"📝 Kursga yozilish",contact:"📞 Bog'lanish",reviews:"⭐ Sharhlar",back:"‹ Orqaga",bookBtn:"📖 Kitobni ochish",
+      enroll:"📝 Kursga yozilish",contact:"📞 Bog'lanish",reviews:"⭐ Sharhlar",back:"‹ Orqaga",bookBtn:"📖 Kitobni ochish",adminPanel:"🛡 Admin panel",admStat:"📊 Statistika",admOrders:"🎟 Buyurtmalar",admTrials:"📝 Sinov arizalari",admBot:"🤖 Coin berish / Xabar (botда)",admDone:"✅ Berildi",admEmpty:"Bo'sh",
       addrev:"✍️ Sharh qoldirish",cabinet:"📱 Shaxsiy kabinet",loading:"Yuklanmoqda…",
       lName:"👤 Farzand",lCourse:"📚 Kurs",lType:"🏷 Yo'nalish",lLogin:"🔐 LMS login",lPass:"🔑 Parol",
       lSched:"📅 Dars jadvali",lCert:"🎓 Sertifikat",certNone:"hali tayyor emas",lmsGo:"🌐 LMS saytiga kirish",
@@ -365,7 +365,7 @@ var UI = {
       day:"☀️ Kunduzgi",night:"🌙 Tungi",on:"🔊 Yoniq",off:"🔇 O'chiq",
       norev:"Hali sharhlar yo'q.",per:"oy",err:"Ma'lumot topilmadi. Bot ishga tushirilganini tekshiring."},
   ru:{choose:"Выберите раздел",about:"О курсе",plan:"Учебный план",price:"Цена",faq:"Вопросы",
-      enroll:"📝 Записаться",contact:"📞 Связаться",reviews:"⭐ Отзывы",back:"‹ Назад",bookBtn:"📖 Открыть книгу",
+      enroll:"📝 Записаться",contact:"📞 Связаться",reviews:"⭐ Отзывы",back:"‹ Назад",bookBtn:"📖 Открыть книгу",adminPanel:"🛡 Админ-панель",admStat:"📊 Статистика",admOrders:"🎟 Заказы",admTrials:"📝 Заявки на пробный",admBot:"🤖 Коины / Рассылка (в боте)",admDone:"✅ Выдано",admEmpty:"Пусто",
       addrev:"✍️ Оставить отзыв",cabinet:"📱 Личный кабинет",loading:"Загрузка…",
       lName:"👤 Ребёнок",lCourse:"📚 Курс",lType:"🏷 Направление",lLogin:"🔐 LMS логин",lPass:"🔑 Пароль",
       lSched:"📅 Расписание",lCert:"🎓 Сертификат",certNone:"ещё не готов",lmsGo:"🌐 Войти на LMS",
@@ -392,7 +392,7 @@ var UI = {
       day:"☀️ Светлая",night:"🌙 Тёмная",on:"🔊 Вкл",off:"🔇 Выкл",
       norev:"Отзывов пока нет.",per:"мес",err:"Данные не найдены. Проверьте, запущен ли бот."},
   en:{choose:"Choose a section",about:"About",plan:"Curriculum",price:"Price",faq:"FAQ",
-      enroll:"📝 Enroll",contact:"📞 Contact",reviews:"⭐ Reviews",back:"‹ Back",bookBtn:"📖 Open the book",
+      enroll:"📝 Enroll",contact:"📞 Contact",reviews:"⭐ Reviews",back:"‹ Back",bookBtn:"📖 Open the book",adminPanel:"🛡 Admin panel",admStat:"📊 Statistics",admOrders:"🎟 Orders",admTrials:"📝 Trial requests",admBot:"🤖 Give coins / Broadcast (in bot)",admDone:"✅ Delivered",admEmpty:"Empty",
       addrev:"✍️ Leave a review",cabinet:"📱 My account",loading:"Loading…",
       lName:"👤 Child",lCourse:"📚 Course",lType:"🏷 Track",lLogin:"🔐 LMS login",lPass:"🔑 Password",
       lSched:"📅 Schedule",lCert:"🎓 Certificate",certNone:"not ready yet",lmsGo:"🌐 Go to LMS",
@@ -434,7 +434,7 @@ var GEAR_SVG=SV+'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 
 var NAME={math:"Junior Math",english:"Junior English",science:"Junior Science",literacy:"Junior Literacy",it:"IT"};
 var CUR={uz:"so'm",ru:"сум",en:"UZS"};
 
-var DATA=null, LANG="uz", DAILY=null, MYCOINS=null, COINDISP=null;
+var DATA=null, LANG="uz", DAILY=null, MYCOINS=null, COINDISP=null, IS_ADMIN=false;
 var view={name:"home"};           // {name:'home'|'sec'|'contact'|'reviews', code, tab}
 var app=document.getElementById('app');
 
@@ -530,6 +530,10 @@ function render(){
   else if(view.name==="market") renderMarket();
   else if(view.name==="trial") renderTrial();
   else if(view.name==="wheel") renderWheel();
+  else if(view.name==="admin") renderAdmin();
+  else if(view.name==="admStat") renderAdminStat();
+  else if(view.name==="admOrders") renderAdminOrders();
+  else if(view.name==="admTrials") renderAdminTrials();
   else if(view.name==="marketCat") renderMarketCat();
   else if(view.name==="purchases") renderPurchases();
   else if(view.name==="coinTop") renderCoinTop();
@@ -833,6 +837,74 @@ function doSpin(){
     })
     .catch(function(){ SPINNING=false; alertMsg(T('err')); });
 }
+// ---- Admin panel ----
+function adminHead(title,back){
+  return header()+'<button class="back" onclick="go(\''+back+'\')">'+T('back')+'</button><h2>'+esc(title)+'</h2>';
+}
+function adminFetch(path,cb){
+  var url=marketApi(path), initData=(tg&&tg.initData)||"";
+  fetch(url+(path.indexOf("?")<0?"?":"&")+"initData="+encodeURIComponent(initData))
+    .then(function(r){return r.json();}).then(cb).catch(function(){ cb(null); });
+}
+function renderAdmin(){
+  if(!IS_ADMIN){ go("home"); return; }
+  var backBtn='<button class="btn sec" onclick="go(\'settings\')">'+T('back')+'</button>';
+  app.innerHTML=adminHead(T('adminPanel'),"settings")
+    +'<button class="btn" onclick="go(\'admStat\')">'+T('admStat')+'</button>'
+    +'<button class="btn" onclick="go(\'admOrders\')">'+T('admOrders')+'</button>'
+    +'<button class="btn" onclick="go(\'admTrials\')">'+T('admTrials')+'</button>'
+    +'<button class="btn sec" onclick="openBot()">'+T('admBot')+'</button>'+backBtn;
+}
+function renderAdminStat(){
+  if(!IS_ADMIN){ go("home"); return; }
+  var backBtn='<button class="btn sec" onclick="go(\'admin\')">'+T('back')+'</button>';
+  var head=adminHead(T('admStat'),"admin");
+  app.innerHTML=head+skel(3)+backBtn;
+  adminFetch("/admin/stat",function(d){
+    if(!d||d.error){ app.innerHTML=head+'<div class="content muted">'+esc(T('err'))+'</div>'+backBtn; return; }
+    function r(l,v){ return '<div class="crow"><span class="cl">'+l+'</span><span class="cv">'+v+'</span></div>'; }
+    app.innerHTML=head+'<div class="pcard">'
+      +r("👥 Users",d.users)+r("🪙 Coin",d.coin_users)+r("🪙 Jami",nf(d.total_coins))
+      +r("🎁 Referral",d.invited)+r("🎟 Buyurtma",d.pending)+r("📝 Sinov",d.trials)
+      +'</div>'+backBtn;
+  });
+}
+function renderAdminOrders(){
+  if(!IS_ADMIN){ go("home"); return; }
+  var backBtn='<button class="btn sec" onclick="go(\'admin\')">'+T('back')+'</button>';
+  var head=adminHead(T('admOrders'),"admin");
+  app.innerHTML=head+skel(4)+backBtn;
+  adminFetch("/admin/orders",function(d){
+    var list=(d&&d.orders)||[];
+    var body=list.length?list.map(function(o){
+      return '<div class="rev"><div class="who">'+(o.emoji||"🎁")+' '+esc(o.name)+'</div>'
+        +'<div class="muted">👤 '+esc(o.who)+' · 🪙 '+nf(o.cost)+' · '+esc(o.date)+'</div>'
+        +'<div class="muted" style="margin:4px 0">🎟 <b>'+esc(o.code)+'</b> · 🆔 '+esc(String(o.uid))+'</div>'
+        +'<button class="btn" style="margin-top:4px" onclick="admRedeem(\''+esc(o.code)+'\')">'+T('admDone')+'</button></div>';
+    }).join(""):'<div class="content muted">'+esc(T('admEmpty'))+'</div>';
+    app.innerHTML=head+'<div class="stg">'+body+'</div>'+backBtn;
+  });
+}
+function admRedeem(code){
+  adminFetch("/admin/redeem?code="+encodeURIComponent(code),function(d){
+    if(d&&d.ok){ haptic(); confetti(["✅","🎉"]); }
+    renderAdminOrders();
+  });
+}
+function renderAdminTrials(){
+  if(!IS_ADMIN){ go("home"); return; }
+  var backBtn='<button class="btn sec" onclick="go(\'admin\')">'+T('back')+'</button>';
+  var head=adminHead(T('admTrials'),"admin");
+  app.innerHTML=head+skel(4)+backBtn;
+  adminFetch("/admin/trials",function(d){
+    var list=(d&&d.trials)||[];
+    var body=list.length?list.map(function(t){
+      return '<div class="rev"><div class="who">👤 '+esc(t.name||"")+'</div>'
+        +'<div class="muted">📞 '+esc(t.phone||"")+' · '+esc(t.date||"")+' · 🆔 '+esc(String(t.uid||""))+'</div></div>';
+    }).join(""):'<div class="content muted">'+esc(T('admEmpty'))+'</div>';
+    app.innerHTML=head+'<div class="stg">'+body+'</div>'+backBtn;
+  });
+}
 function renderReviews(){
   var rv=DATA.reviews||[];
   var body=rv.length?rv.map(function(r){
@@ -1052,8 +1124,9 @@ function renderSettings(){
     '<a class="slink" target="_blank" href="https://t.me/'+esc(tgu)+'">'+esc(c.telegram)+'</a>');
   about+='</div>';
   var invite='<button class="btn" onclick="go(\'refer\')">'+T('sInvite')+'</button>';
+  var adminBtn=IS_ADMIN?('<button class="btn" style="background:linear-gradient(135deg,#334155,#0f172a)" onclick="go(\'admin\')">'+T('adminPanel')+'</button>'):'';
   var foot='<div class="appfoot">Singapore Skills Academy<br>Mini App • v1.0</div>';
-  app.innerHTML=head+settingsCard+about+invite+foot+backBtn;
+  app.innerHTML=head+settingsCard+about+invite+adminBtn+foot+backBtn;
 }
 function myRefLink(){
   var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
@@ -1189,6 +1262,7 @@ function claimDaily(){
     .then(function(r){return r.json();})
     .then(function(d){
       DAILY=d;
+      if(d&&d.admin) IS_ADMIN=true;
       render();   // bonus kartani hamma joyda yangilash
       if(d&&d.claimed){
         confetti(["🪙","🎉","🎁","⭐"]);
