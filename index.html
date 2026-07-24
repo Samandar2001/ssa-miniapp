@@ -1192,8 +1192,10 @@ function claimDaily(){
     .catch(function(){});
 }
 var SHOP=null;   // {coins, items, cats}
-var CATICON={all:"🎁",junior:"📚",it:"💻"};
-var CATCOL={all:["#fb7185","#e11d48"],junior:["#60a5fa","#2563eb"],it:["#818cf8","#4f46e5"]};
+var CATICON={all:"🎁",junior:"📚",it:"💻",phone:"📱",tv:"📺",pc:"🖥️",watch:"⌚",laptop:"💻"};
+var CATCOL={all:["#fb7185","#e11d48"],junior:["#60a5fa","#2563eb"],it:["#818cf8","#4f46e5"],
+  phone:["#22c55e","#16a34a"],tv:["#0ea5e9","#0369a1"],pc:["#f97316","#c2410c"],
+  watch:["#ec4899","#be185d"],laptop:["#8b5cf6","#6d28d9"]};
 function shortName(s){ return String(s||"").replace(/^\s*\S+\s+/,""); }  // bosh emojini olib tashlaydi
 function loadShop(cb){
   var url=marketApi("/shop"), initData=(tg&&tg.initData)||"";
