@@ -73,6 +73,9 @@
       "link": "go:coinTop"
     }
   ],
+  "books": {
+    "math": "https://samandar2001.github.io/RestaranMenu/"
+  },
   "contact": {
     "phone": "+998 94 552 10 09",
     "site": "www.ssa.uz",
