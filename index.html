@@ -248,6 +248,10 @@
   .slbl{font-weight:700;margin-bottom:8px;font-size:15px}
   .mcat{font-weight:800;font-size:13px;color:var(--accent);margin:16px 2px 7px;
         text-transform:uppercase;letter-spacing:.5px}
+  .pmedia{position:relative;height:132px;border-radius:12px;overflow:hidden;margin-bottom:10px;
+        display:flex;align-items:center;justify-content:center}
+  .pmedia img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .pemoji{font-size:56px;line-height:1;filter:drop-shadow(0 2px 5px rgba(0,0,0,.3))}
 </style>
 </head>
 <body>
@@ -1247,7 +1251,16 @@ function renderMarketCat(){
 }
 function marketCard(bal, it){
   var afford=bal>=it.cost;
-  return '<div class="rev"><div class="who">'+it.emoji+' '+esc(it.name)+'</div>'
+  var isTech=["phone","tv","pc","watch","laptop"].indexOf(it.cat)>=0;
+  var media="";
+  if(isTech||it.img){
+    var col=CATCOL[it.cat]||["#94a3b8","#64748b"];
+    media='<div class="pmedia" style="background:linear-gradient(135deg,'+col[0]+','+col[1]+')">'
+      +(it.img?'<img src="'+esc(it.img)+'" onerror="this.remove()">':'')
+      +'<span class="pemoji">'+it.emoji+'</span></div>';
+  }
+  return '<div class="rev">'+media
+    +'<div class="who">'+it.emoji+' '+esc(it.name)+'</div>'
     +'<div class="muted" style="margin-bottom:8px">🪙 '+nf(it.cost)+' = '+money(it.cost)+'</div>'
     +'<button class="btn'+(afford?'':' sec')+'" style="margin-top:0" '
     +(afford?('onclick="buyItem(\''+esc(it.id)+'\')"'):'disabled')+'>'+T('mBuy')+'</button></div>';
