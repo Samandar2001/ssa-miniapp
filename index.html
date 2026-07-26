@@ -139,6 +139,10 @@
     border-radius:12px;padding:12px 14px;font-size:16px;font-family:inherit;outline:none;
     transition:border-color .15s}
   .tform input:focus{border-color:var(--accent)}
+  .tform textarea{width:100%;border:1px solid var(--line);background:var(--sec);color:var(--text);
+    border-radius:12px;padding:12px 14px;font-size:16px;font-family:inherit;outline:none;
+    resize:vertical;min-height:96px;transition:border-color .15s}
+  .tform textarea:focus{border-color:var(--accent)}
   .wheelwrap{position:relative;width:280px;max-width:82vw;margin:10px auto 18px;
     filter:drop-shadow(0 16px 30px rgba(0,0,0,.4))}
   .wheel{position:relative;width:100%;padding-top:100%;border-radius:50%;overflow:hidden;
@@ -344,7 +348,7 @@ document.addEventListener("touchend", function(e){
 var UI = {
   uz:{choose:"Bo'limni tanlang",hCourses:"📚 Kurslarimiz",about:"Kurs haqida",plan:"O'quv reja",price:"Narx",faq:"Savol-javob",
       enroll:"📝 Kursga yozilish",contact:"📞 Bog'lanish",reviews:"⭐ Sharhlar",back:"‹ Orqaga",bookBtn:"📖 Kitobni ochish",adminPanel:"🛡 Admin panel",admStat:"📊 Statistika",admOrders:"🎟 Buyurtmalar",admTrials:"📝 Sinov arizalari",admBot:"🤖 Coin berish / Xabar (botда)",admDone:"✅ Berildi",admEmpty:"Bo'sh",
-      addrev:"✍️ Sharh qoldirish",cabinet:"📱 Shaxsiy kabinet",loading:"Yuklanmoqda…",
+      addrev:"✍️ Sharh qoldirish",revPh:"Fikringizni yozing...",revSend:"📩 Sharhni yuborish",revThanks:"⭐ Rahmat! Sharhingiz qabul qilindi.",revShort:"Sharh juda qisqa.",cabinet:"📱 Shaxsiy kabinet",loading:"Yuklanmoqda…",
       lName:"👤 Farzand",lCourse:"📚 Kurs",lType:"🏷 Yo'nalish",lLogin:"🔐 LMS login",lPass:"🔑 Parol",
       lSched:"📅 Dars jadvali",lCert:"🎓 Sertifikat",certNone:"hali tayyor emas",lmsGo:"🌐 LMS saytiga kirish",
       copied:"✅ Nusxa olindi",stRank:"O'rin",stFriends:"Do'stlar",cabCreds:"🔐 LMS ma'lumotlari",cabCertReady:"Tayyor — ochish uchun bosing",certOpen:"🎓 Sertifikatni ochish",
@@ -371,7 +375,7 @@ var UI = {
       norev:"Hali sharhlar yo'q.",per:"oy",err:"Ma'lumot topilmadi. Bot ishga tushirilganini tekshiring."},
   ru:{choose:"Выберите раздел",hCourses:"📚 Наши курсы",about:"О курсе",plan:"Учебный план",price:"Цена",faq:"Вопросы",
       enroll:"📝 Записаться",contact:"📞 Связаться",reviews:"⭐ Отзывы",back:"‹ Назад",bookBtn:"📖 Открыть книгу",adminPanel:"🛡 Админ-панель",admStat:"📊 Статистика",admOrders:"🎟 Заказы",admTrials:"📝 Заявки на пробный",admBot:"🤖 Коины / Рассылка (в боте)",admDone:"✅ Выдано",admEmpty:"Пусто",
-      addrev:"✍️ Оставить отзыв",cabinet:"📱 Личный кабинет",loading:"Загрузка…",
+      addrev:"✍️ Оставить отзыв",revPh:"Напишите ваше мнение...",revSend:"📩 Отправить отзыв",revThanks:"⭐ Спасибо! Ваш отзыв принят.",revShort:"Отзыв слишком короткий.",cabinet:"📱 Личный кабинет",loading:"Загрузка…",
       lName:"👤 Ребёнок",lCourse:"📚 Курс",lType:"🏷 Направление",lLogin:"🔐 LMS логин",lPass:"🔑 Пароль",
       lSched:"📅 Расписание",lCert:"🎓 Сертификат",certNone:"ещё не готов",lmsGo:"🌐 Войти на LMS",
       copied:"✅ Скопировано",stRank:"Место",stFriends:"Друзья",cabCreds:"🔐 Данные LMS",cabCertReady:"Готов — нажмите, чтобы открыть",certOpen:"🎓 Открыть сертификат",
@@ -398,7 +402,7 @@ var UI = {
       norev:"Отзывов пока нет.",per:"мес",err:"Данные не найдены. Проверьте, запущен ли бот."},
   en:{choose:"Choose a section",hCourses:"📚 Our courses",about:"About",plan:"Curriculum",price:"Price",faq:"FAQ",
       enroll:"📝 Enroll",contact:"📞 Contact",reviews:"⭐ Reviews",back:"‹ Back",bookBtn:"📖 Open the book",adminPanel:"🛡 Admin panel",admStat:"📊 Statistics",admOrders:"🎟 Orders",admTrials:"📝 Trial requests",admBot:"🤖 Give coins / Broadcast (in bot)",admDone:"✅ Delivered",admEmpty:"Empty",
-      addrev:"✍️ Leave a review",cabinet:"📱 My account",loading:"Loading…",
+      addrev:"✍️ Leave a review",revPh:"Write your feedback...",revSend:"📩 Send review",revThanks:"⭐ Thank you! Your review is received.",revShort:"Review is too short.",cabinet:"📱 My account",loading:"Loading…",
       lName:"👤 Child",lCourse:"📚 Course",lType:"🏷 Track",lLogin:"🔐 LMS login",lPass:"🔑 Password",
       lSched:"📅 Schedule",lCert:"🎓 Certificate",certNone:"not ready yet",lmsGo:"🌐 Go to LMS",
       copied:"✅ Copied",stRank:"Rank",stFriends:"Friends",cabCreds:"🔐 LMS details",cabCertReady:"Ready — tap to open",certOpen:"🎓 Open certificate",
@@ -528,6 +532,7 @@ function render(){
   if(view.name==="sec") renderSec();
   else if(view.name==="contact") renderContact();
   else if(view.name==="reviews") renderReviews();
+  else if(view.name==="reviewNew") renderReviewNew();
   else if(view.name==="cabinet") renderCabinet();
   else if(view.name==="settings") renderSettings();
   else if(view.name==="top") renderTop();
@@ -908,16 +913,42 @@ function renderAdminTrials(){
   });
 }
 function renderReviews(){
-  var rv=DATA.reviews||[];
-  var body=rv.length?rv.map(function(r){
-      return '<div class="rev"><div class="who">⭐ '+esc(r.name||"")+'</div><div>'+esc(r.text||"")+'</div></div>';
-    }).join(""):'<div class="muted">'+T('norev')+'</div>';
-  app.innerHTML=header()
-    +'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>'
+  var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
+  var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>'
     +'<h2>'+T('reviews')+'</h2>'
-    +'<button class="btn" onclick="writeReview()">'+T('addrev')+'</button>'
-    +'<div style="height:8px"></div>'+body
-    +'<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
+    +'<button class="btn" onclick="go(\'reviewNew\')">'+T('addrev')+'</button><div style="height:8px"></div>';
+  function paint(rv){
+    var body=rv.length?rv.map(function(r){
+      return '<div class="rev"><div class="who">⭐ '+esc(r.name||"")+'</div><div>'+esc(r.text||"")+'</div></div>';
+    }).join(""):'<div class="content muted">'+esc(T('norev'))+'</div>';
+    app.innerHTML=head+'<div class="stg">'+body+'</div>'+backBtn;
+  }
+  app.innerHTML=head+skel(3)+backBtn;
+  fetch(marketApi("/reviews")+"?_="+Date.now())
+    .then(function(r){return r.json();})
+    .then(function(d){ paint((d&&d.reviews)||DATA.reviews||[]); })
+    .catch(function(){ paint(DATA.reviews||[]); });
+}
+function renderReviewNew(){
+  var backBtn='<button class="btn sec" onclick="go(\'reviews\')">'+T('back')+'</button>';
+  var head=header()+'<button class="back" onclick="go(\'reviews\')">'+T('back')+'</button>'+'<h2>'+T('addrev')+'</h2>';
+  app.innerHTML=head+'<div class="pcard" style="padding:12px 14px 16px"><div class="tform">'
+    +'<textarea id="rvText" rows="5" placeholder="'+esc(T('revPh'))+'"></textarea></div></div>'
+    +'<button class="btn" onclick="submitReview()">'+T('revSend')+'</button>'+backBtn;
+}
+function submitReview(){
+  var el=document.getElementById("rvText");
+  var text=(el&&el.value||"").trim();
+  if(text.length<3){ alertMsg(T('revShort')); return; }
+  var url=marketApi("/review"), initData=(tg&&tg.initData)||"";
+  if(!url||!initData){ alertMsg(T('err')); return; }
+  fetch(url+"?text="+encodeURIComponent(text)+"&initData="+encodeURIComponent(initData))
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d&&d.ok){ if(d.coins!=null) setCoins(d.coins); confetti(["⭐","🎉","✨"]); alertMsg(T('revThanks')); go("reviews"); }
+      else alertMsg(T('revShort'));
+    })
+    .catch(function(){ alertMsg(T('err')); });
 }
 function openBot(param){
   var bot=(DATA.links&&DATA.links.bot)||"";
@@ -925,7 +956,7 @@ function openBot(param){
   var url=bot+(param?("?start="+param):"");
   if(tg&&tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url,"_blank");
 }
-function writeReview(){ openBot("review"); }
+function writeReview(){ go("reviewNew"); }
 function openCabinet(){ go("cabinet"); }   // har doim ilova ichida
 function openLmsSite(){ var u=(DATA.links&&DATA.links.lms)||"";
   if(u){ if(tg&&tg.openLink) tg.openLink(u); else window.open(u,"_blank"); } }
