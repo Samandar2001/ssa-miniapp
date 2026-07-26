@@ -115,6 +115,58 @@
   .lvfill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--btn),var(--accent));
     transition:width .7s cubic-bezier(.2,.7,.3,1)}
   .lvmax{color:var(--accent);font-weight:800;font-size:14px}
+  /* ===== Premium Coin bo'limi ===== */
+  .coinhero{position:relative;overflow:hidden;border-radius:22px;padding:20px 20px 18px;
+    margin-bottom:14px;color:#4a3400;
+    background:linear-gradient(135deg,#ffe694 0%,#f5b942 46%,#e89122 100%);
+    box-shadow:0 16px 34px -14px rgba(224,150,40,.8)}
+  body.dark .coinhero{color:#3a2800;
+    background:linear-gradient(135deg,#f7d777,#e6a72e 55%,#c47f16)}
+  .coinhero .chshine{position:absolute;top:-60%;left:-30%;width:60%;height:220%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);
+    transform:rotate(18deg);animation:chShine 4s ease-in-out infinite;pointer-events:none}
+  @keyframes chShine{0%{left:-40%}55%,100%{left:135%}}
+  .coinhero .chtop{position:relative;z-index:1;display:flex;justify-content:space-between;
+    align-items:center;margin-bottom:6px}
+  .chpill{background:rgba(255,255,255,.42);border-radius:20px;padding:4px 12px;
+    font-size:12.5px;font-weight:800}
+  .coinhero .chbal{position:relative;z-index:1;text-align:center;font-weight:900;
+    font-size:52px;letter-spacing:-1.5px;line-height:1.05;display:flex;align-items:center;
+    justify-content:center;gap:8px;text-shadow:0 2px 0 rgba(255,255,255,.4)}
+  .coinhero .chbal .chc{font-size:40px;filter:drop-shadow(0 3px 3px rgba(0,0,0,.18))}
+  .coinhero .chsum{position:relative;z-index:1;text-align:center;margin-top:9px;
+    font-size:13.5px;font-weight:800}
+  .coinhero .chsum b{background:rgba(255,255,255,.45);border-radius:11px;padding:3px 12px}
+  .dcard{position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;
+    background:var(--card);border-radius:16px;padding:13px 15px;margin-bottom:12px;
+    box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  .dcard:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+    background:linear-gradient(180deg,#fbbf24,#d97706)}
+  .dcard .di{width:44px;height:44px;border-radius:13px;flex-shrink:0;font-size:23px;
+    background:linear-gradient(135deg,#fde68a,#f59e0b);display:flex;align-items:center;
+    justify-content:center;box-shadow:0 4px 10px -4px rgba(245,158,11,.7)}
+  .dcard .dt{flex:1;min-width:0}
+  .dcard .dtt{font-weight:800;font-size:15px}
+  .dcard .dts{font-size:12.5px;color:var(--hint);margin-top:2px}
+  .dcard .dstreak{flex-shrink:0;white-space:nowrap;color:#fff;font-weight:800;font-size:12.5px;
+    border-radius:20px;padding:5px 11px;background:linear-gradient(135deg,#fb923c,#ea580c)}
+  .cact{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+  .cact .ca{border-radius:16px;padding:15px 12px;color:#fff;cursor:pointer;font-weight:800;
+    font-size:14.5px;text-align:center;line-height:1.25;transition:transform .12s;
+    box-shadow:0 7px 16px -9px rgba(0,0,0,.55)}
+  .cact .ca:active{transform:scale(.95)}
+  .cact .ca.wide{grid-column:1 / -1}
+  .earn{background:var(--card);border-radius:16px;padding:4px 14px 8px;margin-bottom:12px;
+    box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  .earn .eh{font-weight:700;font-size:12px;color:var(--hint);padding:12px 0 4px;
+    text-transform:uppercase;letter-spacing:.4px}
+  .erow{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+  .erow:first-of-type{border-top:none}
+  .erow .ei{width:36px;height:36px;border-radius:11px;flex-shrink:0;font-size:18px;
+    background:var(--sec);display:flex;align-items:center;justify-content:center}
+  .erow .et{flex:1;min-width:0;font-size:14px;font-weight:600}
+  .erow .ev{flex-shrink:0;font-weight:800;font-size:14px;color:#e0912a;white-space:nowrap}
+  body.dark .erow .ev{color:#f5c265}
   .setcard{background:var(--card);border-radius:16px;padding:2px 14px;margin-bottom:12px;
     box-shadow:0 1px 4px rgba(0,0,0,.06)}
   .setrow{display:flex;align-items:center;justify-content:space-between;gap:10px;
@@ -359,7 +411,7 @@ var UI = {
       top:"🏆 Reyting",topTitle:"🏆 Do'st taklif reytingi",tInv:"taklif",tEnr:"yozildi",
       topEmpty:"Hali reyting bo'sh. Do'st taklif qilib birinchi bo'ling! 🎁",
       coinTop:"🏆 Coin reyting",coinTopTitle:"🪙 Coin reyting — Top 10",coinTopEmpty:"Hali hech kim coin yig'magan. Birinchi bo'ling! 🪙",coinUnit:"coin",
-      coins:"🪙 Coinlarim",coinsHowT:"Coin qanday to'planadi:",coinsHow:"🔗 Do'st havola orqali kirsa — +5 000\n🎁 Do'st kursga yozilsa — +60 000 dan\n✍️ Sharh qoldirsangiz — +20\n📝 Sinov darsiga — +30\n📅 Kunlik bonus — +5\n🎮 LMS o'yinlari — tez orada",coinsRank:"📍 Sizning o'rningiz",coinsBotNote:"🎁 Kunlik bonus va 🛒 do'kon — botda",openBotBtn:"🤖 Botni ochish",
+      coins:"🪙 Coinlarim",coinsHowT:"Coin qanday to'planadi:",coinsHow:"🏆 Do'st kursga yozilsa — +200 000 gacha\n📣 Ijtimoiy tarmoqqa obuna — +2 000\n🎯 Sinov darsiga — +300\n✍️ Sharh qoldirsangiz — +100\n🔗 Do'st havola orqali kirsa — +1 000\n📅 Kunlik bonus — +50\n🎡 Omad g'ildiragi — bepul",coinsRank:"📍 Sizning o'rningiz",coinsBotNote:"🎁 Kunlik bonus va 🛒 do'kon — botda",openBotBtn:"🤖 Botni ochish",
       market:"🛒 Market",marketTitle:"🛒 Coin market",mBuy:"Sotib olish",mHave:"Sizda",mBought:"✅ Xarid muvaffaqiyatli!\n🎟 Kod: {code}\n\nBu kodni administratorga yuboring — sovg'a faollashtiriladi.",mPoor:"❌ Coin yetarli emas. Kerak: {need} 🪙",mEmpty:"Market hozircha bo'sh.",
       tabHome:"Bosh",tabCoin:"Coin",tabMarket:"Market",tabFriends:"Do'stlar",tabCabinet:"Kabinet",
       dailyTitle:"Kunlik bonus",dailyGotLine:"🎁 Bugun +{n} coin olindi!",dailyDoneLine:"✅ Bugungi bonus olingan · ertaga yana +{n} 🪙",dailyStreak:"🔥 Streak: {n} kun",dailyGotMsg:"🎁 Kunlik bonus: +{n} coin!\n🔥 Streak: {s} kun\n\nHar kuni Mini App'ni oching — yig'ilib boradi!",
@@ -367,7 +419,7 @@ var UI = {
       refer:"🎁 Do'st taklif qilish",referTitle:"🎁 Do'stingizni taklif qiling",
       yourLink:"🔗 Shaxsiy havolangiz:",shareBtn:"📤 Do'stga ulashish",
       shareText:"🎓 Singapore Skills Academy — farzandingiz kelajagi uchun!\n\n💻 IT · 📖 English · 🔢 Math · 🔬 Science\n🏆 Xalqaro dastur · 🎖 Sertifikat · 👶 5–17 yosh\n\n📱 Havola orqali botni oching — ilovada kurslar, narxlar va sovg'alar bir joyda!\n🎁 Maxsus bonuslar sizni kutmoqda 👇",
-      referHow:"Do'stingiz havola orqali botga kirsa — **+5 000 🪙**\nKursga yozilsa — 💻 IT: **+200 000 🪙**, 📚 boshqa fanlar: **+60 000 🪙** 🎉",
+      referHow:"Do'stingiz havola orqali botga kirsa — **+1 000 🪙**\nKursga yozilsa — 💻 IT: **+200 000 🪙**, 📚 boshqa fanlar: **+60 000 🪙** 🎉",
       settings:"⚙️ Sozlamalar",sLang:"🌐 Til",sTheme:"🎨 Ko'rinish",sSound:"🔊 Ovoz",sAbout:"Ilova haqida",sInvite:"🎁 Do'stni taklif qilish",
       trialBtn:"🎓 Bepul sinov darsi",trialT:"🎓 Bepul sinov darsi",trialName:"Farzand ismi",trialPhone:"Telefon raqami",trialHint:"Ma'lumotlaringizni qoldiring — biz tez orada bog'lanamiz. Ariza uchun +30 🪙!",trialSend:"📩 Ariza yuborish",trialOk:"✅ Arizangiz qabul qilindi! Tez orada bog'lanamiz.",trialFill:"Iltimos, ism va telefon raqamini to'g'ri kiriting.",
       wheelBtn:"🎡 Omad g'ildiragi",wheelT:"🎡 Omad g'ildiragi",wheelSpin:"🎯 Aylantirish",wheelWait:"Keyingi aylantirish",wheelWon:"🎉 Tabriklaymiz! Siz {n} 🪙 yutdingiz!",wheelFree:"Bepul • 24 soatda 1 marta",
@@ -387,7 +439,7 @@ var UI = {
       top:"🏆 Рейтинг",topTitle:"🏆 Рейтинг приглашений",tInv:"приглашено",tEnr:"записалось",
       topEmpty:"Рейтинг пока пуст. Пригласите друга и станьте первым! 🎁",
       coinTop:"🏆 Рейтинг коинов",coinTopTitle:"🪙 Рейтинг коинов — Топ 10",coinTopEmpty:"Пока никто не накопил коины. Будьте первым! 🪙",coinUnit:"коинов",
-      coins:"🪙 Мои коины",coinsHowT:"Как копятся коины:",coinsHow:"🔗 Друг зайдёт по ссылке — +5 000\n🎁 Друг записался — от +60 000\n✍️ Отзыв — +20\n📝 Пробный урок — +30\n📅 Ежедневный бонус — +5\n🎮 LMS-игры — скоро",coinsRank:"📍 Ваше место",coinsBotNote:"🎁 Ежедневный бонус и 🛒 магазин — в боте",openBotBtn:"🤖 Открыть бота",
+      coins:"🪙 Мои коины",coinsHowT:"Как копятся коины:",coinsHow:"🏆 Друг записался на курс — до +200 000\n📣 Подписка на соцсети — +2 000\n🎯 Пробный урок — +300\n✍️ Отзыв — +100\n🔗 Друг зайдёт по ссылке — +1 000\n📅 Ежедневный бонус — +50\n🎡 Колесо фортуны — бесплатно",coinsRank:"📍 Ваше место",coinsBotNote:"🎁 Ежедневный бонус и 🛒 магазин — в боте",openBotBtn:"🤖 Открыть бота",
       market:"🛒 Магазин",marketTitle:"🛒 Магазин коинов",mBuy:"Купить",mHave:"У вас",mBought:"✅ Покупка совершена!\n🎟 Код: {code}\n\nОтправьте код администратору — подарок активируют.",mPoor:"❌ Недостаточно коинов. Нужно: {need} 🪙",mEmpty:"Магазин пока пуст.",
       tabHome:"Главная",tabCoin:"Коины",tabMarket:"Магазин",tabFriends:"Друзья",tabCabinet:"Кабинет",
       dailyTitle:"Ежедневный бонус",dailyGotLine:"🎁 Сегодня получено +{n} коинов!",dailyDoneLine:"✅ Сегодня уже получено · завтра ещё +{n} 🪙",dailyStreak:"🔥 Серия: {n} дн.",dailyGotMsg:"🎁 Ежедневный бонус: +{n} коинов!\n🔥 Серия: {s} дн.\n\nОткрывайте Mini App каждый день — копится!",
@@ -395,7 +447,7 @@ var UI = {
       refer:"🎁 Пригласить друга",referTitle:"🎁 Пригласите друга",
       yourLink:"🔗 Ваша персональная ссылка:",shareBtn:"📤 Поделиться с другом",
       shareText:"🎓 Singapore Skills Academy — для будущего вашего ребёнка!\n\n💻 IT · 📖 English · 🔢 Math · 🔬 Science\n🏆 Международная программа · 🎖 Сертификат · 👶 5–17 лет\n\n📱 Откройте бота по ссылке — в приложении курсы, цены и подарки в одном месте!\n🎁 Вас ждут особые бонусы 👇",
-      referHow:"Друг зайдёт по ссылке — **+5 000 🪙**\nЗапишется на курс — 💻 IT: **+200 000 🪙**, 📚 другие: **+60 000 🪙** 🎉",
+      referHow:"Друг зайдёт по ссылке — **+1 000 🪙**\nЗапишется на курс — 💻 IT: **+200 000 🪙**, 📚 другие: **+60 000 🪙** 🎉",
       settings:"⚙️ Настройки",sLang:"🌐 Язык",sTheme:"🎨 Тема",sSound:"🔊 Звук",sAbout:"О приложении",sInvite:"🎁 Пригласить друга",
       trialBtn:"🎓 Бесплатный пробный урок",trialT:"🎓 Бесплатный пробный урок",trialName:"Имя ребёнка",trialPhone:"Номер телефона",trialHint:"Оставьте свои данные — мы скоро свяжемся. За заявку +30 🪙!",trialSend:"📩 Отправить заявку",trialOk:"✅ Заявка принята! Мы скоро свяжемся.",trialFill:"Пожалуйста, введите имя и номер телефона правильно.",
       wheelBtn:"🎡 Колесо фортуны",wheelT:"🎡 Колесо фортуны",wheelSpin:"🎯 Крутить",wheelWait:"Следующее вращение",wheelWon:"🎉 Поздравляем! Вы выиграли {n} 🪙!",wheelFree:"Бесплатно • 1 раз в 24 часа",
@@ -415,7 +467,7 @@ var UI = {
       top:"🏆 Leaderboard",topTitle:"🏆 Referral leaderboard",tInv:"invited",tEnr:"enrolled",
       topEmpty:"Leaderboard is empty. Invite a friend and be the first! 🎁",
       coinTop:"🏆 Coin leaderboard",coinTopTitle:"🪙 Coin leaderboard — Top 10",coinTopEmpty:"No one has earned coins yet. Be the first! 🪙",coinUnit:"coins",
-      coins:"🪙 My coins",coinsHowT:"How to earn coins:",coinsHow:"🔗 Friend joins via link — +5 000\n🎁 Friend enrolls — from +60 000\n✍️ Review — +20\n📝 Trial lesson — +30\n📅 Daily bonus — +5\n🎮 LMS games — soon",coinsRank:"📍 Your rank",coinsBotNote:"🎁 Daily bonus & 🛒 shop — in the bot",openBotBtn:"🤖 Open bot",
+      coins:"🪙 My coins",coinsHowT:"How to earn coins:",coinsHow:"🏆 Friend enrolls in a course — up to +200 000\n📣 Follow our socials — +2 000\n🎯 Trial lesson — +300\n✍️ Review — +100\n🔗 Friend joins via link — +1 000\n📅 Daily bonus — +50\n🎡 Wheel of Fortune — free",coinsRank:"📍 Your rank",coinsBotNote:"🎁 Daily bonus & 🛒 shop — in the bot",openBotBtn:"🤖 Open bot",
       market:"🛒 Market",marketTitle:"🛒 Coin market",mBuy:"Buy",mHave:"You have",mBought:"✅ Purchase successful!\n🎟 Code: {code}\n\nSend this code to the administrator to activate your reward.",mPoor:"❌ Not enough coins. Need: {need} 🪙",mEmpty:"Market is empty for now.",
       tabHome:"Home",tabCoin:"Coins",tabMarket:"Market",tabFriends:"Friends",tabCabinet:"Account",
       dailyTitle:"Daily bonus",dailyGotLine:"🎁 +{n} coins received today!",dailyDoneLine:"✅ Already claimed today · tomorrow +{n} 🪙 more",dailyStreak:"🔥 Streak: {n} days",dailyGotMsg:"🎁 Daily bonus: +{n} coins!\n🔥 Streak: {s} days\n\nOpen the Mini App every day — it adds up!",
@@ -423,7 +475,7 @@ var UI = {
       refer:"🎁 Invite a friend",referTitle:"🎁 Invite your friend",
       yourLink:"🔗 Your personal link:",shareBtn:"📤 Share with a friend",
       shareText:"🎓 Singapore Skills Academy — for your child's future!\n\n💻 IT · 📖 English · 🔢 Math · 🔬 Science\n🏆 International program · 🎖 Certificate · 👶 ages 5–17\n\n📱 Open our bot via the link — courses, prices and gifts all in the app!\n🎁 Special bonuses await you 👇",
-      referHow:"Friend joins via your link — **+5 000 🪙**\nEnrolls — 💻 IT: **+200 000 🪙**, 📚 other: **+60 000 🪙** 🎉",
+      referHow:"Friend joins via your link — **+1 000 🪙**\nEnrolls — 💻 IT: **+200 000 🪙**, 📚 other: **+60 000 🪙** 🎉",
       settings:"⚙️ Settings",sLang:"🌐 Language",sTheme:"🎨 Theme",sSound:"🔊 Sound",sAbout:"About",sInvite:"🎁 Invite a friend",
       trialBtn:"🎓 Free trial lesson",trialT:"🎓 Free trial lesson",trialName:"Child's name",trialPhone:"Phone number",trialHint:"Leave your details — we'll contact you soon. +30 🪙 for applying!",trialSend:"📩 Send request",trialOk:"✅ Request received! We'll contact you soon.",trialFill:"Please enter a valid name and phone number.",
       wheelBtn:"🎡 Wheel of Fortune",wheelT:"🎡 Wheel of Fortune",wheelSpin:"🎯 Spin",wheelWait:"Next spin",wheelWon:"🎉 Congratulations! You won {n} 🪙!",wheelFree:"Free • once every 24 hours",
@@ -1278,32 +1330,45 @@ function renderCoins(){
   var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>'
     +'<h2>'+T('coins')+'</h2>';
   function view(bal, rank, lv){
-    var big='<div style="text-align:center;padding:18px 0">'
-      +'<div style="font-size:44px;font-weight:800">🪙 <span id="coinbig">0</span></div>'
-      +'<div class="muted">'+T('coinUnit')+' = '+money(bal)+'</div>'
-      +(rank?('<div class="muted" style="margin-top:6px">'+T('coinsRank')+': <b>#'+rank+'</b></div>'):'')
-      +'</div>';
+    var names=(UI[LANG]||UI.uz).lvl||[];
+    var lname=(lv&&names[lv.index])?(names[lv.index][0]+' '+esc(names[lv.index][1])):('🪙 '+esc(T('coinUnit')));
+    var hero='<div class="coinhero"><div class="chshine"></div>'
+      +'<div class="chtop"><span class="chpill">'+lname+'</span>'
+      +(rank?('<span class="chpill">🏆 #'+rank+'</span>'):'')+'</div>'
+      +'<div class="chbal"><span class="chc">🪙</span><span id="coinbig">0</span></div>'
+      +'<div class="chsum">≈ <b>'+money(bal)+'</b></div></div>';
     var daily='';
     if(DAILY){
       var line=DAILY.claimed
         ? T('dailyGotLine').replace("{n}", nf(DAILY.reward))
-        : T('dailyDoneLine').replace("{n}", nf(DAILY.base||100));
-      var st=DAILY.streak?(' · '+T('dailyStreak').replace("{n}", DAILY.streak)):'';
-      daily='<div class="rev" style="border:1px solid var(--accent)">'
-        +'<div class="who">🎁 '+T('dailyTitle')+'</div>'
-        +'<div class="muted">'+line+st+'</div></div>';
+        : T('dailyDoneLine').replace("{n}", nf(DAILY.base||50));
+      var st=DAILY.streak?(T('dailyStreak').replace("{n}", DAILY.streak)):'';
+      daily='<div class="dcard"><div class="di">🎁</div>'
+        +'<div class="dt"><div class="dtt">'+T('dailyTitle')+'</div>'
+        +'<div class="dts">'+line+'</div></div>'
+        +(st?('<span class="dstreak">'+st+'</span>'):'')+'</div>';
     }
-    var how='<div class="rev"><div class="who">'+T('coinsHowT')+'</div>'
-      +'<div class="muted">'+fmt(T('coinsHow'))+'</div></div>';
-    var btns='<button class="btn" onclick="go(\'market\')">'+T('market')+'</button>'
-      +'<button class="btn sec" onclick="go(\'wheel\')">'+T('wheelBtn')+'</button>'
-      +'<button class="btn sec" onclick="go(\'social\')">'+T('socialBtn')+'</button>'
-      +'<div class="rowbtns">'
-      +  '<button class="btn sec" onclick="go(\'purchases\')">'+T('myBuys')+'</button>'
-      +  '<button class="btn sec" onclick="go(\'coinTop\')">'+T('coinTop')+'</button>'
-      +'</div>'
-      +'<button class="btn sec" onclick="openBot(\'coins\')">'+T('openBotBtn')+'</button>';
-    app.innerHTML=head+big+levelCard(lv)+daily+how+btns+backBtn;
+    function ca(a,b,label,onclick,wide){
+      return '<div class="ca'+(wide?' wide':'')+'" style="background:linear-gradient(135deg,'+a+','+b+')" onclick="'+onclick+'">'+label+'</div>';
+    }
+    var acts='<div class="cact">'
+      +ca('#22c55e','#16a34a',T('market'),"go('market')",true)
+      +ca('#f59e0b','#d97706',T('wheelBtn'),"go('wheel')")
+      +ca('#8b5cf6','#6d28d9',T('socialBtn'),"go('social')")
+      +ca('#3b82f6','#2563eb',T('myBuys'),"go('purchases')")
+      +ca('#ec4899','#be185d',T('coinTop'),"go('coinTop')")
+      +ca('#64748b','#475569',T('openBotBtn'),"openBot('coins')",true)
+      +'</div>';
+    var earn='<div class="earn"><div class="eh">'+T('coinsHowT')+'</div>'
+      + T('coinsHow').split('\n').map(function(ln){
+          var p=ln.split('—'); var lhs=(p[0]||'').trim(); var val=(p[1]||'').trim();
+          var m=lhs.match(/^(\S+)\s*([\s\S]*)$/); var ic=m?m[1]:'🪙'; var tx=m?m[2]:lhs;
+          return '<div class="erow"><span class="ei">'+ic+'</span>'
+            +'<span class="et">'+esc(tx)+'</span>'
+            +(val?('<span class="ev">'+esc(val)+'</span>'):'')+'</div>';
+        }).join('')
+      +'</div>';
+    app.innerHTML=head+'<div class="stg">'+hero+daily+levelCard(lv)+acts+earn+'</div>'+backBtn;
     countEl("coinbig", 0, bal);
   }
   var api=(DATA.links&&DATA.links.cabinet_api)||"";
