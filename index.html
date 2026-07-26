@@ -975,7 +975,7 @@ function renderSocial(){
   fetch(url+"?initData="+encodeURIComponent(initData))
     .then(function(r){return r.json();})
     .then(function(d){
-      var list=(d&&d.socials)||[], rw=(d&&d.reward)||5000;
+      var list=(d&&d.socials)||[], rw=(d&&d.reward)||2000;
       var body=list.map(function(s){
         var right, left;
         if(s.claimed){
