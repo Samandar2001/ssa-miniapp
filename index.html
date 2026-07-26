@@ -980,8 +980,8 @@ function renderSocial(){
           ? '<span class="socdone">'+T('socDone')+'</span>'
           : '<button class="btn" style="margin:0;width:auto;padding:9px 13px;font-size:14px" onclick="socClaim(\''+esc(s.id)+'\',\''+esc(s.url)+'\')">+'+nf(rw)+' 🪙</button>';
         return '<div class="rev" style="display:flex;align-items:center;justify-content:space-between;gap:10px">'
-          +'<div style="min-width:0;cursor:pointer" onclick="openUrl(\''+esc(s.url)+'\')"><div class="who">'+s.emoji+' '+esc(s.name)+'</div>'
-          +'<span class="slink">'+T('socOpen')+'</span></div>'
+          +'<div style="min-width:0"><div class="who">'+s.emoji+' '+esc(s.name)+'</div>'
+          +'<a class="slink" onclick="openUrl(\''+esc(s.url)+'\')">'+T('socOpen')+'</a></div>'
           +'<div style="flex-shrink:0">'+right+'</div></div>';
       }).join("");
       app.innerHTML=head+'<div class="content muted" style="text-align:center;margin-bottom:6px">'
@@ -990,6 +990,7 @@ function renderSocial(){
     .catch(function(){ app.innerHTML=head+'<div class="content muted">'+esc(T('err'))+'</div>'+backBtn; });
 }
 function socClaim(id, surl){
+  openUrl(surl);   // avval ijtimoiy tarmoq ochiladi, so'ng coin beriladi
   var u=marketApi("/social/claim"), initData=(tg&&tg.initData)||"";
   if(!u||!initData){ alertMsg(T('err')); return; }
   fetch(u+"?id="+encodeURIComponent(id)+"&initData="+encodeURIComponent(initData))
