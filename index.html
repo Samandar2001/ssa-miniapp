@@ -217,6 +217,20 @@
     font-size:13.5px;font-weight:700;z-index:300;opacity:0;pointer-events:none;max-width:82%;
     text-align:center;transition:opacity .2s,transform .2s;box-shadow:0 10px 26px rgba(0,0,0,.4)}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  /* ===== Mini-viktorina ===== */
+  .quizhead{display:flex;justify-content:space-between;align-items:center;background:var(--card);
+    border-radius:14px;padding:12px 16px;margin-bottom:12px;font-weight:800;font-size:14px;
+    box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  .quizq{padding:14px}
+  .quizq .qnum{font-size:11px;color:var(--hint);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+  .quizq .qtext{font-weight:800;font-size:16px;margin:6px 0 12px;line-height:1.3}
+  .qopts{display:flex;flex-direction:column;gap:8px}
+  .qopt{border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;font-weight:600;
+    font-size:15px;cursor:pointer;transition:transform .12s,border-color .15s,background .15s}
+  .qopt:active{transform:scale(.98)}
+  .qopt.ok{border-color:#16a34a;background:rgba(34,197,94,.15);color:#16a34a;font-weight:800}
+  .qopt.no{border-color:#dc2626;background:rgba(239,68,68,.15);color:#dc2626;font-weight:800}
+  .qopt.dim{opacity:.5}
   .setcard{background:var(--card);border-radius:16px;padding:2px 14px;margin-bottom:12px;
     box-shadow:0 1px 4px rgba(0,0,0,.06)}
   .setrow{display:flex;align-items:center;justify-content:space-between;gap:10px;
@@ -479,7 +493,7 @@ var UI = {
       market:"🛒 Market",marketTitle:"🛒 Coin market",mBuy:"Sotib olish",mHave:"Sizda",mBought:"✅ Xarid muvaffaqiyatli!\n🎟 Kod: {code}\n\nBu kodni administratorga yuboring — sovg'a faollashtiriladi.",mPoor:"❌ Coin yetarli emas. Kerak: {need} 🪙",mEmpty:"Market hozircha bo'sh.",
       tabHome:"Bosh",tabCoin:"Coin",tabMarket:"Market",tabFriends:"Do'stlar",tabCabinet:"Kabinet",
       dailyTitle:"Kunlik bonus",dailyGotLine:"🎁 Bugun +{n} coin olindi!",dailyDoneLine:"✅ Bugungi bonus olingan · ertaga yana +{n} 🪙",dailyStreak:"🔥 Streak: {n} kun",dailyGotMsg:"🎁 Kunlik bonus: +{n} coin!\n🔥 Streak: {s} kun\n\nHar kuni Mini App'ni oching — yig'ilib boradi!",
-      myBuys:"🎟 Xaridlarim",noBuys:"Hali sovg'a sotib olmagansiz.",buyCode:"Kod",buyPending:"⏳ Faollashtirilmagan",buyRedeemed:"✅ Faollashtirilgan",buysHint:"Kodni administratorga yuboring — sovg'a faollashtiriladi.",mItems:"ta sovg'a",mEverySec:"🌍 Hamma uchun",mStuOpen:"O'quvchilar do'koni",mStuDesc:"arzon sovg'alar — faqat sizga",mStuLockT:"🔒 Bu bo'lim yopiq",mStuLockS:"Kursda o'qiydiganlar arzon sovg'alarni oladi. Yoziling!",mStuGo:"🎓 Kursga yozilish",mNotStudent:"Bu sovg'a faqat kursda o'qiydiganlar uchun 🎓",exitHint:"Chiqish uchun yana bir marta ⬅️ bosing",shareCardBtn:"🎉 Yutuq kartam",cardSending:"⏳ Karta tayyorlanmoqda...",cardSent:"✅ Karta botga yuborildi! Do'stlaringizga yuboring 📤",certShareBtn:"📤 Sertifikatni ulashish",certShareText:"Men Singapore Skills Academy sertifikatini oldim! 🎓",storyText:"🎉 Singapore Skills Academy — o'yna, o'rgan, sovg'alar yut!",
+      myBuys:"🎟 Xaridlarim",noBuys:"Hali sovg'a sotib olmagansiz.",buyCode:"Kod",buyPending:"⏳ Faollashtirilmagan",buyRedeemed:"✅ Faollashtirilgan",buysHint:"Kodni administratorga yuboring — sovg'a faollashtiriladi.",mItems:"ta sovg'a",mEverySec:"🌍 Hamma uchun",mStuOpen:"O'quvchilar do'koni",mStuDesc:"arzon sovg'alar — faqat sizga",mStuLockT:"🔒 Bu bo'lim yopiq",mStuLockS:"Kursda o'qiydiganlar arzon sovg'alarni oladi. Yoziling!",mStuGo:"🎓 Kursga yozilish",mNotStudent:"Bu sovg'a faqat kursda o'qiydiganlar uchun 🎓",exitHint:"Chiqish uchun yana bir marta ⬅️ bosing",shareCardBtn:"🎉 Yutuq kartam",cardSending:"⏳ Karta tayyorlanmoqda...",cardSent:"✅ Karta botga yuborildi! Do'stlaringizga yuboring 📤",certShareBtn:"📤 Sertifikatni ulashish",certShareText:"Men Singapore Skills Academy sertifikatini oldim! 🎓",storyText:"🎉 Singapore Skills Academy — o'yna, o'rgan, sovg'alar yut!",quizBtn:"🧠 Viktorina",quizTitle:"🧠 Kunlik viktorina",quizScore:"Natija",quizDone:"✅ Bugungi barcha savollarga javob berdingiz! Ertaga yangi savollar 🎉",
       refer:"🎁 Do'st taklif qilish",referTitle:"🎁 Do'stingizni taklif qiling",
       yourLink:"🔗 Shaxsiy havolangiz:",shareBtn:"📤 Do'stga ulashish",
       shareText:"🎓 Singapore Skills Academy — farzandingiz kelajagi uchun!\n\n💻 IT · 📖 English · 🔢 Math · 🔬 Science\n🏆 Xalqaro dastur · 🎖 Sertifikat · 👶 5–17 yosh\n\n📱 Havola orqali botni oching — ilovada kurslar, narxlar va sovg'alar bir joyda!\n🎁 Maxsus bonuslar sizni kutmoqda 👇",
@@ -507,7 +521,7 @@ var UI = {
       market:"🛒 Магазин",marketTitle:"🛒 Магазин коинов",mBuy:"Купить",mHave:"У вас",mBought:"✅ Покупка совершена!\n🎟 Код: {code}\n\nОтправьте код администратору — подарок активируют.",mPoor:"❌ Недостаточно коинов. Нужно: {need} 🪙",mEmpty:"Магазин пока пуст.",
       tabHome:"Главная",tabCoin:"Коины",tabMarket:"Магазин",tabFriends:"Друзья",tabCabinet:"Кабинет",
       dailyTitle:"Ежедневный бонус",dailyGotLine:"🎁 Сегодня получено +{n} коинов!",dailyDoneLine:"✅ Сегодня уже получено · завтра ещё +{n} 🪙",dailyStreak:"🔥 Серия: {n} дн.",dailyGotMsg:"🎁 Ежедневный бонус: +{n} коинов!\n🔥 Серия: {s} дн.\n\nОткрывайте Mini App каждый день — копится!",
-      myBuys:"🎟 Мои покупки",noBuys:"Вы ещё ничего не купили.",buyCode:"Код",buyPending:"⏳ Не активировано",buyRedeemed:"✅ Активировано",buysHint:"Отправьте код администратору — подарок активируют.",mItems:"подарков",mEverySec:"🌍 Для всех",mStuOpen:"Магазин учеников",mStuDesc:"дешёвые подарки — только для вас",mStuLockT:"🔒 Раздел закрыт",mStuLockS:"Дешёвые подарки — для учеников курса. Записывайтесь!",mStuGo:"🎓 Записаться на курс",mNotStudent:"Этот подарок только для учеников курса 🎓",exitHint:"Нажмите ⬅️ ещё раз, чтобы выйти",shareCardBtn:"🎉 Моя карточка",cardSending:"⏳ Карточка готовится...",cardSent:"✅ Карточка отправлена в бот! Перешлите друзьям 📤",certShareBtn:"📤 Поделиться сертификатом",certShareText:"Я получил сертификат Singapore Skills Academy! 🎓",storyText:"🎉 Singapore Skills Academy — играй, учись, выигрывай призы!",
+      myBuys:"🎟 Мои покупки",noBuys:"Вы ещё ничего не купили.",buyCode:"Код",buyPending:"⏳ Не активировано",buyRedeemed:"✅ Активировано",buysHint:"Отправьте код администратору — подарок активируют.",mItems:"подарков",mEverySec:"🌍 Для всех",mStuOpen:"Магазин учеников",mStuDesc:"дешёвые подарки — только для вас",mStuLockT:"🔒 Раздел закрыт",mStuLockS:"Дешёвые подарки — для учеников курса. Записывайтесь!",mStuGo:"🎓 Записаться на курс",mNotStudent:"Этот подарок только для учеников курса 🎓",exitHint:"Нажмите ⬅️ ещё раз, чтобы выйти",shareCardBtn:"🎉 Моя карточка",cardSending:"⏳ Карточка готовится...",cardSent:"✅ Карточка отправлена в бот! Перешлите друзьям 📤",certShareBtn:"📤 Поделиться сертификатом",certShareText:"Я получил сертификат Singapore Skills Academy! 🎓",storyText:"🎉 Singapore Skills Academy — играй, учись, выигрывай призы!",quizBtn:"🧠 Викторина",quizTitle:"🧠 Ежедневная викторина",quizScore:"Результат",quizDone:"✅ Вы ответили на все вопросы! Завтра новые 🎉",
       refer:"🎁 Пригласить друга",referTitle:"🎁 Пригласите друга",
       yourLink:"🔗 Ваша персональная ссылка:",shareBtn:"📤 Поделиться с другом",
       shareText:"🎓 Singapore Skills Academy — для будущего вашего ребёнка!\n\n💻 IT · 📖 English · 🔢 Math · 🔬 Science\n🏆 Международная программа · 🎖 Сертификат · 👶 5–17 лет\n\n📱 Откройте бота по ссылке — в приложении курсы, цены и подарки в одном месте!\n🎁 Вас ждут особые бонусы 👇",
@@ -535,7 +549,7 @@ var UI = {
       market:"🛒 Market",marketTitle:"🛒 Coin market",mBuy:"Buy",mHave:"You have",mBought:"✅ Purchase successful!\n🎟 Code: {code}\n\nSend this code to the administrator to activate your reward.",mPoor:"❌ Not enough coins. Need: {need} 🪙",mEmpty:"Market is empty for now.",
       tabHome:"Home",tabCoin:"Coins",tabMarket:"Market",tabFriends:"Friends",tabCabinet:"Account",
       dailyTitle:"Daily bonus",dailyGotLine:"🎁 +{n} coins received today!",dailyDoneLine:"✅ Already claimed today · tomorrow +{n} 🪙 more",dailyStreak:"🔥 Streak: {n} days",dailyGotMsg:"🎁 Daily bonus: +{n} coins!\n🔥 Streak: {s} days\n\nOpen the Mini App every day — it adds up!",
-      myBuys:"🎟 My purchases",noBuys:"You haven't bought anything yet.",buyCode:"Code",buyPending:"⏳ Not activated",buyRedeemed:"✅ Activated",buysHint:"Send the code to the administrator to activate your reward.",mItems:"items",mEverySec:"🌍 For everyone",mStuOpen:"Students' shop",mStuDesc:"cheap gifts — just for you",mStuLockT:"🔒 This section is locked",mStuLockS:"Cheap gifts for enrolled students. Join us!",mStuGo:"🎓 Enroll in a course",mNotStudent:"This gift is only for enrolled students 🎓",exitHint:"Press ⬅️ again to exit",shareCardBtn:"🎉 My card",cardSending:"⏳ Preparing card...",cardSent:"✅ Card sent to the bot! Forward it to friends 📤",certShareBtn:"📤 Share certificate",certShareText:"I got a Singapore Skills Academy certificate! 🎓",storyText:"🎉 Singapore Skills Academy — play, learn, win prizes!",
+      myBuys:"🎟 My purchases",noBuys:"You haven't bought anything yet.",buyCode:"Code",buyPending:"⏳ Not activated",buyRedeemed:"✅ Activated",buysHint:"Send the code to the administrator to activate your reward.",mItems:"items",mEverySec:"🌍 For everyone",mStuOpen:"Students' shop",mStuDesc:"cheap gifts — just for you",mStuLockT:"🔒 This section is locked",mStuLockS:"Cheap gifts for enrolled students. Join us!",mStuGo:"🎓 Enroll in a course",mNotStudent:"This gift is only for enrolled students 🎓",exitHint:"Press ⬅️ again to exit",shareCardBtn:"🎉 My card",cardSending:"⏳ Preparing card...",cardSent:"✅ Card sent to the bot! Forward it to friends 📤",certShareBtn:"📤 Share certificate",certShareText:"I got a Singapore Skills Academy certificate! 🎓",storyText:"🎉 Singapore Skills Academy — play, learn, win prizes!",quizBtn:"🧠 Quiz",quizTitle:"🧠 Daily quiz",quizScore:"Score",quizDone:"✅ You answered all questions! New ones tomorrow 🎉",
       refer:"🎁 Invite a friend",referTitle:"🎁 Invite your friend",
       yourLink:"🔗 Your personal link:",shareBtn:"📤 Share with a friend",
       shareText:"🎓 Singapore Skills Academy — for your child's future!\n\n💻 IT · 📖 English · 🔢 Math · 🔬 Science\n🏆 International program · 🎖 Certificate · 👶 ages 5–17\n\n📱 Open our bot via the link — courses, prices and gifts all in the app!\n🎁 Special bonuses await you 👇",
@@ -660,6 +674,7 @@ function render(){
   else if(view.name==="settings") renderSettings();
   else if(view.name==="top") renderTop();
   else if(view.name==="coins") renderCoins();
+  else if(view.name==="quiz") renderQuiz();
   else if(view.name==="market") renderMarket();
   else if(view.name==="trial") renderTrial();
   else if(view.name==="wheel") renderWheel();
@@ -1462,6 +1477,7 @@ function renderCoins(){
     var acts='<div class="cact">'
       +ca('#22c55e','#16a34a',T('market'),"go('market')",true)
       +ca('#e0912a','#d9488a',T('shareCardBtn'),"shareCard()",true)
+      +ca('#06b6d4','#0e7490',T('quizBtn'),"QUIZ=null;go('quiz')")
       +ca('#f59e0b','#d97706',T('wheelBtn'),"go('wheel')")
       +ca('#8b5cf6','#6d28d9',T('socialBtn'),"go('social')")
       +ca('#3b82f6','#2563eb',T('myBuys'),"go('purchases')")
@@ -1489,6 +1505,61 @@ function renderCoins(){
     .then(function(r){return r.json();})
     .then(function(d){ if(d&&d.coins!=null)setCoins(d.coins); view((d&&d.coins!=null)?d.coins:0, d&&d.rank, d&&d.level); })
     .catch(function(){ view(0,null,null); });
+}
+
+// ===== Kunlik mini-viktorina =====
+var QUIZ=null;
+function loadQuiz(cb){
+  var url=marketApi("/quiz"), initData=(tg&&tg.initData)||"";
+  if(!url||!initData){ QUIZ={questions:[],reward:20,score:0,total:0,done:false}; if(cb)cb(); return; }
+  fetch(url+"?lang="+LANG+"&initData="+encodeURIComponent(initData))
+    .then(function(r){return r.json();})
+    .then(function(d){ QUIZ=d||{questions:[]}; if(cb)cb(); })
+    .catch(function(){ QUIZ={questions:[],reward:20,score:0,total:0,done:false}; if(cb)cb(); });
+}
+function quizAnswer(qid, idx){
+  var q=null,i; for(i=0;i<((QUIZ&&QUIZ.questions)||[]).length;i++){ if(QUIZ.questions[i].id===qid){q=QUIZ.questions[i];break;} }
+  if(!q || q.chosen!=null) return;   // allaqachon javob berilgan
+  q.chosen=idx; renderQuiz();        // darhol ko'rsatamiz (optimistik)
+  var url=marketApi("/quiz/answer"), initData=(tg&&tg.initData)||"";
+  if(!url||!initData) return;
+  fetch(url+"?qid="+encodeURIComponent(qid)+"&choice="+idx+"&initData="+encodeURIComponent(initData))
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(!d||!d.ok) return;
+      q.answer=d.answer; if(QUIZ)QUIZ.score=d.score;
+      if(d.coins!=null) setCoins(d.coins);
+      if(d.is_correct){ confetti(["🎉","🪙","✨","🧠"]); try{haptic();}catch(e){} }
+      renderQuiz();
+    })
+    .catch(function(){});
+}
+function renderQuiz(){
+  var backBtn='<button class="btn sec" onclick="go(\'coins\')">'+T('back')+'</button>';
+  var head=header()+'<button class="back" onclick="go(\'coins\')">'+T('back')+'</button>'
+    +'<h2>'+T('quizTitle')+'</h2>';
+  if(!QUIZ){ app.innerHTML=head+skel(4)+backBtn;
+    loadQuiz(function(){ if(view.name==="quiz") renderQuiz(); }); return; }
+  var qs=QUIZ.questions||[];
+  if(!qs.length){ app.innerHTML=head+'<div class="content muted">'+esc(T('err'))+'</div>'+backBtn; return; }
+  var top='<div class="quizhead"><span>🧠 '+T('quizScore')+': <b>'+(QUIZ.score||0)+'/'+(QUIZ.total||qs.length)+'</b></span>'
+    +'<span>+'+nf(QUIZ.reward||20)+' 🪙</span></div>';
+  var body=qs.map(function(q,qi){
+    var opts=q.opts.map(function(op,oi){
+      var cls="qopt";
+      if(q.chosen!=null){
+        if(q.answer===oi) cls+=" ok";
+        else if(q.chosen===oi) cls+=" no";
+        else cls+=" dim";
+      }
+      var oc=(q.chosen==null)?(' onclick="quizAnswer(\''+esc(q.id)+'\','+oi+')"'):'';
+      return '<div class="'+cls+'"'+oc+'>'+esc(op)+'</div>';
+    }).join("");
+    return '<div class="pcard quizq"><div class="qnum">'+(qi+1)+'/'+qs.length+'</div>'
+      +'<div class="qtext">'+esc(q.q)+'</div><div class="qopts">'+opts+'</div></div>';
+  }).join("");
+  var foot=QUIZ.done?('<div class="content muted" style="text-align:center">'+esc(T('quizDone'))+'</div>'):'';
+  app.innerHTML=head+top+'<div class="stg">'+body+'</div>'+foot+backBtn;
 }
 
 function renderCoinTop(){
