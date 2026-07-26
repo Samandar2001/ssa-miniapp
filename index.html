@@ -213,9 +213,8 @@
   .btn.sec{background:var(--card);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.06)}
   .rowbtns{display:flex;gap:10px}
   .rowbtns .btn{flex:1;min-width:0}
-  .hsec{font-weight:800;font-size:18px;margin:4px 2px 11px;letter-spacing:.2px}
-  .shead{font-weight:800;font-size:18px;margin:8px 2px 12px}
-  .shead small{display:block;font-weight:500;font-size:13px;color:var(--hint);margin-top:2px}
+  .hsec{font-weight:800;font-size:18px;margin:6px 2px 12px;letter-spacing:.2px}
+  .hsec small{display:block;font-weight:500;font-size:13px;color:var(--hint);margin-top:2px}
   .tlink{display:block;text-align:center;color:var(--hint);font-size:14px;font-weight:600;
     padding:14px;cursor:pointer;margin-top:2px}
   .tlink:active{opacity:.6}
@@ -636,13 +635,11 @@ function renderHome(){
   app.innerHTML=header()
     +'<div id="bnr">'+bannerHTML()+'</div>'
     +'<div id="homewheel"></div>'
-    +'<div class="hsec">'+T('hCourses')+'</div>'
+    +'<div class="hsec">'+T('hCourses')+'<small>'+T('choose')+'</small></div>'
     +'<div class="grid stg">'+cards+'</div>'
     +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>'
-    +'<div class="rowbtns">'
-    +  '<button class="btn sec" onclick="go(\'trial\')">'+T('trialBtn')+'</button>'
-    +  '<button class="btn sec" onclick="go(\'reviews\')">'+T('reviews')+'</button>'
-    +'</div>';
+    +'<button class="btn sec" onclick="go(\'trial\')">'+T('trialBtn')+'</button>'
+    +'<div class="tlink" onclick="go(\'reviews\')">'+T('reviews')+'</div>';
   paintHomeWheel();
 }
 
