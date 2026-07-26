@@ -596,8 +596,11 @@ var BIDX=0;
 function banners(){ return (DATA&&DATA.banners)||[]; }
 function openUrl(u){
   if(!u) return;
-  if(/t\.me|telegram/.test(u)){ if(tg&&tg.openTelegramLink)tg.openTelegramLink(u); else window.open(u,"_blank"); }
-  else { if(tg&&tg.openLink)tg.openLink(u); else window.open(u,"_blank"); }
+  try{
+    if(/t\.me\/|telegram\.me\//.test(u)){ if(tg&&tg.openTelegramLink){ tg.openTelegramLink(u); return; } }
+    else if(tg&&tg.openLink){ tg.openLink(u); return; }
+  }catch(e){}
+  try{ window.open(u,"_blank"); }catch(e){ location.href=u; }
 }
 // Banner havolasi: "go:<bo'lim>" -> ichki o'tish, aks holda tashqi havola
 function bannerAction(link){
@@ -977,8 +980,8 @@ function renderSocial(){
           ? '<span class="socdone">'+T('socDone')+'</span>'
           : '<button class="btn" style="margin:0;width:auto;padding:9px 13px;font-size:14px" onclick="socClaim(\''+esc(s.id)+'\',\''+esc(s.url)+'\')">+'+nf(rw)+' 🪙</button>';
         return '<div class="rev" style="display:flex;align-items:center;justify-content:space-between;gap:10px">'
-          +'<div style="min-width:0"><div class="who">'+s.emoji+' '+esc(s.name)+'</div>'
-          +'<a class="slink" onclick="openUrl(\''+esc(s.url)+'\')">'+T('socOpen')+'</a></div>'
+          +'<div style="min-width:0;cursor:pointer" onclick="openUrl(\''+esc(s.url)+'\')"><div class="who">'+s.emoji+' '+esc(s.name)+'</div>'
+          +'<span class="slink">'+T('socOpen')+'</span></div>'
           +'<div style="flex-shrink:0">'+right+'</div></div>';
       }).join("");
       app.innerHTML=head+'<div class="content muted" style="text-align:center;margin-bottom:6px">'
