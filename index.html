@@ -167,6 +167,34 @@
   .erow .et{flex:1;min-width:0;font-size:14px;font-weight:600}
   .erow .ev{flex-shrink:0;font-weight:800;font-size:14px;color:#e0912a;white-space:nowrap}
   body.dark .erow .ev{color:#f5c265}
+  /* ===== Premium Market ===== */
+  .mbal{display:flex;align-items:center;gap:13px;border-radius:18px;padding:14px 18px;
+    margin-bottom:14px;color:#4a3400;
+    background:linear-gradient(135deg,#ffe694,#f5b942 55%,#e89122);
+    box-shadow:0 12px 26px -13px rgba(224,150,40,.75)}
+  body.dark .mbal{color:#3a2800;background:linear-gradient(135deg,#f7d777,#e6a72e 55%,#c47f16)}
+  .mbal .mbi{font-size:30px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.15))}
+  .mbal .mbv{font-weight:900;font-size:25px;line-height:1;letter-spacing:-.5px}
+  .mbal .mbs{font-size:12.5px;font-weight:800;opacity:.8;margin-top:3px}
+  .msec{font-weight:800;font-size:14px;margin:4px 2px 10px;letter-spacing:.2px}
+  .stuban{display:flex;align-items:center;gap:13px;cursor:pointer;border-radius:18px;
+    padding:16px;margin-bottom:18px;color:#fff;transition:transform .12s;
+    background:linear-gradient(135deg,#f59e0b,#d97706);
+    box-shadow:0 11px 24px -12px rgba(217,119,6,.85)}
+  .stuban:active{transform:scale(.97)}
+  .stuban .stbi{font-size:34px;flex-shrink:0}
+  .stuban .stbt{flex:1;min-width:0}
+  .stuban .stbtt{font-weight:800;font-size:16px}
+  .stuban .stbts{font-size:12.5px;opacity:.93;margin-top:3px}
+  .stuban .stbar{font-size:24px;font-weight:800;opacity:.85;flex-shrink:0}
+  .stulock{display:flex;align-items:center;gap:13px;border-radius:18px;padding:16px;
+    margin-bottom:10px;background:var(--card);border:1.5px dashed var(--line)}
+  .stulock .stbi{font-size:30px;flex-shrink:0;opacity:.75}
+  .stulock .stbt{flex:1;min-width:0}
+  .stulock .stbtt{font-weight:800;font-size:15px}
+  .stulock .stbts{font-size:12.5px;color:var(--hint);margin-top:3px}
+  .stubadge{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.35);color:#fff;
+    border-radius:20px;padding:3px 9px;font-size:12px;font-weight:800;backdrop-filter:blur(2px)}
   .setcard{background:var(--card);border-radius:16px;padding:2px 14px;margin-bottom:12px;
     box-shadow:0 1px 4px rgba(0,0,0,.06)}
   .setrow{display:flex;align-items:center;justify-content:space-between;gap:10px;
@@ -415,7 +443,7 @@ var UI = {
       market:"🛒 Market",marketTitle:"🛒 Coin market",mBuy:"Sotib olish",mHave:"Sizda",mBought:"✅ Xarid muvaffaqiyatli!\n🎟 Kod: {code}\n\nBu kodni administratorga yuboring — sovg'a faollashtiriladi.",mPoor:"❌ Coin yetarli emas. Kerak: {need} 🪙",mEmpty:"Market hozircha bo'sh.",
       tabHome:"Bosh",tabCoin:"Coin",tabMarket:"Market",tabFriends:"Do'stlar",tabCabinet:"Kabinet",
       dailyTitle:"Kunlik bonus",dailyGotLine:"🎁 Bugun +{n} coin olindi!",dailyDoneLine:"✅ Bugungi bonus olingan · ertaga yana +{n} 🪙",dailyStreak:"🔥 Streak: {n} kun",dailyGotMsg:"🎁 Kunlik bonus: +{n} coin!\n🔥 Streak: {s} kun\n\nHar kuni Mini App'ni oching — yig'ilib boradi!",
-      myBuys:"🎟 Xaridlarim",noBuys:"Hali sovg'a sotib olmagansiz.",buyCode:"Kod",buyPending:"⏳ Faollashtirilmagan",buyRedeemed:"✅ Faollashtirilgan",buysHint:"Kodni administratorga yuboring — sovg'a faollashtiriladi.",mItems:"ta sovg'a",
+      myBuys:"🎟 Xaridlarim",noBuys:"Hali sovg'a sotib olmagansiz.",buyCode:"Kod",buyPending:"⏳ Faollashtirilmagan",buyRedeemed:"✅ Faollashtirilgan",buysHint:"Kodni administratorga yuboring — sovg'a faollashtiriladi.",mItems:"ta sovg'a",mEverySec:"🌍 Hamma uchun",mStuOpen:"O'quvchilar do'koni",mStuDesc:"arzon sovg'alar — faqat sizga",mStuLockT:"🔒 Bu bo'lim yopiq",mStuLockS:"Kursda o'qiydiganlar arzon sovg'alarni oladi. Yoziling!",mStuGo:"🎓 Kursga yozilish",mNotStudent:"Bu sovg'a faqat kursda o'qiydiganlar uchun 🎓",
       refer:"🎁 Do'st taklif qilish",referTitle:"🎁 Do'stingizni taklif qiling",
       yourLink:"🔗 Shaxsiy havolangiz:",shareBtn:"📤 Do'stga ulashish",
       shareText:"🎓 Singapore Skills Academy — farzandingiz kelajagi uchun!\n\n💻 IT · 📖 English · 🔢 Math · 🔬 Science\n🏆 Xalqaro dastur · 🎖 Sertifikat · 👶 5–17 yosh\n\n📱 Havola orqali botni oching — ilovada kurslar, narxlar va sovg'alar bir joyda!\n🎁 Maxsus bonuslar sizni kutmoqda 👇",
@@ -443,7 +471,7 @@ var UI = {
       market:"🛒 Магазин",marketTitle:"🛒 Магазин коинов",mBuy:"Купить",mHave:"У вас",mBought:"✅ Покупка совершена!\n🎟 Код: {code}\n\nОтправьте код администратору — подарок активируют.",mPoor:"❌ Недостаточно коинов. Нужно: {need} 🪙",mEmpty:"Магазин пока пуст.",
       tabHome:"Главная",tabCoin:"Коины",tabMarket:"Магазин",tabFriends:"Друзья",tabCabinet:"Кабинет",
       dailyTitle:"Ежедневный бонус",dailyGotLine:"🎁 Сегодня получено +{n} коинов!",dailyDoneLine:"✅ Сегодня уже получено · завтра ещё +{n} 🪙",dailyStreak:"🔥 Серия: {n} дн.",dailyGotMsg:"🎁 Ежедневный бонус: +{n} коинов!\n🔥 Серия: {s} дн.\n\nОткрывайте Mini App каждый день — копится!",
-      myBuys:"🎟 Мои покупки",noBuys:"Вы ещё ничего не купили.",buyCode:"Код",buyPending:"⏳ Не активировано",buyRedeemed:"✅ Активировано",buysHint:"Отправьте код администратору — подарок активируют.",mItems:"подарков",
+      myBuys:"🎟 Мои покупки",noBuys:"Вы ещё ничего не купили.",buyCode:"Код",buyPending:"⏳ Не активировано",buyRedeemed:"✅ Активировано",buysHint:"Отправьте код администратору — подарок активируют.",mItems:"подарков",mEverySec:"🌍 Для всех",mStuOpen:"Магазин учеников",mStuDesc:"дешёвые подарки — только для вас",mStuLockT:"🔒 Раздел закрыт",mStuLockS:"Дешёвые подарки — для учеников курса. Записывайтесь!",mStuGo:"🎓 Записаться на курс",mNotStudent:"Этот подарок только для учеников курса 🎓",
       refer:"🎁 Пригласить друга",referTitle:"🎁 Пригласите друга",
       yourLink:"🔗 Ваша персональная ссылка:",shareBtn:"📤 Поделиться с другом",
       shareText:"🎓 Singapore Skills Academy — для будущего вашего ребёнка!\n\n💻 IT · 📖 English · 🔢 Math · 🔬 Science\n🏆 Международная программа · 🎖 Сертификат · 👶 5–17 лет\n\n📱 Откройте бота по ссылке — в приложении курсы, цены и подарки в одном месте!\n🎁 Вас ждут особые бонусы 👇",
@@ -471,7 +499,7 @@ var UI = {
       market:"🛒 Market",marketTitle:"🛒 Coin market",mBuy:"Buy",mHave:"You have",mBought:"✅ Purchase successful!\n🎟 Code: {code}\n\nSend this code to the administrator to activate your reward.",mPoor:"❌ Not enough coins. Need: {need} 🪙",mEmpty:"Market is empty for now.",
       tabHome:"Home",tabCoin:"Coins",tabMarket:"Market",tabFriends:"Friends",tabCabinet:"Account",
       dailyTitle:"Daily bonus",dailyGotLine:"🎁 +{n} coins received today!",dailyDoneLine:"✅ Already claimed today · tomorrow +{n} 🪙 more",dailyStreak:"🔥 Streak: {n} days",dailyGotMsg:"🎁 Daily bonus: +{n} coins!\n🔥 Streak: {s} days\n\nOpen the Mini App every day — it adds up!",
-      myBuys:"🎟 My purchases",noBuys:"You haven't bought anything yet.",buyCode:"Code",buyPending:"⏳ Not activated",buyRedeemed:"✅ Activated",buysHint:"Send the code to the administrator to activate your reward.",mItems:"items",
+      myBuys:"🎟 My purchases",noBuys:"You haven't bought anything yet.",buyCode:"Code",buyPending:"⏳ Not activated",buyRedeemed:"✅ Activated",buysHint:"Send the code to the administrator to activate your reward.",mItems:"items",mEverySec:"🌍 For everyone",mStuOpen:"Students' shop",mStuDesc:"cheap gifts — just for you",mStuLockT:"🔒 This section is locked",mStuLockS:"Cheap gifts for enrolled students. Join us!",mStuGo:"🎓 Enroll in a course",mNotStudent:"This gift is only for enrolled students 🎓",
       refer:"🎁 Invite a friend",referTitle:"🎁 Invite your friend",
       yourLink:"🔗 Your personal link:",shareBtn:"📤 Share with a friend",
       shareText:"🎓 Singapore Skills Academy — for your child's future!\n\n💻 IT · 📖 English · 🔢 Math · 🔬 Science\n🏆 International program · 🎖 Certificate · 👶 ages 5–17\n\n📱 Open our bot via the link — courses, prices and gifts all in the app!\n🎁 Special bonuses await you 👇",
@@ -1433,8 +1461,8 @@ function claimDaily(){
     .catch(function(){});
 }
 var SHOP=null;   // {coins, items, cats}
-var CATICON={all:"🎁",junior:"📚",it:"💻",phone:"📱",tv:"📺",pc:"🖥️",watch:"⌚",laptop:"💻"};
-var CATCOL={all:["#fb7185","#e11d48"],junior:["#60a5fa","#2563eb"],it:["#818cf8","#4f46e5"],
+var CATICON={student:"👨‍🎓",all:"🎁",junior:"📚",it:"💻",phone:"📱",tv:"📺",pc:"🖥️",watch:"⌚",laptop:"💻"};
+var CATCOL={student:["#fbbf24","#d97706"],all:["#fb7185","#e11d48"],junior:["#60a5fa","#2563eb"],it:["#818cf8","#4f46e5"],
   phone:["#22c55e","#16a34a"],tv:["#0ea5e9","#0369a1"],pc:["#f97316","#c2410c"],
   watch:["#ec4899","#be185d"],laptop:["#8b5cf6","#6d28d9"]};
 function shortName(s){ return String(s||"").replace(/^\s*\S+\s+/,""); }  // bosh emojini olib tashlaydi
@@ -1443,8 +1471,8 @@ function loadShop(cb){
   if(!url||!initData){ SHOP={coins:0,items:[],cats:[]}; if(cb)cb(); return; }
   fetch(url+"?initData="+encodeURIComponent(initData))
     .then(function(r){return r.json();})
-    .then(function(d){ SHOP={coins:(d&&d.coins)||0,items:(d&&d.items)||[],cats:(d&&d.cats)||[]}; if(cb)cb(); })
-    .catch(function(){ SHOP={coins:0,items:[],cats:[]}; if(cb)cb(); });
+    .then(function(d){ SHOP={coins:(d&&d.coins)||0,items:(d&&d.items)||[],cats:(d&&d.cats)||[],student:!!(d&&d.student)}; if(cb)cb(); })
+    .catch(function(){ SHOP={coins:0,items:[],cats:[],student:false}; if(cb)cb(); });
 }
 // Market bosh sahifasi — kategoriyalar icon-plitka (ilova ichida ilova)
 function renderMarket(){
@@ -1453,10 +1481,29 @@ function renderMarket(){
     +'<h2>'+T('marketTitle')+'</h2>';
   if(!SHOP){ app.innerHTML=head+'<div class="spin"></div>'+backBtn;
     loadShop(function(){ if(view.name==="market") renderMarket(); }); return; }
-  var bal=SHOP.coins||0, cats=SHOP.cats||[], items=SHOP.items||[];
-  var top='<div class="content" style="text-align:center;margin-bottom:12px">'
-    +'<b>'+T('mHave')+': 🪙 '+nf(bal)+' = '+money(bal)+'</b></div>';
-  var tiles=cats.map(function(c){
+  var bal=SHOP.coins||0, cats=SHOP.cats||[], items=SHOP.items||[], isStu=!!SHOP.student;
+  var top='<div class="mbal"><span class="mbi">🪙</span>'
+    +'<div><div class="mbv">'+nf(bal)+'</div>'
+    +'<div class="mbs">= '+money(bal)+'</div></div></div>';
+  // --- 👨‍🎓 O'quvchilar bo'limi (alohida) ---
+  var stuItems=items.filter(function(it){return it.cat==="student";});
+  var stuCat=cats.filter(function(c){return c.key==="student";})[0];
+  var stuSec='<div class="msec">'+esc(stuCat?stuCat.name:"👨‍🎓")+'</div>';
+  if(isStu){
+    stuSec+='<div class="stuban" onclick="go(\'marketCat\',\'student\')">'
+      +'<span class="stbi">👨‍🎓</span>'
+      +'<div class="stbt"><div class="stbtt">'+T('mStuOpen')+'</div>'
+      +'<div class="stbts">'+stuItems.length+' '+T('mItems')+' · '+T('mStuDesc')+'</div></div>'
+      +'<span class="stbar">→</span></div>';
+  } else {
+    stuSec+='<div class="stulock"><span class="stbi">🔒</span>'
+      +'<div class="stbt"><div class="stbtt">'+T('mStuLockT')+'</div>'
+      +'<div class="stbts">'+T('mStuLockS')+'</div></div></div>'
+      +'<button class="btn" onclick="enroll()">'+T('mStuGo')+'</button>';
+  }
+  // --- 🌍 Hamma uchun (alohida) ---
+  var everyCats=cats.filter(function(c){return c.key!=="student";});
+  var tiles=everyCats.map(function(c){
     var n=items.filter(function(it){return (it.cat||"all")===c.key;}).length;
     var ic=CATICON[c.key]||"🛒", col=CATCOL[c.key]||["#94a3b8","#64748b"];
     return '<div class="card" onclick="go(\'marketCat\',\''+c.key+'\')">'
@@ -1468,7 +1515,8 @@ function renderMarket(){
     +'<div class="badge" style="font-size:26px;background:linear-gradient(135deg,#f59e0b,#d97706)">🎟</div>'
     +'<div class="nm">'+esc(shortName(T('myBuys')))+'</div>'
     +'<div class="pr">&nbsp;</div></div>';
-  app.innerHTML=head+top+'<div class="grid stg">'+tiles+'</div>'+backBtn;
+  var everySec='<div class="msec">'+T('mEverySec')+'</div><div class="grid stg">'+tiles+'</div>';
+  app.innerHTML=head+top+stuSec+everySec+backBtn;
 }
 // Bitta kategoriya sovg'alari
 function renderMarketCat(){
@@ -1480,8 +1528,9 @@ function renderMarketCat(){
   var cat=(SHOP.cats||[]).filter(function(c){return c.key===key;})[0];
   head+='<h2>'+esc(cat?cat.name:T('marketTitle'))+'</h2>';
   var its=(SHOP.items||[]).filter(function(it){return (it.cat||"all")===key;});
-  var top='<div class="content" style="text-align:center;margin-bottom:10px">'
-    +'<b>'+T('mHave')+': 🪙 '+nf(bal)+' = '+money(bal)+'</b></div>';
+  var top='<div class="mbal"><span class="mbi">🪙</span>'
+    +'<div><div class="mbv">'+nf(bal)+'</div>'
+    +'<div class="mbs">= '+money(bal)+'</div></div></div>';
   var body=its.length?its.map(function(it){return marketCard(bal,it);}).join("")
     :'<div class="content muted">'+esc(T('mEmpty'))+'</div>';
   app.innerHTML=head+top+'<div class="stg">'+body+'</div>'+backBtn;
@@ -1490,11 +1539,12 @@ function marketCard(bal, it){
   var afford=bal>=it.cost;
   var isTech=["phone","tv","pc","watch","laptop"].indexOf(it.cat)>=0;
   var media="";
-  if(isTech||it.img){
+  if(isTech||it.img||it.stu){
     var col=CATCOL[it.cat]||["#94a3b8","#64748b"];
     media='<div class="pmedia" style="background:linear-gradient(135deg,'+col[0]+','+col[1]+')">'
       +(it.img?'<img src="'+esc(it.img)+'" onerror="this.remove()">':'')
-      +'<span class="pemoji">'+it.emoji+'</span></div>';
+      +'<span class="pemoji">'+it.emoji+'</span>'
+      +(it.stu?'<span class="stubadge">👨‍🎓</span>':'')+'</div>';
   }
   return '<div class="rev">'+media
     +'<div class="who">'+it.emoji+' '+esc(it.name)+'</div>'
@@ -1511,6 +1561,7 @@ function buyItem(id){
       if(d&&d.ok){ if(SHOP)SHOP.coins=d.coins; render(); confetti(["🎁","🎉","✨","🛍️"]);
         alertMsg(T('mBought').replace("{code}", d.code)); setCoins(d.coins); }
       else if(d&&d.error==="poor"){ if(d.coins!=null){ if(SHOP)SHOP.coins=d.coins; setCoins(d.coins); } alertMsg(T('mPoor').replace("{need}", nf(d.need))); }
+      else if(d&&d.error==="notstudent"){ alertMsg(T('mNotStudent')); }
       else { alertMsg(T('err')); }
     })
     .catch(function(){ alertMsg(T('err')); });
