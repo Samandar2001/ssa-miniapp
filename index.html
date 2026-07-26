@@ -213,6 +213,12 @@
   .btn.sec{background:var(--card);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.06)}
   .rowbtns{display:flex;gap:10px}
   .rowbtns .btn{flex:1;min-width:0}
+  .hsec{font-weight:800;font-size:18px;margin:4px 2px 11px;letter-spacing:.2px}
+  .shead{font-weight:800;font-size:18px;margin:8px 2px 12px}
+  .shead small{display:block;font-weight:500;font-size:13px;color:var(--hint);margin-top:2px}
+  .tlink{display:block;text-align:center;color:var(--hint);font-size:14px;font-weight:600;
+    padding:14px;cursor:pointer;margin-top:2px}
+  .tlink:active{opacity:.6}
   .banner{position:relative;overflow:hidden;border-radius:16px;padding:16px 18px;
     margin-bottom:14px;color:#fff;box-shadow:0 8px 22px -8px rgba(0,0,0,.4)}
   .banner .bt{font-weight:800;font-size:17px;line-height:1.2}
@@ -337,7 +343,7 @@ document.addEventListener("touchend", function(e){
 }, {passive:true});
 
 var UI = {
-  uz:{choose:"Bo'limni tanlang",about:"Kurs haqida",plan:"O'quv reja",price:"Narx",faq:"Savol-javob",
+  uz:{choose:"Bo'limni tanlang",hCourses:"📚 Kurslarimiz",about:"Kurs haqida",plan:"O'quv reja",price:"Narx",faq:"Savol-javob",
       enroll:"📝 Kursga yozilish",contact:"📞 Bog'lanish",reviews:"⭐ Sharhlar",back:"‹ Orqaga",bookBtn:"📖 Kitobni ochish",adminPanel:"🛡 Admin panel",admStat:"📊 Statistika",admOrders:"🎟 Buyurtmalar",admTrials:"📝 Sinov arizalari",admBot:"🤖 Coin berish / Xabar (botда)",admDone:"✅ Berildi",admEmpty:"Bo'sh",
       addrev:"✍️ Sharh qoldirish",cabinet:"📱 Shaxsiy kabinet",loading:"Yuklanmoqda…",
       lName:"👤 Farzand",lCourse:"📚 Kurs",lType:"🏷 Yo'nalish",lLogin:"🔐 LMS login",lPass:"🔑 Parol",
@@ -364,7 +370,7 @@ var UI = {
       lvl:[["🌱","Yangi"],["🥉","Bronza"],["🥈","Kumush"],["🥇","Oltin"],["💠","Platina"],["💎","Olmos"]],lvlToGo:"gacha qoldi",lvlMax:"Eng yuqori daraja!",lvlTitle:"Daraja",
       day:"☀️ Kunduzgi",night:"🌙 Tungi",on:"🔊 Yoniq",off:"🔇 O'chiq",
       norev:"Hali sharhlar yo'q.",per:"oy",err:"Ma'lumot topilmadi. Bot ishga tushirilganini tekshiring."},
-  ru:{choose:"Выберите раздел",about:"О курсе",plan:"Учебный план",price:"Цена",faq:"Вопросы",
+  ru:{choose:"Выберите раздел",hCourses:"📚 Наши курсы",about:"О курсе",plan:"Учебный план",price:"Цена",faq:"Вопросы",
       enroll:"📝 Записаться",contact:"📞 Связаться",reviews:"⭐ Отзывы",back:"‹ Назад",bookBtn:"📖 Открыть книгу",adminPanel:"🛡 Админ-панель",admStat:"📊 Статистика",admOrders:"🎟 Заказы",admTrials:"📝 Заявки на пробный",admBot:"🤖 Коины / Рассылка (в боте)",admDone:"✅ Выдано",admEmpty:"Пусто",
       addrev:"✍️ Оставить отзыв",cabinet:"📱 Личный кабинет",loading:"Загрузка…",
       lName:"👤 Ребёнок",lCourse:"📚 Курс",lType:"🏷 Направление",lLogin:"🔐 LMS логин",lPass:"🔑 Пароль",
@@ -391,7 +397,7 @@ var UI = {
       lvl:[["🌱","Новичок"],["🥉","Бронза"],["🥈","Серебро"],["🥇","Золото"],["💠","Платина"],["💎","Алмаз"]],lvlToGo:"осталось",lvlMax:"Максимальный уровень!",lvlTitle:"Уровень",
       day:"☀️ Светлая",night:"🌙 Тёмная",on:"🔊 Вкл",off:"🔇 Выкл",
       norev:"Отзывов пока нет.",per:"мес",err:"Данные не найдены. Проверьте, запущен ли бот."},
-  en:{choose:"Choose a section",about:"About",plan:"Curriculum",price:"Price",faq:"FAQ",
+  en:{choose:"Choose a section",hCourses:"📚 Our courses",about:"About",plan:"Curriculum",price:"Price",faq:"FAQ",
       enroll:"📝 Enroll",contact:"📞 Contact",reviews:"⭐ Reviews",back:"‹ Back",bookBtn:"📖 Open the book",adminPanel:"🛡 Admin panel",admStat:"📊 Statistics",admOrders:"🎟 Orders",admTrials:"📝 Trial requests",admBot:"🤖 Give coins / Broadcast (in bot)",admDone:"✅ Delivered",admEmpty:"Empty",
       addrev:"✍️ Leave a review",cabinet:"📱 My account",loading:"Loading…",
       lName:"👤 Child",lCourse:"📚 Course",lType:"🏷 Track",lLogin:"🔐 LMS login",lPass:"🔑 Password",
@@ -630,13 +636,12 @@ function renderHome(){
   app.innerHTML=header()
     +'<div id="bnr">'+bannerHTML()+'</div>'
     +'<div id="homewheel"></div>'
-    +'<div class="muted" style="margin-bottom:10px">'+T('choose')+'</div>'
+    +'<div class="hsec">'+T('hCourses')+'</div>'
     +'<div class="grid stg">'+cards+'</div>'
     +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>'
-    +'<button class="btn sec" onclick="go(\'trial\')">'+T('trialBtn')+'</button>'
     +'<div class="rowbtns">'
+    +  '<button class="btn sec" onclick="go(\'trial\')">'+T('trialBtn')+'</button>'
     +  '<button class="btn sec" onclick="go(\'reviews\')">'+T('reviews')+'</button>'
-    +  '<button class="btn sec" onclick="go(\'contact\')">'+T('contact')+'</button>'
     +'</div>';
   paintHomeWheel();
 }
