@@ -783,7 +783,7 @@ var WCOLS=["#7c1c3a","#a83557","#4f46e5","#059669","#d97706","#2563eb","#9333ea"
 function wheelBg(){
   var n=WSEG.length||1, seg=360/n, st=[], mx=Math.max.apply(null,WSEG.length?WSEG:[0]);
   for(var i=0;i<n;i++){
-    var col=(WSEG[i]===mx&&mx>=100000)?"#f7c948":WCOLS[i%WCOLS.length];
+    var col=(WSEG[i]===mx&&mx>=10000)?"#f7c948":WCOLS[i%WCOLS.length];
     st.push(col+" "+(i*seg)+"deg "+((i+1)*seg)+"deg");
   }
   var colors="conic-gradient("+st.join(",")+")";
