@@ -1646,7 +1646,12 @@ function setTab(t){ view.tab=t; render(); }
 function setLang(l){ LANG=l; try{document.documentElement.lang=l;}catch(e){} render(); }
 function openTg(u){ var url="https://t.me/"+String(u||"").replace("@","");
   if(tg&&tg.openTelegramLink)tg.openTelegramLink(url); else window.open(url,"_blank"); }
-function enroll(){ openTg((DATA.links&&DATA.links.signup)||""); }
+function enroll(){
+  var u=(DATA.links&&DATA.links.signup)||"";
+  if(!u) return;
+  // signup to'liq URL (https://t.me/...) — openUrl to'g'ri ochadi; username bo'lsa openTg
+  if(/^https?:\/\//.test(u)) openUrl(u); else openTg(u);
+}
 
 function detectLang(){
   try{ var l=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user&&tg.initDataUnsafe.user.language_code)||"uz";
