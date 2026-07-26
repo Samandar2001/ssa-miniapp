@@ -357,7 +357,13 @@
 <script>
 "use strict";
 var tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
-if (tg){ try{ tg.ready(); tg.expand(); }catch(e){} }
+if (tg){
+  try{ tg.ready(); tg.expand(); }catch(e){}
+  // Telefonda "orqaga" tugmasi — ilova ichida bir qadam orqaga (minimize emas)
+  try{ if(tg.BackButton) tg.BackButton.onClick(function(){ goBack(); }); }catch(e){}
+  // Pastga surib yopilib (minimize) qolmasin — barqaror ilova hissi
+  try{ if(tg.disableVerticalSwipes) tg.disableVerticalSwipes(); }catch(e){}
+}
 
 // Kunduzgi/tungi rejim
 var THEME="light";
@@ -529,6 +535,7 @@ var CUR={uz:"so'm",ru:"сум",en:"UZS"};
 
 var DATA=null, LANG="uz", DAILY=null, MYCOINS=null, COINDISP=null, IS_ADMIN=false;
 var view={name:"home"};           // {name:'home'|'sec'|'contact'|'reviews', code, tab}
+var NAV=[];                        // navigatsiya tarixi (orqaga tugmasi uchun)
 var app=document.getElementById('app');
 
 function T(k){ return (UI[LANG]||UI.uz)[k]; }
@@ -635,6 +642,7 @@ function render(){
   else if(view.name==="refer") renderRefer();
   else renderHome();
   paintTabs();
+  syncBackButton();
   try{ app.classList.remove("anim"); void app.offsetWidth; app.classList.add("anim"); }catch(e){}
 }
 
@@ -1592,7 +1600,26 @@ function renderPurchases(){
     })
     .catch(function(){ app.innerHTML=head+'<div class="content muted">'+esc(T('err'))+'</div>'+backBtn; });
 }
-function go(name,code){ view={name:name,code:code,tab:"about"}; window.scrollTo(0,0); render(); }
+function go(name,code){
+  var prev=NAV[NAV.length-1];
+  if(prev && prev.name===name && (prev.code||null)===(code||null)){
+    NAV.pop();   // avvalgi ekranga qaytish — tarixga qo'shmaymiz
+  } else if(view.name!==name || (view.code||null)!==(code||null)){
+    NAV.push({name:view.name,code:view.code,tab:view.tab});
+    if(NAV.length>60) NAV.shift();
+  }
+  view={name:name,code:code,tab:"about"}; window.scrollTo(0,0); render();
+}
+function goBack(){
+  if(NAV.length){ view=NAV.pop(); }
+  else if(view.name!=="home"){ view={name:"home"}; }
+  window.scrollTo(0,0); render();
+}
+// Telegram "orqaga" tugmasini ko'rsatish/yashirish (home'da yashirin — ilova yopiladi)
+function syncBackButton(){
+  if(!tg||!tg.BackButton) return;
+  try{ if(NAV.length || view.name!=="home") tg.BackButton.show(); else tg.BackButton.hide(); }catch(e){}
+}
 function setTab(t){ view.tab=t; render(); }
 function setLang(l){ LANG=l; try{document.documentElement.lang=l;}catch(e){} render(); }
 function openTg(u){ var url="https://t.me/"+String(u||"").replace("@","");
