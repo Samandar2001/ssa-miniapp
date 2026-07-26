@@ -26,14 +26,14 @@
   .tabitem{flex:1;border:none;background:none;color:var(--hint);cursor:pointer;
     font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;
     padding:8px 0 7px;transition:color .12s}
-  .tabitem .ti-ic{font-size:21px;line-height:1;transition:transform .12s}
+  .tabitem .ti-ic{font-size:21px;line-height:1;transition:transform .3s cubic-bezier(.2,.7,.25,1.6)}
   .ti-av{width:23px;height:23px;border-radius:50%;object-fit:cover;display:block}
   .ti-av.ini{background:linear-gradient(135deg,var(--accent),#b03a5b);color:#fff;
     display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
   .tabitem.active .ti-av{box-shadow:0 0 0 2px var(--accent)}
   .tabitem .ti-lb{font-size:11px;font-weight:600;letter-spacing:.1px}
   .tabitem.active{color:var(--accent)}
-  .tabitem.active .ti-ic{transform:translateY(-1px) scale(1.1)}
+  .tabitem.active .ti-ic{transform:translateY(-2px) scale(1.2)}
   .tabitem:active .ti-ic{transform:scale(.85)}
   header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px}
   .brand{font-weight:800;font-size:17px;color:var(--accent);line-height:1.15}
@@ -252,23 +252,25 @@
     box-shadow:0 8px 24px -10px rgba(0,0,0,.35);border:1px solid var(--line)}
   .hwtitle{font-weight:800;font-size:16px}
   .hwfree{display:block;font-size:12px;color:var(--hint);font-weight:600;margin-top:2px}
-  @keyframes appIn{from{opacity:0}to{opacity:1}}
-  #app.anim{animation:appIn .22s ease}
+  @keyframes appIn{from{opacity:0;transform:translateY(10px) scale(.994)}to{opacity:1;transform:none}}
+  #app.anim{animation:appIn .34s cubic-bezier(.22,.68,.26,1)}
   @keyframes spin{to{transform:rotate(360deg)}}
   .spin{width:34px;height:34px;border-radius:50%;border:3px solid var(--line);
     border-top-color:var(--accent);animation:spin .8s linear infinite;margin:44px auto}
   .card,.rev,.qtile,.pstat,.btn,.coinchip,.iconbtn,.tabitem{will-change:transform}
   /* Ketma-ket (stagger) chiqish */
-  @keyframes itemIn{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:none}}
-  .stg>*{animation:itemIn .42s cubic-bezier(.2,.7,.3,1) both}
-  .stg>*:nth-child(2){animation-delay:.045s}
-  .stg>*:nth-child(3){animation-delay:.09s}
-  .stg>*:nth-child(4){animation-delay:.135s}
-  .stg>*:nth-child(5){animation-delay:.18s}
-  .stg>*:nth-child(6){animation-delay:.225s}
-  .stg>*:nth-child(7){animation-delay:.27s}
-  .stg>*:nth-child(8){animation-delay:.315s}
-  .stg>*:nth-child(n+9){animation-delay:.36s}
+  @keyframes itemIn{0%{opacity:0;transform:translateY(18px) scale(.965)}
+    60%{opacity:1}100%{opacity:1;transform:none}}
+  .stg>*{animation:itemIn .5s cubic-bezier(.2,.7,.28,1.06) both}
+  .stg>*:nth-child(2){animation-delay:.05s}
+  .stg>*:nth-child(3){animation-delay:.1s}
+  .stg>*:nth-child(4){animation-delay:.15s}
+  .stg>*:nth-child(5){animation-delay:.2s}
+  .stg>*:nth-child(6){animation-delay:.25s}
+  .stg>*:nth-child(7){animation-delay:.3s}
+  .stg>*:nth-child(8){animation-delay:.35s}
+  .stg>*:nth-child(9){animation-delay:.4s}
+  .stg>*:nth-child(n+10){animation-delay:.45s}
   /* Coin chip puls */
   @keyframes cpulse{0%{transform:scale(1)}45%{transform:scale(1.16)}100%{transform:scale(1)}}
   .coinchip.puls{animation:cpulse .45s ease}
@@ -284,10 +286,15 @@
   .skel{border-radius:12px;margin-bottom:10px;
     background:linear-gradient(90deg,var(--card) 25%,var(--line) 37%,var(--card) 63%);
     background-size:200% 100%;animation:shim 1.15s infinite}
+  @media (prefers-reduced-motion: reduce){
+    #app.anim,.stg>*,.banner,.coinchip.puls{animation:none!important}
+    *{transition-duration:.05s!important}
+  }
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
   .card{background:var(--card);border-radius:16px;padding:16px;cursor:pointer;
-        box-shadow:0 1px 4px rgba(0,0,0,.06);transition:transform .08s}
-  .card:active{transform:scale(.96)}
+        box-shadow:0 1px 4px rgba(0,0,0,.06);
+        transition:transform .18s cubic-bezier(.2,.7,.3,1.5),box-shadow .18s}
+  .card:active{transform:scale(.94)}
   .card .em{font-size:28px;line-height:1}
   .badge{width:48px;height:48px;border-radius:15px;display:flex;align-items:center;
         justify-content:center;color:#fff;box-shadow:0 6px 16px -4px rgba(0,0,0,.35)}
@@ -297,8 +304,9 @@
   .btn{display:block;width:100%;border:none;border-radius:14px;padding:15px;font-size:16px;
        font-weight:700;cursor:pointer;margin-top:10px;color:var(--btn-text);
        background:linear-gradient(135deg,var(--btn),var(--accent));
-       box-shadow:0 6px 18px -6px rgba(124,28,58,.55)}
-  .btn:active{transform:translateY(1px);opacity:.9}
+       box-shadow:0 6px 18px -6px rgba(124,28,58,.55);
+       transition:transform .16s cubic-bezier(.2,.7,.3,1.5),box-shadow .16s,opacity .16s}
+  .btn:active{transform:scale(.965);opacity:.94;box-shadow:0 3px 10px -5px rgba(124,28,58,.5)}
   .btn.sec{background:var(--card);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.06)}
   .rowbtns{display:flex;gap:10px}
   .rowbtns .btn{flex:1;min-width:0}
