@@ -69,14 +69,17 @@
   .qtile{background:var(--card);border-radius:14px;padding:12px 4px;text-align:center;
     cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.06);transition:transform .08s}
   .qtile:active{transform:scale(.94)}
-  .qtile.off{opacity:.4}
-  .qtile .qi{font-size:22px;line-height:1}
-  .qtile .ql{font-size:11px;color:var(--hint);margin-top:5px;font-weight:600}
+  .qtile.off{opacity:.45}
+  .qtile .qi{width:44px;height:44px;border-radius:14px;margin:0 auto;display:flex;
+    align-items:center;justify-content:center;font-size:22px;color:#fff;
+    box-shadow:0 6px 14px -6px rgba(0,0,0,.4)}
+  .qtile .ql{font-size:11px;color:var(--hint);margin-top:7px;font-weight:600}
   .phero{position:relative;overflow:hidden;border-radius:18px;padding:18px;margin-bottom:12px;
     color:#fff;background:linear-gradient(135deg,var(--btn),var(--accent));
     box-shadow:0 10px 26px -10px rgba(124,28,58,.6);display:flex;align-items:center;gap:14px}
-  .phero .pav{width:58px;height:58px;border-radius:50%;object-fit:cover;flex-shrink:0;
-    border:2px solid rgba(255,255,255,.6)}
+  .phero .pav{width:60px;height:60px;border-radius:50%;object-fit:cover;flex-shrink:0;
+    border:2.5px solid rgba(255,255,255,.85);box-shadow:0 0 0 4px rgba(255,255,255,.18),
+    0 6px 16px -4px rgba(0,0,0,.4)}
   .phero .pav.ini{background:rgba(255,255,255,.22);display:flex;align-items:center;
     justify-content:center;font-size:24px;font-weight:800}
   .phero .pnm{font-weight:800;font-size:19px;line-height:1.15;word-break:break-word}
@@ -84,10 +87,24 @@
   .pbadge{display:inline-block;background:rgba(255,255,255,.22);border-radius:10px;
     padding:2px 10px;font-size:12px;font-weight:700;margin-top:7px}
   .pstats{display:flex;gap:10px;margin-bottom:12px}
-  .pstat{flex:1;background:var(--card);border-radius:14px;padding:12px 6px;text-align:center;
-    box-shadow:0 1px 4px rgba(0,0,0,.06)}
-  .pstat .v{font-weight:800;font-size:17px}
-  .pstat .l{font-size:11px;color:var(--hint);margin-top:3px;font-weight:600}
+  .pstat{position:relative;overflow:hidden;flex:1;background:var(--card);border-radius:14px;
+    padding:13px 6px 12px;text-align:center;box-shadow:0 2px 8px -3px rgba(0,0,0,.1)}
+  .pstat:before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+  .pstat.s-gold:before{background:linear-gradient(90deg,#fbbf24,#d97706)}
+  .pstat.s-rank:before{background:linear-gradient(90deg,#a78bfa,#7c3aed)}
+  .pstat.s-ref:before{background:linear-gradient(90deg,#f472b6,#be185d)}
+  .pstat .psi{font-size:16px;line-height:1;margin-bottom:4px}
+  .pstat .v{font-weight:900;font-size:19px;letter-spacing:-.3px}
+  .pstat .l{font-size:10.5px;color:var(--hint);margin-top:3px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.3px}
+  .schedcard{display:flex;align-items:center;gap:13px;background:var(--card);border-radius:16px;
+    padding:14px;margin-bottom:12px;box-shadow:0 2px 8px -3px rgba(0,0,0,.1)}
+  .schedcard .schi{width:46px;height:46px;border-radius:14px;flex-shrink:0;font-size:23px;
+    display:flex;align-items:center;justify-content:center;color:#fff;
+    background:linear-gradient(135deg,#34d399,#059669);box-shadow:0 6px 14px -5px rgba(5,150,105,.7)}
+  .schedcard .schl{font-size:10.5px;color:var(--hint);font-weight:700;
+    text-transform:uppercase;letter-spacing:.4px}
+  .schedcard .schv{font-weight:800;font-size:15px;margin-top:2px;word-break:break-word}
   .pcard{background:var(--card);border-radius:16px;padding:2px 14px 8px;margin-bottom:12px;
     box-shadow:0 1px 4px rgba(0,0,0,.06)}
   .pcard .ph{font-weight:700;font-size:12px;color:var(--hint);padding:12px 0 2px;
@@ -1150,11 +1167,12 @@ function profHero(subtitle, badge){
     +'</div></div>';
 }
 function statTiles(c, rank, friends){
-  function tile(v,l){ return '<div class="pstat"><div class="v">'+v+'</div><div class="l">'+esc(l)+'</div></div>'; }
+  function tile(cls,ic,v,l){ return '<div class="pstat '+cls+'"><div class="psi">'+ic+'</div>'
+    +'<div class="v">'+v+'</div><div class="l">'+esc(l)+'</div></div>'; }
   return '<div class="pstats">'
-    +tile('🪙 '+nf(c||0), T('coinUnit'))
-    +tile(rank?('#'+rank):'—', T('stRank'))
-    +tile((friends!=null?friends:0)+'', T('stFriends'))
+    +tile('s-gold','🪙', nf(c||0), T('coinUnit'))
+    +tile('s-rank','🏆', rank?('#'+rank):'—', T('stRank'))
+    +tile('s-ref','🎁', (friends!=null?friends:0)+'', T('stFriends'))
     +'</div>';
 }
 function levelCard(lv){
@@ -1191,9 +1209,11 @@ function credRow(label, val, secret){
     +'<button class="cbtn" data-c="'+esc(val)+'" onclick="copyText(this.getAttribute(\'data-c\'))">📋</button>'
     +eye+'</div></div>';
 }
-function qtile(icon,label,onclick,off){
+function qtile(icon,label,onclick,off,grad){
+  var g=grad||["#94a3b8","#64748b"];
   return '<div class="qtile'+(off?' off':'')+'"'+(off?"":' onclick="'+onclick+'"')+'>'
-    +'<div class="qi">'+icon+'</div><div class="ql">'+esc(label)+'</div></div>';
+    +'<div class="qi" style="background:linear-gradient(135deg,'+g[0]+','+g[1]+')">'+icon+'</div>'
+    +'<div class="ql">'+esc(label)+'</div></div>';
 }
 
 function cabinetLite(head, backBtn){
@@ -1244,12 +1264,18 @@ function cabView(){
   info+='</div>';
   // LMS ma'lumotlari (qutili, nusxa + parol yashirish)
   var creds="";
-  if(ch.login||ch.parol||ch.schedule){
+  if(ch.login||ch.parol){
     creds='<div class="pcard"><div class="ph">'+esc(T('cabCreds'))+'</div>';
     if(ch.login) creds+=credRow(T('lLogin'), ch.login, false);
     if(ch.parol) creds+=credRow(T('lPass'), ch.parol, true);
-    if(ch.schedule) creds+=crow(T('lSched'), ch.schedule, false, false);
     creds+='</div>';
+  }
+  // Dars jadvali — alohida ajralib turadigan premium karta
+  var sched="";
+  if(ch.schedule){
+    sched='<div class="schedcard"><div class="schi">📅</div>'
+      +'<div style="min-width:0"><div class="schl">'+esc(T('lSched'))+'</div>'
+      +'<div class="schv">'+esc(ch.schedule)+'</div></div></div>';
   }
   // Sertifikat
   var certcard='<div class="pcard"><div class="ph">'+esc(T('lCert'))+'</div>'
@@ -1257,12 +1283,12 @@ function cabView(){
     +esc(hasCert?T('cabCertReady'):(c||T('certNone')))+'</span></div></div>';
   // Tez amallar
   var quick='<div class="qgrid">'
-    +qtile("🌐","LMS","openLmsSite()")
-    +qtile("🎓","Sertifikat",hasCert?("openUrl('"+esc(c)+"')"):"",!hasCert)
-    +qtile("🛒","Market","go('market')")
-    +qtile("🎁",shortName(T('tabFriends')),"go('refer')")
+    +qtile("🌐","LMS","openLmsSite()",false,["#0ea5e9","#0369a1"])
+    +qtile("🎓","Sertifikat",hasCert?("openUrl('"+esc(c)+"')"):"",!hasCert,["#f59e0b","#d97706"])
+    +qtile("🛒","Market","go('market')",false,["#22c55e","#16a34a"])
+    +qtile("🎁",shortName(T('tabFriends')),"go('refer')",false,["#8b5cf6","#6d28d9"])
     +'</div>';
-  app.innerHTML=head+sel+'<div class="stg">'+hero+stats+levelCard(d.level)+quick+info+creds+certcard+'</div>'+backBtn;
+  app.innerHTML=head+sel+'<div class="stg">'+hero+stats+sched+levelCard(d.level)+quick+info+creds+certcard+'</div>'+backBtn;
 }
 function renderCabinet(){
   var api=(DATA.links&&DATA.links.cabinet_api)||"";
