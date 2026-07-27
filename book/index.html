@@ -7,7 +7,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
       html, body { margin: 0; padding: 0; height: 100%; background: #cfeaff; overflow: hidden; }
-      #unity-canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+      #unity-canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
       #loading {
         position: fixed; inset: 0; display: flex; flex-direction: column;
         align-items: center; justify-content: center; font-family: sans-serif;
@@ -47,6 +47,18 @@
       }
       document.getElementById("backBtn").onclick = goBack;
 
+      // Backend manzilini content.json'dan olamiz (akkountga chizma saqlash uchun)
+      window.__ssaApi = "";
+      try {
+        fetch("../content.json?v=" + Date.now())
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            var api = (d && d.links && d.links.cabinet_api) || "";
+            window.__ssaApi = api.replace(/\/cabinet\/?$/, "");
+          })
+          .catch(function () {});
+      } catch (e) {}
+
       var canvas = document.querySelector("#unity-canvas");
       var barFill = document.getElementById("barFill");
       var loading = document.getElementById("loading");
@@ -60,7 +72,7 @@
         companyName: "DefaultCompany",
         productName: "Matematika kitobi",
         productVersion: "2.0",
-        devicePixelRatio: 1,        // mobil GPU'ni ortiqcha yuklamaslik -> tez, silliq
+        devicePixelRatio: 1,
         matchWebGLToCanvasSize: true,
       };
 
