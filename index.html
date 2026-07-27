@@ -758,11 +758,6 @@ function banners(){ return (DATA&&DATA.banners)||[]; }
 function openUrl(u){
   if(!u) return;
   try{
-    // O'z saytimizdagi (same-origin) havola — Telegram ilovasi ichida ochamiz
-    var abs=new URL(u, location.href);
-    if(abs.origin===location.origin){ location.href=abs.href; return; }
-  }catch(e){}
-  try{
     if(/t\.me\/|telegram\.me\//.test(u)){ if(tg&&tg.openTelegramLink){ tg.openTelegramLink(u); return; } }
     else if(tg&&tg.openLink){ tg.openLink(u); return; }
   }catch(e){}
