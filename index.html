@@ -294,14 +294,16 @@
   .wface{position:absolute;inset:0;border-radius:50%;
     transition:transform 4.6s cubic-bezier(.1,.85,.15,1)}
   .wlab{position:absolute;top:50%;left:50%;color:#fff;font-weight:800;font-size:14px;
-    white-space:nowrap;text-shadow:0 1px 3px rgba(0,0,0,.55),0 0 2px rgba(0,0,0,.4)}
+    white-space:nowrap;
+    text-shadow:0 0 3px rgba(0,0,0,.9),-1px -1px 2px rgba(0,0,0,.7),1px 1px 2px rgba(0,0,0,.7)}
   .wptr{position:absolute;top:-8px;left:50%;transform:translateX(-50%);z-index:4;width:0;height:0;
     border-left:14px solid transparent;border-right:14px solid transparent;
     border-top:26px solid #f7c948;filter:drop-shadow(0 3px 3px rgba(0,0,0,.45))}
   .whub{position:absolute;top:50%;left:50%;width:52px;height:52px;transform:translate(-50%,-50%);
     background:radial-gradient(circle at 35% 30%,#fff,#e7e7ec 70%);border-radius:50%;z-index:3;
-    display:flex;align-items:center;justify-content:center;font-size:24px;
+    display:flex;align-items:center;justify-content:center;
     box-shadow:0 0 0 4px #f7c948,0 0 0 6px #b8860b,0 3px 12px rgba(0,0,0,.45)}
+  .whub:after{content:"★";color:#e0912a;font-size:22px;line-height:1}
   @keyframes hubpulse{0%,100%{box-shadow:0 0 0 4px #f7c948,0 0 0 6px #b8860b,0 3px 12px rgba(0,0,0,.45)}
     50%{box-shadow:0 0 0 4px #ffe08a,0 0 0 6px #b8860b,0 0 18px 4px rgba(247,201,72,.7)}}
   .whub.live{animation:hubpulse 1.4s ease-in-out infinite}
@@ -934,7 +936,7 @@ function wheelMarkup(live){
   }).join("");
   return '<div class="wheelwrap"><div class="wptr"></div>'
     +'<div class="wheel"><div class="wface" id="wface" style="background:'+wheelBg()+'">'+labs+'</div></div>'
-    +'<div class="whub'+(live?" live":"")+'">🎡</div></div>';
+    +'<div class="whub'+(live?" live":"")+'"></div></div>';
 }
 // Home'dagi doira — faqat aylantirish mumkin bo'lsa chiqadi (aylantirilgach yo'qoladi)
 function paintHomeWheel(){
@@ -967,7 +969,7 @@ function doSpinHome(){
     })
     .catch(function(){ SPINNING=false; alertMsg(T('err')); });
 }
-var WCOLS=["#7c1c3a","#a83557","#4f46e5","#059669","#d97706","#2563eb","#9333ea","#e11d48"];
+var WCOLS=["#ef4444","#f97316","#eab308","#22c55e","#06b6d4","#3b82f6","#8b5cf6","#ec4899"];
 function wheelBg(){
   var n=WSEG.length||1, seg=360/n, st=[], mx=Math.max.apply(null,WSEG.length?WSEG:[0]);
   for(var i=0;i<n;i++){
