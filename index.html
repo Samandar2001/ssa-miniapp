@@ -50,6 +50,14 @@
         border-radius:18px;padding:6px 12px;font-size:14px;font-weight:800;cursor:pointer;
         display:flex;align-items:center;gap:4px;white-space:nowrap}
   .coinchip:active{transform:scale(.95)}
+  /* SSA brend tanga (🪙 o'rniga) — o'lchami font-size bo'yicha */
+  .ssacoin{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;
+    width:1.15em;height:1.15em;border-radius:50%;vertical-align:-.22em;
+    background:radial-gradient(circle at 36% 30%,#ffe9a8,#f5c045 55%,#d89320);
+    box-shadow:0 .04em .12em rgba(0,0,0,.3),inset 0 0 0 .06em #e0a92e,
+      inset 0 0 0 .11em rgba(255,255,255,.4);color:#8a5a10;
+    font-weight:900;font-family:Arial,Helvetica,sans-serif;line-height:1}
+  .ssacoin>i{font-size:.35em;font-style:normal;letter-spacing:-.03em}
   .iconbtn{width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;flex-shrink:0;
         display:flex;align-items:center;justify-content:center;
         background:var(--sec);color:var(--accent);transition:transform .2s}
@@ -645,6 +653,7 @@ var app=document.getElementById('app');
 
 function T(k){ return (UI[LANG]||UI.uz)[k]; }
 function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function coinIco(){ return '<span class="ssacoin"><i>SSA</i></span>'; }   // SSA brend tanga
 function nf(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g," "); }
 function money(n){ return nf(n)+" "+CUR[LANG]; }
 // Coin balansini animatsiya bilan yangilash (sanab o'sadi + puls)
@@ -712,7 +721,7 @@ function nameOf(code){
 function header(){
   var gear='<button class="iconbtn" title="'+T('settings')+'" onclick="go(\'settings\')">'+GEAR_SVG+'</button>';
   // Tepa o'ng — coin balans chip'i (bosilsa Coin bo'limi)
-  var chip='<button class="coinchip" id="coinchip" title="'+T('coins')+'" onclick="go(\'coins\')">🪙 '
+  var chip='<button class="coinchip" id="coinchip" title="'+T('coins')+'" onclick="go(\'coins\')">'+coinIco()+' '
           +'<span id="coinval">'+(COINDISP!=null?nf(Math.round(COINDISP)):'—')+'</span></button>';
   var logo=(THEME==="dark")?"logo-white.png":"logo-color.png";
   return '<header>'
@@ -1283,7 +1292,7 @@ function statTiles(c, rank, friends){
   function tile(cls,ic,v,l){ return '<div class="pstat '+cls+'"><div class="psi">'+ic+'</div>'
     +'<div class="v">'+v+'</div><div class="l">'+esc(l)+'</div></div>'; }
   return '<div class="pstats">'
-    +tile('s-gold','🪙', nf(c||0), T('coinUnit'))
+    +tile('s-gold',coinIco(), nf(c||0), T('coinUnit'))
     +tile('s-rank','🏆', rank?('#'+rank):'—', T('stRank'))
     +tile('s-ref','🎁', (friends!=null?friends:0)+'', T('stFriends'))
     +'</div>';
@@ -1301,7 +1310,7 @@ function levelCard(lv){
     +'<div class="lvbadge2">'+cur[0]+'</div>'
     +'<div class="lvinfo"><div class="lvlbl">'+esc(T('lvlTitle'))+' '+(lv.index+1)+'/'+names.length+'</div>'
     +'<div class="lvname">'+esc(cur[1])+'</div></div>'
-    +'<div class="lvearnedbox">🪙 '+nf(lv.earned)+'</div></div>';
+    +'<div class="lvearnedbox">'+coinIco()+' '+nf(lv.earned)+'</div></div>';
   if(lv.next==null){
     return '<div class="lvcard2">'+top
       +'<div class="lvmaxb">🏆 '+esc(T('lvlMax'))+'</div></div>';
@@ -1313,7 +1322,7 @@ function levelCard(lv){
     +'<div class="lvprog"><div class="lvprow"><b>'+pct+'%</b>'
     +'<span>→ '+nxt[0]+' '+esc(nxt[1])+'</span></div>'
     +'<div class="lvbar"><div class="lvfill" style="width:'+pct+'%;background:linear-gradient(90deg,'+col[0]+','+col[1]+')"></div></div>'
-    +'<div class="lvtogo">'+nf(lv.next-lv.earned)+' 🪙 '+esc(T('lvlToGo'))+'</div></div></div>';
+    +'<div class="lvtogo">'+nf(lv.next-lv.earned)+' '+coinIco()+' '+esc(T('lvlToGo'))+'</div></div></div>';
 }
 function crow(label, val, mono, copy){
   var v='<span class="cv'+(mono?' mono':'')+'">'+esc(val)+'</span>';
@@ -1564,7 +1573,7 @@ function renderCoins(){
     var hero='<div class="coinhero"><div class="chshine"></div>'
       +'<div class="chtop"><span class="chpill">'+lname+'</span>'
       +(rank?('<span class="chpill">🏆 #'+rank+'</span>'):'')+'</div>'
-      +'<div class="chbal"><span class="chc">🪙</span><span id="coinbig">0</span></div>'
+      +'<div class="chbal"><span class="chc">'+coinIco()+'</span><span id="coinbig">0</span></div>'
       +'<div class="chsum">≈ <b>'+money(bal)+'</b></div></div>';
     var daily='';
     if(DAILY){
@@ -1739,7 +1748,7 @@ function renderMarket(){
   if(!SHOP){ app.innerHTML=head+'<div class="spin"></div>'+backBtn;
     loadShop(function(){ if(view.name==="market") renderMarket(); }); return; }
   var bal=SHOP.coins||0, cats=SHOP.cats||[], items=SHOP.items||[], isStu=!!SHOP.student;
-  var top='<div class="mbal"><span class="mbi">🪙</span>'
+  var top='<div class="mbal"><span class="mbi">'+coinIco()+'</span>'
     +'<div><div class="mbv">'+nf(bal)+'</div>'
     +'<div class="mbs">= '+money(bal)+'</div></div></div>';
   // --- 👨‍🎓 O'quvchilar bo'limi (alohida) ---
@@ -1785,7 +1794,7 @@ function renderMarketCat(){
   var cat=(SHOP.cats||[]).filter(function(c){return c.key===key;})[0];
   head+='<h2>'+esc(cat?cat.name:T('marketTitle'))+'</h2>';
   var its=(SHOP.items||[]).filter(function(it){return (it.cat||"all")===key;});
-  var top='<div class="mbal"><span class="mbi">🪙</span>'
+  var top='<div class="mbal"><span class="mbi">'+coinIco()+'</span>'
     +'<div><div class="mbv">'+nf(bal)+'</div>'
     +'<div class="mbs">= '+money(bal)+'</div></div></div>';
   var body=its.length?its.map(function(it){return marketCard(bal,it);}).join("")
@@ -1805,7 +1814,7 @@ function marketCard(bal, it){
   }
   return '<div class="rev">'+media
     +'<div class="who">'+it.emoji+' '+esc(it.name)+'</div>'
-    +'<div class="muted" style="margin-bottom:8px">🪙 '+nf(it.cost)+' = '+money(it.cost)+'</div>'
+    +'<div class="muted" style="margin-bottom:8px">'+coinIco()+' '+nf(it.cost)+' = '+money(it.cost)+'</div>'
     +'<button class="btn'+(afford?'':' sec')+'" style="margin-top:0" '
     +(afford?('onclick="buyItem(\''+esc(it.id)+'\')"'):'disabled')+'>'+T('mBuy')+'</button></div>';
 }
