@@ -882,6 +882,14 @@ function renderSec(){
     +'<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
 }
 
+// O'yinni ochish — natijani yozish uchun token (api + initData + o'yin id) qo'shamiz
+function openGame(url, gid){
+  if(!url) return;
+  var api=(DATA.links&&DATA.links.cabinet_api)||"";
+  var init=(tg&&tg.initData)||"";
+  var sep=(url.indexOf('?')>=0)?'&':'?';
+  openUrl(url+sep+'api='+encodeURIComponent(api)+'&initData='+encodeURIComponent(init)+'&game='+encodeURIComponent(gid));
+}
 // Fan o'yinlari sahifasi — kitob + o'yinlar kartalari
 function renderGames(){
   var code=view.code;
@@ -895,9 +903,9 @@ function renderGames(){
       +'<span class="gci" style="background:linear-gradient(135deg,#f59e0b,#d97706)">📖</span>'
       +'<span class="gct">'+T('bookOpen')+'</span><span class="gca">→</span></div>';
   }
-  body+=games.map(function(g){
+  body+=games.map(function(g,i){
     var col=g.grad||["#8b5cf6","#6d28d9"];
-    return '<div class="gcard" onclick="openUrl(\''+esc(g.url||"")+'\')">'
+    return '<div class="gcard" onclick="openGame(\''+esc(g.url||"")+'\',\''+code+':'+i+'\')">'
       +'<span class="gci" style="background:linear-gradient(135deg,'+col[0]+','+col[1]+')">'+(g.emoji||"🎮")+'</span>'
       +'<span class="gct">'+esc(g.name||"O'yin")+'</span><span class="gca">→</span></div>';
   }).join("");
