@@ -334,6 +334,15 @@
   .hwbtn .hwbt{flex:1;min-width:0;font-weight:800;font-size:15px;line-height:1.15}
   .hwbtn .hwbt small{display:block;font-weight:700;font-size:12px;opacity:.8;margin-top:1px}
   .hwbtn .hwba{font-size:20px;font-weight:800;opacity:.75}
+  /* Fan kitob/o'yin kartalari */
+  .gcard{display:flex;align-items:center;gap:13px;background:var(--card);border-radius:16px;
+    padding:13px 15px;margin-bottom:10px;cursor:pointer;box-shadow:0 2px 8px -3px rgba(0,0,0,.12);
+    transition:transform .12s}
+  .gcard:active{transform:scale(.97)}
+  .gcard .gci{width:46px;height:46px;border-radius:13px;flex-shrink:0;font-size:23px;color:#fff;
+    display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px -6px rgba(0,0,0,.4)}
+  .gcard .gct{flex:1;min-width:0;font-weight:800;font-size:15px}
+  .gcard .gca{font-size:20px;font-weight:800;color:var(--hint);flex-shrink:0}
   @keyframes appIn{from{opacity:0;transform:translateY(10px) scale(.994)}to{opacity:1;transform:none}}
   #app.anim{animation:appIn .34s cubic-bezier(.22,.68,.26,1)}
   @keyframes spin{to{transform:rotate(360deg)}}
@@ -529,7 +538,7 @@ document.addEventListener("touchend", function(e){
 
 var UI = {
   uz:{choose:"Bo'limni tanlang",hCourses:"📚 Kurslarimiz",about:"Kurs haqida",plan:"O'quv reja",price:"Narx",faq:"Savol-javob",
-      enroll:"📝 Kursga yozilish",contact:"📞 Bog'lanish",reviews:"⭐ Sharhlar",back:"‹ Orqaga",bookBtn:"📖 Kitobni ochish",adminPanel:"🛡 Admin panel",admStat:"📊 Statistika",admOrders:"🎟 Buyurtmalar",admTrials:"📝 Sinov arizalari",admBot:"🤖 Coin berish / Xabar (botда)",admDone:"✅ Berildi",admEmpty:"Bo'sh",
+      enroll:"📝 Kursga yozilish",contact:"📞 Bog'lanish",reviews:"⭐ Sharhlar",back:"‹ Orqaga",bookBtn:"📖 Kitobni ochish",gamesBtn:"🎮 O'yinlar",bookOpen:"📖 Kitobni ochish",gamesEmpty:"Hali o'yin qo'shilmagan.",adminPanel:"🛡 Admin panel",admStat:"📊 Statistika",admOrders:"🎟 Buyurtmalar",admTrials:"📝 Sinov arizalari",admBot:"🤖 Coin berish / Xabar (botда)",admDone:"✅ Berildi",admEmpty:"Bo'sh",
       addrev:"✍️ Sharh qoldirish",revPh:"Fikringizni yozing...",revSend:"📩 Sharhni yuborish",revThanks:"⭐ Rahmat! Sharhingiz qabul qilindi.",revShort:"Sharh juda qisqa.",cabinet:"📱 Shaxsiy kabinet",loading:"Yuklanmoqda…",
       lName:"👤 Farzand",lCourse:"📚 Kurs",lType:"🏷 Yo'nalish",lLogin:"🔐 LMS login",lPass:"🔑 Parol",
       lSched:"📅 Dars jadvali",lCert:"🎓 Sertifikat",certNone:"hali tayyor emas",lmsGo:"🌐 LMS saytiga kirish",
@@ -557,7 +566,7 @@ var UI = {
       day:"☀️ Kunduzgi",night:"🌙 Tungi",on:"🔊 Yoniq",off:"🔇 O'chiq",
       norev:"Hali sharhlar yo'q.",per:"oy",err:"Ma'lumot topilmadi. Bot ishga tushirilganini tekshiring."},
   ru:{choose:"Выберите раздел",hCourses:"📚 Наши курсы",about:"О курсе",plan:"Учебный план",price:"Цена",faq:"Вопросы",
-      enroll:"📝 Записаться",contact:"📞 Связаться",reviews:"⭐ Отзывы",back:"‹ Назад",bookBtn:"📖 Открыть книгу",adminPanel:"🛡 Админ-панель",admStat:"📊 Статистика",admOrders:"🎟 Заказы",admTrials:"📝 Заявки на пробный",admBot:"🤖 Коины / Рассылка (в боте)",admDone:"✅ Выдано",admEmpty:"Пусто",
+      enroll:"📝 Записаться",contact:"📞 Связаться",reviews:"⭐ Отзывы",back:"‹ Назад",bookBtn:"📖 Открыть книгу",gamesBtn:"🎮 Игры",bookOpen:"📖 Открыть книгу",gamesEmpty:"Игры пока не добавлены.",adminPanel:"🛡 Админ-панель",admStat:"📊 Статистика",admOrders:"🎟 Заказы",admTrials:"📝 Заявки на пробный",admBot:"🤖 Коины / Рассылка (в боте)",admDone:"✅ Выдано",admEmpty:"Пусто",
       addrev:"✍️ Оставить отзыв",revPh:"Напишите ваше мнение...",revSend:"📩 Отправить отзыв",revThanks:"⭐ Спасибо! Ваш отзыв принят.",revShort:"Отзыв слишком короткий.",cabinet:"📱 Личный кабинет",loading:"Загрузка…",
       lName:"👤 Ребёнок",lCourse:"📚 Курс",lType:"🏷 Направление",lLogin:"🔐 LMS логин",lPass:"🔑 Пароль",
       lSched:"📅 Расписание",lCert:"🎓 Сертификат",certNone:"ещё не готов",lmsGo:"🌐 Войти на LMS",
@@ -585,7 +594,7 @@ var UI = {
       day:"☀️ Светлая",night:"🌙 Тёмная",on:"🔊 Вкл",off:"🔇 Выкл",
       norev:"Отзывов пока нет.",per:"мес",err:"Данные не найдены. Проверьте, запущен ли бот."},
   en:{choose:"Choose a section",hCourses:"📚 Our courses",about:"About",plan:"Curriculum",price:"Price",faq:"FAQ",
-      enroll:"📝 Enroll",contact:"📞 Contact",reviews:"⭐ Reviews",back:"‹ Back",bookBtn:"📖 Open the book",adminPanel:"🛡 Admin panel",admStat:"📊 Statistics",admOrders:"🎟 Orders",admTrials:"📝 Trial requests",admBot:"🤖 Give coins / Broadcast (in bot)",admDone:"✅ Delivered",admEmpty:"Empty",
+      enroll:"📝 Enroll",contact:"📞 Contact",reviews:"⭐ Reviews",back:"‹ Back",bookBtn:"📖 Open the book",gamesBtn:"🎮 Games",bookOpen:"📖 Open the book",gamesEmpty:"No games added yet.",adminPanel:"🛡 Admin panel",admStat:"📊 Statistics",admOrders:"🎟 Orders",admTrials:"📝 Trial requests",admBot:"🤖 Give coins / Broadcast (in bot)",admDone:"✅ Delivered",admEmpty:"Empty",
       addrev:"✍️ Leave a review",revPh:"Write your feedback...",revSend:"📩 Send review",revThanks:"⭐ Thank you! Your review is received.",revShort:"Review is too short.",cabinet:"📱 My account",loading:"Loading…",
       lName:"👤 Child",lCourse:"📚 Course",lType:"🏷 Track",lLogin:"🔐 LMS login",lPass:"🔑 Password",
       lSched:"📅 Schedule",lCert:"🎓 Certificate",certNone:"not ready yet",lmsGo:"🌐 Go to LMS",
@@ -717,6 +726,7 @@ function header(){
 function render(){
   if(!DATA){ app.innerHTML='<div class="muted">'+T('err')+'</div>'; paintTabs(); return; }
   if(view.name==="sec") renderSec();
+  else if(view.name==="games") renderGames();
   else if(view.name==="contact") renderContact();
   else if(view.name==="reviews") renderReviews();
   else if(view.name==="reviewNew") renderReviewNew();
@@ -867,8 +877,33 @@ function renderSec(){
     +'<div class="tabs">'+tabsHtml+'</div>'
     +'<div class="content">'+body+'</div>'
     +(((DATA.books||{})[code])?('<button class="btn" onclick="openUrl(\''+esc(DATA.books[code])+'\')">'+T('bookBtn')+'</button>'):'')
-    +'<button class="btn'+(((DATA.books||{})[code])?' sec':'')+'" onclick="enroll()">'+T('enroll')+'</button>'
+    +((((DATA.games||{})[code]||[]).length)?('<button class="btn" onclick="go(\'games\',\''+code+'\')">'+T('gamesBtn')+'</button>'):'')
+    +'<button class="btn'+(((DATA.books||{})[code]||((DATA.games||{})[code]||[]).length)?' sec':'')+'" onclick="enroll()">'+T('enroll')+'</button>'
     +'<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
+}
+
+// Fan o'yinlari sahifasi — kitob + o'yinlar kartalari
+function renderGames(){
+  var code=view.code;
+  var games=((DATA.games||{})[code])||[];
+  var book=(DATA.books||{})[code];
+  var head=header()+'<button class="back" onclick="go(\'sec\',\''+code+'\')">'+T('back')+'</button>'
+    +'<h2>🎮 '+esc(nameOf(code))+'</h2>';
+  var body='';
+  if(book){
+    body+='<div class="gcard" onclick="openUrl(\''+esc(book)+'\')">'
+      +'<span class="gci" style="background:linear-gradient(135deg,#f59e0b,#d97706)">📖</span>'
+      +'<span class="gct">'+T('bookOpen')+'</span><span class="gca">→</span></div>';
+  }
+  body+=games.map(function(g){
+    var col=g.grad||["#8b5cf6","#6d28d9"];
+    return '<div class="gcard" onclick="openUrl(\''+esc(g.url||"")+'\')">'
+      +'<span class="gci" style="background:linear-gradient(135deg,'+col[0]+','+col[1]+')">'+(g.emoji||"🎮")+'</span>'
+      +'<span class="gct">'+esc(g.name||"O'yin")+'</span><span class="gca">→</span></div>';
+  }).join("");
+  if(!body) body='<div class="content muted">'+esc(T('gamesEmpty'))+'</div>';
+  var backBtn='<button class="btn sec" onclick="go(\'sec\',\''+code+'\')">'+T('back')+'</button>';
+  app.innerHTML=head+'<div class="stg">'+body+'</div>'+backBtn;
 }
 
 function renderContact(){

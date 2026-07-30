@@ -74,7 +74,16 @@
     }
   ],
   "books": {
-    "math": "https://samandar2001.github.io/ssa-miniapp/book/?v=5"
+    "math": "https://samandar2001.github.io/ssa-miniapp/book/?v=5",
+    "english": "",
+    "science": "",
+    "literacy": ""
+  },
+  "games": {
+    "math": [],
+    "english": [],
+    "science": [],
+    "literacy": []
   },
   "contact": {
     "phone": "+998 94 552 10 09",
