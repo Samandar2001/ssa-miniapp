@@ -752,6 +752,7 @@ function render(){
   else if(view.name==="reviewNew") renderReviewNew();
   else if(view.name==="social") renderSocial();
   else if(view.name==="cabinet") renderCabinet();
+  else if(view.name==="lms") renderLms();
   else if(view.name==="settings") renderSettings();
   else if(view.name==="top") renderTop();
   else if(view.name==="coins") renderCoins();
@@ -1369,8 +1370,8 @@ function cabinetLite(head, backBtn){
 }
 
 var CAB=null, PWSHOW=false, CABI=0;
-function pwToggle(){ PWSHOW=!PWSHOW; cabView(); }   // faqat qayta chizadi (qayta yuklamaydi)
-function cabSelChild(i){ CABI=i; PWSHOW=false; cabView(); }
+function pwToggle(){ PWSHOW=!PWSHOW; if(view.name==="lms") renderLms(); else cabView(); }
+function cabSelChild(i){ CABI=i; PWSHOW=false; if(view.name==="lms") renderLms(); else cabView(); }
 function cabView(){
   var d=CAB||{};
   var children=d.children||[];
@@ -1403,18 +1404,6 @@ function cabView(){
   if(ch.course) info+=crow(T('lCourse'), ch.course, false, false);
   if(ch.type) info+=crow(T('lType'), ch.type, false, false);
   info+='</div>';
-  // LMS — alohida premium karta (ko'k gradient sarlavha + login/parol + ochish)
-  var lms="";
-  if(ch.login||ch.parol){
-    lms='<div class="lmscard"><div class="lmshead"><span class="lmsi">🎓</span>'
-      +'<div style="min-width:0"><div class="lmst">'+T('lmsTitle')+'</div>'
-      +'<div class="lmss">'+esc(T('lmsHint'))+'</div></div></div>'
-      +'<div class="lmsbody">';
-    if(ch.login) lms+=credRow(T('lLogin'), ch.login, false);
-    if(ch.parol) lms+=credRow(T('lPass'), ch.parol, true);
-    lms+='<button class="btn" style="margin-top:12px" onclick="openLmsSite()">'+T('lmsGo')+'</button>'
-      +'</div></div>';
-  }
   // Dars jadvali — alohida ajralib turadigan premium karta
   var sched="";
   if(ch.schedule){
@@ -1429,13 +1418,43 @@ function cabView(){
     +(hasCert?('<button class="btn sec" style="margin:6px 0 4px" onclick="shareUrl(\''+esc(c)+'\',\''+esc(T('certShareText'))+'\')">'+T('certShareBtn')+'</button>'):'')
     +'</div>';
   // Tez amallar
+  var hasLms=!!(ch.login||ch.parol);
   var quick='<div class="qgrid">'
-    +qtile("🎡",shortName(T('wheelBtn')),"go('wheel')",false,["#14b8a6","#0f766e"])
-    +qtile("🎓","Sertifikat",hasCert?("openUrl('"+esc(c)+"')"):"",!hasCert,["#f59e0b","#d97706"])
+    +qtile("🎓","LMS",hasLms?"go('lms')":"",!hasLms,["#0ea5e9","#0369a1"])
+    +qtile("📜","Sertifikat",hasCert?("openUrl('"+esc(c)+"')"):"",!hasCert,["#f59e0b","#d97706"])
     +qtile("🛒","Market","go('market')",false,["#22c55e","#16a34a"])
     +qtile("🎁",shortName(T('tabFriends')),"go('refer')",false,["#8b5cf6","#6d28d9"])
     +'</div>';
-  app.innerHTML=head+sel+'<div class="stg">'+hero+stats+sched+lms+levelCard(d.level)+quick+certcard+info+'</div>'+backBtn;
+  app.innerHTML=head+sel+'<div class="stg">'+hero+stats+sched+levelCard(d.level)+quick+certcard+info+'</div>'+backBtn;
+}
+// LMS — alohida sahifa (kabinetда tugma bosilganda ochiladi)
+function lmsCardHtml(ch){
+  if(!(ch.login||ch.parol)) return '<div class="content muted">'+esc(T('err'))+'</div>';
+  var out='<div class="lmscard"><div class="lmshead"><span class="lmsi">🎓</span>'
+    +'<div style="min-width:0"><div class="lmst">'+T('lmsTitle')+'</div>'
+    +'<div class="lmss">'+esc(T('lmsHint'))+'</div></div></div>'
+    +'<div class="lmsbody">';
+  if(ch.login) out+=credRow(T('lLogin'), ch.login, false);
+  if(ch.parol) out+=credRow(T('lPass'), ch.parol, true);
+  out+='<button class="btn" style="margin-top:12px" onclick="openLmsSite()">'+T('lmsGo')+'</button>'
+    +'</div></div>';
+  return out;
+}
+function renderLms(){
+  var d=CAB||{}, children=d.children||[];
+  var backBtn='<button class="btn sec" onclick="go(\'cabinet\')">'+T('back')+'</button>';
+  var head=header()+'<button class="back" onclick="go(\'cabinet\')">'+T('back')+'</button>'
+    +'<h2>🎓 '+T('lmsTitle')+'</h2>';
+  if(!children.length){ app.innerHTML=head+'<div class="content muted">'+esc(T('err'))+'</div>'+backBtn; return; }
+  if(CABI>=children.length) CABI=0;
+  var sel="";
+  if(children.length>1){
+    sel='<div class="childsel">'+children.map(function(c,i){
+      return '<button class="chip'+(i===CABI?" on":"")+'" onclick="cabSelChild('+i+')">'
+        +esc(c.name||("#"+(i+1)))+'</button>';
+    }).join("")+'</div>';
+  }
+  app.innerHTML=head+sel+'<div class="stg">'+lmsCardHtml(children[CABI])+'</div>'+backBtn;
 }
 function renderCabinet(){
   var api=(DATA.links&&DATA.links.cabinet_api)||"";
