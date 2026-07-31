@@ -113,6 +113,17 @@
   .schedcard .schl{font-size:10.5px;color:var(--hint);font-weight:700;
     text-transform:uppercase;letter-spacing:.4px}
   .schedcard .schv{font-weight:800;font-size:15px;margin-top:2px;word-break:break-word}
+  /* ===== LMS alohida karta ===== */
+  .lmscard{border-radius:18px;overflow:hidden;margin-bottom:12px;background:var(--card);
+    box-shadow:0 8px 22px -9px rgba(3,105,161,.4)}
+  .lmshead{display:flex;align-items:center;gap:12px;padding:15px 16px;color:#fff;
+    background:linear-gradient(135deg,#0ea5e9,#0369a1)}
+  .lmshead .lmsi{width:46px;height:46px;border-radius:13px;flex-shrink:0;font-size:24px;
+    display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.22);
+    box-shadow:inset 0 0 12px rgba(255,255,255,.25)}
+  .lmshead .lmst{font-weight:900;font-size:17px;line-height:1.1}
+  .lmshead .lmss{font-size:12px;opacity:.92;margin-top:2px}
+  .lmsbody{padding:10px 16px 16px}
   .pcard{background:var(--card);border-radius:16px;padding:2px 14px 8px;margin-bottom:12px;
     box-shadow:0 1px 4px rgba(0,0,0,.06)}
   .pcard .ph{font-weight:700;font-size:12px;color:var(--hint);padding:12px 0 2px;
@@ -550,7 +561,7 @@ var UI = {
       addrev:"✍️ Sharh qoldirish",revPh:"Fikringizni yozing...",revSend:"📩 Sharhni yuborish",revThanks:"⭐ Rahmat! Sharhingiz qabul qilindi.",revShort:"Sharh juda qisqa.",cabinet:"📱 Shaxsiy kabinet",loading:"Yuklanmoqda…",
       lName:"👤 Farzand",lCourse:"📚 Kurs",lType:"🏷 Yo'nalish",lLogin:"🔐 LMS login",lPass:"🔑 Parol",
       lSched:"📅 Dars jadvali",lCert:"🎓 Sertifikat",certNone:"hali tayyor emas",lmsGo:"🌐 LMS saytiga kirish",
-      copied:"✅ Nusxa olindi",stRank:"O'rin",stFriends:"Do'stlar",cabCreds:"🔐 LMS ma'lumotlari",cabCertReady:"Tayyor — ochish uchun bosing",certOpen:"🎓 Sertifikatni ochish",
+      copied:"✅ Nusxa olindi",stRank:"O'rin",stFriends:"Do'stlar",cabCreds:"🔐 LMS ma'lumotlari",lmsTitle:"LMS platforma",lmsHint:"Dars materiallari va topshiriqlar",cabCertReady:"Tayyor — ochish uchun bosing",certOpen:"🎓 Sertifikatni ochish",
       cabNone:"Siz hali ro'yxatda yo'qsiz. Kursga yozilsangiz — ma'lumotlaringiz shu yerda chiqadi.",
       acc:"Akkaunt",cabFull:"🔐 To'liq ma'lumot (botda)",
       cabHint:"LMS login, parol, dars jadvali va sertifikat — botda ko'rsatiladi 👇",
@@ -578,7 +589,7 @@ var UI = {
       addrev:"✍️ Оставить отзыв",revPh:"Напишите ваше мнение...",revSend:"📩 Отправить отзыв",revThanks:"⭐ Спасибо! Ваш отзыв принят.",revShort:"Отзыв слишком короткий.",cabinet:"📱 Личный кабинет",loading:"Загрузка…",
       lName:"👤 Ребёнок",lCourse:"📚 Курс",lType:"🏷 Направление",lLogin:"🔐 LMS логин",lPass:"🔑 Пароль",
       lSched:"📅 Расписание",lCert:"🎓 Сертификат",certNone:"ещё не готов",lmsGo:"🌐 Войти на LMS",
-      copied:"✅ Скопировано",stRank:"Место",stFriends:"Друзья",cabCreds:"🔐 Данные LMS",cabCertReady:"Готов — нажмите, чтобы открыть",certOpen:"🎓 Открыть сертификат",
+      copied:"✅ Скопировано",stRank:"Место",stFriends:"Друзья",cabCreds:"🔐 Данные LMS",lmsTitle:"Платформа LMS",lmsHint:"Материалы уроков и задания",cabCertReady:"Готов — нажмите, чтобы открыть",certOpen:"🎓 Открыть сертификат",
       cabNone:"Вас пока нет в списке. Запишитесь на курс — и данные появятся здесь.",
       acc:"Аккаунт",cabFull:"🔐 Полная информация (в боте)",
       cabHint:"LMS логин, пароль, расписание и сертификат — в боте 👇",
@@ -606,7 +617,7 @@ var UI = {
       addrev:"✍️ Leave a review",revPh:"Write your feedback...",revSend:"📩 Send review",revThanks:"⭐ Thank you! Your review is received.",revShort:"Review is too short.",cabinet:"📱 My account",loading:"Loading…",
       lName:"👤 Child",lCourse:"📚 Course",lType:"🏷 Track",lLogin:"🔐 LMS login",lPass:"🔑 Password",
       lSched:"📅 Schedule",lCert:"🎓 Certificate",certNone:"not ready yet",lmsGo:"🌐 Go to LMS",
-      copied:"✅ Copied",stRank:"Rank",stFriends:"Friends",cabCreds:"🔐 LMS details",cabCertReady:"Ready — tap to open",certOpen:"🎓 Open certificate",
+      copied:"✅ Copied",stRank:"Rank",stFriends:"Friends",cabCreds:"🔐 LMS details",lmsTitle:"LMS platform",lmsHint:"Lesson materials and assignments",cabCertReady:"Ready — tap to open",certOpen:"🎓 Open certificate",
       cabNone:"You're not on the list yet. Enroll and your details will appear here.",
       acc:"Account",cabFull:"🔐 Full details (in bot)",
       cabHint:"LMS login, password, schedule and certificate — in the bot 👇",
@@ -1392,13 +1403,17 @@ function cabView(){
   if(ch.course) info+=crow(T('lCourse'), ch.course, false, false);
   if(ch.type) info+=crow(T('lType'), ch.type, false, false);
   info+='</div>';
-  // LMS ma'lumotlari (qutili, nusxa + parol yashirish)
-  var creds="";
+  // LMS — alohida premium karta (ko'k gradient sarlavha + login/parol + ochish)
+  var lms="";
   if(ch.login||ch.parol){
-    creds='<div class="pcard"><div class="ph">'+esc(T('cabCreds'))+'</div>';
-    if(ch.login) creds+=credRow(T('lLogin'), ch.login, false);
-    if(ch.parol) creds+=credRow(T('lPass'), ch.parol, true);
-    creds+='</div>';
+    lms='<div class="lmscard"><div class="lmshead"><span class="lmsi">🎓</span>'
+      +'<div style="min-width:0"><div class="lmst">'+T('lmsTitle')+'</div>'
+      +'<div class="lmss">'+esc(T('lmsHint'))+'</div></div></div>'
+      +'<div class="lmsbody">';
+    if(ch.login) lms+=credRow(T('lLogin'), ch.login, false);
+    if(ch.parol) lms+=credRow(T('lPass'), ch.parol, true);
+    lms+='<button class="btn" style="margin-top:12px" onclick="openLmsSite()">'+T('lmsGo')+'</button>'
+      +'</div></div>';
   }
   // Dars jadvali — alohida ajralib turadigan premium karta
   var sched="";
@@ -1415,12 +1430,12 @@ function cabView(){
     +'</div>';
   // Tez amallar
   var quick='<div class="qgrid">'
-    +qtile("🌐","LMS","openLmsSite()",false,["#0ea5e9","#0369a1"])
+    +qtile("🎡",shortName(T('wheelBtn')),"go('wheel')",false,["#14b8a6","#0f766e"])
     +qtile("🎓","Sertifikat",hasCert?("openUrl('"+esc(c)+"')"):"",!hasCert,["#f59e0b","#d97706"])
     +qtile("🛒","Market","go('market')",false,["#22c55e","#16a34a"])
     +qtile("🎁",shortName(T('tabFriends')),"go('refer')",false,["#8b5cf6","#6d28d9"])
     +'</div>';
-  app.innerHTML=head+sel+'<div class="stg">'+hero+stats+sched+levelCard(d.level)+quick+info+creds+certcard+'</div>'+backBtn;
+  app.innerHTML=head+sel+'<div class="stg">'+hero+stats+sched+lms+levelCard(d.level)+quick+certcard+info+'</div>'+backBtn;
 }
 function renderCabinet(){
   var api=(DATA.links&&DATA.links.cabinet_api)||"";
