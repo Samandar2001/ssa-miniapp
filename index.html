@@ -1634,7 +1634,13 @@ function loadTeacher(cb){
     .then(function(d){ TEACHER=d||{teacher:false}; if(cb)cb(); })
     .catch(function(){ TEACHER={teacher:false}; if(cb)cb(); });
 }
-function teachReRender(){ if(view.name==="student"){ STUDENT=null; renderStudent(); } else if(view.name==="class") renderClass(); else if(view.name==="teacher") renderTeacher(); }
+function teachReRender(){
+  if(view.name==="student"){ STUDENT=null; renderStudent(); }
+  else if(view.name==="class") renderClass();
+  else if(view.name==="tstudents") renderTeacherStudents();
+  else if(view.name==="teacher") renderTeacher();
+  else renderTeacherHome();   // o'qituvchi bosh ekrani (view.name==="home")
+}
 function teachReload(){ loadTeacher(teachReRender); }
 function _tapi(path, params){
   var init=(tg&&tg.initData)||"";
@@ -1653,7 +1659,7 @@ function teachAddClass(){
 }
 function teachDelClass(cid){
   fetch(_tapi("/teacher/class/del","class="+encodeURIComponent(cid)))
-    .then(function(r){return r.json();}).then(function(){ go('teacher'); teachReload(); }).catch(function(){ alertMsg(T('err')); });
+    .then(function(r){return r.json();}).then(function(){ go('home'); teachReload(); }).catch(function(){ alertMsg(T('err')); });
 }
 function teachAttend(cid,suid){
   fetch(_tapi("/teacher/attend","class="+encodeURIComponent(cid)+"&student="+encodeURIComponent(suid)))
@@ -1684,7 +1690,7 @@ function teachAllPresent(cid){
   })();
 }
 function teachToggleAdd(){ TEACH_ADD=!TEACH_ADD; renderClass(); }
-function teachToggleNew(){ TEACH_NEW=!TEACH_NEW; renderTeacher(); }
+function teachToggleNew(){ TEACH_NEW=!TEACH_NEW; teachReRender(); }
 function teachOpenClass(cid){ TEACH_CLASS=cid; TEACH_ADD=false; go('class',cid); }
 function teachFilter(q){
   q=(q||"").toLowerCase();
