@@ -1119,9 +1119,10 @@ function renderHome(){
          +(ICONS[code]||EMOJI[code]||"📚")+'</div>'
          +'<div class="nm">'+esc(nameOf(code))+'</div></div>';
   }).join("");
-  app.innerHTML=header()+hero+tiles
-    +'<div class="hsec">'+T('hMyLessons')+'</div>'
-    +'<div class="grid stg">'+cards+'</div>';
+  app.innerHTML=header()
+    +'<div class="hsec" style="margin-top:2px">'+T('hMyLessons')+'</div>'
+    +'<div class="grid stg">'+cards+'</div>'
+    +hero+tiles;
   if(MYCOINS!=null) countEl("khbig", 0, MYCOINS);
 }
 
