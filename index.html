@@ -175,6 +175,8 @@
   .tmasbar{flex:1;height:6px;border-radius:4px;background:var(--line,#e9e9ee);overflow:hidden}
   .tmasfill{height:100%;border-radius:4px;transition:width .4s}
   .tmasv{font-size:11px;font-weight:800;flex-shrink:0;min-width:30px;text-align:right}
+  .tdot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#cbd5e1;margin-right:6px;vertical-align:middle}
+  .tdot.on{background:#22c55e}
   .gbadge{min-width:26px;text-align:center;border-radius:8px;padding:3px 9px;
     font-weight:900;font-size:13px;color:#fff;flex-shrink:0}
   .gbadge.g5{background:#16a34a}.gbadge.g4{background:#2563eb}
@@ -847,9 +849,11 @@ function nameOf(code){
 
 function header(){
   var gear='<button class="iconbtn" title="'+T('settings')+'" onclick="go(\'settings\')">'+GEAR_SVG+'</button>';
-  // Tepa o'ng — coin balans chip'i (bosilsa Coin bo'limi)
-  var chip='<button class="coinchip" id="coinchip" title="'+T('coins')+'" onclick="go(\'coins\')">'+coinIco()+' '
-          +'<span id="coinval">'+(COINDISP!=null?nf(Math.round(COINDISP)):'—')+'</span></button>';
+  // Tepa o'ng — coin balans chip'i (faqat o'quvchi uchun; o'qituvchi/admin'ga keraksiz)
+  var chip=(curRole()==="student")
+    ? '<button class="coinchip" id="coinchip" title="'+T('coins')+'" onclick="go(\'coins\')">'+coinIco()+' '
+      +'<span id="coinval">'+(COINDISP!=null?nf(Math.round(COINDISP)):'—')+'</span></button>'
+    : '<button class="iconbtn" title="'+T('sLogout')+'" onclick="logout()">🚪</button>';
   var logo=(THEME==="dark")?"logo-white.png":"logo-color.png";
   return '<header>'
        + '<div class="langs">'+gear+'</div>'
@@ -870,6 +874,7 @@ function render(){
   else if(view.name==="cabinet") renderCabinet();
   else if(view.name==="lms") renderLms();
   else if(view.name==="teacher") renderTeacher();
+  else if(view.name==="tstudents") renderTeacherStudents();
   else if(view.name==="class") renderClass();
   else if(view.name==="student") renderStudent();
   else if(view.name==="settings") renderSettings();
@@ -915,11 +920,9 @@ var TABS_STUDENT=[
   {k:"cabinet",ic:"👤", lb:"tabCabinet", act:function(){go("cabinet");}}
 ];
 var TABS_TEACHER=[
-  {k:"home",   ic:"🏫", lb:"tabClasses",  act:function(){go("home");}},
-  {k:"coins",  ic:"🪙", lb:"tabCoin",     act:function(){go("coins");}},
-  {k:"top",    ic:"🏆", lb:"tabTop",      act:function(){go("top");}},
-  {k:"cabinet",ic:"👤", lb:"tabCabinet",  act:function(){go("cabinet");}},
-  {k:"settings",ic:"⚙️",lb:"tabSettings", act:function(){go("settings");}}
+  {k:"home",    ic:"🏫", lb:"tabClasses",    act:function(){go("home");}},
+  {k:"students",ic:"👥", lb:"teachStudents", act:function(){go("tstudents");}},
+  {k:"settings",ic:"⚙️",lb:"tabSettings",   act:function(){go("settings");}}
 ];
 var TABS_ADMIN=[
   {k:"home",    ic:"🛡", lb:"tabDash",     act:function(){go("home");}},
@@ -932,7 +935,7 @@ function curTabs(){ var r=curRole(); return r==="admin"?TABS_ADMIN:(r==="teacher
 // Qaysi ekran qaysi tabni yoqadi (barcha rollar uchun)
 var TAB_OF={home:"home",coins:"coins",coinTop:"coins",market:"market",
             refer:"refer",top:"top",cabinet:"cabinet",settings:"settings",
-            teacher:"home",class:"home",student:"home",
+            teacher:"home",class:"home",student:"home",tstudents:"students",
             adminHome:"home",admin:"home",admUsers:"users",admTeachers:"teachers",
             admStat:"stat",admOrders:"stat",admTrials:"stat"};
 function tabGo(i){ curTabs()[i].act(); }
@@ -2466,14 +2469,18 @@ function renderTeacherHome(){
   var cls=TEACHER.classes||[];
   var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
   var tname=(PROFILE&&PROFILE.name)||((u.first_name||"")+" "+(u.last_name||"")).trim()||u.username||T('teachTitle');
-  var totalStud=0, totalPresent=0;
-  cls.forEach(function(c){ totalStud+=c.count||0; totalPresent+=c.present||0; });
+  var totalStud=0, totalPresent=0, masSum=0, masN=0;
+  cls.forEach(function(c){ totalStud+=c.count||0; totalPresent+=c.present||0;
+    (c.students||[]).forEach(function(s){ masSum+=(s.mastery||0); masN++; }); });
+  var avgMas=masN?Math.round(masSum/masN):0;
   var hero=teachHero("👩‍🏫",tname,T('teachTitle'));
   var stats='<div class="pstats">'
     +'<div class="pstat s-rank"><div class="psi">🏫</div><div class="v">'+cls.length+'</div><div class="l">'+esc(T('teachClasses'))+'</div></div>'
     +'<div class="pstat s-ref"><div class="psi">👥</div><div class="v">'+totalStud+'</div><div class="l">'+esc(T('teachStudents'))+'</div></div>'
     +'<div class="pstat s-gold"><div class="psi">✅</div><div class="v">'+totalPresent+'</div><div class="l">'+esc(T('teachPresent'))+'</div></div>'
     +'</div>';
+  var masCard=masN?('<div class="pcard"><div class="ph">🎯 '+esc(T('teachMastery'))+' · '+esc(T('teachAvg'))+'</div>'
+    +'<div style="font-size:30px;font-weight:900;text-align:center;color:'+masColor(avgMas)+';margin:4px 0 2px">'+avgMas+'%</div>'+masBar(avgMas)+'</div>'):'';
   var list;
   if(cls.length){
     list=cls.map(function(c){
@@ -2492,7 +2499,45 @@ function renderTeacherHome(){
       +'<button class="btn" style="margin:0" onclick="teachAddClass()">✅ '+T('teachCreate')+'</button></div>';
   }
   var newBtn='<button class="btn'+(TEACH_NEW?' sec':'')+'" onclick="teachToggleNew()">'+(TEACH_NEW?('✕ '+T('teachClose')):('➕ '+T('teachNewCls')))+'</button>';
-  app.innerHTML=head+'<div class="stg">'+hero+stats+'<div class="hsec">'+T('teachClasses')+'</div>'+list+'</div>'+newBtn+newSec;
+  app.innerHTML=head+'<div class="stg">'+hero+stats+masCard+'<div class="hsec">'+T('teachClasses')+'</div>'+list+'</div>'+newBtn+newSec;
+}
+// ---- O'qituvchi: BARCHA O'QUVCHILAR (tab: 👥) — qidiruvli, o'zlashtirish bilan ----
+function tstuFilter(v){
+  v=(v||"").trim().toLowerCase();
+  var rows=document.querySelectorAll("#tstulist .trow");
+  var n=0;
+  for(var i=0;i<rows.length;i++){
+    var nm=rows[i].getAttribute("data-nm")||"";
+    var show=!v||nm.indexOf(v)>=0; rows[i].style.display=show?"":"none"; if(show)n++;
+  }
+  var e=document.getElementById("tstuempty"); if(e) e.style.display=n?"none":"";
+}
+function renderTeacherStudents(){
+  var head=header();
+  if(!TEACHER){ app.innerHTML=head+skel(4); loadTeacher(function(){ if(view.name==="tstudents") renderTeacherStudents(); }); return; }
+  var cls=TEACHER.classes||[];
+  var all=[];
+  cls.forEach(function(c){ (c.students||[]).forEach(function(s){ all.push({s:s,cid:c.id,cname:c.name}); }); });
+  // o'zlashtirish bo'yicha kamayish tartibi (past o'quvchilar tepada ko'rinsin — e'tibor kerak)
+  all.sort(function(a,b){ return (a.s.mastery||0)-(b.s.mastery||0); });
+  var hero=teachHero("👥",T('teachStudents'),all.length+" "+T('teachStudents').toLowerCase());
+  if(!all.length){
+    app.innerHTML=head+'<div class="stg">'+hero+'<div class="tempty"><div class="tei">👥</div><div class="tet">'+esc(T('teachEmpty'))+'</div></div></div>';
+    return;
+  }
+  var search='<input class="tsearch" placeholder="🔍 '+esc(T('teachSearch'))+'" oninput="tstuFilter(this.value)">';
+  var rows=all.map(function(x){
+    var s=x.s, open='teachOpenStudent(\''+esc(x.cid)+'\',\''+esc(s.uid)+'\')';
+    var pres=s.present?'<span class="tdot on" title="'+esc(T('teachCame'))+'"></span>':'<span class="tdot"></span>';
+    return '<div class="trow" data-nm="'+esc((s.name||"").toLowerCase())+'" onclick="'+open+'" style="cursor:pointer">'
+      +'<span class="tav">'+tini(s.name)+'</span>'
+      +'<div class="tnm"><div class="tnn">'+pres+esc(s.name)+'</div>'
+      +'<div class="tsub">🏫 '+esc(x.cname)+' · ⭐ '+(s.avg||0)+'</div>'+masBar(s.mastery||0)+'</div>'
+      +'<span class="clsa">→</span></div>';
+  }).join('');
+  app.innerHTML=head+'<div class="stg">'+hero+search
+    +'<div class="pcard" id="tstulist" style="padding:4px 12px 8px">'+rows
+    +'<div class="tempty" id="tstuempty" style="display:none"><div class="tet">—</div></div></div></div>';
 }
 // ---- ADMIN BOSH EKRANI (tab: 🛡 Boshqaruv) ----
 var ADMSTAT=null;
