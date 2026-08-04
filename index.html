@@ -124,6 +124,20 @@
   .lmshead .lmst{font-weight:900;font-size:17px;line-height:1.1}
   .lmshead .lmss{font-size:12px;opacity:.92;margin-top:2px}
   .lmsbody{padding:10px 16px 16px}
+  /* ===== O'qituvchi paneli ===== */
+  .trow{display:flex;align-items:center;gap:10px;padding:11px 0;border-top:1px solid var(--line)}
+  .trow:first-child{border-top:none}
+  .trow .tnm{flex:1;min-width:0;font-weight:700;font-size:14.5px;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tbtn{border:none;background:var(--accent);color:#fff;border-radius:10px;padding:8px 15px;
+    font-weight:800;font-size:13px;cursor:pointer;flex-shrink:0;transition:transform .12s}
+  .tbtn.add{background:#16a34a}
+  .tbtn:active{transform:scale(.93)}
+  .tdone{color:#16a34a;font-weight:800;font-size:13px;flex-shrink:0}
+  .tx{border:none;background:var(--sec);color:var(--hint);border-radius:9px;width:30px;height:30px;
+    font-size:14px;cursor:pointer;flex-shrink:0}
+  .tcands{background:var(--card);border-radius:16px;padding:4px 14px;margin-top:10px;
+    max-height:360px;overflow:auto;box-shadow:0 1px 4px rgba(0,0,0,.06)}
   .pcard{background:var(--card);border-radius:16px;padding:2px 14px 8px;margin-bottom:12px;
     box-shadow:0 1px 4px rgba(0,0,0,.06)}
   .pcard .ph{font-weight:700;font-size:12px;color:var(--hint);padding:12px 0 2px;
@@ -561,7 +575,7 @@ var UI = {
       addrev:"✍️ Sharh qoldirish",revPh:"Fikringizni yozing...",revSend:"📩 Sharhni yuborish",revThanks:"⭐ Rahmat! Sharhingiz qabul qilindi.",revShort:"Sharh juda qisqa.",cabinet:"📱 Shaxsiy kabinet",loading:"Yuklanmoqda…",
       lName:"👤 Farzand",lCourse:"📚 Kurs",lType:"🏷 Yo'nalish",lLogin:"🔐 LMS login",lPass:"🔑 Parol",
       lSched:"📅 Dars jadvali",lCert:"🎓 Sertifikat",certNone:"hali tayyor emas",lmsGo:"🌐 LMS saytiga kirish",
-      copied:"✅ Nusxa olindi",stRank:"O'rin",stFriends:"Do'stlar",cabCreds:"🔐 LMS ma'lumotlari",lmsTitle:"LMS platforma",lmsHint:"Dars materiallari va topshiriqlar",cabCertReady:"Tayyor — ochish uchun bosing",certOpen:"🎓 Sertifikatni ochish",
+      copied:"✅ Nusxa olindi",stRank:"O'rin",stFriends:"Do'stlar",cabCreds:"🔐 LMS ma'lumotlari",lmsTitle:"LMS platforma",lmsHint:"Dars materiallari va topshiriqlar",teachTitle:"O'qituvchi paneli",teachNo:"Siz o'qituvchi emassiz.",teachStudents:"O'quvchilar",teachPresent:"Bugun keldi",teachPerLesson:"Har dars",teachCame:"Keldi",teachMark:"Keldi ✅",teachEmpty:"Hali o'quvchi biriktirilmagan. Pastdan qo'shing.",teachList:"O'quvchilarim",teachAdd:"O'quvchi qo'shish",teachClose:"Yopish",cabCertReady:"Tayyor — ochish uchun bosing",certOpen:"🎓 Sertifikatni ochish",
       cabNone:"Siz hali ro'yxatda yo'qsiz. Kursga yozilsangiz — ma'lumotlaringiz shu yerda chiqadi.",
       acc:"Akkaunt",cabFull:"🔐 To'liq ma'lumot (botda)",
       cabHint:"LMS login, parol, dars jadvali va sertifikat — botda ko'rsatiladi 👇",
@@ -589,7 +603,7 @@ var UI = {
       addrev:"✍️ Оставить отзыв",revPh:"Напишите ваше мнение...",revSend:"📩 Отправить отзыв",revThanks:"⭐ Спасибо! Ваш отзыв принят.",revShort:"Отзыв слишком короткий.",cabinet:"📱 Личный кабинет",loading:"Загрузка…",
       lName:"👤 Ребёнок",lCourse:"📚 Курс",lType:"🏷 Направление",lLogin:"🔐 LMS логин",lPass:"🔑 Пароль",
       lSched:"📅 Расписание",lCert:"🎓 Сертификат",certNone:"ещё не готов",lmsGo:"🌐 Войти на LMS",
-      copied:"✅ Скопировано",stRank:"Место",stFriends:"Друзья",cabCreds:"🔐 Данные LMS",lmsTitle:"Платформа LMS",lmsHint:"Материалы уроков и задания",cabCertReady:"Готов — нажмите, чтобы открыть",certOpen:"🎓 Открыть сертификат",
+      copied:"✅ Скопировано",stRank:"Место",stFriends:"Друзья",cabCreds:"🔐 Данные LMS",lmsTitle:"Платформа LMS",lmsHint:"Материалы уроков и задания",teachTitle:"Панель учителя",teachNo:"Вы не учитель.",teachStudents:"Ученики",teachPresent:"Пришли сегодня",teachPerLesson:"За урок",teachCame:"Пришёл",teachMark:"Отметить ✅",teachEmpty:"Ученики не добавлены. Добавьте ниже.",teachList:"Мои ученики",teachAdd:"Добавить ученика",teachClose:"Закрыть",cabCertReady:"Готов — нажмите, чтобы открыть",certOpen:"🎓 Открыть сертификат",
       cabNone:"Вас пока нет в списке. Запишитесь на курс — и данные появятся здесь.",
       acc:"Аккаунт",cabFull:"🔐 Полная информация (в боте)",
       cabHint:"LMS логин, пароль, расписание и сертификат — в боте 👇",
@@ -617,7 +631,7 @@ var UI = {
       addrev:"✍️ Leave a review",revPh:"Write your feedback...",revSend:"📩 Send review",revThanks:"⭐ Thank you! Your review is received.",revShort:"Review is too short.",cabinet:"📱 My account",loading:"Loading…",
       lName:"👤 Child",lCourse:"📚 Course",lType:"🏷 Track",lLogin:"🔐 LMS login",lPass:"🔑 Password",
       lSched:"📅 Schedule",lCert:"🎓 Certificate",certNone:"not ready yet",lmsGo:"🌐 Go to LMS",
-      copied:"✅ Copied",stRank:"Rank",stFriends:"Friends",cabCreds:"🔐 LMS details",lmsTitle:"LMS platform",lmsHint:"Lesson materials and assignments",cabCertReady:"Ready — tap to open",certOpen:"🎓 Open certificate",
+      copied:"✅ Copied",stRank:"Rank",stFriends:"Friends",cabCreds:"🔐 LMS details",lmsTitle:"LMS platform",lmsHint:"Lesson materials and assignments",teachTitle:"Teacher panel",teachNo:"You are not a teacher.",teachStudents:"Students",teachPresent:"Present today",teachPerLesson:"Per lesson",teachCame:"Present",teachMark:"Mark ✅",teachEmpty:"No students yet. Add below.",teachList:"My students",teachAdd:"Add student",teachClose:"Close",cabCertReady:"Ready — tap to open",certOpen:"🎓 Open certificate",
       cabNone:"You're not on the list yet. Enroll and your details will appear here.",
       acc:"Account",cabFull:"🔐 Full details (in bot)",
       cabHint:"LMS login, password, schedule and certificate — in the bot 👇",
@@ -753,6 +767,7 @@ function render(){
   else if(view.name==="social") renderSocial();
   else if(view.name==="cabinet") renderCabinet();
   else if(view.name==="lms") renderLms();
+  else if(view.name==="teacher") renderTeacher();
   else if(view.name==="settings") renderSettings();
   else if(view.name==="top") renderTop();
   else if(view.name==="coins") renderCoins();
@@ -1425,7 +1440,8 @@ function cabView(){
     +qtile("🛒","Market","go('market')",false,["#22c55e","#16a34a"])
     +qtile("🎁",shortName(T('tabFriends')),"go('refer')",false,["#8b5cf6","#6d28d9"])
     +'</div>';
-  app.innerHTML=head+sel+'<div class="stg">'+hero+stats+sched+levelCard(d.level)+quick+certcard+info+'</div>'+backBtn;
+  var tbtn=d.teacher?('<button class="btn" style="background:linear-gradient(135deg,#ec4899,#be185d)" onclick="TEACHER=null;go(\'teacher\')">👩‍🏫 '+T('teachTitle')+'</button>'):'';
+  app.innerHTML=head+sel+'<div class="stg">'+hero+stats+tbtn+sched+levelCard(d.level)+quick+certcard+info+'</div>'+backBtn;
 }
 // LMS — alohida sahifa (kabinetда tugma bosilganda ochiladi)
 function lmsCardHtml(ch){
@@ -1455,6 +1471,67 @@ function renderLms(){
     }).join("")+'</div>';
   }
   app.innerHTML=head+sel+'<div class="stg">'+lmsCardHtml(children[CABI])+'</div>'+backBtn;
+}
+// ===== O'qituvchi paneli =====
+var TEACHER=null, TEACH_ADD=false;
+function loadTeacher(cb){
+  var url=marketApi("/teacher"), init=(tg&&tg.initData)||"";
+  if(!url||!init){ TEACHER={teacher:false}; if(cb)cb(); return; }
+  fetch(url+"?initData="+encodeURIComponent(init)).then(function(r){return r.json();})
+    .then(function(d){ TEACHER=d||{teacher:false}; if(cb)cb(); })
+    .catch(function(){ TEACHER={teacher:false}; if(cb)cb(); });
+}
+function teachReload(){ loadTeacher(function(){ if(view.name==="teacher") renderTeacher(); }); }
+function teachAttend(suid){
+  var url=marketApi("/teacher/attend"), init=(tg&&tg.initData)||"";
+  fetch(url+"?student="+encodeURIComponent(suid)+"&initData="+encodeURIComponent(init))
+    .then(function(r){return r.json();}).then(function(d){
+      if(d&&d.ok){ if(d.coined){ confetti(["🎓","🪙","✅","🎉"]); try{haptic();}catch(e){} } teachReload(); }
+      else alertMsg(T('err'));
+    }).catch(function(){ alertMsg(T('err')); });
+}
+function teachAssign(suid){
+  var url=marketApi("/teacher/assign"), init=(tg&&tg.initData)||"";
+  fetch(url+"?student="+encodeURIComponent(suid)+"&initData="+encodeURIComponent(init))
+    .then(function(r){return r.json();}).then(function(){ teachReload(); }).catch(function(){ alertMsg(T('err')); });
+}
+function teachUnassign(suid){
+  var url=marketApi("/teacher/unassign"), init=(tg&&tg.initData)||"";
+  fetch(url+"?student="+encodeURIComponent(suid)+"&initData="+encodeURIComponent(init))
+    .then(function(r){return r.json();}).then(function(){ teachReload(); }).catch(function(){ alertMsg(T('err')); });
+}
+function teachToggleAdd(){ TEACH_ADD=!TEACH_ADD; renderTeacher(); }
+function renderTeacher(){
+  var backBtn='<button class="btn sec" onclick="go(\'cabinet\')">'+T('back')+'</button>';
+  var head=header()+'<button class="back" onclick="go(\'cabinet\')">'+T('back')+'</button>'
+    +'<h2>👩‍🏫 '+T('teachTitle')+'</h2>';
+  if(!TEACHER){ app.innerHTML=head+skel(3)+backBtn;
+    loadTeacher(function(){ if(view.name==="teacher") renderTeacher(); }); return; }
+  if(!TEACHER.teacher){ app.innerHTML=head+'<div class="content muted">'+esc(T('teachNo'))+'</div>'+backBtn; return; }
+  var studs=TEACHER.students||[], cands=TEACHER.candidates||[];
+  var present=0,i; for(i=0;i<studs.length;i++) if(studs[i].present) present++;
+  var top='<div class="pstats">'
+    +'<div class="pstat s-rank"><div class="psi">👥</div><div class="v">'+studs.length+'</div><div class="l">'+esc(T('teachStudents'))+'</div></div>'
+    +'<div class="pstat s-ref"><div class="psi">✅</div><div class="v">'+present+'</div><div class="l">'+esc(T('teachPresent'))+'</div></div>'
+    +'<div class="pstat s-gold"><div class="psi">'+coinIco()+'</div><div class="v">+'+nf(TEACHER.reward||100)+'</div><div class="l">'+esc(T('teachPerLesson'))+'</div></div>'
+    +'</div>';
+  var list=studs.length? studs.map(function(s){
+    var act=s.present? '<span class="tdone">✅ '+esc(T('teachCame'))+'</span>'
+      : '<button class="tbtn" onclick="teachAttend(\''+esc(s.uid)+'\')">'+esc(T('teachMark'))+'</button>';
+    return '<div class="trow"><div class="tnm">'+esc(s.name)+'</div>'+act
+      +'<button class="tx" onclick="teachUnassign(\''+esc(s.uid)+'\')">✕</button></div>';
+  }).join('') : '<div class="content muted" style="padding:12px 0">'+esc(T('teachEmpty'))+'</div>';
+  var body=top+'<div class="pcard"><div class="ph">📋 '+esc(T('teachList'))+'</div>'+list+'</div>'
+    +'<button class="btn'+(TEACH_ADD?' sec':'')+'" onclick="teachToggleAdd()">'
+    +(TEACH_ADD?('✕ '+T('teachClose')):('➕ '+T('teachAdd')))+'</button>';
+  if(TEACH_ADD){
+    var clist=cands.length? cands.map(function(c){
+      return '<div class="trow"><div class="tnm">'+esc(c.name||("ID "+String(c.uid).slice(-4)))+'</div>'
+        +'<button class="tbtn add" onclick="teachAssign(\''+esc(c.uid)+'\')">➕</button></div>';
+    }).join('') : '<div class="content muted" style="padding:12px 0">—</div>';
+    body+='<div class="tcands">'+clist+'</div>';
+  }
+  app.innerHTML=head+body+backBtn;
 }
 function renderCabinet(){
   var api=(DATA.links&&DATA.links.cabinet_api)||"";
