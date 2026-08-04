@@ -2278,18 +2278,11 @@ function renderCoins(){
         +'<div class="dts">'+line+'</div></div>'
         +(st?('<span class="dstreak">'+st+'</span>'):'')+'</div>';
     }
-    function ca(a,b,label,onclick,wide){
-      return '<div class="ca'+(wide?' wide':'')+'" style="background:linear-gradient(135deg,'+a+','+b+')" onclick="'+onclick+'">'+label+'</div>';
-    }
-    var acts='<div class="cact">'
-      +ca('#f59e0b','#d97706','💳 '+T('topupBtn'),"go('topup')",true)
-      +ca('#22c55e','#16a34a',T('market'),"go('market')",true)
-      +ca('#e0912a','#d9488a',T('shareCardBtn'),"shareCard()",true)
-      +ca('#f59e0b','#d97706',T('wheelBtn'),"go('wheel')")
-      +ca('#8b5cf6','#6d28d9',T('socialBtn'),"go('social')")
-      +ca('#3b82f6','#2563eb',T('myBuys'),"go('purchases')")
-      +ca('#ec4899','#be185d',T('coinTop'),"go('coinTop')")
-      +ca('#64748b','#475569',T('openBotBtn'),"openBot('coins')",true)
+    var acts='<div class="ktiles">'
+      +ktile('💳',T('topupBtn'),"go('topup')",'#f59e0b','#fbbf24')
+      +ktile('🛒',T('market'),"go('market')",'#22c55e','#4ade80')
+      +ktile('🏆',T('coinTop'),"go('coinTop')",'#ec4899','#f472b6')
+      +ktile('📜',T('myBuys'),"go('purchases')",'#3b82f6','#60a5fa')
       +'</div>';
     var earn='<div class="earn"><div class="eh">'+T('coinsHowT')+'</div>'
       + T('coinsHow').split('\n').map(function(ln){
