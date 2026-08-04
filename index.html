@@ -231,6 +231,14 @@
   .profn{font-weight:800;font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .profr{font-size:12.5px;color:var(--hint);font-weight:600;margin-top:2px}
   .btn.logout{color:#dc2626;font-weight:700}
+  .loginav{width:82px;height:82px;border-radius:50%;object-fit:cover;margin:0 auto 6px;display:block}
+  .loginav.ini{display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;
+    color:#fff;background:linear-gradient(135deg,#6366f1,#8b5cf6)}
+  .urow{display:flex;align-items:center;gap:11px;padding:9px 0;border-top:1px solid var(--line,#eee)}
+  .urow:first-of-type{border-top:none}
+  .urow .tav{width:38px;height:38px;font-size:15px;flex-shrink:0}
+  .urow .tnm{flex:1;min-width:0}
+  .urow .tbtn{flex-shrink:0}
   .pcard{background:var(--card);border-radius:16px;padding:2px 14px 8px;margin-bottom:12px;
     box-shadow:0 1px 4px rgba(0,0,0,.06)}
   .pcard .ph{font-weight:700;font-size:12px;color:var(--hint);padding:12px 0 2px;
@@ -668,7 +676,7 @@ var UI = {
       addrev:"✍️ Sharh qoldirish",revPh:"Fikringizni yozing...",revSend:"📩 Sharhni yuborish",revThanks:"⭐ Rahmat! Sharhingiz qabul qilindi.",revShort:"Sharh juda qisqa.",cabinet:"📱 Shaxsiy kabinet",loading:"Yuklanmoqda…",
       lName:"👤 Farzand",lCourse:"📚 Kurs",lType:"🏷 Yo'nalish",lLogin:"🔐 LMS login",lPass:"🔑 Parol",
       lSched:"📅 Dars jadvali",lCert:"🎓 Sertifikat",certNone:"hali tayyor emas",lmsGo:"🌐 LMS saytiga kirish",
-      copied:"✅ Nusxa olindi",stRank:"O'rin",stFriends:"Do'stlar",cabCreds:"🔐 LMS ma'lumotlari",lmsTitle:"LMS platforma",lmsHint:"Dars materiallari va topshiriqlar",teachTitle:"O'qituvchi paneli",teachNo:"Siz o'qituvchi emassiz.",teachStudents:"O'quvchilar",teachPresent:"Bugun keldi",teachPerLesson:"Har dars",teachCame:"Keldi",teachMark:"Keldi ✅",teachEmpty:"Hali o'quvchi biriktirilmagan. Pastdan qo'shing.",teachList:"O'quvchilarim",teachAdd:"O'quvchi qo'shish",teachClose:"Yopish",teachHint:"Siz o'qituvchisiz — panelда o'quvchilaringizni boshqaring.",teachAll:"Hammasi keldi",todayLesson:"Bugungi dars",teachSearch:"O'quvchi qidirish",teachClasses:"Sinflarim",teachClsName:"Sinf nomi (masalan: Math 5-A)",teachCreate:"Yaratish",teachNewCls:"Yangi sinf",teachEmptyCls:"Hali sinf yo'q. Yangi sinf oching.",teachDelCls:"Sinfni o'chirish",teachAnalytics:"Analitika",teachAtt:"Davomat",teachDays:"Kelgan / darslar",teachGrades:"Baholar",teachAvg:"O'rtacha",teachGive:"Baho qo'yish",teachNoGrades:"Hali baho yo'q",teachLessons:"Darslar",teachNoLessons:"Hali dars yo'q",teachCoinAmt:"Coin miqdori",teachAddLesson:"Dars qo'shish",teachMastery:"O'zlashtirish",roleStudent:"O'quvchi",roleTeacher:"O'qituvchi",roleAdmin:"Administrator",roleStudentD:"Darslar, coinlar, kitob va o'yinlar",roleTeacherD:"Sinflar, davomat, baho va o'zlashtirish",roleAdminD:"Tizimni boshqarish va tasdiqlash",obTitle:"Xush kelibsiz! 🎓",obSub:"Kim sifatida davom etasiz?",obHi:"Assalomu alaykum",obName:"To'liq ismingiz",obPhone:"Telefon raqami",obSubject:"Fan (masalan: Matematika)",obCode:"Admin maxfiy kodi",obFill:"Ma'lumotlarni to'ldiring",obSubmit:"Ro'yxatdan o'tish",obTeacherNote:"Ariza administrator tomonidan tasdiqlanadi.",obAdminNote:"Admin kodini administratordan oling.",obErrName:"Ismni to'liq kiriting",obErrCode:"Admin kodi noto'g'ri",pendTitle:"Arizangiz yuborildi",pendSub:"O'qituvchi arizangiz administrator ko'rigida. Tasdiqlangач ilova ochiladi.",pendCheck:"Holatni tekshirish",pendChange:"Rolni o'zgartirish",pendWait:"Hali tasdiqlanmagan — biroz kuting",admTeachers:"O'qituvchilar",admUsers:"Foydalanuvchilar",admApprove:"Tasdiqlash",admReject:"Rad etish",admNoPending:"Kutayotgan ariza yo'q",sLogout:"Akkauntdan chiqish",logoutConfirm:"Rostdan ham chiqasizmi? Keyin qaytadan rol tanlashingiz kerak bo'ladi.",cabCertReady:"Tayyor — ochish uchun bosing",certOpen:"🎓 Sertifikatni ochish",
+      copied:"✅ Nusxa olindi",stRank:"O'rin",stFriends:"Do'stlar",cabCreds:"🔐 LMS ma'lumotlari",lmsTitle:"LMS platforma",lmsHint:"Dars materiallari va topshiriqlar",teachTitle:"O'qituvchi paneli",teachNo:"Siz o'qituvchi emassiz.",teachStudents:"O'quvchilar",teachPresent:"Bugun keldi",teachPerLesson:"Har dars",teachCame:"Keldi",teachMark:"Keldi ✅",teachEmpty:"Hali o'quvchi biriktirilmagan. Pastdan qo'shing.",teachList:"O'quvchilarim",teachAdd:"O'quvchi qo'shish",teachClose:"Yopish",teachHint:"Siz o'qituvchisiz — panelда o'quvchilaringizni boshqaring.",teachAll:"Hammasi keldi",todayLesson:"Bugungi dars",teachSearch:"O'quvchi qidirish",teachClasses:"Sinflarim",teachClsName:"Sinf nomi (masalan: Math 5-A)",teachCreate:"Yaratish",teachNewCls:"Yangi sinf",teachEmptyCls:"Hali sinf yo'q. Yangi sinf oching.",teachDelCls:"Sinfni o'chirish",teachAnalytics:"Analitika",teachAtt:"Davomat",teachDays:"Kelgan / darslar",teachGrades:"Baholar",teachAvg:"O'rtacha",teachGive:"Baho qo'yish",teachNoGrades:"Hali baho yo'q",teachLessons:"Darslar",teachNoLessons:"Hali dars yo'q",teachCoinAmt:"Coin miqdori",teachAddLesson:"Dars qo'shish",teachMastery:"O'zlashtirish",roleStudent:"O'quvchi",roleTeacher:"O'qituvchi",roleAdmin:"Administrator",roleStudentD:"Darslar, coinlar, kitob va o'yinlar",roleTeacherD:"Sinflar, davomat, baho va o'zlashtirish",roleAdminD:"Tizimni boshqarish va tasdiqlash",obTitle:"Xush kelibsiz! 🎓",obSub:"Kim sifatida davom etasiz?",obHi:"Assalomu alaykum",obName:"To'liq ismingiz",obPhone:"Telefon raqami",obSubject:"Fan (masalan: Matematika)",obCode:"Admin maxfiy kodi",obFill:"Ma'lumotlarni to'ldiring",obSubmit:"Ro'yxatdan o'tish",obTeacherNote:"Ariza administrator tomonidan tasdiqlanadi.",obAdminNote:"Admin kodini administratordan oling.",obErrName:"Ismni to'liq kiriting",obErrCode:"Admin kodi noto'g'ri",pendTitle:"Arizangiz yuborildi",pendSub:"O'qituvchi arizangiz administrator ko'rigida. Tasdiqlangач ilova ochiladi.",pendCheck:"Holatni tekshirish",pendChange:"Rolni o'zgartirish",pendWait:"Hali tasdiqlanmagan — biroz kuting",admTeachers:"O'qituvchilar",admUsers:"Foydalanuvchilar",admApprove:"Tasdiqlash",admReject:"Rad etish",admNoPending:"Kutayotgan ariza yo'q",sLogout:"Akkauntdan chiqish",logoutConfirm:"Rostdan ham chiqasizmi? Keyin qaytadan kirishingiz kerak bo'ladi.",loginTitle:"Xush kelibsiz! 🎓",loginSub:"Singapore Skills Academy tizimiga kiring",loginBtn:"Kirish",loginNote:"Rolingiz (o'quvchi / o'qituvchi / admin) tizim tomonidan avtomatik aniqlanadi.",tabClasses:"Sinflar",tabTop:"Reyting",tabSettings:"Sozlama",tabDash:"Boshqaruv",admMakeTeacher:"O'qituvchi qilish",admMakeStudent:"O'quvchi qilish",cabCertReady:"Tayyor — ochish uchun bosing",certOpen:"🎓 Sertifikatni ochish",
       cabNone:"Siz hali ro'yxatda yo'qsiz. Kursga yozilsangiz — ma'lumotlaringiz shu yerda chiqadi.",
       acc:"Akkaunt",cabFull:"🔐 To'liq ma'lumot (botda)",
       cabHint:"LMS login, parol, dars jadvali va sertifikat — botda ko'rsatiladi 👇",
@@ -696,7 +704,7 @@ var UI = {
       addrev:"✍️ Оставить отзыв",revPh:"Напишите ваше мнение...",revSend:"📩 Отправить отзыв",revThanks:"⭐ Спасибо! Ваш отзыв принят.",revShort:"Отзыв слишком короткий.",cabinet:"📱 Личный кабинет",loading:"Загрузка…",
       lName:"👤 Ребёнок",lCourse:"📚 Курс",lType:"🏷 Направление",lLogin:"🔐 LMS логин",lPass:"🔑 Пароль",
       lSched:"📅 Расписание",lCert:"🎓 Сертификат",certNone:"ещё не готов",lmsGo:"🌐 Войти на LMS",
-      copied:"✅ Скопировано",stRank:"Место",stFriends:"Друзья",cabCreds:"🔐 Данные LMS",lmsTitle:"Платформа LMS",lmsHint:"Материалы уроков и задания",teachTitle:"Панель учителя",teachNo:"Вы не учитель.",teachStudents:"Ученики",teachPresent:"Пришли сегодня",teachPerLesson:"За урок",teachCame:"Пришёл",teachMark:"Отметить ✅",teachEmpty:"Ученики не добавлены. Добавьте ниже.",teachList:"Мои ученики",teachAdd:"Добавить ученика",teachClose:"Закрыть",teachHint:"Вы учитель — управляйте учениками в панели.",teachAll:"Все пришли",todayLesson:"Сегодняшний урок",teachSearch:"Поиск ученика",teachClasses:"Мои классы",teachClsName:"Название класса (напр. Math 5-A)",teachCreate:"Создать",teachNewCls:"Новый класс",teachEmptyCls:"Классов пока нет. Создайте класс.",teachDelCls:"Удалить класс",teachAnalytics:"Аналитика",teachAtt:"Посещаемость",teachDays:"Пришёл / уроки",teachGrades:"Оценки",teachAvg:"Средний",teachGive:"Поставить оценку",teachNoGrades:"Оценок пока нет",teachLessons:"Уроки",teachNoLessons:"Уроков пока нет",teachCoinAmt:"Кол-во coin",teachAddLesson:"Добавить урок",teachMastery:"Успеваемость",roleStudent:"Ученик",roleTeacher:"Учитель",roleAdmin:"Администратор",roleStudentD:"Уроки, коины, книги и игры",roleTeacherD:"Классы, посещаемость, оценки",roleAdminD:"Управление системой и подтверждение",obTitle:"Добро пожаловать! 🎓",obSub:"Как продолжить?",obHi:"Здравствуйте",obName:"Ваше полное имя",obPhone:"Номер телефона",obSubject:"Предмет (напр. Математика)",obCode:"Секретный код админа",obFill:"Заполните данные",obSubmit:"Зарегистрироваться",obTeacherNote:"Заявку подтвердит администратор.",obAdminNote:"Код админа получите у администратора.",obErrName:"Введите полное имя",obErrCode:"Неверный код админа",pendTitle:"Заявка отправлена",pendSub:"Ваша заявка учителя на рассмотрении. После подтверждения откроется приложение.",pendCheck:"Проверить статус",pendChange:"Сменить роль",pendWait:"Пока не подтверждено — подождите",admTeachers:"Учителя",admUsers:"Пользователи",admApprove:"Подтвердить",admReject:"Отклонить",admNoPending:"Нет заявок в ожидании",sLogout:"Выйти из аккаунта",logoutConfirm:"Точно выйти? Придётся заново выбрать роль.",cabCertReady:"Готов — нажмите, чтобы открыть",certOpen:"🎓 Открыть сертификат",
+      copied:"✅ Скопировано",stRank:"Место",stFriends:"Друзья",cabCreds:"🔐 Данные LMS",lmsTitle:"Платформа LMS",lmsHint:"Материалы уроков и задания",teachTitle:"Панель учителя",teachNo:"Вы не учитель.",teachStudents:"Ученики",teachPresent:"Пришли сегодня",teachPerLesson:"За урок",teachCame:"Пришёл",teachMark:"Отметить ✅",teachEmpty:"Ученики не добавлены. Добавьте ниже.",teachList:"Мои ученики",teachAdd:"Добавить ученика",teachClose:"Закрыть",teachHint:"Вы учитель — управляйте учениками в панели.",teachAll:"Все пришли",todayLesson:"Сегодняшний урок",teachSearch:"Поиск ученика",teachClasses:"Мои классы",teachClsName:"Название класса (напр. Math 5-A)",teachCreate:"Создать",teachNewCls:"Новый класс",teachEmptyCls:"Классов пока нет. Создайте класс.",teachDelCls:"Удалить класс",teachAnalytics:"Аналитика",teachAtt:"Посещаемость",teachDays:"Пришёл / уроки",teachGrades:"Оценки",teachAvg:"Средний",teachGive:"Поставить оценку",teachNoGrades:"Оценок пока нет",teachLessons:"Уроки",teachNoLessons:"Уроков пока нет",teachCoinAmt:"Кол-во coin",teachAddLesson:"Добавить урок",teachMastery:"Успеваемость",roleStudent:"Ученик",roleTeacher:"Учитель",roleAdmin:"Администратор",roleStudentD:"Уроки, коины, книги и игры",roleTeacherD:"Классы, посещаемость, оценки",roleAdminD:"Управление системой и подтверждение",obTitle:"Добро пожаловать! 🎓",obSub:"Как продолжить?",obHi:"Здравствуйте",obName:"Ваше полное имя",obPhone:"Номер телефона",obSubject:"Предмет (напр. Математика)",obCode:"Секретный код админа",obFill:"Заполните данные",obSubmit:"Зарегистрироваться",obTeacherNote:"Заявку подтвердит администратор.",obAdminNote:"Код админа получите у администратора.",obErrName:"Введите полное имя",obErrCode:"Неверный код админа",pendTitle:"Заявка отправлена",pendSub:"Ваша заявка учителя на рассмотрении. После подтверждения откроется приложение.",pendCheck:"Проверить статус",pendChange:"Сменить роль",pendWait:"Пока не подтверждено — подождите",admTeachers:"Учителя",admUsers:"Пользователи",admApprove:"Подтвердить",admReject:"Отклонить",admNoPending:"Нет заявок в ожидании",sLogout:"Выйти из аккаунта",logoutConfirm:"Точно выйти? Придётся войти заново.",loginTitle:"Добро пожаловать! 🎓",loginSub:"Войдите в систему Singapore Skills Academy",loginBtn:"Войти",loginNote:"Ваша роль (ученик / учитель / админ) определяется системой автоматически.",tabClasses:"Классы",tabTop:"Рейтинг",tabSettings:"Настр.",tabDash:"Панель",admMakeTeacher:"Сделать учителем",admMakeStudent:"Сделать учеником",cabCertReady:"Готов — нажмите, чтобы открыть",certOpen:"🎓 Открыть сертификат",
       cabNone:"Вас пока нет в списке. Запишитесь на курс — и данные появятся здесь.",
       acc:"Аккаунт",cabFull:"🔐 Полная информация (в боте)",
       cabHint:"LMS логин, пароль, расписание и сертификат — в боте 👇",
@@ -724,7 +732,7 @@ var UI = {
       addrev:"✍️ Leave a review",revPh:"Write your feedback...",revSend:"📩 Send review",revThanks:"⭐ Thank you! Your review is received.",revShort:"Review is too short.",cabinet:"📱 My account",loading:"Loading…",
       lName:"👤 Child",lCourse:"📚 Course",lType:"🏷 Track",lLogin:"🔐 LMS login",lPass:"🔑 Password",
       lSched:"📅 Schedule",lCert:"🎓 Certificate",certNone:"not ready yet",lmsGo:"🌐 Go to LMS",
-      copied:"✅ Copied",stRank:"Rank",stFriends:"Friends",cabCreds:"🔐 LMS details",lmsTitle:"LMS platform",lmsHint:"Lesson materials and assignments",teachTitle:"Teacher panel",teachNo:"You are not a teacher.",teachStudents:"Students",teachPresent:"Present today",teachPerLesson:"Per lesson",teachCame:"Present",teachMark:"Mark ✅",teachEmpty:"No students yet. Add below.",teachList:"My students",teachAdd:"Add student",teachClose:"Close",teachHint:"You are a teacher — manage your students in the panel.",teachAll:"All present",todayLesson:"Today's lesson",teachSearch:"Search student",teachClasses:"My classes",teachClsName:"Class name (e.g. Math 5-A)",teachCreate:"Create",teachNewCls:"New class",teachEmptyCls:"No classes yet. Create one.",teachDelCls:"Delete class",teachAnalytics:"Analytics",teachAtt:"Attendance",teachDays:"Present / lessons",teachGrades:"Grades",teachAvg:"Average",teachGive:"Give a grade",teachNoGrades:"No grades yet",teachLessons:"Lessons",teachNoLessons:"No lessons yet",teachCoinAmt:"Coin amount",teachAddLesson:"Add lesson",teachMastery:"Mastery",roleStudent:"Student",roleTeacher:"Teacher",roleAdmin:"Administrator",roleStudentD:"Lessons, coins, books and games",roleTeacherD:"Classes, attendance, grades",roleAdminD:"Manage the system and approvals",obTitle:"Welcome! 🎓",obSub:"How would you like to continue?",obHi:"Hello",obName:"Your full name",obPhone:"Phone number",obSubject:"Subject (e.g. Mathematics)",obCode:"Admin secret code",obFill:"Fill in your details",obSubmit:"Register",obTeacherNote:"Your application will be approved by an administrator.",obAdminNote:"Get the admin code from an administrator.",obErrName:"Enter your full name",obErrCode:"Wrong admin code",pendTitle:"Application sent",pendSub:"Your teacher application is under review. The app opens once approved.",pendCheck:"Check status",pendChange:"Change role",pendWait:"Not approved yet — please wait",admTeachers:"Teachers",admUsers:"Users",admApprove:"Approve",admReject:"Reject",admNoPending:"No pending applications",sLogout:"Log out",logoutConfirm:"Log out for sure? You'll need to pick a role again.",cabCertReady:"Ready — tap to open",certOpen:"🎓 Open certificate",
+      copied:"✅ Copied",stRank:"Rank",stFriends:"Friends",cabCreds:"🔐 LMS details",lmsTitle:"LMS platform",lmsHint:"Lesson materials and assignments",teachTitle:"Teacher panel",teachNo:"You are not a teacher.",teachStudents:"Students",teachPresent:"Present today",teachPerLesson:"Per lesson",teachCame:"Present",teachMark:"Mark ✅",teachEmpty:"No students yet. Add below.",teachList:"My students",teachAdd:"Add student",teachClose:"Close",teachHint:"You are a teacher — manage your students in the panel.",teachAll:"All present",todayLesson:"Today's lesson",teachSearch:"Search student",teachClasses:"My classes",teachClsName:"Class name (e.g. Math 5-A)",teachCreate:"Create",teachNewCls:"New class",teachEmptyCls:"No classes yet. Create one.",teachDelCls:"Delete class",teachAnalytics:"Analytics",teachAtt:"Attendance",teachDays:"Present / lessons",teachGrades:"Grades",teachAvg:"Average",teachGive:"Give a grade",teachNoGrades:"No grades yet",teachLessons:"Lessons",teachNoLessons:"No lessons yet",teachCoinAmt:"Coin amount",teachAddLesson:"Add lesson",teachMastery:"Mastery",roleStudent:"Student",roleTeacher:"Teacher",roleAdmin:"Administrator",roleStudentD:"Lessons, coins, books and games",roleTeacherD:"Classes, attendance, grades",roleAdminD:"Manage the system and approvals",obTitle:"Welcome! 🎓",obSub:"How would you like to continue?",obHi:"Hello",obName:"Your full name",obPhone:"Phone number",obSubject:"Subject (e.g. Mathematics)",obCode:"Admin secret code",obFill:"Fill in your details",obSubmit:"Register",obTeacherNote:"Your application will be approved by an administrator.",obAdminNote:"Get the admin code from an administrator.",obErrName:"Enter your full name",obErrCode:"Wrong admin code",pendTitle:"Application sent",pendSub:"Your teacher application is under review. The app opens once approved.",pendCheck:"Check status",pendChange:"Change role",pendWait:"Not approved yet — please wait",admTeachers:"Teachers",admUsers:"Users",admApprove:"Approve",admReject:"Reject",admNoPending:"No pending applications",sLogout:"Log out",logoutConfirm:"Log out for sure? You'll need to log in again.",loginTitle:"Welcome! 🎓",loginSub:"Sign in to Singapore Skills Academy",loginBtn:"Sign in",loginNote:"Your role (student / teacher / admin) is detected automatically by the system.",tabClasses:"Classes",tabTop:"Ranking",tabSettings:"Settings",tabDash:"Dashboard",admMakeTeacher:"Make teacher",admMakeStudent:"Make student",cabCertReady:"Ready — tap to open",certOpen:"🎓 Open certificate",
       cabNone:"You're not on the list yet. Enroll and your details will appear here.",
       acc:"Account",cabFull:"🔐 Full details (in bot)",
       cabHint:"LMS login, password, schedule and certificate — in the bot 👇",
@@ -871,8 +879,10 @@ function render(){
   else if(view.name==="market") renderMarket();
   else if(view.name==="trial") renderTrial();
   else if(view.name==="wheel") renderWheel();
+  else if(view.name==="login") renderLogin();
   else if(view.name==="onboard") renderOnboard();
   else if(view.name==="pending") renderPending();
+  else if(view.name==="adminHome") renderAdminHome();
   else if(view.name==="admin") renderAdmin();
   else if(view.name==="admTeachers") renderAdminTeachers();
   else if(view.name==="admUsers") renderAdminUsers();
@@ -883,24 +893,49 @@ function render(){
   else if(view.name==="purchases") renderPurchases();
   else if(view.name==="coinTop") renderCoinTop();
   else if(view.name==="refer") renderRefer();
-  else renderHome();
+  else roleHome();
   paintTabs();
   syncBackButton();
   try{ app.classList.remove("anim"); void app.offsetWidth; app.classList.add("anim"); }catch(e){}
 }
+function curRole(){ return (PROFILE&&PROFILE.role)||(IS_ADMIN?"admin":"student"); }
+function roleHome(){
+  var r=curRole();
+  if(r==="admin"){ renderAdminHome(); return; }
+  if(r==="teacher"){ renderTeacherHome(); return; }
+  renderHome();
+}
 
 // Pastki navigatsiya (telefon ilovalari kabi) — 5 ta bo'lim
-var TABS=[
+var TABS_STUDENT=[
   {k:"home",   ic:"🏠", lb:"tabHome",    act:function(){go("home");}},
   {k:"coins",  ic:"🪙", lb:"tabCoin",    act:function(){go("coins");}},
   {k:"market", ic:"🛒", lb:"tabMarket",  act:function(){go("market");}},
   {k:"refer",  ic:"🎁", lb:"tabFriends", act:function(){go("refer");}},
   {k:"cabinet",ic:"👤", lb:"tabCabinet", act:function(){go("cabinet");}}
 ];
-// Qaysi ekran qaysi tabni yoqadi
+var TABS_TEACHER=[
+  {k:"home",   ic:"🏫", lb:"tabClasses",  act:function(){go("home");}},
+  {k:"coins",  ic:"🪙", lb:"tabCoin",     act:function(){go("coins");}},
+  {k:"top",    ic:"🏆", lb:"tabTop",      act:function(){go("top");}},
+  {k:"cabinet",ic:"👤", lb:"tabCabinet",  act:function(){go("cabinet");}},
+  {k:"settings",ic:"⚙️",lb:"tabSettings", act:function(){go("settings");}}
+];
+var TABS_ADMIN=[
+  {k:"home",    ic:"🛡", lb:"tabDash",     act:function(){go("home");}},
+  {k:"users",   ic:"👥", lb:"admUsers",    act:function(){go("admUsers");}},
+  {k:"teachers",ic:"👨‍🏫",lb:"admTeachers", act:function(){go("admTeachers");}},
+  {k:"stat",    ic:"📊", lb:"admStat",     act:function(){go("admStat");}},
+  {k:"settings",ic:"⚙️",lb:"tabSettings",  act:function(){go("settings");}}
+];
+function curTabs(){ var r=curRole(); return r==="admin"?TABS_ADMIN:(r==="teacher"?TABS_TEACHER:TABS_STUDENT); }
+// Qaysi ekran qaysi tabni yoqadi (barcha rollar uchun)
 var TAB_OF={home:"home",coins:"coins",coinTop:"coins",market:"market",
-            refer:"refer",top:"refer",cabinet:"cabinet"};
-function tabGo(i){ TABS[i].act(); }
+            refer:"refer",top:"top",cabinet:"cabinet",settings:"settings",
+            teacher:"home",class:"home",student:"home",
+            adminHome:"home",admin:"home",admUsers:"users",admTeachers:"teachers",
+            admStat:"stat",admOrders:"stat",admTrials:"stat"};
+function tabGo(i){ curTabs()[i].act(); }
 function tabIcon(it){
   // Kabinet — tepadagi avatar kabi: profil rasmi yoki ism harfi
   if(it.k==="cabinet"){
@@ -914,8 +949,11 @@ function tabIcon(it){
 }
 function paintTabs(){
   var tb=document.getElementById("tabbar"); if(!tb) return;
+  // Login/onboard ekranida tab yo'q
+  if(view.name==="login"||view.name==="onboard"||view.name==="pending"){ tb.innerHTML=""; tb.style.display="none"; return; }
+  tb.style.display="";
   var active=TAB_OF[view.name]||"";
-  tb.innerHTML=TABS.map(function(it,i){
+  tb.innerHTML=curTabs().map(function(it,i){
     return '<button class="tabitem'+(active===it.k?' active':'')+'" onclick="tabGo('+i+')">'
       +'<span class="ti-ic">'+tabIcon(it)+'</span>'
       +'<span class="ti-lb">'+T(it.lb)+'</span></button>';
@@ -1693,8 +1731,8 @@ function renderTeacher(){
 }
 function renderClass(){
   TEACH_CLASS=view.code||TEACH_CLASS;
-  var backBtn='<button class="btn sec" onclick="go(\'teacher\')">'+T('back')+'</button>';
-  var head=header()+'<button class="back" onclick="go(\'teacher\')">'+T('back')+'</button>';
+  var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
+  var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>';
   if(!TEACHER){ app.innerHTML=head+skel(3)+backBtn; loadTeacher(function(){ if(view.name==="class") renderClass(); }); return; }
   var c=teachCls();
   if(!c){ app.innerHTML=head+'<div class="content muted">'+esc(T('err'))+'</div>'+backBtn; return; }
@@ -2383,7 +2421,7 @@ function refreshMe(){
 }
 function resetRole(){
   fetch(_tapi("/account/reset","x=1")).then(function(){}).catch(function(){});
-  PROFILE=null; if(ME) ME.registered=false; REG_ROLE=null; IS_ADMIN=false; NAV=[]; view={name:"onboard"}; render();
+  PROFILE=null; if(ME) ME.registered=false; REG_ROLE=null; IS_ADMIN=false; NAV=[]; view={name:"login"}; render();
 }
 function logout(){
   function doIt(){ try{haptic();}catch(e){} resetRole(); }
@@ -2391,6 +2429,105 @@ function logout(){
     if(tg&&tg.showConfirm){ tg.showConfirm(T('logoutConfirm'),function(ok){ if(ok) doIt(); }); return; }
   }catch(e){}
   if(window.confirm(T('logoutConfirm'))) doIt();
+}
+// ---- Bitta login (tizim rolni avtomatik aniqlaydi) ----
+function renderLogin(){
+  var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
+  var nm=((u.first_name||"")+" "+(u.last_name||"")).trim()||u.username||(ME&&ME.name)||"";
+  var av=u.photo_url?('<img class="loginav" src="'+esc(u.photo_url)+'">'):('<span class="loginav ini">'+esc((nm||"?").charAt(0).toUpperCase())+'</span>');
+  app.innerHTML=obLogo()+'<div class="obwrap"><div class="obform">'
+    +av
+    +'<div class="obh1">'+T('loginTitle')+'</div>'
+    +'<div class="obsub">'+T('loginSub')+'</div>'
+    +'<input id="loginName" class="obin" placeholder="'+esc(T('obName'))+'" value="'+esc(nm)+'" maxlength="60">'
+    +'<button class="btn" id="loginBtn" onclick="doLogin()">🚀 '+T('loginBtn')+'</button>'
+    +'<div class="obnote" style="background:rgba(99,102,241,.1)">ℹ️ '+T('loginNote')+'</div>'
+    +'</div></div>';
+}
+function doLogin(){
+  if(REG_BUSY) return;
+  var nm=((document.getElementById("loginName")||{}).value)||"";
+  if(nm.trim().length<2){ toast(T('obErrName')); return; }
+  REG_BUSY=true;
+  var b=document.getElementById("loginBtn"); if(b){ b.disabled=true; b.textContent="..."; }
+  fetch(_tapi("/login","name="+encodeURIComponent(nm))).then(function(r){return r.json();}).then(function(d){
+    REG_BUSY=false;
+    if(!d||!d.ok||!d.profile){ if(b){ b.disabled=false; b.textContent="🚀 "+T('loginBtn'); } toast(T('err')); return; }
+    PROFILE=d.profile; if(ME) ME.registered=true;
+    if(PROFILE.role==="admin") IS_ADMIN=true;
+    try{haptic();}catch(e){}
+    confetti(["🎉","✨","🪙"]); NAV=[]; view={name:"home"}; render(); claimDaily();
+  }).catch(function(){ REG_BUSY=false; if(b){ b.disabled=false; b.textContent="🚀 "+T('loginBtn'); } toast(T('err')); });
+}
+// ---- O'qituvchi BOSH EKRANI (tab: 🏫 Sinflar) ----
+function renderTeacherHome(){
+  var head=header();
+  if(!TEACHER){ app.innerHTML=head+skel(3); loadTeacher(function(){ if(view.name==="home") renderTeacherHome(); }); return; }
+  var cls=TEACHER.classes||[];
+  var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
+  var tname=(PROFILE&&PROFILE.name)||((u.first_name||"")+" "+(u.last_name||"")).trim()||u.username||T('teachTitle');
+  var totalStud=0, totalPresent=0;
+  cls.forEach(function(c){ totalStud+=c.count||0; totalPresent+=c.present||0; });
+  var hero=teachHero("👩‍🏫",tname,T('teachTitle'));
+  var stats='<div class="pstats">'
+    +'<div class="pstat s-rank"><div class="psi">🏫</div><div class="v">'+cls.length+'</div><div class="l">'+esc(T('teachClasses'))+'</div></div>'
+    +'<div class="pstat s-ref"><div class="psi">👥</div><div class="v">'+totalStud+'</div><div class="l">'+esc(T('teachStudents'))+'</div></div>'
+    +'<div class="pstat s-gold"><div class="psi">✅</div><div class="v">'+totalPresent+'</div><div class="l">'+esc(T('teachPresent'))+'</div></div>'
+    +'</div>';
+  var list;
+  if(cls.length){
+    list=cls.map(function(c){
+      return '<div class="clscard" onclick="teachOpenClass(\''+esc(c.id)+'\')">'
+        +'<span class="clsi">🏫</span>'
+        +'<div class="clsb"><div class="clsn">'+esc(c.name)+'</div>'
+        +'<div class="clss">👥 '+c.count+' · ✅ '+c.present+'/'+c.count+'</div></div>'
+        +'<span class="clsa">→</span></div>';
+    }).join('');
+  } else {
+    list='<div class="tempty"><div class="tei">🏫</div><div class="tet">'+esc(T('teachEmptyCls'))+'</div></div>';
+  }
+  var newSec='';
+  if(TEACH_NEW){
+    newSec='<div class="pcard" style="padding:12px 14px 14px"><input class="tsearch" id="newcls" placeholder="'+esc(T('teachClsName'))+'" style="margin:0 0 10px">'
+      +'<button class="btn" style="margin:0" onclick="teachAddClass()">✅ '+T('teachCreate')+'</button></div>';
+  }
+  var newBtn='<button class="btn'+(TEACH_NEW?' sec':'')+'" onclick="teachToggleNew()">'+(TEACH_NEW?('✕ '+T('teachClose')):('➕ '+T('teachNewCls')))+'</button>';
+  app.innerHTML=head+'<div class="stg">'+hero+stats+'<div class="hsec">'+T('teachClasses')+'</div>'+list+'</div>'+newBtn+newSec;
+}
+// ---- ADMIN BOSH EKRANI (tab: 🛡 Boshqaruv) ----
+var ADMSTAT=null;
+function renderAdminHome(){
+  var head=header();
+  var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
+  var aname=(PROFILE&&PROFILE.name)||(u.first_name||"")||T('roleAdmin');
+  var hero=teachHero("🛡",aname,T('adminPanel'));
+  function tile(icon,val,lb,onclick){
+    return '<div class="pstat s-rank" style="cursor:pointer" onclick="'+onclick+'"><div class="psi">'+icon+'</div><div class="v" id="'+lb+'">'+val+'</div><div class="l">'+esc(T(lb))+'</div></div>';
+  }
+  var stats='<div class="pstats">'
+    +tile("👥","—","admUsers","go('admUsers')")
+    +tile("👨‍🏫","—","admTeachers","go('admTeachers')")
+    +tile("🪙","—","tabCoin","go('admStat')")
+    +'</div>';
+  var menu=''
+    +'<button class="btn" onclick="go(\'admUsers\')">👥 '+T('admUsers')+'</button>'
+    +'<button class="btn" onclick="go(\'admTeachers\')">👨‍🏫 '+T('admTeachers')+'<span id="admPendBadge"></span></button>'
+    +'<button class="btn" onclick="go(\'admStat\')">📊 '+T('admStat')+'</button>'
+    +'<button class="btn" onclick="go(\'admOrders\')">🎟 '+T('admOrders')+'</button>'
+    +'<button class="btn" onclick="go(\'admTrials\')">📝 '+T('admTrials')+'</button>'
+    +'<button class="btn sec" onclick="openBot()">'+T('admBot')+'</button>';
+  app.innerHTML=head+'<div class="stg">'+hero+stats+'</div>'+menu;
+  adminFetch("/admin/roles",function(d){
+    if(!d||!d.counts) return;
+    var c=d.counts;
+    var eU=document.getElementById("admUsers"); if(eU) eU.textContent=(c.student||0)+(c.teacher||0)+(c.admin||0);
+    var eT=document.getElementById("admTeachers"); if(eT) eT.textContent=c.teacher||0;
+    var pend=(d.pending&&d.pending.length)||c.pending||0;
+    var badge=document.getElementById("admPendBadge"); if(badge&&pend>0) badge.innerHTML=' <span class="pbadge">'+pend+'</span>';
+  });
+  adminFetch("/admin/stat",function(d){
+    if(d&&d.total_coins!=null){ var e=document.getElementById("tabCoin"); if(e) e.textContent=nf(d.total_coins); }
+  });
 }
 // ---- Admin: o'qituvchilarni tasdiqlash ----
 function renderAdminTeachers(){
@@ -2418,18 +2555,31 @@ function renderAdminUsers(){
   app.innerHTML=head+skel(4)+backBtn;
   adminFetch("/admin/users",function(d){
     d=d||{};
-    function grp(icon,title,arr){
+    function urow(u,btns){
+      var st=u.status==="pending"?' · ⏳':'';
+      return '<div class="urow"><span class="tav">'+tini(u.name||"?")+'</span>'
+        +'<div class="tnm"><div class="tnn">'+esc(u.name||("ID "+String(u.uid).slice(-4)))+'</div>'
+        +'<div class="tsub">'+(u.subject?('📚 '+esc(u.subject)):('🆔 '+esc(String(u.uid).slice(-6))))+st+'</div></div>'+btns+'</div>';
+    }
+    function grp(icon,title,arr,mk){
       arr=arr||[];
-      var rows=arr.length?arr.map(function(u){
-        var st=u.status==="pending"?' · ⏳':'';
-        return '<div class="crow"><span class="cl">'+esc(u.name||("ID "+String(u.uid).slice(-4)))+'</span><span class="cv">'+(u.subject?esc(u.subject):'')+st+'</span></div>';
-      }).join(''):'<div class="crow"><span class="cl muted">—</span></div>';
+      var rows=arr.length?arr.map(mk).join(''):'<div class="crow"><span class="cl muted">—</span></div>';
       return '<div class="pcard"><div class="ph">'+icon+' '+esc(title)+' · '+arr.length+'</div>'+rows+'</div>';
     }
-    app.innerHTML=head+'<div class="stg">'
-      +grp("🎓",T('roleStudent'),d.students)
-      +grp("👨‍🏫",T('roleTeacher'),d.teachers)
-      +grp("🛡",T('roleAdmin'),d.admins)+'</div>'+backBtn;
+    var studs=grp("🎓",T('roleStudent'),d.students,function(u){
+      return urow(u,'<button class="tbtn add" onclick="admSetRole(\''+esc(u.uid)+'\',\'teacher\')">👨‍🏫 '+T('admMakeTeacher')+'</button>');
+    });
+    var teachs=grp("👨‍🏫",T('roleTeacher'),d.teachers,function(u){
+      return urow(u,'<button class="tbtn" style="background:#64748b" onclick="admSetRole(\''+esc(u.uid)+'\',\'student\')">'+T('admMakeStudent')+'</button>');
+    });
+    var admins=grp("🛡",T('roleAdmin'),d.admins,function(u){ return urow(u,''); });
+    app.innerHTML=head+'<div class="stg">'+studs+teachs+admins+'</div>'+backBtn;
+  });
+}
+function admSetRole(uid,role){
+  adminFetch("/admin/setrole?uid="+encodeURIComponent(uid)+"&role="+encodeURIComponent(role),function(d){
+    if(d&&d.ok){ try{haptic();}catch(e){} confetti(["✅"]); }
+    renderAdminUsers();
   });
 }
 
@@ -2438,9 +2588,9 @@ fetch("content.json?_="+Date.now())
   .then(function(d){ DATA=d; LANG=detectLang();
     render(); captureRef();          // DARHOL ko'rsatamiz — oq ekran bo'lmasin
     loadMe(function(known){
-      if(known && ME && ME.registered===false){ NAV=[]; view={name:"onboard"}; render(); return; }
-      if(known && PROFILE && PROFILE.role==="teacher" && PROFILE.status==="pending"){ NAV=[]; view={name:"pending"}; render(); return; }
-      claimDaily();                   // ro'yxatdan o'tgan — kunlik bonus
+      if(known && ME && ME.registered===false){ NAV=[]; view={name:"login"}; render(); return; }
+      if(known && PROFILE){ render(); }   // rol aniqlandi — mos bosh ekranga
+      claimDaily();                       // kunlik bonus
     });
     setInterval(function(){
       var bs=banners();
