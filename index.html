@@ -630,18 +630,21 @@ if (tg){
   try{ if(tg.BackButton) tg.BackButton.onClick(function(){ goBack(); }); }catch(e){}
   // Pastga surib yopilib (minimize) qolmasin — barqaror ilova hissi
   try{ if(tg.disableVerticalSwipes) tg.disableVerticalSwipes(); }catch(e){}
-  // Notch / status bar bilan aralashmasin — safe-area qiymatlarini CSS'ga yozamiz
+  // Notch / status bar bilan aralashmasin — safe-area qiymatlarini CSS'ga yozamiz.
+  // Qiymatlar KECHIKIB kelishi mumkin (ayniqsa fullscreen), shuning uchun bir necha marta qo'llaymiz.
   function applySafeArea(){
     try{
       var c=tg.contentSafeAreaInset||{}, s=tg.safeAreaInset||{};
-      var t=Math.max(c.top||0, s.top||0);
-      document.documentElement.style.setProperty("--tg-content-safe-area-inset-top", (t||0)+"px");
+      var t=Math.max((+c.top||0), (+s.top||0));
+      var st=document.documentElement.style;
+      st.setProperty("--tg-content-safe-area-inset-top", t+"px");
+      st.setProperty("--tg-safe-area-inset-top", ((+s.top)||0)+"px");
     }catch(e){}
   }
   applySafeArea();
-  try{ tg.onEvent && tg.onEvent("safeAreaChanged", applySafeArea); }catch(e){}
-  try{ tg.onEvent && tg.onEvent("contentSafeAreaChanged", applySafeArea); }catch(e){}
-  try{ tg.onEvent && tg.onEvent("viewportChanged", applySafeArea); }catch(e){}
+  var _saN=0, _saT=setInterval(function(){ applySafeArea(); if(++_saN>=12) clearInterval(_saT); }, 300);
+  var _saEv=["safeAreaChanged","contentSafeAreaChanged","viewportChanged","fullscreenChanged","activated"];
+  for(var _i=0;_i<_saEv.length;_i++){ try{ tg.onEvent && tg.onEvent(_saEv[_i], applySafeArea); }catch(e){} }
 }
 
 // Kunduzgi/tungi rejim
