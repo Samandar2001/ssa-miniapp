@@ -188,6 +188,40 @@
     font-family:inherit;-webkit-appearance:none}
   .lsin:focus{outline:none;border-color:#f59e0b}
   .btn.ls{background:linear-gradient(90deg,#f59e0b,#d97706);flex-basis:100%;margin-top:2px}
+  /* ---- Onboarding (ro'yxatdan o'tish) ---- */
+  .obtop{display:flex;justify-content:center;padding:30px 0 6px}
+  .oblogo{height:40px;max-width:70%;object-fit:contain}
+  .obwrap{padding:8px 4px 30px;max-width:520px;margin:0 auto}
+  .obh1{font-size:23px;font-weight:900;text-align:center;margin:6px 0 2px}
+  .obsub{font-size:14px;color:var(--hint);text-align:center;margin-bottom:18px;font-weight:600}
+  .obhi{font-size:15px;font-weight:700;text-align:center;color:var(--brand,#6366f1);margin-bottom:6px}
+  .rolecard{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--card);
+    border:none;border-radius:18px;padding:15px 16px;margin-bottom:13px;cursor:pointer;
+    box-shadow:0 3px 14px rgba(0,0,0,.08);transition:transform .12s}
+  .rolecard:active{transform:scale(.97)}
+  .roleic{width:54px;height:54px;border-radius:16px;display:flex;align-items:center;justify-content:center;
+    font-size:27px;color:#fff;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,.18)}
+  .roleic.big{width:72px;height:72px;font-size:36px;border-radius:20px;margin:0 auto 4px}
+  .rolebody{flex:1;min-width:0;display:flex;flex-direction:column}
+  .rolen{font-weight:800;font-size:16.5px}
+  .roled{font-size:12.5px;color:var(--hint);font-weight:600;margin-top:2px}
+  .rolear{font-size:22px;color:var(--hint);flex-shrink:0;font-weight:800}
+  .obform{background:var(--card);border-radius:20px;padding:22px 18px;box-shadow:0 3px 16px rgba(0,0,0,.08);
+    display:flex;flex-direction:column;align-items:stretch;text-align:center}
+  .obform .obh1{margin-top:8px}
+  .obin{border:1.5px solid var(--line,#e3e3e8);border-radius:13px;padding:13px 14px;font-size:15px;
+    font-weight:600;background:var(--bg,#fff);color:inherit;font-family:inherit;margin-top:10px;-webkit-appearance:none}
+  .obin:focus{outline:none;border-color:#6366f1}
+  .obform .btn{margin-top:16px}
+  .obback{align-self:flex-start;background:none;border:none;color:var(--hint);font-weight:700;
+    font-size:14px;padding:6px 2px;margin-bottom:8px;cursor:pointer}
+  .obnote{font-size:12.5px;color:var(--hint);font-weight:600;margin-top:12px;line-height:1.5;
+    background:rgba(245,158,11,.1);border-radius:11px;padding:10px 12px}
+  .pendic{font-size:56px;text-align:center;margin:4px 0}
+  .obrow{display:flex;gap:9px;margin-top:10px}
+  .obrow .btn{flex:1;margin-top:0}
+  .pbadge{display:inline-block;background:#dc2626;color:#fff;font-size:12px;font-weight:800;
+    border-radius:10px;padding:1px 8px;margin-left:4px;vertical-align:middle}
   .pcard{background:var(--card);border-radius:16px;padding:2px 14px 8px;margin-bottom:12px;
     box-shadow:0 1px 4px rgba(0,0,0,.06)}
   .pcard .ph{font-weight:700;font-size:12px;color:var(--hint);padding:12px 0 2px;
@@ -625,7 +659,7 @@ var UI = {
       addrev:"✍️ Sharh qoldirish",revPh:"Fikringizni yozing...",revSend:"📩 Sharhni yuborish",revThanks:"⭐ Rahmat! Sharhingiz qabul qilindi.",revShort:"Sharh juda qisqa.",cabinet:"📱 Shaxsiy kabinet",loading:"Yuklanmoqda…",
       lName:"👤 Farzand",lCourse:"📚 Kurs",lType:"🏷 Yo'nalish",lLogin:"🔐 LMS login",lPass:"🔑 Parol",
       lSched:"📅 Dars jadvali",lCert:"🎓 Sertifikat",certNone:"hali tayyor emas",lmsGo:"🌐 LMS saytiga kirish",
-      copied:"✅ Nusxa olindi",stRank:"O'rin",stFriends:"Do'stlar",cabCreds:"🔐 LMS ma'lumotlari",lmsTitle:"LMS platforma",lmsHint:"Dars materiallari va topshiriqlar",teachTitle:"O'qituvchi paneli",teachNo:"Siz o'qituvchi emassiz.",teachStudents:"O'quvchilar",teachPresent:"Bugun keldi",teachPerLesson:"Har dars",teachCame:"Keldi",teachMark:"Keldi ✅",teachEmpty:"Hali o'quvchi biriktirilmagan. Pastdan qo'shing.",teachList:"O'quvchilarim",teachAdd:"O'quvchi qo'shish",teachClose:"Yopish",teachHint:"Siz o'qituvchisiz — panelда o'quvchilaringizni boshqaring.",teachAll:"Hammasi keldi",todayLesson:"Bugungi dars",teachSearch:"O'quvchi qidirish",teachClasses:"Sinflarim",teachClsName:"Sinf nomi (masalan: Math 5-A)",teachCreate:"Yaratish",teachNewCls:"Yangi sinf",teachEmptyCls:"Hali sinf yo'q. Yangi sinf oching.",teachDelCls:"Sinfni o'chirish",teachAnalytics:"Analitika",teachAtt:"Davomat",teachDays:"Kelgan / darslar",teachGrades:"Baholar",teachAvg:"O'rtacha",teachGive:"Baho qo'yish",teachNoGrades:"Hali baho yo'q",teachLessons:"Darslar",teachNoLessons:"Hali dars yo'q",teachCoinAmt:"Coin miqdori",teachAddLesson:"Dars qo'shish",teachMastery:"O'zlashtirish",cabCertReady:"Tayyor — ochish uchun bosing",certOpen:"🎓 Sertifikatni ochish",
+      copied:"✅ Nusxa olindi",stRank:"O'rin",stFriends:"Do'stlar",cabCreds:"🔐 LMS ma'lumotlari",lmsTitle:"LMS platforma",lmsHint:"Dars materiallari va topshiriqlar",teachTitle:"O'qituvchi paneli",teachNo:"Siz o'qituvchi emassiz.",teachStudents:"O'quvchilar",teachPresent:"Bugun keldi",teachPerLesson:"Har dars",teachCame:"Keldi",teachMark:"Keldi ✅",teachEmpty:"Hali o'quvchi biriktirilmagan. Pastdan qo'shing.",teachList:"O'quvchilarim",teachAdd:"O'quvchi qo'shish",teachClose:"Yopish",teachHint:"Siz o'qituvchisiz — panelда o'quvchilaringizni boshqaring.",teachAll:"Hammasi keldi",todayLesson:"Bugungi dars",teachSearch:"O'quvchi qidirish",teachClasses:"Sinflarim",teachClsName:"Sinf nomi (masalan: Math 5-A)",teachCreate:"Yaratish",teachNewCls:"Yangi sinf",teachEmptyCls:"Hali sinf yo'q. Yangi sinf oching.",teachDelCls:"Sinfni o'chirish",teachAnalytics:"Analitika",teachAtt:"Davomat",teachDays:"Kelgan / darslar",teachGrades:"Baholar",teachAvg:"O'rtacha",teachGive:"Baho qo'yish",teachNoGrades:"Hali baho yo'q",teachLessons:"Darslar",teachNoLessons:"Hali dars yo'q",teachCoinAmt:"Coin miqdori",teachAddLesson:"Dars qo'shish",teachMastery:"O'zlashtirish",roleStudent:"O'quvchi",roleTeacher:"O'qituvchi",roleAdmin:"Administrator",roleStudentD:"Darslar, coinlar, kitob va o'yinlar",roleTeacherD:"Sinflar, davomat, baho va o'zlashtirish",roleAdminD:"Tizimni boshqarish va tasdiqlash",obTitle:"Xush kelibsiz! 🎓",obSub:"Kim sifatida davom etasiz?",obHi:"Assalomu alaykum",obName:"To'liq ismingiz",obPhone:"Telefon raqami",obSubject:"Fan (masalan: Matematika)",obCode:"Admin maxfiy kodi",obFill:"Ma'lumotlarni to'ldiring",obSubmit:"Ro'yxatdan o'tish",obTeacherNote:"Ariza administrator tomonidan tasdiqlanadi.",obAdminNote:"Admin kodini administratordan oling.",obErrName:"Ismni to'liq kiriting",obErrCode:"Admin kodi noto'g'ri",pendTitle:"Arizangiz yuborildi",pendSub:"O'qituvchi arizangiz administrator ko'rigida. Tasdiqlangач ilova ochiladi.",pendCheck:"Holatni tekshirish",pendChange:"Rolni o'zgartirish",pendWait:"Hali tasdiqlanmagan — biroz kuting",admTeachers:"O'qituvchilar",admUsers:"Foydalanuvchilar",admApprove:"Tasdiqlash",admReject:"Rad etish",admNoPending:"Kutayotgan ariza yo'q",cabCertReady:"Tayyor — ochish uchun bosing",certOpen:"🎓 Sertifikatni ochish",
       cabNone:"Siz hali ro'yxatda yo'qsiz. Kursga yozilsangiz — ma'lumotlaringiz shu yerda chiqadi.",
       acc:"Akkaunt",cabFull:"🔐 To'liq ma'lumot (botda)",
       cabHint:"LMS login, parol, dars jadvali va sertifikat — botda ko'rsatiladi 👇",
@@ -653,7 +687,7 @@ var UI = {
       addrev:"✍️ Оставить отзыв",revPh:"Напишите ваше мнение...",revSend:"📩 Отправить отзыв",revThanks:"⭐ Спасибо! Ваш отзыв принят.",revShort:"Отзыв слишком короткий.",cabinet:"📱 Личный кабинет",loading:"Загрузка…",
       lName:"👤 Ребёнок",lCourse:"📚 Курс",lType:"🏷 Направление",lLogin:"🔐 LMS логин",lPass:"🔑 Пароль",
       lSched:"📅 Расписание",lCert:"🎓 Сертификат",certNone:"ещё не готов",lmsGo:"🌐 Войти на LMS",
-      copied:"✅ Скопировано",stRank:"Место",stFriends:"Друзья",cabCreds:"🔐 Данные LMS",lmsTitle:"Платформа LMS",lmsHint:"Материалы уроков и задания",teachTitle:"Панель учителя",teachNo:"Вы не учитель.",teachStudents:"Ученики",teachPresent:"Пришли сегодня",teachPerLesson:"За урок",teachCame:"Пришёл",teachMark:"Отметить ✅",teachEmpty:"Ученики не добавлены. Добавьте ниже.",teachList:"Мои ученики",teachAdd:"Добавить ученика",teachClose:"Закрыть",teachHint:"Вы учитель — управляйте учениками в панели.",teachAll:"Все пришли",todayLesson:"Сегодняшний урок",teachSearch:"Поиск ученика",teachClasses:"Мои классы",teachClsName:"Название класса (напр. Math 5-A)",teachCreate:"Создать",teachNewCls:"Новый класс",teachEmptyCls:"Классов пока нет. Создайте класс.",teachDelCls:"Удалить класс",teachAnalytics:"Аналитика",teachAtt:"Посещаемость",teachDays:"Пришёл / уроки",teachGrades:"Оценки",teachAvg:"Средний",teachGive:"Поставить оценку",teachNoGrades:"Оценок пока нет",teachLessons:"Уроки",teachNoLessons:"Уроков пока нет",teachCoinAmt:"Кол-во coin",teachAddLesson:"Добавить урок",teachMastery:"Успеваемость",cabCertReady:"Готов — нажмите, чтобы открыть",certOpen:"🎓 Открыть сертификат",
+      copied:"✅ Скопировано",stRank:"Место",stFriends:"Друзья",cabCreds:"🔐 Данные LMS",lmsTitle:"Платформа LMS",lmsHint:"Материалы уроков и задания",teachTitle:"Панель учителя",teachNo:"Вы не учитель.",teachStudents:"Ученики",teachPresent:"Пришли сегодня",teachPerLesson:"За урок",teachCame:"Пришёл",teachMark:"Отметить ✅",teachEmpty:"Ученики не добавлены. Добавьте ниже.",teachList:"Мои ученики",teachAdd:"Добавить ученика",teachClose:"Закрыть",teachHint:"Вы учитель — управляйте учениками в панели.",teachAll:"Все пришли",todayLesson:"Сегодняшний урок",teachSearch:"Поиск ученика",teachClasses:"Мои классы",teachClsName:"Название класса (напр. Math 5-A)",teachCreate:"Создать",teachNewCls:"Новый класс",teachEmptyCls:"Классов пока нет. Создайте класс.",teachDelCls:"Удалить класс",teachAnalytics:"Аналитика",teachAtt:"Посещаемость",teachDays:"Пришёл / уроки",teachGrades:"Оценки",teachAvg:"Средний",teachGive:"Поставить оценку",teachNoGrades:"Оценок пока нет",teachLessons:"Уроки",teachNoLessons:"Уроков пока нет",teachCoinAmt:"Кол-во coin",teachAddLesson:"Добавить урок",teachMastery:"Успеваемость",roleStudent:"Ученик",roleTeacher:"Учитель",roleAdmin:"Администратор",roleStudentD:"Уроки, коины, книги и игры",roleTeacherD:"Классы, посещаемость, оценки",roleAdminD:"Управление системой и подтверждение",obTitle:"Добро пожаловать! 🎓",obSub:"Как продолжить?",obHi:"Здравствуйте",obName:"Ваше полное имя",obPhone:"Номер телефона",obSubject:"Предмет (напр. Математика)",obCode:"Секретный код админа",obFill:"Заполните данные",obSubmit:"Зарегистрироваться",obTeacherNote:"Заявку подтвердит администратор.",obAdminNote:"Код админа получите у администратора.",obErrName:"Введите полное имя",obErrCode:"Неверный код админа",pendTitle:"Заявка отправлена",pendSub:"Ваша заявка учителя на рассмотрении. После подтверждения откроется приложение.",pendCheck:"Проверить статус",pendChange:"Сменить роль",pendWait:"Пока не подтверждено — подождите",admTeachers:"Учителя",admUsers:"Пользователи",admApprove:"Подтвердить",admReject:"Отклонить",admNoPending:"Нет заявок в ожидании",cabCertReady:"Готов — нажмите, чтобы открыть",certOpen:"🎓 Открыть сертификат",
       cabNone:"Вас пока нет в списке. Запишитесь на курс — и данные появятся здесь.",
       acc:"Аккаунт",cabFull:"🔐 Полная информация (в боте)",
       cabHint:"LMS логин, пароль, расписание и сертификат — в боте 👇",
@@ -681,7 +715,7 @@ var UI = {
       addrev:"✍️ Leave a review",revPh:"Write your feedback...",revSend:"📩 Send review",revThanks:"⭐ Thank you! Your review is received.",revShort:"Review is too short.",cabinet:"📱 My account",loading:"Loading…",
       lName:"👤 Child",lCourse:"📚 Course",lType:"🏷 Track",lLogin:"🔐 LMS login",lPass:"🔑 Password",
       lSched:"📅 Schedule",lCert:"🎓 Certificate",certNone:"not ready yet",lmsGo:"🌐 Go to LMS",
-      copied:"✅ Copied",stRank:"Rank",stFriends:"Friends",cabCreds:"🔐 LMS details",lmsTitle:"LMS platform",lmsHint:"Lesson materials and assignments",teachTitle:"Teacher panel",teachNo:"You are not a teacher.",teachStudents:"Students",teachPresent:"Present today",teachPerLesson:"Per lesson",teachCame:"Present",teachMark:"Mark ✅",teachEmpty:"No students yet. Add below.",teachList:"My students",teachAdd:"Add student",teachClose:"Close",teachHint:"You are a teacher — manage your students in the panel.",teachAll:"All present",todayLesson:"Today's lesson",teachSearch:"Search student",teachClasses:"My classes",teachClsName:"Class name (e.g. Math 5-A)",teachCreate:"Create",teachNewCls:"New class",teachEmptyCls:"No classes yet. Create one.",teachDelCls:"Delete class",teachAnalytics:"Analytics",teachAtt:"Attendance",teachDays:"Present / lessons",teachGrades:"Grades",teachAvg:"Average",teachGive:"Give a grade",teachNoGrades:"No grades yet",teachLessons:"Lessons",teachNoLessons:"No lessons yet",teachCoinAmt:"Coin amount",teachAddLesson:"Add lesson",teachMastery:"Mastery",cabCertReady:"Ready — tap to open",certOpen:"🎓 Open certificate",
+      copied:"✅ Copied",stRank:"Rank",stFriends:"Friends",cabCreds:"🔐 LMS details",lmsTitle:"LMS platform",lmsHint:"Lesson materials and assignments",teachTitle:"Teacher panel",teachNo:"You are not a teacher.",teachStudents:"Students",teachPresent:"Present today",teachPerLesson:"Per lesson",teachCame:"Present",teachMark:"Mark ✅",teachEmpty:"No students yet. Add below.",teachList:"My students",teachAdd:"Add student",teachClose:"Close",teachHint:"You are a teacher — manage your students in the panel.",teachAll:"All present",todayLesson:"Today's lesson",teachSearch:"Search student",teachClasses:"My classes",teachClsName:"Class name (e.g. Math 5-A)",teachCreate:"Create",teachNewCls:"New class",teachEmptyCls:"No classes yet. Create one.",teachDelCls:"Delete class",teachAnalytics:"Analytics",teachAtt:"Attendance",teachDays:"Present / lessons",teachGrades:"Grades",teachAvg:"Average",teachGive:"Give a grade",teachNoGrades:"No grades yet",teachLessons:"Lessons",teachNoLessons:"No lessons yet",teachCoinAmt:"Coin amount",teachAddLesson:"Add lesson",teachMastery:"Mastery",roleStudent:"Student",roleTeacher:"Teacher",roleAdmin:"Administrator",roleStudentD:"Lessons, coins, books and games",roleTeacherD:"Classes, attendance, grades",roleAdminD:"Manage the system and approvals",obTitle:"Welcome! 🎓",obSub:"How would you like to continue?",obHi:"Hello",obName:"Your full name",obPhone:"Phone number",obSubject:"Subject (e.g. Mathematics)",obCode:"Admin secret code",obFill:"Fill in your details",obSubmit:"Register",obTeacherNote:"Your application will be approved by an administrator.",obAdminNote:"Get the admin code from an administrator.",obErrName:"Enter your full name",obErrCode:"Wrong admin code",pendTitle:"Application sent",pendSub:"Your teacher application is under review. The app opens once approved.",pendCheck:"Check status",pendChange:"Change role",pendWait:"Not approved yet — please wait",admTeachers:"Teachers",admUsers:"Users",admApprove:"Approve",admReject:"Reject",admNoPending:"No pending applications",cabCertReady:"Ready — tap to open",certOpen:"🎓 Open certificate",
       cabNone:"You're not on the list yet. Enroll and your details will appear here.",
       acc:"Account",cabFull:"🔐 Full details (in bot)",
       cabHint:"LMS login, password, schedule and certificate — in the bot 👇",
@@ -721,6 +755,7 @@ var NAME={math:"Junior Math",english:"Junior English",science:"Junior Science",l
 var CUR={uz:"so'm",ru:"сум",en:"UZS"};
 
 var DATA=null, LANG="uz", DAILY=null, MYCOINS=null, COINDISP=null, IS_ADMIN=false;
+var ME=null, PROFILE=null, REG_ROLE=null, REG_BUSY=false;
 var view={name:"home"};           // {name:'home'|'sec'|'contact'|'reviews', code, tab}
 var NAV=[];                        // navigatsiya tarixi (orqaga tugmasi uchun)
 var EXIT_ARMED=false;              // bosh ekranda "yana bir marta bosing" holati
@@ -827,7 +862,11 @@ function render(){
   else if(view.name==="market") renderMarket();
   else if(view.name==="trial") renderTrial();
   else if(view.name==="wheel") renderWheel();
+  else if(view.name==="onboard") renderOnboard();
+  else if(view.name==="pending") renderPending();
   else if(view.name==="admin") renderAdmin();
+  else if(view.name==="admTeachers") renderAdminTeachers();
+  else if(view.name==="admUsers") renderAdminUsers();
   else if(view.name==="admStat") renderAdminStat();
   else if(view.name==="admOrders") renderAdminOrders();
   else if(view.name==="admTrials") renderAdminTrials();
@@ -1184,11 +1223,18 @@ function adminFetch(path,cb){
 function renderAdmin(){
   if(!IS_ADMIN){ go("home"); return; }
   var backBtn='<button class="btn sec" onclick="go(\'settings\')">'+T('back')+'</button>';
-  app.innerHTML=adminHead(T('adminPanel'),"settings")
-    +'<button class="btn" onclick="go(\'admStat\')">'+T('admStat')+'</button>'
-    +'<button class="btn" onclick="go(\'admOrders\')">'+T('admOrders')+'</button>'
-    +'<button class="btn" onclick="go(\'admTrials\')">'+T('admTrials')+'</button>'
-    +'<button class="btn sec" onclick="openBot()">'+T('admBot')+'</button>'+backBtn;
+  function paint(pend){
+    var badge=pend>0?(' <span class="pbadge">'+pend+'</span>'):'';
+    app.innerHTML=adminHead(T('adminPanel'),"settings")
+      +'<button class="btn" onclick="go(\'admTeachers\')">👨‍🏫 '+T('admTeachers')+badge+'</button>'
+      +'<button class="btn" onclick="go(\'admUsers\')">👥 '+T('admUsers')+'</button>'
+      +'<button class="btn" onclick="go(\'admStat\')">'+T('admStat')+'</button>'
+      +'<button class="btn" onclick="go(\'admOrders\')">'+T('admOrders')+'</button>'
+      +'<button class="btn" onclick="go(\'admTrials\')">'+T('admTrials')+'</button>'
+      +'<button class="btn sec" onclick="openBot()">'+T('admBot')+'</button>'+backBtn;
+  }
+  paint(0);
+  adminFetch("/admin/roles",function(d){ paint((d&&d.counts&&d.counts.pending)||0); });
 }
 function renderAdminStat(){
   if(!IS_ADMIN){ go("home"); return; }
@@ -2233,9 +2279,144 @@ function detectLang(){
   return "uz";
 }
 
+// ================= Ro'yxatdan o'tish (rol tanlash — LMS uslubida) =================
+function loadMe(cb){
+  var url=marketApi("/me"), initData=(tg&&tg.initData)||"";
+  if(!url||!initData){ if(cb)cb(false); return; }
+  fetch(url+"?initData="+encodeURIComponent(initData))
+    .then(function(r){return r.json();})
+    .then(function(d){
+      ME=d||{}; PROFILE=(d&&d.profile)||null;
+      if(d&&d.admin) IS_ADMIN=true;
+      if(d&&d.coins!=null) setCoins(d.coins);
+      if(cb) cb(true);
+    })
+    .catch(function(){ ME=null; if(cb) cb(false); });
+}
+function roleName(r){ return r==="admin"?T('roleAdmin'):r==="teacher"?T('roleTeacher'):T('roleStudent'); }
+function roleIcon(r){ return r==="admin"?"🛡":r==="teacher"?"👨‍🏫":"🎓"; }
+function roleGrad(r){ return r==="admin"?"linear-gradient(135deg,#334155,#0f172a)":r==="teacher"?"linear-gradient(135deg,#0ea5e9,#2563eb)":"linear-gradient(135deg,#6366f1,#8b5cf6)"; }
+function obLogo(){ return '<div class="obtop"><img src="'+((THEME==="dark")?"logo-white.png":"logo-color.png")+'" class="oblogo" alt="SSA"></div>'; }
+
+function renderOnboard(){
+  var name=(ME&&ME.name)||"";
+  if(!REG_ROLE){
+    var hi=name?('<div class="obhi">'+T('obHi')+', '+esc(name)+'! 👋</div>'):'';
+    var roles=[["student",T('roleStudentD')],["teacher",T('roleTeacherD')],["admin",T('roleAdminD')]];
+    var cards=roles.map(function(o){
+      return '<button class="rolecard" onclick="pickRole(\''+o[0]+'\')"><span class="roleic" style="background:'+roleGrad(o[0])+'">'+roleIcon(o[0])+'</span>'
+        +'<span class="rolebody"><span class="rolen">'+esc(roleName(o[0]))+'</span><span class="roled">'+esc(o[1])+'</span></span>'
+        +'<span class="rolear">→</span></button>';
+    }).join('');
+    app.innerHTML=obLogo()+'<div class="obwrap"><div class="obh1">'+T('obTitle')+'</div>'+hi
+      +'<div class="obsub">'+T('obSub')+'</div>'+cards+'</div>';
+    return;
+  }
+  var fields='<input id="regName" class="obin" placeholder="'+esc(T('obName'))+'" value="'+esc(name)+'" maxlength="60">'
+    +'<input id="regPhone" class="obin" type="tel" placeholder="'+esc(T('obPhone'))+'" maxlength="30">';
+  if(REG_ROLE==="teacher") fields+='<input id="regSubject" class="obin" placeholder="'+esc(T('obSubject'))+'" maxlength="40">';
+  if(REG_ROLE==="admin") fields+='<input id="regCode" class="obin" type="password" placeholder="'+esc(T('obCode'))+'" maxlength="40">';
+  var note=REG_ROLE==="teacher"?('<div class="obnote">⏳ '+T('obTeacherNote')+'</div>'):(REG_ROLE==="admin"?('<div class="obnote">🔐 '+T('obAdminNote')+'</div>'):'');
+  app.innerHTML=obLogo()+'<div class="obwrap">'
+    +'<button class="obback" onclick="pickRole(null)">← '+T('back')+'</button>'
+    +'<div class="obform"><span class="roleic big" style="background:'+roleGrad(REG_ROLE)+'">'+roleIcon(REG_ROLE)+'</span>'
+    +'<div class="obh1">'+esc(roleName(REG_ROLE))+'</div><div class="obsub">'+T('obFill')+'</div>'
+    +fields+note+'<button class="btn" id="regBtn" onclick="doRegister()">'+T('obSubmit')+'</button></div></div>';
+}
+function pickRole(r){ REG_ROLE=r; try{haptic();}catch(e){} renderOnboard(); }
+function doRegister(){
+  if(REG_BUSY) return;
+  var nm=((document.getElementById("regName")||{}).value)||"";
+  var ph=((document.getElementById("regPhone")||{}).value)||"";
+  var sub=((document.getElementById("regSubject")||{}).value)||"";
+  var code=((document.getElementById("regCode")||{}).value)||"";
+  if(nm.trim().length<2){ toast(T('obErrName')); return; }
+  REG_BUSY=true;
+  var b=document.getElementById("regBtn"); if(b){ b.disabled=true; b.textContent="..."; }
+  var params="role="+encodeURIComponent(REG_ROLE)+"&name="+encodeURIComponent(nm)
+    +"&phone="+encodeURIComponent(ph)+"&subject="+encodeURIComponent(sub)+"&code="+encodeURIComponent(code);
+  fetch(_tapi("/register",params)).then(function(r){return r.json();}).then(function(d){
+    REG_BUSY=false;
+    if(!d||!d.ok){
+      if(b){ b.disabled=false; b.textContent=T('obSubmit'); }
+      toast(d&&d.error==="code"?T('obErrCode'):(d&&d.error==="name"?T('obErrName'):T('err')));
+      return;
+    }
+    PROFILE=d.profile; if(ME) ME.registered=true;
+    if(PROFILE.role==="admin") IS_ADMIN=true;
+    try{haptic();}catch(e){}
+    if(PROFILE.role==="teacher"&&PROFILE.status==="pending"){ confetti(["📨","⏳","✅"]); NAV=[]; view={name:"pending"}; render(); return; }
+    confetti(["🎉","🪙","✨"]); NAV=[]; view={name:"home"}; render(); claimDaily();
+  }).catch(function(){ REG_BUSY=false; if(b){ b.disabled=false; b.textContent=T('obSubmit'); } toast(T('err')); });
+}
+function renderPending(){
+  app.innerHTML=obLogo()+'<div class="obwrap"><div class="obform">'
+    +'<div class="pendic">⏳</div><div class="obh1">'+T('pendTitle')+'</div>'
+    +'<div class="obsub">'+T('pendSub')+'</div>'
+    +'<button class="btn" onclick="refreshMe()">🔄 '+T('pendCheck')+'</button>'
+    +'<button class="btn sec" onclick="resetRole()">'+T('pendChange')+'</button></div></div>';
+}
+function refreshMe(){
+  loadMe(function(){
+    if(PROFILE&&PROFILE.role==="teacher"&&PROFILE.status==="active"){ confetti(["🎉","✅"]); NAV=[]; view={name:"home"}; render(); return; }
+    if(!PROFILE){ resetRole(); return; }
+    toast(T('pendWait'));
+  });
+}
+function resetRole(){
+  fetch(_tapi("/account/reset","x=1")).then(function(){}).catch(function(){});
+  PROFILE=null; if(ME) ME.registered=false; REG_ROLE=null; IS_ADMIN=false; NAV=[]; view={name:"onboard"}; render();
+}
+// ---- Admin: o'qituvchilarni tasdiqlash ----
+function renderAdminTeachers(){
+  if(!IS_ADMIN){ go("home"); return; }
+  var backBtn='<button class="btn sec" onclick="go(\'admin\')">'+T('back')+'</button>';
+  var head=adminHead(T('admTeachers'),"admin");
+  app.innerHTML=head+skel(3)+backBtn;
+  adminFetch("/admin/pending",function(d){
+    var list=(d&&d.pending)||[];
+    var body=list.length?list.map(function(t){
+      return '<div class="pcard"><div class="trow"><span class="tav">'+tini(t.name)+'</span>'
+        +'<div class="tnm"><div class="tnn">'+esc(t.name)+'</div><div class="tsub">📚 '+esc(t.subject||"—")+(t.phone?(' · 📞 '+esc(t.phone)):'')+'</div></div></div>'
+        +'<div class="obrow"><button class="btn" style="background:linear-gradient(135deg,#16a34a,#15803d)" onclick="admApprove(\''+esc(t.uid)+'\')">✅ '+T('admApprove')+'</button>'
+        +'<button class="btn sec" style="color:#dc2626" onclick="admReject(\''+esc(t.uid)+'\')">✕ '+T('admReject')+'</button></div></div>';
+    }).join(''):'<div class="tempty"><div class="tei">✅</div><div class="tet">'+T('admNoPending')+'</div></div>';
+    app.innerHTML=head+'<div class="stg">'+body+'</div>'+backBtn;
+  });
+}
+function admApprove(uid){ adminFetch("/admin/approve?uid="+encodeURIComponent(uid),function(d){ if(d&&d.ok){try{haptic();}catch(e){} confetti(["✅","🎉"]);} renderAdminTeachers(); }); }
+function admReject(uid){ adminFetch("/admin/reject?uid="+encodeURIComponent(uid),function(d){ if(d&&d.ok)try{haptic();}catch(e){} renderAdminTeachers(); }); }
+function renderAdminUsers(){
+  if(!IS_ADMIN){ go("home"); return; }
+  var backBtn='<button class="btn sec" onclick="go(\'admin\')">'+T('back')+'</button>';
+  var head=adminHead(T('admUsers'),"admin");
+  app.innerHTML=head+skel(4)+backBtn;
+  adminFetch("/admin/users",function(d){
+    d=d||{};
+    function grp(icon,title,arr){
+      arr=arr||[];
+      var rows=arr.length?arr.map(function(u){
+        var st=u.status==="pending"?' · ⏳':'';
+        return '<div class="crow"><span class="cl">'+esc(u.name||("ID "+String(u.uid).slice(-4)))+'</span><span class="cv">'+(u.subject?esc(u.subject):'')+st+'</span></div>';
+      }).join(''):'<div class="crow"><span class="cl muted">—</span></div>';
+      return '<div class="pcard"><div class="ph">'+icon+' '+esc(title)+' · '+arr.length+'</div>'+rows+'</div>';
+    }
+    app.innerHTML=head+'<div class="stg">'
+      +grp("🎓",T('roleStudent'),d.students)
+      +grp("👨‍🏫",T('roleTeacher'),d.teachers)
+      +grp("🛡",T('roleAdmin'),d.admins)+'</div>'+backBtn;
+  });
+}
+
 fetch("content.json?_="+Date.now())
   .then(function(r){ return r.json(); })
-  .then(function(d){ DATA=d; LANG=detectLang(); render(); claimDaily(); captureRef();
+  .then(function(d){ DATA=d; LANG=detectLang();
+    loadMe(function(known){
+      if(known && ME && ME.registered===false){ view={name:"onboard"}; render(); captureRef(); return; }
+      if(known && PROFILE && PROFILE.role==="teacher" && PROFILE.status==="pending"){ view={name:"pending"}; render(); return; }
+      render(); claimDaily(); captureRef();
+    });
+    setTimeout(function(){ if(!ME){ render(); claimDaily(); captureRef(); } }, 6000);
     setInterval(function(){
       var bs=banners();
       if(view.name==="home"&&bs.length>1){ BIDX=BIDX+1; paintBanner(); }
