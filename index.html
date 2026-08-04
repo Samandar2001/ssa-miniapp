@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Singapore Skills Academy</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
@@ -2411,12 +2414,12 @@ function renderAdminUsers(){
 fetch("content.json?_="+Date.now())
   .then(function(r){ return r.json(); })
   .then(function(d){ DATA=d; LANG=detectLang();
+    render(); captureRef();          // DARHOL ko'rsatamiz — oq ekran bo'lmasin
     loadMe(function(known){
-      if(known && ME && ME.registered===false){ view={name:"onboard"}; render(); captureRef(); return; }
-      if(known && PROFILE && PROFILE.role==="teacher" && PROFILE.status==="pending"){ view={name:"pending"}; render(); return; }
-      render(); claimDaily(); captureRef();
+      if(known && ME && ME.registered===false){ NAV=[]; view={name:"onboard"}; render(); return; }
+      if(known && PROFILE && PROFILE.role==="teacher" && PROFILE.status==="pending"){ NAV=[]; view={name:"pending"}; render(); return; }
+      claimDaily();                   // ro'yxatdan o'tgan — kunlik bonus
     });
-    setTimeout(function(){ if(!ME){ render(); claimDaily(); captureRef(); } }, 6000);
     setInterval(function(){
       var bs=banners();
       if(view.name==="home"&&bs.length>1){ BIDX=BIDX+1; paintBanner(); }
