@@ -2,7 +2,7 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -22,7 +22,8 @@
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
        background:var(--sec);color:var(--text);font-size:16px;line-height:1.5}
-  .wrap{max-width:600px;margin:0 auto;padding:12px 12px 84px}
+  .wrap{max-width:600px;margin:0 auto;
+    padding:calc(12px + max(env(safe-area-inset-top,0px), var(--tg-content-safe-area-inset-top,0px), var(--tg-safe-area-inset-top,0px))) 12px 84px}
   .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:100;max-width:600px;margin:0 auto;
     display:flex;background:var(--card);border-top:1px solid var(--line);
     box-shadow:0 -2px 14px rgba(0,0,0,.08);padding-bottom:env(safe-area-inset-bottom,0)}
@@ -625,6 +626,18 @@ if (tg){
   try{ if(tg.BackButton) tg.BackButton.onClick(function(){ goBack(); }); }catch(e){}
   // Pastga surib yopilib (minimize) qolmasin — barqaror ilova hissi
   try{ if(tg.disableVerticalSwipes) tg.disableVerticalSwipes(); }catch(e){}
+  // Notch / status bar bilan aralashmasin — safe-area qiymatlarini CSS'ga yozamiz
+  function applySafeArea(){
+    try{
+      var c=tg.contentSafeAreaInset||{}, s=tg.safeAreaInset||{};
+      var t=Math.max(c.top||0, s.top||0);
+      document.documentElement.style.setProperty("--tg-content-safe-area-inset-top", (t||0)+"px");
+    }catch(e){}
+  }
+  applySafeArea();
+  try{ tg.onEvent && tg.onEvent("safeAreaChanged", applySafeArea); }catch(e){}
+  try{ tg.onEvent && tg.onEvent("contentSafeAreaChanged", applySafeArea); }catch(e){}
+  try{ tg.onEvent && tg.onEvent("viewportChanged", applySafeArea); }catch(e){}
 }
 
 // Kunduzgi/tungi rejim
