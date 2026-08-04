@@ -622,6 +622,10 @@
 var tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
 if (tg){
   try{ tg.ready(); tg.expand(); }catch(e){}
+  // Taklif havolasi (?startapp) ilovani FULLSCREEN ochsa — oddiy rejimga (menyu tugmasidek) qaytaramiz
+  function _noFull(){ try{ if(tg.isFullscreen && tg.exitFullscreen) tg.exitFullscreen(); }catch(e){} }
+  _noFull();
+  try{ tg.onEvent && tg.onEvent("fullscreenChanged", _noFull); }catch(e){}
   // Telefonda "orqaga" tugmasi — ilova ichida bir qadam orqaga (minimize emas)
   try{ if(tg.BackButton) tg.BackButton.onClick(function(){ goBack(); }); }catch(e){}
   // Pastga surib yopilib (minimize) qolmasin — barqaror ilova hissi
