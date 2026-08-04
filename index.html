@@ -155,6 +155,17 @@
   .tsearch{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 14px;
     font-size:15px;margin:10px 0 0;background:var(--card);color:var(--text);font-family:inherit}
   .tsearch:focus{outline:none;border-color:var(--accent)}
+  .clscard{display:flex;align-items:center;gap:13px;background:var(--card);border-radius:16px;
+    padding:14px 15px;margin-bottom:10px;cursor:pointer;box-shadow:0 2px 8px -3px rgba(0,0,0,.12);
+    transition:transform .12s}
+  .clscard:active{transform:scale(.97)}
+  .clscard .clsi{width:46px;height:46px;border-radius:13px;flex-shrink:0;font-size:23px;color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#ec4899,#be185d);box-shadow:0 6px 14px -6px rgba(190,24,93,.6)}
+  .clscard .clsb{flex:1;min-width:0}
+  .clscard .clsn{font-weight:800;font-size:15.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .clscard .clss{font-size:12.5px;color:var(--hint);font-weight:600;margin-top:2px}
+  .clscard .clsa{font-size:20px;font-weight:800;color:var(--hint);flex-shrink:0}
   .pcard{background:var(--card);border-radius:16px;padding:2px 14px 8px;margin-bottom:12px;
     box-shadow:0 1px 4px rgba(0,0,0,.06)}
   .pcard .ph{font-weight:700;font-size:12px;color:var(--hint);padding:12px 0 2px;
@@ -592,7 +603,7 @@ var UI = {
       addrev:"✍️ Sharh qoldirish",revPh:"Fikringizni yozing...",revSend:"📩 Sharhni yuborish",revThanks:"⭐ Rahmat! Sharhingiz qabul qilindi.",revShort:"Sharh juda qisqa.",cabinet:"📱 Shaxsiy kabinet",loading:"Yuklanmoqda…",
       lName:"👤 Farzand",lCourse:"📚 Kurs",lType:"🏷 Yo'nalish",lLogin:"🔐 LMS login",lPass:"🔑 Parol",
       lSched:"📅 Dars jadvali",lCert:"🎓 Sertifikat",certNone:"hali tayyor emas",lmsGo:"🌐 LMS saytiga kirish",
-      copied:"✅ Nusxa olindi",stRank:"O'rin",stFriends:"Do'stlar",cabCreds:"🔐 LMS ma'lumotlari",lmsTitle:"LMS platforma",lmsHint:"Dars materiallari va topshiriqlar",teachTitle:"O'qituvchi paneli",teachNo:"Siz o'qituvchi emassiz.",teachStudents:"O'quvchilar",teachPresent:"Bugun keldi",teachPerLesson:"Har dars",teachCame:"Keldi",teachMark:"Keldi ✅",teachEmpty:"Hali o'quvchi biriktirilmagan. Pastdan qo'shing.",teachList:"O'quvchilarim",teachAdd:"O'quvchi qo'shish",teachClose:"Yopish",teachHint:"Siz o'qituvchisiz — panelда o'quvchilaringizni boshqaring.",teachAll:"Hammasi keldi",todayLesson:"Bugungi dars",teachSearch:"O'quvchi qidirish",cabCertReady:"Tayyor — ochish uchun bosing",certOpen:"🎓 Sertifikatni ochish",
+      copied:"✅ Nusxa olindi",stRank:"O'rin",stFriends:"Do'stlar",cabCreds:"🔐 LMS ma'lumotlari",lmsTitle:"LMS platforma",lmsHint:"Dars materiallari va topshiriqlar",teachTitle:"O'qituvchi paneli",teachNo:"Siz o'qituvchi emassiz.",teachStudents:"O'quvchilar",teachPresent:"Bugun keldi",teachPerLesson:"Har dars",teachCame:"Keldi",teachMark:"Keldi ✅",teachEmpty:"Hali o'quvchi biriktirilmagan. Pastdan qo'shing.",teachList:"O'quvchilarim",teachAdd:"O'quvchi qo'shish",teachClose:"Yopish",teachHint:"Siz o'qituvchisiz — panelда o'quvchilaringizni boshqaring.",teachAll:"Hammasi keldi",todayLesson:"Bugungi dars",teachSearch:"O'quvchi qidirish",teachClasses:"Sinflarim",teachClsName:"Sinf nomi (masalan: Math 5-A)",teachCreate:"Yaratish",teachNewCls:"Yangi sinf",teachEmptyCls:"Hali sinf yo'q. Yangi sinf oching.",teachDelCls:"Sinfni o'chirish",cabCertReady:"Tayyor — ochish uchun bosing",certOpen:"🎓 Sertifikatni ochish",
       cabNone:"Siz hali ro'yxatda yo'qsiz. Kursga yozilsangiz — ma'lumotlaringiz shu yerda chiqadi.",
       acc:"Akkaunt",cabFull:"🔐 To'liq ma'lumot (botda)",
       cabHint:"LMS login, parol, dars jadvali va sertifikat — botda ko'rsatiladi 👇",
@@ -620,7 +631,7 @@ var UI = {
       addrev:"✍️ Оставить отзыв",revPh:"Напишите ваше мнение...",revSend:"📩 Отправить отзыв",revThanks:"⭐ Спасибо! Ваш отзыв принят.",revShort:"Отзыв слишком короткий.",cabinet:"📱 Личный кабинет",loading:"Загрузка…",
       lName:"👤 Ребёнок",lCourse:"📚 Курс",lType:"🏷 Направление",lLogin:"🔐 LMS логин",lPass:"🔑 Пароль",
       lSched:"📅 Расписание",lCert:"🎓 Сертификат",certNone:"ещё не готов",lmsGo:"🌐 Войти на LMS",
-      copied:"✅ Скопировано",stRank:"Место",stFriends:"Друзья",cabCreds:"🔐 Данные LMS",lmsTitle:"Платформа LMS",lmsHint:"Материалы уроков и задания",teachTitle:"Панель учителя",teachNo:"Вы не учитель.",teachStudents:"Ученики",teachPresent:"Пришли сегодня",teachPerLesson:"За урок",teachCame:"Пришёл",teachMark:"Отметить ✅",teachEmpty:"Ученики не добавлены. Добавьте ниже.",teachList:"Мои ученики",teachAdd:"Добавить ученика",teachClose:"Закрыть",teachHint:"Вы учитель — управляйте учениками в панели.",teachAll:"Все пришли",todayLesson:"Сегодняшний урок",teachSearch:"Поиск ученика",cabCertReady:"Готов — нажмите, чтобы открыть",certOpen:"🎓 Открыть сертификат",
+      copied:"✅ Скопировано",stRank:"Место",stFriends:"Друзья",cabCreds:"🔐 Данные LMS",lmsTitle:"Платформа LMS",lmsHint:"Материалы уроков и задания",teachTitle:"Панель учителя",teachNo:"Вы не учитель.",teachStudents:"Ученики",teachPresent:"Пришли сегодня",teachPerLesson:"За урок",teachCame:"Пришёл",teachMark:"Отметить ✅",teachEmpty:"Ученики не добавлены. Добавьте ниже.",teachList:"Мои ученики",teachAdd:"Добавить ученика",teachClose:"Закрыть",teachHint:"Вы учитель — управляйте учениками в панели.",teachAll:"Все пришли",todayLesson:"Сегодняшний урок",teachSearch:"Поиск ученика",teachClasses:"Мои классы",teachClsName:"Название класса (напр. Math 5-A)",teachCreate:"Создать",teachNewCls:"Новый класс",teachEmptyCls:"Классов пока нет. Создайте класс.",teachDelCls:"Удалить класс",cabCertReady:"Готов — нажмите, чтобы открыть",certOpen:"🎓 Открыть сертификат",
       cabNone:"Вас пока нет в списке. Запишитесь на курс — и данные появятся здесь.",
       acc:"Аккаунт",cabFull:"🔐 Полная информация (в боте)",
       cabHint:"LMS логин, пароль, расписание и сертификат — в боте 👇",
@@ -648,7 +659,7 @@ var UI = {
       addrev:"✍️ Leave a review",revPh:"Write your feedback...",revSend:"📩 Send review",revThanks:"⭐ Thank you! Your review is received.",revShort:"Review is too short.",cabinet:"📱 My account",loading:"Loading…",
       lName:"👤 Child",lCourse:"📚 Course",lType:"🏷 Track",lLogin:"🔐 LMS login",lPass:"🔑 Password",
       lSched:"📅 Schedule",lCert:"🎓 Certificate",certNone:"not ready yet",lmsGo:"🌐 Go to LMS",
-      copied:"✅ Copied",stRank:"Rank",stFriends:"Friends",cabCreds:"🔐 LMS details",lmsTitle:"LMS platform",lmsHint:"Lesson materials and assignments",teachTitle:"Teacher panel",teachNo:"You are not a teacher.",teachStudents:"Students",teachPresent:"Present today",teachPerLesson:"Per lesson",teachCame:"Present",teachMark:"Mark ✅",teachEmpty:"No students yet. Add below.",teachList:"My students",teachAdd:"Add student",teachClose:"Close",teachHint:"You are a teacher — manage your students in the panel.",teachAll:"All present",todayLesson:"Today's lesson",teachSearch:"Search student",cabCertReady:"Ready — tap to open",certOpen:"🎓 Open certificate",
+      copied:"✅ Copied",stRank:"Rank",stFriends:"Friends",cabCreds:"🔐 LMS details",lmsTitle:"LMS platform",lmsHint:"Lesson materials and assignments",teachTitle:"Teacher panel",teachNo:"You are not a teacher.",teachStudents:"Students",teachPresent:"Present today",teachPerLesson:"Per lesson",teachCame:"Present",teachMark:"Mark ✅",teachEmpty:"No students yet. Add below.",teachList:"My students",teachAdd:"Add student",teachClose:"Close",teachHint:"You are a teacher — manage your students in the panel.",teachAll:"All present",todayLesson:"Today's lesson",teachSearch:"Search student",teachClasses:"My classes",teachClsName:"Class name (e.g. Math 5-A)",teachCreate:"Create",teachNewCls:"New class",teachEmptyCls:"No classes yet. Create one.",teachDelCls:"Delete class",cabCertReady:"Ready — tap to open",certOpen:"🎓 Open certificate",
       cabNone:"You're not on the list yet. Enroll and your details will appear here.",
       acc:"Account",cabFull:"🔐 Full details (in bot)",
       cabHint:"LMS login, password, schedule and certificate — in the bot 👇",
@@ -785,6 +796,7 @@ function render(){
   else if(view.name==="cabinet") renderCabinet();
   else if(view.name==="lms") renderLms();
   else if(view.name==="teacher") renderTeacher();
+  else if(view.name==="class") renderClass();
   else if(view.name==="settings") renderSettings();
   else if(view.name==="top") renderTop();
   else if(view.name==="coins") renderCoins();
@@ -1494,8 +1506,8 @@ function renderLms(){
   }
   app.innerHTML=head+sel+'<div class="stg">'+lmsCardHtml(children[CABI])+'</div>'+backBtn;
 }
-// ===== O'qituvchi paneli =====
-var TEACHER=null, TEACH_ADD=false;
+// ===== O'qituvchi paneli (sinflar) =====
+var TEACHER=null, TEACH_ADD=false, TEACH_CLASS=null, TEACH_NEW=false;
 function loadTeacher(cb){
   var url=marketApi("/teacher"), init=(tg&&tg.initData)||"";
   if(!url||!init){ TEACHER={teacher:false}; if(cb)cb(); return; }
@@ -1503,61 +1515,107 @@ function loadTeacher(cb){
     .then(function(d){ TEACHER=d||{teacher:false}; if(cb)cb(); })
     .catch(function(){ TEACHER={teacher:false}; if(cb)cb(); });
 }
-function teachReload(){ loadTeacher(function(){ if(view.name==="teacher") renderTeacher(); }); }
-function teachAttend(suid){
-  var url=marketApi("/teacher/attend"), init=(tg&&tg.initData)||"";
-  fetch(url+"?student="+encodeURIComponent(suid)+"&initData="+encodeURIComponent(init))
+function teachReRender(){ if(view.name==="class") renderClass(); else if(view.name==="teacher") renderTeacher(); }
+function teachReload(){ loadTeacher(teachReRender); }
+function _tapi(path, params){
+  var init=(tg&&tg.initData)||"";
+  return marketApi(path)+"?"+params+"&initData="+encodeURIComponent(init);
+}
+function teachCls(){
+  var cs=(TEACHER&&TEACHER.classes)||[];
+  for(var i=0;i<cs.length;i++) if(cs[i].id===TEACH_CLASS) return cs[i];
+  return null;
+}
+function teachAddClass(){
+  var el=document.getElementById("newcls"); var nm=el?el.value.trim():"";
+  if(!nm) return;
+  fetch(_tapi("/teacher/class/add","name="+encodeURIComponent(nm)))
+    .then(function(r){return r.json();}).then(function(){ TEACH_NEW=false; teachReload(); }).catch(function(){ alertMsg(T('err')); });
+}
+function teachDelClass(cid){
+  fetch(_tapi("/teacher/class/del","class="+encodeURIComponent(cid)))
+    .then(function(r){return r.json();}).then(function(){ go('teacher'); teachReload(); }).catch(function(){ alertMsg(T('err')); });
+}
+function teachAttend(cid,suid){
+  fetch(_tapi("/teacher/attend","class="+encodeURIComponent(cid)+"&student="+encodeURIComponent(suid)))
     .then(function(r){return r.json();}).then(function(d){
       if(d&&d.ok){ if(d.coined){ confetti(["🎓","🪙","✅","🎉"]); try{haptic();}catch(e){} } teachReload(); }
       else alertMsg(T('err'));
     }).catch(function(){ alertMsg(T('err')); });
 }
-function teachAssign(suid){
-  var url=marketApi("/teacher/assign"), init=(tg&&tg.initData)||"";
-  fetch(url+"?student="+encodeURIComponent(suid)+"&initData="+encodeURIComponent(init))
+function teachAssign(cid,suid){
+  fetch(_tapi("/teacher/assign","class="+encodeURIComponent(cid)+"&student="+encodeURIComponent(suid)))
     .then(function(r){return r.json();}).then(function(){ teachReload(); }).catch(function(){ alertMsg(T('err')); });
 }
-function teachUnassign(suid){
-  var url=marketApi("/teacher/unassign"), init=(tg&&tg.initData)||"";
-  fetch(url+"?student="+encodeURIComponent(suid)+"&initData="+encodeURIComponent(init))
+function teachUnassign(cid,suid){
+  fetch(_tapi("/teacher/unassign","class="+encodeURIComponent(cid)+"&student="+encodeURIComponent(suid)))
     .then(function(r){return r.json();}).then(function(){ teachReload(); }).catch(function(){ alertMsg(T('err')); });
 }
-function teachToggleAdd(){ TEACH_ADD=!TEACH_ADD; renderTeacher(); }
-function teachAllPresent(){
-  var studs=(TEACHER&&TEACHER.students)||[];
-  var todo=[]; for(var i=0;i<studs.length;i++) if(!studs[i].present) todo.push(studs[i]);
+function teachAllPresent(cid){
+  var c=teachCls(); if(!c) return;
+  var todo=[]; for(var i=0;i<c.students.length;i++) if(!c.students[i].present) todo.push(c.students[i]);
   if(!todo.length) return;
   confetti(["🎓","🪙","✅","🎉"]); try{haptic();}catch(e){}
-  var k=0, init=(tg&&tg.initData)||"", url=marketApi("/teacher/attend");
+  var k=0;
   (function next(){
     if(k>=todo.length){ teachReload(); return; }
     var s=todo[k++];
-    fetch(url+"?student="+encodeURIComponent(s.uid)+"&initData="+encodeURIComponent(init))
+    fetch(_tapi("/teacher/attend","class="+encodeURIComponent(cid)+"&student="+encodeURIComponent(s.uid)))
       .then(function(){ next(); }).catch(function(){ next(); });
   })();
 }
+function teachToggleAdd(){ TEACH_ADD=!TEACH_ADD; renderClass(); }
+function teachToggleNew(){ TEACH_NEW=!TEACH_NEW; renderTeacher(); }
+function teachOpenClass(cid){ TEACH_CLASS=cid; TEACH_ADD=false; go('class',cid); }
 function teachFilter(q){
   q=(q||"").toLowerCase();
   var els=document.querySelectorAll(".tcands .trow");
-  for(var i=0;i<els.length;i++){
-    var nm=els[i].getAttribute("data-nm")||"";
-    els[i].style.display=(nm.indexOf(q)>=0)?"":"none";
-  }
+  for(var i=0;i<els.length;i++){ var nm=els[i].getAttribute("data-nm")||""; els[i].style.display=(nm.indexOf(q)>=0)?"":"none"; }
 }
 function tini(s){ return esc(String(s||"?").trim().charAt(0).toUpperCase()||"?"); }
+function teachHero(icon,title,sub){
+  return '<div class="thero"><div class="theri">'+icon+'</div>'
+    +'<div class="pbody"><div class="pnm">'+esc(title)+'</div>'
+    +'<div class="psub">'+esc(sub)+'</div></div></div>';
+}
 function renderTeacher(){
   var backBtn='<button class="btn sec" onclick="go(\'cabinet\')">'+T('back')+'</button>';
   var head=header()+'<button class="back" onclick="go(\'cabinet\')">'+T('back')+'</button>';
-  if(!TEACHER){ app.innerHTML=head+skel(3)+backBtn;
-    loadTeacher(function(){ if(view.name==="teacher") renderTeacher(); }); return; }
+  if(!TEACHER){ app.innerHTML=head+skel(3)+backBtn; loadTeacher(function(){ if(view.name==="teacher") renderTeacher(); }); return; }
   if(!TEACHER.teacher){ app.innerHTML=head+'<div class="content muted">'+esc(T('teachNo'))+'</div>'+backBtn; return; }
-  var studs=TEACHER.students||[], cands=TEACHER.candidates||[];
-  var present=0,i; for(i=0;i<studs.length;i++) if(studs[i].present) present++;
+  var cls=TEACHER.classes||[];
   var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
   var tname=((u.first_name||"")+" "+(u.last_name||"")).trim()||u.username||T('teachTitle');
-  var hero='<div class="thero"><div class="theri">👩‍🏫</div>'
-    +'<div class="pbody"><div class="pnm">'+esc(tname)+'</div>'
-    +'<div class="psub">'+esc(T('teachTitle'))+'</div></div></div>';
+  var hero=teachHero("👩‍🏫",tname,T('teachTitle'));
+  var list;
+  if(cls.length){
+    list=cls.map(function(c){
+      return '<div class="clscard" onclick="teachOpenClass(\''+esc(c.id)+'\')">'
+        +'<span class="clsi">🏫</span>'
+        +'<div class="clsb"><div class="clsn">'+esc(c.name)+'</div>'
+        +'<div class="clss">👥 '+c.count+' · ✅ '+c.present+'/'+c.count+'</div></div>'
+        +'<span class="clsa">→</span></div>';
+    }).join('');
+  } else {
+    list='<div class="tempty"><div class="tei">🏫</div><div class="tet">'+esc(T('teachEmptyCls'))+'</div></div>';
+  }
+  var newSec='';
+  if(TEACH_NEW){
+    newSec='<div class="pcard" style="padding:12px 14px 14px"><input class="tsearch" id="newcls" placeholder="'+esc(T('teachClsName'))+'" style="margin:0 0 10px">'
+      +'<button class="btn" style="margin:0" onclick="teachAddClass()">✅ '+T('teachCreate')+'</button></div>';
+  }
+  var newBtn='<button class="btn'+(TEACH_NEW?' sec':'')+'" onclick="teachToggleNew()">'+(TEACH_NEW?('✕ '+T('teachClose')):('➕ '+T('teachNewCls')))+'</button>';
+  app.innerHTML=head+'<div class="stg">'+hero+'<div class="hsec">'+T('teachClasses')+'</div>'+list+'</div>'+newBtn+newSec+backBtn;
+}
+function renderClass(){
+  TEACH_CLASS=view.code||TEACH_CLASS;
+  var backBtn='<button class="btn sec" onclick="go(\'teacher\')">'+T('back')+'</button>';
+  var head=header()+'<button class="back" onclick="go(\'teacher\')">'+T('back')+'</button>';
+  if(!TEACHER){ app.innerHTML=head+skel(3)+backBtn; loadTeacher(function(){ if(view.name==="class") renderClass(); }); return; }
+  var c=teachCls();
+  if(!c){ app.innerHTML=head+'<div class="content muted">'+esc(T('err'))+'</div>'+backBtn; return; }
+  var studs=c.students||[], present=c.present||0;
+  var hero=teachHero("🏫",c.name,T('todayLesson'));
   var stats='<div class="pstats">'
     +'<div class="pstat s-rank"><div class="psi">👥</div><div class="v">'+studs.length+'</div><div class="l">'+esc(T('teachStudents'))+'</div></div>'
     +'<div class="pstat s-ref"><div class="psi">✅</div><div class="v">'+present+'/'+studs.length+'</div><div class="l">'+esc(T('teachPresent'))+'</div></div>'
@@ -1567,30 +1625,29 @@ function renderTeacher(){
   if(studs.length){
     var rows=studs.map(function(s){
       var act=s.present? '<span class="tdone">✅ '+esc(T('teachCame'))+'</span>'
-        : '<button class="tbtn" onclick="teachAttend(\''+esc(s.uid)+'\')">'+esc(T('teachMark'))+'</button>';
-      return '<div class="trow"><span class="tav">'+tini(s.name)+'</span>'
-        +'<div class="tnm">'+esc(s.name)+'</div>'+act
-        +'<button class="tx" onclick="teachUnassign(\''+esc(s.uid)+'\')">✕</button></div>';
+        : '<button class="tbtn" onclick="teachAttend(\''+esc(c.id)+'\',\''+esc(s.uid)+'\')">'+esc(T('teachMark'))+'</button>';
+      return '<div class="trow"><span class="tav">'+tini(s.name)+'</span><div class="tnm">'+esc(s.name)+'</div>'+act
+        +'<button class="tx" onclick="teachUnassign(\''+esc(c.id)+'\',\''+esc(s.uid)+'\')">✕</button></div>';
     }).join('');
-    main='<div class="pcard"><div class="ph">📋 '+esc(T('teachList'))+' · '+esc(T('todayLesson'))+'</div>'+rows+'</div>'
-      +(present<studs.length?('<button class="btn sec" onclick="teachAllPresent()">✅ '+T('teachAll')+'</button>'):'');
+    main='<div class="pcard"><div class="ph">📋 '+esc(T('teachList'))+'</div>'+rows+'</div>'
+      +(present<studs.length?('<button class="btn sec" onclick="teachAllPresent(\''+esc(c.id)+'\')">✅ '+T('teachAll')+'</button>'):'');
   } else {
     main='<div class="tempty"><div class="tei">👥</div><div class="tet">'+esc(T('teachEmpty'))+'</div></div>';
   }
-  var addBtn='<button class="btn'+(TEACH_ADD?' sec':'')+'" onclick="teachToggleAdd()">'
-    +(TEACH_ADD?('✕ '+T('teachClose')):('➕ '+T('teachAdd')))+'</button>';
+  var addBtn='<button class="btn'+(TEACH_ADD?' sec':'')+'" onclick="teachToggleAdd()">'+(TEACH_ADD?('✕ '+T('teachClose')):('➕ '+T('teachAdd')))+'</button>';
   var addSec='';
   if(TEACH_ADD){
-    var clist=cands.length? cands.map(function(c){
-      var nm=c.name||("ID "+String(c.uid).slice(-4));
-      return '<div class="trow" data-nm="'+esc(nm.toLowerCase())+'"><span class="tav">'+tini(nm)+'</span>'
-        +'<div class="tnm">'+esc(nm)+'</div>'
-        +'<button class="tbtn add" onclick="teachAssign(\''+esc(c.uid)+'\')">➕</button></div>';
+    var have={}; for(var j=0;j<studs.length;j++) have[String(studs[j].uid)]=1;
+    var cands=(TEACHER.candidates||[]).filter(function(x){ return !have[String(x.uid)]; });
+    var clist=cands.length? cands.map(function(x){
+      var nm=x.name||("ID "+String(x.uid).slice(-4));
+      return '<div class="trow" data-nm="'+esc(nm.toLowerCase())+'"><span class="tav">'+tini(nm)+'</span><div class="tnm">'+esc(nm)+'</div>'
+        +'<button class="tbtn add" onclick="teachAssign(\''+esc(c.id)+'\',\''+esc(x.uid)+'\')">➕</button></div>';
     }).join('') : '<div class="content muted" style="padding:12px 0">—</div>';
-    addSec='<input class="tsearch" placeholder="🔍 '+esc(T('teachSearch'))+'" oninput="teachFilter(this.value)">'
-      +'<div class="tcands">'+clist+'</div>';
+    addSec='<input class="tsearch" placeholder="🔍 '+esc(T('teachSearch'))+'" oninput="teachFilter(this.value)"><div class="tcands">'+clist+'</div>';
   }
-  app.innerHTML=head+'<div class="stg">'+hero+stats+main+'</div>'+addBtn+addSec+backBtn;
+  var delBtn='<button class="btn sec" style="color:#dc2626" onclick="teachDelClass(\''+esc(c.id)+'\')">🗑 '+T('teachDelCls')+'</button>';
+  app.innerHTML=head+'<div class="stg">'+hero+stats+main+'</div>'+addBtn+addSec+delBtn+backBtn;
 }
 function renderCabinet(){
   var api=(DATA.links&&DATA.links.cabinet_api)||"";
