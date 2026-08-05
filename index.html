@@ -216,6 +216,8 @@
   .chprow{display:flex;justify-content:space-between;font-size:12.5px;font-weight:800;color:#fff;margin-bottom:6px}
   .chbar{height:8px;border-radius:5px;background:rgba(255,255,255,.28);overflow:hidden}
   .chbarf{height:100%;border-radius:5px;background:#fff;transition:width .5s}
+  .chdaily{position:relative;z-index:1;margin-top:12px;padding:8px 12px;border-radius:12px;
+    background:rgba(255,255,255,.18);color:#fff;font-size:12.5px;font-weight:700;text-align:center}
   .bchart{display:flex;align-items:flex-end;gap:6px;height:104px;padding:8px 2px 0;overflow-x:auto}
   .bcbar{flex:1;min-width:22px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
   .bcval{font-size:10px;font-weight:800;color:var(--hint)}
@@ -2274,22 +2276,20 @@ function renderCoins(){
       prog='<div class="chprog"><div class="chprow"><span>'+pct+'%</span><span>→ '+nxt[0]+' '+esc(nxt[1])+'</span></div>'
         +'<div class="chbar"><div class="chbarf" style="width:'+pct+'%"></div></div></div>';
     } else if(lv){ prog='<div class="chprog" style="text-align:center;font-weight:800">🏆 '+esc(T('lvlMax'))+'</div>'; }
+    var dstrip='';
+    if(DAILY){
+      var dline=DAILY.claimed
+        ? T('dailyGotLine').replace("{n}", nf(DAILY.reward))
+        : T('dailyDoneLine').replace("{n}", nf(DAILY.base||50));
+      var dst=DAILY.streak?(' · 🔥'+DAILY.streak):'';
+      dstrip='<div class="chdaily">🎁 '+dline+dst+'</div>';
+    }
     var hero='<div class="coinhero"><div class="chshine"></div>'
       +'<div class="chtop"><span class="chpill">'+lname+'</span>'
       +(rank?('<span class="chpill">🏆 #'+rank+'</span>'):'')+'</div>'
       +'<div class="chbal"><span class="chc">'+coinIco()+'</span><span id="coinbig">0</span></div>'
-      +'<div class="chsum">'+T('coinUnit')+'</div>'+prog+'</div>';
+      +'<div class="chsum">'+T('coinUnit')+'</div>'+prog+dstrip+'</div>';
     var daily='';
-    if(DAILY){
-      var line=DAILY.claimed
-        ? T('dailyGotLine').replace("{n}", nf(DAILY.reward))
-        : T('dailyDoneLine').replace("{n}", nf(DAILY.base||50));
-      var st=DAILY.streak?(T('dailyStreak').replace("{n}", DAILY.streak)):'';
-      daily='<div class="dcard"><div class="di">🎁</div>'
-        +'<div class="dt"><div class="dtt">'+T('dailyTitle')+'</div>'
-        +'<div class="dts">'+line+'</div></div>'
-        +(st?('<span class="dstreak">'+st+'</span>'):'')+'</div>';
-    }
     var acts='<div class="ktiles">'
       +ktile('💳',T('topupBtn'),"go('topup')",'#f59e0b','#fbbf24')
       +ktile('🛒',T('market'),"go('market')",'#22c55e','#4ade80')
