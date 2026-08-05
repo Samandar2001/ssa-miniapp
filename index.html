@@ -912,10 +912,11 @@ function nameOf(code){
 
 function header(){
   var gear='<button class="iconbtn" title="'+T('settings')+'" onclick="go(\'settings\')">'+GEAR_SVG+'</button>';
-  // Tepa o'ng — coin balans chip'i (faqat o'quvchi uchun; o'qituvchi/admin'ga keraksiz)
+  // Tepa o'ng — coin balans chip'i (faqat o'quvchi uchun; Coin sahifasida hero bor — takror ko'rsatmaymiz)
   var chip=(curRole()==="student")
-    ? '<button class="coinchip" id="coinchip" title="'+T('coins')+'" onclick="go(\'coins\')">'+coinIco()+' '
-      +'<span id="coinval">'+(COINDISP!=null?nf(Math.round(COINDISP)):'—')+'</span></button>'
+    ? ((view.name==="coins")?''
+      : '<button class="coinchip" id="coinchip" title="'+T('coins')+'" onclick="go(\'coins\')">'+coinIco()+' '
+        +'<span id="coinval">'+(COINDISP!=null?nf(Math.round(COINDISP)):'—')+'</span></button>')
     : '<button class="iconbtn" title="'+T('sLogout')+'" onclick="logout()">🚪</button>';
   var logo=(THEME==="dark")?"logo-white.png":"logo-color.png";
   return '<header>'
@@ -1590,7 +1591,7 @@ function levelCard(lv){
     +'<div class="lvprog"><div class="lvprow"><b>'+pct+'%</b>'
     +'<span>→ '+nxt[0]+' '+esc(nxt[1])+'</span></div>'
     +'<div class="lvbar"><div class="lvfill" style="width:'+pct+'%;background:linear-gradient(90deg,'+col[0]+','+col[1]+')"></div></div>'
-    +'<div class="lvtogo">'+nf(lv.next-lv.earned)+' '+coinIco()+' '+esc(T('lvlToGo'))+'</div></div></div>';
+    +'</div></div>';
 }
 function crow(label, val, mono, copy){
   var v='<span class="cv'+(mono?' mono':'')+'">'+esc(val)+'</span>';
@@ -2265,7 +2266,7 @@ function renderCoins(){
       +'<div class="chtop"><span class="chpill">'+lname+'</span>'
       +(rank?('<span class="chpill">🏆 #'+rank+'</span>'):'')+'</div>'
       +'<div class="chbal"><span class="chc">'+coinIco()+'</span><span id="coinbig">0</span></div>'
-      +'<div class="chsum">≈ <b>'+money(bal)+'</b></div></div>';
+      +'<div class="chsum">'+T('coinUnit')+'</div></div>';
     var daily='';
     if(DAILY){
       var line=DAILY.claimed
