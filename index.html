@@ -1642,13 +1642,9 @@ function cabView(){
   var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>';
   if(!d.found || !children.length){
     var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
-    var body=profHero(u.username?('@'+u.username):null,null);
-    if(d.teacher){
-      body+='<button class="btn" style="background:linear-gradient(135deg,#ec4899,#be185d)" onclick="TEACHER=null;go(\'teacher\')">👩‍🏫 '+T('teachTitle')+'</button>';
-    } else {
-      body+='<div class="pcard"><div class="content muted" style="text-align:center;padding:14px">'+esc(T('cabNone'))+'</div></div>'
-        +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>';
-    }
+    var body=profHero(u.username?('@'+u.username):null,null)
+      +'<div class="pcard"><div class="content muted" style="text-align:center;padding:14px">'+esc(T('cabNone'))+'</div></div>'
+      +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>';
     app.innerHTML=head+body+backBtn;
     return;
   }
@@ -1677,14 +1673,7 @@ function cabView(){
     +qtile("📊",T('myResults'),"go('mystats')",false,["#6366f1","#4f46e5"])
     +qtile("📜",T('lCert'),hasCert?("openUrl('"+esc(c)+"')"):"",!hasCert,["#f59e0b","#d97706"])
     +'</div>';
-  // Ma'lumot
-  var info='<div class="pcard"><div class="ph">👤 '+esc(T('acc'))+'</div>';
-  if(ch.name) info+=crow(T('lName'), ch.name);
-  if(ch.course) info+=crow(T('lCourse'), ch.course);
-  if(ch.type) info+=crow(T('lType'), ch.type);
-  info+='</div>';
-  var tbtn=d.teacher?('<button class="btn" style="background:linear-gradient(135deg,#ec4899,#be185d)" onclick="TEACHER=null;go(\'teacher\')">👩‍🏫 '+T('teachTitle')+'</button>'):'';
-  app.innerHTML=head+sel+'<div class="stg">'+hero+sched+quick+info+tbtn+'</div>'+backBtn;
+  app.innerHTML=head+sel+'<div class="stg">'+hero+sched+quick+'</div>'+backBtn;
 }
 // LMS — alohida sahifa (kabinetда tugma bosilganda ochiladi)
 function lmsCardHtml(ch){
