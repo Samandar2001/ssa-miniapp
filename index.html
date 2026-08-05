@@ -212,6 +212,10 @@
   .ktile:active{transform:scale(.94)}
   .kti{font-size:32px;line-height:1}
   .ktl{font-size:13.5px;font-weight:800}
+  .chprog{position:relative;z-index:1;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.25)}
+  .chprow{display:flex;justify-content:space-between;font-size:12.5px;font-weight:800;color:#fff;margin-bottom:6px}
+  .chbar{height:8px;border-radius:5px;background:rgba(255,255,255,.28);overflow:hidden}
+  .chbarf{height:100%;border-radius:5px;background:#fff;transition:width .5s}
   .bchart{display:flex;align-items:flex-end;gap:6px;height:104px;padding:8px 2px 0;overflow-x:auto}
   .bcbar{flex:1;min-width:22px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
   .bcval{font-size:10px;font-weight:800;color:var(--hint)}
@@ -2262,11 +2266,19 @@ function renderCoins(){
   function view(bal, rank, lv){
     var names=(UI[LANG]||UI.uz).lvl||[];
     var lname=(lv&&names[lv.index])?(names[lv.index][0]+' '+esc(names[lv.index][1])):('🪙 '+esc(T('coinUnit')));
+    var prog='';
+    if(lv&&lv.next!=null){
+      var span=Math.max(1,lv.next-lv.min), done=Math.max(0,lv.earned-lv.min);
+      var pct=Math.max(4,Math.min(100,Math.round(done/span*100)));
+      var nxt=names[lv.index+1]||["",""];
+      prog='<div class="chprog"><div class="chprow"><span>'+pct+'%</span><span>→ '+nxt[0]+' '+esc(nxt[1])+'</span></div>'
+        +'<div class="chbar"><div class="chbarf" style="width:'+pct+'%"></div></div></div>';
+    } else if(lv){ prog='<div class="chprog" style="text-align:center;font-weight:800">🏆 '+esc(T('lvlMax'))+'</div>'; }
     var hero='<div class="coinhero"><div class="chshine"></div>'
       +'<div class="chtop"><span class="chpill">'+lname+'</span>'
       +(rank?('<span class="chpill">🏆 #'+rank+'</span>'):'')+'</div>'
       +'<div class="chbal"><span class="chc">'+coinIco()+'</span><span id="coinbig">0</span></div>'
-      +'<div class="chsum">'+T('coinUnit')+'</div></div>';
+      +'<div class="chsum">'+T('coinUnit')+'</div>'+prog+'</div>';
     var daily='';
     if(DAILY){
       var line=DAILY.claimed
@@ -2293,7 +2305,7 @@ function renderCoins(){
             +(val?('<span class="ev">'+esc(val)+'</span>'):'')+'</div>';
         }).join('')
       +'</div>';
-    app.innerHTML=head+'<div class="stg">'+hero+daily+levelCard(lv)+acts+earn+'</div>'+backBtn;
+    app.innerHTML=head+'<div class="stg">'+hero+daily+acts+earn+'</div>'+backBtn;
     countEl("coinbig", 0, bal);
   }
   var api=(DATA.links&&DATA.links.cabinet_api)||"";
