@@ -218,6 +218,20 @@
   .chbarf{height:100%;border-radius:5px;background:#fff;transition:width .5s}
   .chdaily{position:relative;z-index:1;margin-top:12px;padding:8px 12px;border-radius:12px;
     background:rgba(255,255,255,.18);color:#fff;font-size:12.5px;font-weight:700;text-align:center}
+  .rescard{padding:14px}
+  .resh{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+  .resav{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:800;font-size:17px;flex-shrink:0}
+  .resnm{flex:1;min-width:0}
+  .rest{font-weight:800;font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ressub{font-size:12px;color:var(--hint);font-weight:600;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .resmas{font-size:26px;font-weight:900;flex-shrink:0}
+  .resstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+  .rsst{background:var(--bg,#f6f6f9);border-radius:13px;padding:9px 4px;text-align:center}
+  .rssv{font-size:15px;font-weight:800}
+  .rssl{font-size:10.5px;color:var(--hint);font-weight:700;margin-top:2px}
+  .ressched{margin-top:10px;font-size:12.5px;font-weight:600;color:var(--hint);text-align:center;
+    background:var(--bg,#f6f6f9);border-radius:11px;padding:8px}
   .bchart{display:flex;align-items:flex-end;gap:6px;height:104px;padding:8px 2px 0;overflow-x:auto}
   .bcbar{flex:1;min-width:22px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
   .bcval{font-size:10px;font-weight:800;color:var(--hint)}
@@ -3131,15 +3145,22 @@ function admExport(){
 }
 
 // ---- O'quvchi o'z natijasi + ota-ona farzand kuzatuvi ----
-function statCard(name, r, unlinkUid){
+function _rsst(ic,v,l){ return '<div class="rsst"><div class="rssv">'+ic+' '+v+'</div><div class="rssl">'+esc(l)+'</div></div>'; }
+function statCard(name, r){
   var mas=r.mastery||0;
-  var x=unlinkUid?'<button class="tx" onclick="parentUnlink(\''+esc(unlinkUid)+'\')">✕</button>':'';
-  return '<div class="pcard"><div class="ph">🎓 '+esc(name||"")+' · 🏫 '+esc(r["class"]||"")+x+'</div>'
-    +'<div class="crow"><span class="cl">'+T('teachMastery')+'</span><span class="cv" style="color:'+masColor(mas)+'">'+mas+'%</span></div>'+masBar(mas)
-    +'<div class="crow"><span class="cl">📅 '+T('teachAtt')+'</span><span class="cv">'+(r.present_days||0)+' / '+(r.lesson_days||0)+'</span></div>'
-    +'<div class="crow"><span class="cl">⭐ '+T('teachAvg')+'</span><span class="cv">'+(r.avg||0)+'</span></div>'
-    +'<div class="crow"><span class="cl">🪙 Coin</span><span class="cv">'+(r.lessons_total||0)+'</span></div>'
-    +(r.schedule?('<div class="crow"><span class="cl">🗓 '+T('teachSchedule')+'</span><span class="cv">'+esc(r.schedule)+'</span></div>'):'')+'</div>';
+  return '<div class="pcard rescard">'
+    +'<div class="resh"><span class="resav" style="background:'+masColor(mas)+'">'+tini(name)+'</span>'
+    +'<div class="resnm"><div class="rest">'+esc(name||"")+'</div>'
+    +'<div class="ressub">🏫 '+esc(r["class"]||"")+(r.teacher?(' · '+esc(r.teacher)):"")+'</div></div>'
+    +'<div class="resmas" style="color:'+masColor(mas)+'">'+mas+'%</div></div>'
+    +masBar(mas)
+    +'<div class="resstats">'
+    +_rsst('📅', (r.present_days||0)+'/'+(r.lesson_days||0), T('teachAtt'))
+    +_rsst('⭐', (r.avg||0), T('teachAvg'))
+    +_rsst('🪙', nf(r.lessons_total||0), 'Coin')
+    +'</div>'
+    +(r.schedule?('<div class="ressched">🗓 '+esc(r.schedule)+'</div>'):'')
+    +'</div>';
 }
 function renderMyStats(){
   var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
@@ -3153,7 +3174,10 @@ function renderMyStats(){
     var own=(out.own.results)||[];
     var family=(out.own.family)||[];
     if(own.length){
-      html+='<div class="hsec">📊 '+T('myResults')+'</div>';
+      var am=Math.round(own.reduce(function(s,r){return s+(+r.mastery||0);},0)/own.length);
+      html+='<div class="khero" style="background:linear-gradient(135deg,'+masColor(am)+',#0f172a)">'
+        +'<div class="khhi">📊 '+T('myResults')+'</div>'
+        +'<div class="khbal">'+am+'%</div><div class="khsub">'+T('teachMastery')+'</div></div>';
       html+=own.map(function(r){ return statCard(r.student||u.first_name, r); }).join('');
     }
     var hw=(out.hw.homework)||[];
