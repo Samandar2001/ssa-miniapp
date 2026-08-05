@@ -1642,12 +1642,11 @@ function cabView(){
   var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>';
   if(!d.found || !children.length){
     var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
-    var body=profHero(u.username?('@'+u.username):null,null)+statTiles(d.coins, d.rank, d.invited);
+    var body=profHero(u.username?('@'+u.username):null,null);
     if(d.teacher){
-      body+='<button class="btn" style="background:linear-gradient(135deg,#ec4899,#be185d)" onclick="TEACHER=null;go(\'teacher\')">👩‍🏫 '+T('teachTitle')+'</button>'
-        +'<div class="content muted" style="text-align:center">'+esc(T('teachHint'))+'</div>';
+      body+='<button class="btn" style="background:linear-gradient(135deg,#ec4899,#be185d)" onclick="TEACHER=null;go(\'teacher\')">👩‍🏫 '+T('teachTitle')+'</button>';
     } else {
-      body+='<div class="content">'+esc(T('cabNone'))+'</div>'
+      body+='<div class="pcard"><div class="content muted" style="text-align:center;padding:14px">'+esc(T('cabNone'))+'</div></div>'
         +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>';
     }
     app.innerHTML=head+body+backBtn;
@@ -1655,7 +1654,6 @@ function cabView(){
   }
   if(CABI>=children.length) CABI=0;
   var ch=children[CABI];
-  // Bir nechta farzand — tanlagich
   var sel="";
   if(children.length>1){
     sel='<div class="childsel">'+children.map(function(c,i){
@@ -1664,37 +1662,29 @@ function cabView(){
     }).join("")+'</div>';
   }
   var c=ch.cert, hasCert=c&&/^https?:/.test(c);
+  var hasLms=!!(ch.login||ch.parol);
   var hero=profHero(ch.name||ch.course||"", ch.type||"");
-  var stats=statTiles(d.coins, d.rank, d.invited);
-  // Ma'lumot kartasi
-  var info='<div class="pcard"><div class="ph">👤 '+esc(T('acc'))+'</div>';
-  if(ch.name) info+=crow(T('lName'), ch.name, false, false);
-  if(ch.course) info+=crow(T('lCourse'), ch.course, false, false);
-  if(ch.type) info+=crow(T('lType'), ch.type, false, false);
-  info+='</div>';
-  // Dars jadvali — alohida ajralib turadigan premium karta
+  // Dars jadvali
   var sched="";
   if(ch.schedule){
     sched='<div class="schedcard"><div class="schi">📅</div>'
       +'<div style="min-width:0"><div class="schl">'+esc(T('lSched'))+'</div>'
       +'<div class="schv">'+esc(ch.schedule)+'</div></div></div>';
   }
-  // Sertifikat
-  var certcard='<div class="pcard"><div class="ph">'+esc(T('lCert'))+'</div>'
-    +'<div class="crow"><span class="cl">'
-    +esc(hasCert?T('cabCertReady'):(c||T('certNone')))+'</span></div>'
-    +(hasCert?('<button class="btn sec" style="margin:6px 0 4px" onclick="shareUrl(\''+esc(c)+'\',\''+esc(T('certShareText'))+'\')">'+T('certShareBtn')+'</button>'):'')
-    +'</div>';
-  // Tez amallar
-  var hasLms=!!(ch.login||ch.parol);
+  // Tez amallar — faqat zarurlari
   var quick='<div class="qgrid">'
     +qtile("🎓","LMS",hasLms?"go('lms')":"",!hasLms,["#0ea5e9","#0369a1"])
-    +qtile("📜","Sertifikat",hasCert?("openUrl('"+esc(c)+"')"):"",!hasCert,["#f59e0b","#d97706"])
-    +qtile("🛒","Market","go('market')",false,["#22c55e","#16a34a"])
-    +qtile("🎁",shortName(T('tabFriends')),"go('refer')",false,["#8b5cf6","#6d28d9"])
+    +qtile("📊",T('myResults'),"go('mystats')",false,["#6366f1","#4f46e5"])
+    +qtile("📜",T('lCert'),hasCert?("openUrl('"+esc(c)+"')"):"",!hasCert,["#f59e0b","#d97706"])
     +'</div>';
+  // Ma'lumot
+  var info='<div class="pcard"><div class="ph">👤 '+esc(T('acc'))+'</div>';
+  if(ch.name) info+=crow(T('lName'), ch.name);
+  if(ch.course) info+=crow(T('lCourse'), ch.course);
+  if(ch.type) info+=crow(T('lType'), ch.type);
+  info+='</div>';
   var tbtn=d.teacher?('<button class="btn" style="background:linear-gradient(135deg,#ec4899,#be185d)" onclick="TEACHER=null;go(\'teacher\')">👩‍🏫 '+T('teachTitle')+'</button>'):'';
-  app.innerHTML=head+sel+'<div class="stg">'+hero+stats+tbtn+sched+levelCard(d.level)+quick+certcard+info+'</div>'+backBtn;
+  app.innerHTML=head+sel+'<div class="stg">'+hero+sched+quick+info+tbtn+'</div>'+backBtn;
 }
 // LMS — alohida sahifa (kabinetда tugma bosilganda ochiladi)
 function lmsCardHtml(ch){
