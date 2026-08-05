@@ -3168,9 +3168,6 @@ function renderMyStats(){
       }).join('');
       html+='<input type="file" id="hwfile" accept="image/*" style="display:none" onchange="hwPhotoUp(this)">';
     }
-    html+='<div class="pcard"><div class="ph">🔗 '+T('connectCode')+'</div>'
-      +'<div class="crow"><span class="cl">'+T('yourCode')+'</span><span class="cv" style="font-size:17px;font-weight:900">'+esc(out.own.code||String(u.id||""))+'</span></div>'
-      +'<div class="muted" style="font-size:12px;padding:4px 0 2px">'+T('codeHint')+'</div></div>';
     html+='<div class="hsec">👨‍👩‍👧 '+T('myChildren')+'</div>';
     var kids=(out.kids.children)||[];
     if(kids.length){
