@@ -1159,13 +1159,11 @@ function renderHome(){
          +(ICONS[code]||EMOJI[code]||"📚")+'</div>'
          +'<div class="nm">'+esc(nameOf(code))+'</div></div>';
   }).join("");
-  var proBanner=IS_PRO
-    ? '<div class="probadge">👑 '+T('proActive')+(PRO_INFO&&PRO_INFO.source==="enrolled"?(' · '+T('proEnrolled')):'')+'</div>'
-    : '<div class="probanner" onclick="go(\'pro\')"><div class="pbi">👑</div><div class="pbb"><div class="pbt">'+T('proTitle')+'</div><div class="pbs">'+esc(T('proDesc'))+'</div></div><span class="pbar">→</span></div>';
   app.innerHTML=header()
+    +'<div id="bnr">'+bannerHTML()+'</div>'
     +'<div class="hsec" style="margin-top:2px">'+T('hMyLessons')+'</div>'
     +'<div class="grid stg">'+cards+'</div>'
-    +hero+tiles+proBanner;
+    +hero+tiles;
   if(MYCOINS!=null) countEl("khbig", 0, MYCOINS);
 }
 
@@ -1677,9 +1675,12 @@ function cabView(){
   var children=d.children||[];
   var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
   var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>';
+  var proCard=IS_PRO
+    ? '<div class="probadge">👑 '+T('proActive')+(PRO_INFO&&PRO_INFO.source==="enrolled"?(' · '+T('proEnrolled')):(PRO_INFO&&PRO_INFO.until?(' · '+esc(PRO_INFO.until)):''))+'</div>'
+    : '<div class="probanner" onclick="go(\'pro\')"><div class="pbi">👑</div><div class="pbb"><div class="pbt">'+T('proTitle')+'</div><div class="pbs">'+esc(T('proDesc'))+'</div></div><span class="pbar">→</span></div>';
   if(!d.found || !children.length){
     var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
-    var body=profHero(u.username?('@'+u.username):null,null)
+    var body=profHero(u.username?('@'+u.username):null,null)+proCard
       +'<div class="pcard"><div class="content muted" style="text-align:center;padding:14px">'+esc(T('cabNone'))+'</div></div>'
       +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>';
     app.innerHTML=head+body+backBtn;
@@ -1710,7 +1711,7 @@ function cabView(){
     +qtile("📊",T('myResults'),"go('mystats')",false,["#6366f1","#4f46e5"])
     +qtile("📜",T('lCert'),hasCert?("openUrl('"+esc(c)+"')"):"",!hasCert,["#f59e0b","#d97706"])
     +'</div>';
-  app.innerHTML=head+sel+'<div class="stg">'+hero+sched+quick+'</div>'+backBtn;
+  app.innerHTML=head+sel+'<div class="stg">'+hero+proCard+sched+quick+'</div>'+backBtn;
 }
 // LMS — alohida sahifa (kabinetда tugma bosilganda ochiladi)
 function lmsCardHtml(ch){
@@ -2430,7 +2431,7 @@ function renderPro(){
         var price=stars?('⭐ '+nf(pk.stars)):money(pk.price);
         var onclick=stars?("proStars('"+pk.id+"')"):("proBuy('"+pk.id+"')");
         return '<button class="btn sec" style="display:flex;justify-content:space-between;align-items:center;text-align:left" onclick="'+onclick+'">'
-          +'<span style="font-weight:800">👑 '+pk.months+' '+T('proMonths')+'</span><span class="tupprice">'+price+'</span></button>';
+          +'<span style="font-weight:800;min-width:0">👑 '+esc(pk.name||(pk.months+' '+T('proMonths')))+' <small style="opacity:.6;font-weight:600">· '+pk.months+' '+T('proMonths')+'</small></span><span class="tupprice">'+price+'</span></button>';
       }).join('');
       html+='<div class="muted" style="font-size:12px;padding:8px 4px;white-space:normal">ℹ️ '+esc(T('proNote'))+'</div>';
     }
