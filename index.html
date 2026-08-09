@@ -1788,6 +1788,8 @@ function cabView(){
   }
   var c=ch.cert, hasCert=c&&/^https?:/.test(c);
   var hasLms=!!(ch.login||ch.parol);
+  // LMS faqat IT yo'nalishi uchun (kurs turi / kurs nomida "IT" bo'lsa)
+  var isIT=/\bit\b/i.test((ch.type||"")+" "+(ch.course||""));
   var hero=profHero(ch.name||ch.course||"", ch.type||"");
   // Dars jadvali
   var sched="";
@@ -1798,7 +1800,7 @@ function cabView(){
   }
   // Tez amallar — faqat zarurlari
   var quick='<div class="qgrid">'
-    +qtile("🎓","LMS",hasLms?"go('lms')":"",!hasLms,["#0ea5e9","#0369a1"])
+    +(isIT?qtile("🎓","LMS",hasLms?"go('lms')":"",!hasLms,["#0ea5e9","#0369a1"]):"")
     +qtile("📊",T('myResults'),"go('mystats')",false,["#6366f1","#4f46e5"])
     +qtile("📜",T('lCert'),hasCert?("openUrl('"+esc(c)+"')"):"",!hasCert,["#f59e0b","#d97706"])
     +'</div>';
