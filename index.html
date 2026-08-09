@@ -1277,30 +1277,14 @@ function renderHome(){
 }
 
 function renderSec(){
-  var code=view.code, s=DATA.subjects[code];
-  var isIT=(code==="it"), it=DATA.it_info||{};
-  var tabsAll=isIT?["about","price","faq"]:(s?["about","plan","price","faq"]:["price","faq"]);
-  if(tabsAll.indexOf(view.tab)<0) view.tab=tabsAll[0];
-  var body;
-  if(isIT){
-    if(view.tab==="price") body=fmt(it.price||"");
-    else if(view.tab==="faq") body=fmt(DATA.faq[LANG]);
-    else body=fmt(it.about||"");
-  } else if(view.tab==="price") body=fmt(DATA.price_text[LANG]);
-  else if(view.tab==="faq") body=fmt(DATA.faq[LANG]);
-  else body=fmt(s[view.tab][LANG]);
-  var tabsHtml=tabsAll.map(function(tb){
-    return '<button class="tab '+(tb===view.tab?'active':'')+'" onclick="setTab(\''+tb+'\')">'+T(tb)+'</button>';
-  }).join("");
-  if(!isIT && !SUBJSTATS_LOADED) loadSubjStats(function(){ if(view.name==="sec") renderSec(); });
-  var prog=isIT?'':subjProgHTML(code);
+  var code=view.code;
+  if(!SUBJSTATS_LOADED) loadSubjStats(function(){ if(view.name==="sec") renderSec(); });
+  var prog=subjProgHTML(code);
+  var body=prog||('<div class="tempty"><div class="tei">📚</div><div class="tet">'+T('hNoLessonsYet')+'</div></div>');
   app.innerHTML=header()
     +'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>'
     +'<h2>'+(EMOJI[code]||"")+' '+esc(nameOf(code))+'</h2>'
-    +prog
-    +'<div class="tabs">'+tabsHtml+'</div>'
-    +'<div class="content">'+body+'</div>'
-    +'<button class="btn'+(((DATA.books||{})[code]||((DATA.games||{})[code]||[]).length)?' sec':'')+'" onclick="enroll()">'+T('enroll')+'</button>'
+    +body
     +'<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
 }
 
