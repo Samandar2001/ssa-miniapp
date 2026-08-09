@@ -293,6 +293,12 @@
   .calleg .lg{width:12px;height:12px;border-radius:4px;display:inline-block}
   .calleg .lg.pres{background:#16a34a}
   .calleg .lg.plan{background:#dbeafe;border:1px solid #93c5fd}
+  .homewheel{display:flex;align-items:center;gap:12px;margin:12px 0 2px;cursor:pointer;
+    background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border-radius:20px;
+    padding:15px 18px;box-shadow:0 8px 24px rgba(124,58,237,.35)}
+  .homewheel .hwic{font-size:26px}
+  .homewheel .hwtx{flex:1;font-size:16px;font-weight:800}
+  .homewheel .hwar{font-size:20px;font-weight:800;opacity:.9}
   .bchart{display:flex;align-items:flex-end;gap:6px;height:104px;padding:8px 2px 0;overflow-x:auto}
   .bcbar{flex:1;min-width:22px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
   .bcval{font-size:10px;font-weight:800;color:var(--hint)}
@@ -1239,17 +1245,10 @@ function ktile(ic,label,onclick,a,b){
     +'<span class="kti">'+ic+'</span><span class="ktl">'+esc(label)+'</span></button>';
 }
 function renderHome(){
-  var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
-  var nm=(u.first_name||"").trim();
-  var hero='<div class="khero"><div class="khhi">'+T('hiKid')+(nm?(', '+esc(nm)):'')+' 👋</div>'
-    +'<div class="khbal">'+coinIco()+' <span id="khbig">'+(MYCOINS!=null?nf(MYCOINS):'0')+'</span></div>'
-    +'<div class="khsub">'+T('coinUnit')+'</div></div>';
-  var tiles='<div class="ktiles">'
-    +ktile('📊',T('myResults'),"go('mystats')",'#0ea5e9','#38bdf8')
-    +ktile('🪙',T('coins'),"go('coins')",'#f59e0b','#fbbf24')
-    +ktile('🎡',T('wheelBtn'),"go('wheel')",'#a855f7','#c084fc')
-    +ktile('🛒',T('market'),"go('market')",'#22c55e','#4ade80')
-    +'</div>';
+  var wheelBtn='<div class="homewheel" onclick="go(\'wheel\')">'
+    +'<span class="hwic">🎡</span>'
+    +'<span class="hwtx">'+T('wheelBtn')+'</span>'
+    +'<span class="hwar">→</span></div>';
   if(!SUBJSTATS_LOADED) loadSubjStats(function(){ if(view.name==="home") renderHome(); });
   var ss=SUBJSTATS||{};
   // Har bir fan uchun ALOHIDA statistika kartasi (katalog kartalari olib tashlandi)
@@ -1273,9 +1272,8 @@ function renderHome(){
   var progSec='<div class="hsec" style="margin-top:2px">📊 '+T('hMyProgress')+'</div>'+progCards;
   app.innerHTML=header()
     +'<div id="bnr">'+bannerHTML()+'</div>'
-    +progSec
-    +hero+tiles;
-  if(MYCOINS!=null) countEl("khbig", 0, MYCOINS);
+    +wheelBtn
+    +progSec;
 }
 
 function renderSec(){
