@@ -2634,22 +2634,13 @@ function renderMarket(){
       +'<div class="stbts">'+T('mStuLockS')+'</div></div></div>'
       +'<button class="btn" onclick="enroll()">'+T('mStuGo')+'</button>';
   }
-  // --- 🌍 Hamma uchun (alohida) ---
-  var everyCats=cats.filter(function(c){return c.key!=="student";});
-  var tiles=everyCats.map(function(c){
-    var n=items.filter(function(it){return (it.cat||"all")===c.key;}).length;
-    var ic=CATICON[c.key]||"🛒", col=CATCOL[c.key]||["#94a3b8","#64748b"];
-    return '<div class="card" onclick="go(\'marketCat\',\''+c.key+'\')">'
-      +'<div class="badge" style="font-size:26px;background:linear-gradient(135deg,'+col[0]+','+col[1]+')">'+ic+'</div>'
-      +'<div class="nm">'+esc(shortName(c.name))+'</div>'
-      +'<div class="pr">'+n+' '+T('mItems')+'</div></div>';
-  }).join("");
-  tiles+='<div class="card" onclick="go(\'purchases\')">'
-    +'<div class="badge" style="font-size:26px;background:linear-gradient(135deg,#f59e0b,#d97706)">🎟</div>'
-    +'<div class="nm">'+esc(shortName(T('myBuys')))+'</div>'
-    +'<div class="pr">&nbsp;</div></div>';
-  var everySec='<div class="msec">'+T('mEverySec')+'</div><div class="grid stg">'+tiles+'</div>';
-  app.innerHTML=head+top+stuSec+everySec+backBtn;
+  // --- 🎟 Xaridlarim (hozircha "Hamma uchun" katalogi yashirilgan) ---
+  var buysBtn='<div class="stuban" onclick="go(\'purchases\')" style="margin-top:12px">'
+    +'<span class="stbi">🎟</span>'
+    +'<div class="stbt"><div class="stbtt">'+esc(T('myBuys'))+'</div>'
+    +'<div class="stbts">'+esc(T('buysHint'))+'</div></div>'
+    +'<span class="stbar">→</span></div>';
+  app.innerHTML=head+top+stuSec+buysBtn+backBtn;
 }
 // Bitta kategoriya sovg'alari
 function renderMarketCat(){
