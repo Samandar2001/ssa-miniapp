@@ -265,6 +265,7 @@
     font-size:20px;color:#fff;flex:none}
   .hsubnm{flex:1;font-size:15px;font-weight:800;color:var(--fg,#111)}
   .hsubar{color:var(--hint);font-size:18px;font-weight:700}
+.hsubmas{font-size:14px;font-weight:800;margin-right:4px}
   .hsubr{display:flex;gap:14px;margin-top:8px;font-size:12.5px;font-weight:700;color:var(--hint)}
   .subjwrap{display:flex;flex-wrap:wrap;gap:8px}
   .subjchip{border:1.5px solid var(--line,#e9e9ee);background:var(--bg,#f6f6f9);color:var(--fg,#111);
@@ -793,7 +794,7 @@ document.addEventListener("touchend", function(e){
 }, {passive:true});
 
 var UI = {
-  uz:{choose:"Bo'limni tanlang",hCourses:"📚 Kurslarimiz",hiKid:"Salom",hMyLessons:"📚 Darslarim",hMyProgress:"O'zlashtirishim",about:"Kurs haqida",plan:"O'quv reja",price:"Narx",faq:"Savol-javob",
+  uz:{choose:"Bo'limni tanlang",hCourses:"📚 Kurslarimiz",hiKid:"Salom",hMyLessons:"📚 Darslarim",hMyProgress:"O'zlashtirishim",hLessonDays:"🗓 Dars kunlarim",hHeld:"O'tildi",hUpcoming:"Bo'ladi",hNoLessonDays:"Dars jadvali hali belgilanmagan.",hNoLessonsYet:"Hali dars boshlanmagan",about:"Kurs haqida",plan:"O'quv reja",price:"Narx",faq:"Savol-javob",
       enroll:"📝 Kursga yozilish",contact:"📞 Bog'lanish",reviews:"⭐ Sharhlar",back:"‹ Orqaga",bookBtn:"📖 Kitobni ochish",gamesBtn:"🎮 O'yinlar",bookOpen:"📖 Kitobni ochish",gamesEmpty:"Hali o'yin qo'shilmagan.",adminPanel:"🛡 Admin panel",admStat:"📊 Statistika",admOrders:"🎟 Buyurtmalar",admTrials:"📝 Sinov arizalari",admBot:"🤖 Coin berish / Xabar (botда)",admDone:"✅ Berildi",admEmpty:"Bo'sh",
       addrev:"✍️ Sharh qoldirish",revPh:"Fikringizni yozing...",revSend:"📩 Sharhni yuborish",revThanks:"⭐ Rahmat! Sharhingiz qabul qilindi.",revShort:"Sharh juda qisqa.",cabinet:"📱 Shaxsiy kabinet",loading:"Yuklanmoqda…",
       lName:"👤 Farzand",lCourse:"📚 Kurs",lType:"🏷 Yo'nalish",lLogin:"🔐 LMS login",lPass:"🔑 Parol",
@@ -821,7 +822,7 @@ var UI = {
       lvl:[["🌱","Yangi"],["🥉","Bronza"],["🥈","Kumush"],["🥇","Oltin"],["💠","Platina"],["💎","Olmos"],["👑","Usta"],["🏆","Afsona"]],lvlToGo:"gacha qoldi",lvlMax:"Eng yuqori daraja!",lvlTitle:"Daraja",
       day:"☀️ Kunduzgi",night:"🌙 Tungi",on:"🔊 Yoniq",off:"🔇 O'chiq",
       norev:"Hali sharhlar yo'q.",per:"oy",err:"Ma'lumot topilmadi. Bot ishga tushirilganini tekshiring."},
-  ru:{choose:"Выберите раздел",hCourses:"📚 Наши курсы",hiKid:"Привет",hMyLessons:"📚 Мои уроки",hMyProgress:"Моя успеваемость",about:"О курсе",plan:"Учебный план",price:"Цена",faq:"Вопросы",
+  ru:{choose:"Выберите раздел",hCourses:"📚 Наши курсы",hiKid:"Привет",hMyLessons:"📚 Мои уроки",hMyProgress:"Моя успеваемость",hNoLessonsYet:"Уроки ещё не начались",about:"О курсе",plan:"Учебный план",price:"Цена",faq:"Вопросы",
       enroll:"📝 Записаться",contact:"📞 Связаться",reviews:"⭐ Отзывы",back:"‹ Назад",bookBtn:"📖 Открыть книгу",gamesBtn:"🎮 Игры",bookOpen:"📖 Открыть книгу",gamesEmpty:"Игры пока не добавлены.",adminPanel:"🛡 Админ-панель",admStat:"📊 Статистика",admOrders:"🎟 Заказы",admTrials:"📝 Заявки на пробный",admBot:"🤖 Коины / Рассылка (в боте)",admDone:"✅ Выдано",admEmpty:"Пусто",
       addrev:"✍️ Оставить отзыв",revPh:"Напишите ваше мнение...",revSend:"📩 Отправить отзыв",revThanks:"⭐ Спасибо! Ваш отзыв принят.",revShort:"Отзыв слишком короткий.",cabinet:"📱 Личный кабинет",loading:"Загрузка…",
       lName:"👤 Ребёнок",lCourse:"📚 Курс",lType:"🏷 Направление",lLogin:"🔐 LMS логин",lPass:"🔑 Пароль",
@@ -849,7 +850,7 @@ var UI = {
       lvl:[["🌱","Новичок"],["🥉","Бронза"],["🥈","Серебро"],["🥇","Золото"],["💠","Платина"],["💎","Алмаз"],["👑","Мастер"],["🏆","Легенда"]],lvlToGo:"осталось",lvlMax:"Максимальный уровень!",lvlTitle:"Уровень",
       day:"☀️ Светлая",night:"🌙 Тёмная",on:"🔊 Вкл",off:"🔇 Выкл",
       norev:"Отзывов пока нет.",per:"мес",err:"Данные не найдены. Проверьте, запущен ли бот."},
-  en:{choose:"Choose a section",hCourses:"📚 Our courses",hiKid:"Hi",hMyLessons:"📚 My lessons",hMyProgress:"My progress",about:"About",plan:"Curriculum",price:"Price",faq:"FAQ",
+  en:{choose:"Choose a section",hCourses:"📚 Our courses",hiKid:"Hi",hMyLessons:"📚 My lessons",hMyProgress:"My progress",hNoLessonsYet:"Lessons haven't started yet",about:"About",plan:"Curriculum",price:"Price",faq:"FAQ",
       enroll:"📝 Enroll",contact:"📞 Contact",reviews:"⭐ Reviews",back:"‹ Back",bookBtn:"📖 Open the book",gamesBtn:"🎮 Games",bookOpen:"📖 Open the book",gamesEmpty:"No games added yet.",adminPanel:"🛡 Admin panel",admStat:"📊 Statistics",admOrders:"🎟 Orders",admTrials:"📝 Trial requests",admBot:"🤖 Give coins / Broadcast (in bot)",admDone:"✅ Delivered",admEmpty:"Empty",
       addrev:"✍️ Leave a review",revPh:"Write your feedback...",revSend:"📩 Send review",revThanks:"⭐ Thank you! Your review is received.",revShort:"Review is too short.",cabinet:"📱 My account",loading:"Loading…",
       lName:"👤 Child",lCourse:"📚 Course",lType:"🏷 Track",lLogin:"🔐 LMS login",lPass:"🔑 Password",
@@ -879,6 +880,8 @@ var UI = {
       norev:"No reviews yet.",per:"mo",err:"Data not found. Make sure the bot is running."}
 };
 var EMOJI={math:"🔢",english:"📖",science:"🔬",literacy:"✍️",it:"💻"};
+var WD_NAMES={uz:["Du","Se","Ch","Pa","Ju","Sh","Ya"],ru:["Пн","Вт","Ср","Чт","Пт","Сб","Вс"],en:["Mo","Tu","We","Th","Fr","Sa","Su"]};
+var MON_NAMES={uz:["Yanvar","Fevral","Mart","Aprel","May","Iyun","Iyul","Avgust","Sentabr","Oktabr","Noyabr","Dekabr"],ru:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],en:["January","February","March","April","May","June","July","August","September","October","November","December"]};
 var COLORS={math:["#60a5fa","#2563eb"],english:["#fb7185","#e11d48"],
   science:["#4ade80","#16a34a"],literacy:["#c084fc","#9333ea"],it:["#818cf8","#4f46e5"]};
 var SV='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">';
@@ -1199,31 +1202,28 @@ function renderHome(){
     +'</div>';
   if(!SUBJSTATS_LOADED) loadSubjStats(function(){ if(view.name==="home") renderHome(); });
   var ss=SUBJSTATS||{};
-  var studied=(DATA.sections||[]).filter(function(c){ return ss[c]; });
-  var rest=(DATA.sections||[]).filter(function(c){ return !ss[c]; });
-  var progCards=studied.map(function(code){
-    var st=ss[code], col=COLORS[code]||["#94a3b8","#64748b"];
+  // Har bir fan uchun ALOHIDA statistika kartasi (katalog kartalari olib tashlandi)
+  var coreSubs=(DATA.sections||[]).filter(function(c){ return c!=="it"; });
+  var progCards=coreSubs.map(function(code){
+    var st=ss[code]||{}, col=COLORS[code]||["#94a3b8","#64748b"];
+    var has=!!ss[code];
+    var mas=st.mastery||0;
     var att=(st.lesson_days?((st.present_days||0)+'/'+st.lesson_days):'—');
+    var foot=has
+      ? '<div class="hsubr"><span>🪙 '+nf(st.coins||0)+'</span><span>⭐ '+(st.avg||0)+'</span><span>📅 '+att+'</span></div>'
+      : '<div class="hsubr"><span class="muted">'+T('hNoLessonsYet')+'</span></div>';
     return '<div class="hsub" onclick="go(\'sec\',\''+code+'\')">'
       +'<div class="hsubt"><span class="hsubic" style="background:linear-gradient(135deg,'+col[0]+','+col[1]+')">'
       +(ICONS[code]||EMOJI[code]||"📚")+'</span><span class="hsubnm">'+esc(nameOf(code))+'</span>'
+      +'<span class="hsubmas" style="color:'+masColor(mas)+'">'+mas+'%</span>'
       +'<span class="hsubar">→</span></div>'
-      +masBar(st.mastery||0)
-      +'<div class="hsubr"><span>🪙 '+nf(st.coins||0)+'</span><span>⭐ '+(st.avg||0)+'</span><span>📅 '+att+'</span></div>'
+      +masBar(mas)+foot
       +'</div>';
   }).join("");
-  var cards=rest.map(function(code){
-    var col=COLORS[code]||["#94a3b8","#64748b"];
-    return '<div class="card" onclick="go(\'sec\',\''+code+'\')">'
-         +'<div class="badge" style="background:linear-gradient(135deg,'+col[0]+','+col[1]+')">'
-         +(ICONS[code]||EMOJI[code]||"📚")+'</div>'
-         +'<div class="nm">'+esc(nameOf(code))+'</div></div>';
-  }).join("");
-  var progSec=studied.length?('<div class="hsec" style="margin-top:2px">📊 '+T('hMyProgress')+'</div>'+progCards):'';
-  var restSec=rest.length?('<div class="hsec"'+(studied.length?'':' style="margin-top:2px"')+'>'+T('hMyLessons')+'</div><div class="grid stg">'+cards+'</div>'):'';
+  var progSec='<div class="hsec" style="margin-top:2px">📊 '+T('hMyProgress')+'</div>'+progCards;
   app.innerHTML=header()
     +'<div id="bnr">'+bannerHTML()+'</div>'
-    +progSec+restSec
+    +progSec
     +hero+tiles;
   if(MYCOINS!=null) countEl("khbig", 0, MYCOINS);
 }
