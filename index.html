@@ -1188,8 +1188,6 @@ function renderSec(){
     +'<h2>'+(EMOJI[code]||"")+' '+esc(nameOf(code))+'</h2>'
     +'<div class="tabs">'+tabsHtml+'</div>'
     +'<div class="content">'+body+'</div>'
-    +(((DATA.books||{})[code])?('<button class="btn" onclick="'+(IS_PRO?"openUrl('"+esc(DATA.books[code])+"')":"go('pro')")+'">'+(IS_PRO?'':'🔒 ')+T('bookBtn')+'</button>'):'')
-    +((((DATA.games||{})[code]||[]).length)?('<button class="btn" onclick="'+(IS_PRO?"go('games','"+code+"')":"go('pro')")+'">'+(IS_PRO?'':'🔒 ')+T('gamesBtn')+'</button>'):'')
     +'<button class="btn'+(((DATA.books||{})[code]||((DATA.games||{})[code]||[]).length)?' sec':'')+'" onclick="enroll()">'+T('enroll')+'</button>'
     +'<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
 }
@@ -1675,12 +1673,9 @@ function cabView(){
   var children=d.children||[];
   var backBtn='<button class="btn sec" onclick="go(\'home\')">'+T('back')+'</button>';
   var head=header()+'<button class="back" onclick="go(\'home\')">'+T('back')+'</button>';
-  var proCard=IS_PRO
-    ? '<div class="probadge">👑 '+T('proActive')+(PRO_INFO&&PRO_INFO.source==="enrolled"?(' · '+T('proEnrolled')):(PRO_INFO&&PRO_INFO.until?(' · '+esc(PRO_INFO.until)):''))+'</div>'
-    : '<div class="probanner" onclick="go(\'pro\')"><div class="pbi">👑</div><div class="pbb"><div class="pbt">'+T('proTitle')+'</div><div class="pbs">'+esc(T('proDesc'))+'</div></div><span class="pbar">→</span></div>';
   if(!d.found || !children.length){
     var u=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{};
-    var body=profHero(u.username?('@'+u.username):null,null)+proCard
+    var body=profHero(u.username?('@'+u.username):null,null)
       +'<div class="pcard"><div class="content muted" style="text-align:center;padding:14px">'+esc(T('cabNone'))+'</div></div>'
       +'<button class="btn" onclick="enroll()">'+T('enroll')+'</button>';
     app.innerHTML=head+body+backBtn;
@@ -1711,7 +1706,7 @@ function cabView(){
     +qtile("📊",T('myResults'),"go('mystats')",false,["#6366f1","#4f46e5"])
     +qtile("📜",T('lCert'),hasCert?("openUrl('"+esc(c)+"')"):"",!hasCert,["#f59e0b","#d97706"])
     +'</div>';
-  app.innerHTML=head+sel+'<div class="stg">'+hero+proCard+sched+quick+'</div>'+backBtn;
+  app.innerHTML=head+sel+'<div class="stg">'+hero+sched+quick+'</div>'+backBtn;
 }
 // LMS — alohida sahifa (kabinetда tugma bosilganda ochiladi)
 function lmsCardHtml(ch){
@@ -3122,7 +3117,6 @@ function renderAdminHome(){
     +'<button class="btn" onclick="go(\'admTeachers\')">👨‍🏫 '+T('admTeachers')+'<span id="admPendBadge"></span></button>'
     +'<button class="btn" onclick="go(\'admPerf\')">📈 '+T('admPerf')+'</button>'
     +'<button class="btn" onclick="go(\'admTopups\')">💳 '+T('admTopups')+'</button>'
-    +'<button class="btn" onclick="go(\'admPros\')">👑 '+T('admPros')+'</button>'
     +'<button class="btn" onclick="go(\'admBroadcast\')">📣 '+T('admBroadcast')+'</button>'
     +'<button class="btn" onclick="go(\'admStat\')">📊 '+T('admStat')+'</button>'
     +'<button class="btn" onclick="go(\'admOrders\')">🎟 '+T('admOrders')+'</button>'
