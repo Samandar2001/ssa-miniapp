@@ -1,0 +1,214 @@
+{
+  "shop": {
+    "name": "Darhon Burger",
+    "phone": "+998 90 000 00 00",
+    "hours": "10:00 - 23:00",
+    "delivery_fee": 10000,
+    "free_delivery_from": 150000
+  },
+  "categories": [
+    {
+      "id": "burger",
+      "name": "Burgerlar",
+      "emoji": "🍔"
+    },
+    {
+      "id": "lavash",
+      "name": "Lavash & Hot-dog",
+      "emoji": "🌯"
+    },
+    {
+      "id": "sides",
+      "name": "Garnir",
+      "emoji": "🍟"
+    },
+    {
+      "id": "drink",
+      "name": "Ichimliklar",
+      "emoji": "🥤"
+    },
+    {
+      "id": "sauce",
+      "name": "Souslar",
+      "emoji": "🥫"
+    }
+  ],
+  "items": [
+    {
+      "id": "b1",
+      "cat": "burger",
+      "name": "Darhon Burger",
+      "price": 42000,
+      "desc": "Ikki qavat mol go'shti, chedder, maxsus sous",
+      "emoji": "🍔"
+    },
+    {
+      "id": "b2",
+      "cat": "burger",
+      "name": "Chizburger",
+      "price": 32000,
+      "desc": "Mol go'shti, chedder pishloq, tuzlangan bodring",
+      "emoji": "🧀"
+    },
+    {
+      "id": "b3",
+      "cat": "burger",
+      "name": "Chikenburger",
+      "price": 30000,
+      "desc": "Xrustyashiy tovuq filesi, salat, sous",
+      "emoji": "🐔"
+    },
+    {
+      "id": "b4",
+      "cat": "burger",
+      "name": "Dabl Burger",
+      "price": 52000,
+      "desc": "Ikki katta kotlet, ikki pishloq",
+      "emoji": "🍔"
+    },
+    {
+      "id": "b5",
+      "cat": "burger",
+      "name": "Achchiq Burger",
+      "price": 38000,
+      "desc": "Jalapeno va achchiq sous bilan",
+      "emoji": "🌶️"
+    },
+    {
+      "id": "l1",
+      "cat": "lavash",
+      "name": "Lavash (tovuq)",
+      "price": 28000,
+      "desc": "Tovuq go'shti, sabzavot, sous",
+      "emoji": "🌯"
+    },
+    {
+      "id": "l2",
+      "cat": "lavash",
+      "name": "Lavash (mol)",
+      "price": 33000,
+      "desc": "Mol go'shti, sabzavot, sous",
+      "emoji": "🌯"
+    },
+    {
+      "id": "l3",
+      "cat": "lavash",
+      "name": "Hot-dog",
+      "price": 18000,
+      "desc": "Klassik hot-dog, ketchup va gorchitsa",
+      "emoji": "🌭"
+    },
+    {
+      "id": "l4",
+      "cat": "lavash",
+      "name": "Shaurma XXL",
+      "price": 40000,
+      "desc": "Katta hajm, qo'shimcha go'sht",
+      "emoji": "🌯"
+    },
+    {
+      "id": "s1",
+      "cat": "sides",
+      "name": "Fri kartoshka",
+      "price": 15000,
+      "desc": "O'rta porsiya",
+      "emoji": "🍟"
+    },
+    {
+      "id": "s2",
+      "cat": "sides",
+      "name": "Fri katta",
+      "price": 20000,
+      "desc": "Katta porsiya",
+      "emoji": "🍟"
+    },
+    {
+      "id": "s3",
+      "cat": "sides",
+      "name": "Naggets (6 dona)",
+      "price": 22000,
+      "desc": "Tovuq nagetslari",
+      "emoji": "🍗"
+    },
+    {
+      "id": "s4",
+      "cat": "sides",
+      "name": "Piyoz halqalari",
+      "price": 18000,
+      "desc": "Xrustyashiy onion rings",
+      "emoji": "🧅"
+    },
+    {
+      "id": "d1",
+      "cat": "drink",
+      "name": "Coca-Cola 0.5",
+      "price": 9000,
+      "desc": "",
+      "emoji": "🥤"
+    },
+    {
+      "id": "d2",
+      "cat": "drink",
+      "name": "Fanta 0.5",
+      "price": 9000,
+      "desc": "",
+      "emoji": "🥤"
+    },
+    {
+      "id": "d3",
+      "cat": "drink",
+      "name": "Suv 0.5",
+      "price": 4000,
+      "desc": "",
+      "emoji": "💧"
+    },
+    {
+      "id": "d4",
+      "cat": "drink",
+      "name": "Choy",
+      "price": 5000,
+      "desc": "Qora yoki ko'k",
+      "emoji": "🍵"
+    },
+    {
+      "id": "d5",
+      "cat": "drink",
+      "name": "Milkshake",
+      "price": 25000,
+      "desc": "Shokolad / vanil / qulupnay",
+      "emoji": "🥤"
+    },
+    {
+      "id": "c1",
+      "cat": "sauce",
+      "name": "Ketchup",
+      "price": 2000,
+      "desc": "",
+      "emoji": "🥫"
+    },
+    {
+      "id": "c2",
+      "cat": "sauce",
+      "name": "Mayonez",
+      "price": 2000,
+      "desc": "",
+      "emoji": "🥫"
+    },
+    {
+      "id": "c3",
+      "cat": "sauce",
+      "name": "Sirli sous",
+      "price": 3000,
+      "desc": "Uy sousi",
+      "emoji": "🥫"
+    },
+    {
+      "id": "c4",
+      "cat": "sauce",
+      "name": "Chili sous",
+      "price": 3000,
+      "desc": "Achchiq",
+      "emoji": "🌶️"
+    }
+  ]
+}
