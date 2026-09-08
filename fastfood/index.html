@@ -455,6 +455,26 @@ a.lrow{text-decoration:none}
 .ref-stat span{font-size:11.5px;color:var(--hint)}
 .note-blk{background:var(--surface-3);border-radius:var(--r-md);padding:12px 14px;
           font:500 12.5px/1.5 var(--font);color:var(--text-2);margin:0 0 14px}
+/* ---------- buyurtma holati ---------- */
+.trk{display:flex;align-items:center;margin:14px 0 0}
+.trk .dot{width:11px;height:11px;border-radius:50%;background:var(--line-2);flex:0 0 auto}
+.trk .dot.on{background:var(--success)}
+.trk .dot.cur{background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.trk .ln{flex:1;height:3px;background:var(--line-2)}
+.trk .ln.on{background:var(--success)}
+.trk-lbl{display:flex;margin-top:7px}
+.trk-lbl span{flex:1;text-align:center;font:600 9.5px/1.25 var(--font);color:var(--hint)}
+.trk-lbl span:first-child{text-align:left}
+.trk-lbl span:last-child{text-align:right}
+.trk-lbl span.on{color:var(--accent-ink)}
+.ord-st{display:flex;align-items:center;gap:9px;margin-top:14px}
+.ord-st .oi{font-size:22px;font-family:var(--emoji);line-height:1}
+.ord-st b{display:block;font:800 15px/1.2 var(--font)}
+.ord-st i{display:block;font:500 12.5px/1.35 var(--font);color:var(--hint);
+          font-style:normal;margin-top:2px}
+.badge-live{background:var(--accent-soft);color:var(--accent-ink)}
+.badge-done{background:var(--success-soft);color:var(--success)}
+.badge-cx{background:var(--danger-soft);color:var(--danger)}
 .ord-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .ord-top .ts{font:600 12.5px/1 var(--font);color:var(--hint)}
 .badge-n{padding:4px 9px;border-radius:var(--r-full);background:var(--surface-3);color:var(--text-2);
@@ -511,8 +531,9 @@ a.lrow{text-decoration:none}
     <section class="view" id="v-orders">
       <div class="wrap">
         <div class="head-row"><h1>Buyurtmalar</h1></div>
-        <p class="note-blk">Bu ro'yxat faqat shu qurilmada saqlanadi. Buyurtma holati (qabul qilindi ·
-          yo'lda · yetkazildi) bot chatidagi xabarda yangilanadi.</p>
+        <p class="note-blk">Oxirgi 3 ta buyurtmaning holati bot ma'lumotidan olinadi.
+          Holat o'zgarganda bot xabar yuboradi — ilovani qaytadan ochsangiz
+          shu yerda ham yangilanadi.</p>
         <div id="histList"></div>
       </div>
     </section>
@@ -689,7 +710,7 @@ a.lrow{text-decoration:none}
 'use strict';
 
 /* =============================== KONSTANTALAR =============================== */
-var BUILD = '7';                       /* deploy.py avtomatik oshiradi */
+var BUILD = '8';                       /* deploy.py avtomatik oshiradi */
 var BOT   = 'DarhonBurgerBot';         /* qotirilgan: keshlangan menu.json ga tayanmaymiz */
 var tg    = window.Telegram && window.Telegram.WebApp;
 
@@ -802,6 +823,35 @@ var P = {
   ac:    iq('ac', 999)
 };
 var IS_ADMIN = (P.a === 1);
+
+/* bot yuborgan oxirgi buyurtmalar holati: id~holat~jami~vaqt~nonce8 */
+var MYORDERS = [];
+try {
+  (Q.lo || '').split(',').forEach(function(s){
+    if (!s) return;
+    var a = s.split('~');
+    if (a.length < 4) return;
+    var id = parseInt(a[0], 10), tot = parseInt(a[2], 10), ts = parseInt(a[3], 10);
+    if (!isFinite(id) || id <= 0) return;
+    MYORDERS.push({
+      id: id,
+      st: String(a[1] || 'new').replace(/[^a-z]/g, '').slice(0, 10) || 'new',
+      total: isFinite(tot) && tot >= 0 ? tot : 0,
+      ts: (isFinite(ts) && ts > 0 ? ts : 0) * 1000,
+      n: String(a[4] || '').replace(/[^A-Za-z0-9]/g, '').slice(0, 8)
+    });
+  });
+} catch(e){}
+
+var ST = {
+  'new':      { i: 0, ic: '📨', t: 'Yuborildi',     s: 'Operator tasdiqlashini kutmoqda' },
+  'accepted': { i: 1, ic: '👨‍🍳', t: 'Tayyorlanmoqda', s: 'Buyurtmangiz qabul qilindi' },
+  'way':      { i: 2, ic: '🚚', t: 'Yo\'lda',        s: 'Kuryer yo\'lga chiqdi' },
+  'done':     { i: 3, ic: '🎉', t: 'Yetkazildi',     s: 'Yoqimli ishtaha!' },
+  'cancel':   { i: -1, ic: '❌', t: 'Bekor qilindi',  s: 'Batafsil: operatorga murojaat qiling' }
+};
+var STEPS = ['Yuborildi', 'Tayyorlanmoqda', 'Yo\'lda', 'Yetkazildi'];
+function isLive(st){ return st === 'new' || st === 'accepted' || st === 'way'; }
 var HASINFO = (P.bal !== null);
 var BONUS   = P.bal || 0;
 var REFS    = P.refs || 0;
@@ -1932,7 +1982,7 @@ function pushAddr(a){
 function pushHistory(p, ls, grand){
   var rec = {
     ts: +new Date(),
-    mode: p.mode, pay: p.pay, total: grand,
+    mode: p.mode, pay: p.pay, total: grand, n: p.n,
     items: ls.map(function(l){ return { id: l.id, name: l.name, q: l.qty }; })
   };
   HIST.unshift(rec);
@@ -1976,9 +2026,106 @@ function fmtTs(ts){
   return d.getDate() + '-' + MM[d.getMonth()] + ' ' +
          ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
 }
+function trackerEl(st){
+  var idx = (ST[st] || ST['new']).i, i;
+  var w = el('div');
+  var trk = el('div', 'trk');
+  for (i = 0; i < 4; i++){
+    trk.appendChild(el('i', 'dot' + (i < idx ? ' on' : (i === idx ? ' cur' : ''))));
+    if (i < 3) trk.appendChild(el('i', 'ln' + (i < idx ? ' on' : '')));
+  }
+  var lbl = el('div', 'trk-lbl');
+  STEPS.forEach(function(t, k){
+    var s = el('span', k <= idx ? 'on' : '');
+    s.textContent = t;
+    lbl.appendChild(s);
+  });
+  w.appendChild(trk); w.appendChild(lbl);
+  return w;
+}
+
+function orderButtons(loc){
+  var btns = el('div');
+  var b1 = el('button', 'btn btn-ghost sm'); b1.type = 'button';
+  b1.textContent = 'Chatda ko\'rish';
+  b1.onclick = function(){ try { tg.close(); } catch(e){} };
+  btns.appendChild(b1);
+  if (loc && loc.items && loc.items.length){
+    var b2 = el('button', 'btn btn-primary sm'); b2.type = 'button';
+    b2.textContent = 'Takrorlash';
+    b2.onclick = function(){ repeat(loc); };
+    btns.appendChild(b2);
+  }
+  return btns;
+}
+
+function serverCard(o){
+  var loc = null;
+  if (o.n){
+    loc = HIST.filter(function(h){ return h.n && String(h.n).slice(0, 8) === o.n; })[0];
+  }
+  var meta = ST[o.st] || ST['new'];
+  var c = el('article', 'card ord');
+
+  var top = el('div', 'ord-top');
+  var ts = el('span', 'ts');
+  ts.textContent = '#' + o.id + (o.ts || (loc && loc.ts) ? ' · ' + fmtTs(o.ts || loc.ts) : '');
+  var bg = el('span', 'badge-n ' + (o.st === 'done' ? 'badge-done'
+                                    : (o.st === 'cancel' ? 'badge-cx' : 'badge-live')));
+  bg.textContent = meta.t;
+  top.appendChild(ts); top.appendChild(bg);
+  c.appendChild(top);
+
+  if (loc && loc.items && loc.items.length){
+    var it = el('div', 'ord-items clamp2');
+    it.textContent = loc.items.map(function(x){ return x.name + ' ×' + x.q; }).join(', ');
+    c.appendChild(it);
+  }
+
+  var stw = el('div', 'ord-st');
+  var oi = el('span', 'oi'); oi.textContent = meta.ic;
+  var tx = el('div');
+  var b = el('b'); b.textContent = meta.t;
+  var i2 = el('i'); i2.textContent = meta.s;
+  tx.appendChild(b); tx.appendChild(i2);
+  stw.appendChild(oi); stw.appendChild(tx);
+  c.appendChild(stw);
+
+  if (o.st !== 'cancel') c.appendChild(trackerEl(o.st));
+
+  var bot = el('div', 'ord-bot');
+  var pr = el('b', 'pr'); pr.textContent = money(o.total);
+  bot.appendChild(pr); bot.appendChild(orderButtons(loc));
+  c.appendChild(bot);
+  return c;
+}
+
+function localCard(o){
+  var c = el('article', 'card ord');
+  var top = el('div', 'ord-top');
+  var ts = el('span', 'ts'); ts.textContent = fmtTs(o.ts);
+  var bg = el('span', 'badge-n'); bg.textContent = 'Yuborildi';
+  top.appendChild(ts); top.appendChild(bg);
+  c.appendChild(top);
+  var it = el('div', 'ord-items clamp2');
+  it.textContent = (o.items || []).map(function(x){ return x.name + ' ×' + x.q; }).join(', ');
+  c.appendChild(it);
+  var bot = el('div', 'ord-bot');
+  var pr = el('b', 'pr'); pr.textContent = money(o.total);
+  bot.appendChild(pr); bot.appendChild(orderButtons(o));
+  c.appendChild(bot);
+  return c;
+}
+
 function renderHistory(){
   var box = $('histList'); box.innerHTML = '';
-  if (!HIST.length){
+  var shown = {};
+  MYORDERS.forEach(function(o){ if (o.n) shown[o.n] = 1; });
+  var rest = HIST.filter(function(h){
+    return !(h.n && shown[String(h.n).slice(0, 8)]);
+  });
+
+  if (!MYORDERS.length && !rest.length){
     var e = el('div', 'empty');
     var ic = el('div', 'ic'); ic.textContent = '🧾';
     var h = el('h3'); h.textContent = 'Hali buyurtma bermagansiz';
@@ -1989,28 +2136,30 @@ function renderHistory(){
     box.appendChild(e);
     return;
   }
-  HIST.forEach(function(o){
-    var c = el('article', 'card ord');
-    var top = el('div', 'ord-top');
-    var ts = el('span', 'ts'); ts.textContent = fmtTs(o.ts);
-    var bg = el('span', 'badge-n'); bg.textContent = 'Yuborildi';
-    top.appendChild(ts); top.appendChild(bg);
-    c.appendChild(top);
-    var it = el('div', 'ord-items clamp2');
-    it.textContent = (o.items || []).map(function(x){ return x.name + ' ×' + x.q; }).join(', ');
-    c.appendChild(it);
-    var bot = el('div', 'ord-bot');
-    var pr = el('b', 'pr'); pr.textContent = money(o.total);
-    var btns = el('div');
-    var b1 = el('button', 'btn btn-ghost sm'); b1.type = 'button'; b1.textContent = 'Chatda ko\'rish';
-    b1.onclick = function(){ try { tg.close(); } catch(e){} };
-    var b2 = el('button', 'btn btn-primary sm'); b2.type = 'button'; b2.textContent = 'Takrorlash';
-    b2.onclick = function(){ repeat(o); };
-    btns.appendChild(b1); btns.appendChild(b2);
-    bot.appendChild(pr); bot.appendChild(btns);
-    c.appendChild(bot);
-    box.appendChild(c);
-  });
+
+  if (MYORDERS.length){
+    var t1 = el('div', 'blk-t'); t1.textContent = 'Oxirgi buyurtmalar';
+    box.appendChild(t1);
+    MYORDERS.forEach(function(o){ box.appendChild(serverCard(o)); });
+  }
+  if (rest.length){
+    var t2 = el('div', 'blk-t');
+    t2.style.marginTop = '20px';
+    t2.textContent = 'Oldingi buyurtmalar (shu qurilmada)';
+    box.appendChild(t2);
+    rest.forEach(function(o){ box.appendChild(localCard(o)); });
+  }
+}
+
+function renderOrdBadge(){
+  var tab = document.querySelector('.tab[data-tab=orders]');
+  if (!tab) return;
+  var b = tab.querySelector('.badge');
+  var n = 0;
+  MYORDERS.forEach(function(o){ if (isLive(o.st)) n++; });
+  if (!n){ if (b) b.parentNode.removeChild(b); return; }
+  if (!b){ b = el('i', 'badge'); tab.appendChild(b); }
+  b.textContent = String(n);
 }
 function repeat(o){
   var miss = 0, added = 0;
@@ -2715,6 +2864,7 @@ function boot(){
     $('tabAdmin').hidden = false;
   }
   renderBadge();
+  renderOrdBadge();
 }
 boot();
 
