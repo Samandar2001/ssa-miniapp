@@ -1,5 +1,5 @@
 {
-  "build": 6,
+  "build": 7,
   "shop": {
     "name": "Darhon Burger",
     "phone": "+998 90 000 00 00",
@@ -247,7 +247,8 @@
       "bg": "#7B2FF7",
       "bg2": "#C04CFD",
       "act": "ref",
-      "val": ""
+      "val": "",
+      "active": true
     },
     {
       "id": "free",
@@ -258,7 +259,8 @@
       "bg": "#0F9D58",
       "bg2": "#3FCF7F",
       "act": "none",
-      "val": ""
+      "val": "",
+      "active": true
     },
     {
       "id": "hit",
@@ -269,7 +271,8 @@
       "bg": "#FF6B1A",
       "bg2": "#FF9D2F",
       "act": "item",
-      "val": "b1"
+      "val": "b1",
+      "active": true
     },
     {
       "id": "xxl",
@@ -280,7 +283,8 @@
       "bg": "#1F2937",
       "bg2": "#4B5563",
       "act": "item",
-      "val": "l4"
+      "val": "l4",
+      "active": true
     }
   ]
 }
