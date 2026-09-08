@@ -1,10 +1,24 @@
 {
+  "build": 4,
   "shop": {
     "name": "Darhon Burger",
     "phone": "+998 90 000 00 00",
+    "address": "Toshkent, Chilonzor 12-mavze",
     "hours": "10:00 - 23:00",
+    "bot": "DarhonBurgerBot",
     "delivery_fee": 10000,
-    "free_delivery_from": 150000
+    "free_delivery_from": 150000,
+    "bonus": {
+      "max_pct": 20,
+      "min_order": 50000,
+      "round": 1000,
+      "cashback_pct": 3
+    },
+    "ref": {
+      "friend": 10000,
+      "inviter": 10000,
+      "qualify_min": 80000
+    }
   },
   "categories": [
     {
@@ -40,7 +54,10 @@
       "name": "Darhon Burger",
       "price": 42000,
       "desc": "Ikki qavat mol go'shti, chedder, maxsus sous",
-      "emoji": "🍔"
+      "emoji": "🍔",
+      "tags": [
+        "hit"
+      ]
     },
     {
       "id": "b2",
@@ -64,7 +81,10 @@
       "name": "Dabl Burger",
       "price": 52000,
       "desc": "Ikki katta kotlet, ikki pishloq",
-      "emoji": "🍔"
+      "emoji": "🍔",
+      "tags": [
+        "hit"
+      ]
     },
     {
       "id": "b5",
@@ -72,7 +92,7 @@
       "name": "Achchiq Burger",
       "price": 38000,
       "desc": "Jalapeno va achchiq sous bilan",
-      "emoji": "🌶️"
+      "emoji": "🌶"
     },
     {
       "id": "l1",
@@ -80,7 +100,10 @@
       "name": "Lavash (tovuq)",
       "price": 28000,
       "desc": "Tovuq go'shti, sabzavot, sous",
-      "emoji": "🌯"
+      "emoji": "🌯",
+      "tags": [
+        "hit"
+      ]
     },
     {
       "id": "l2",
@@ -112,7 +135,10 @@
       "name": "Fri kartoshka",
       "price": 15000,
       "desc": "O'rta porsiya",
-      "emoji": "🍟"
+      "emoji": "🍟",
+      "tags": [
+        "hit"
+      ]
     },
     {
       "id": "s2",
@@ -208,7 +234,53 @@
       "name": "Chili sous",
       "price": 3000,
       "desc": "Achchiq",
-      "emoji": "🌶️"
+      "emoji": "🌶"
+    }
+  ],
+  "banners": [
+    {
+      "id": "ref",
+      "badge": "BONUS",
+      "title": "Do'stni taklif qiling",
+      "sub": "Ikkalangiz ham bonus olasiz",
+      "emoji": "🎁",
+      "bg": "#7B2FF7",
+      "bg2": "#C04CFD",
+      "act": "ref",
+      "val": ""
+    },
+    {
+      "id": "free",
+      "badge": "BEPUL",
+      "title": "Bepul yetkazib berish",
+      "sub": "Katta buyurtmalarga shahar bo'ylab",
+      "emoji": "🚚",
+      "bg": "#0F9D58",
+      "bg2": "#3FCF7F",
+      "act": "none",
+      "val": ""
+    },
+    {
+      "id": "hit",
+      "badge": "HIT",
+      "title": "Darhon Burger",
+      "sub": "Ikki qavat go'sht, chedder, maxsus sous",
+      "emoji": "🍔",
+      "bg": "#FF6B1A",
+      "bg2": "#FF9D2F",
+      "act": "item",
+      "val": "b1"
+    },
+    {
+      "id": "xxl",
+      "badge": "YANGI",
+      "title": "Shaurma XXL",
+      "sub": "Katta hajm, qo'shimcha go'sht",
+      "emoji": "🌯",
+      "bg": "#1F2937",
+      "bg2": "#4B5563",
+      "act": "item",
+      "val": "l4"
     }
   ]
 }
