@@ -320,6 +320,20 @@ body.adm #tabbar{grid-template-columns:repeat(5,1fr)}
 .arow .ap{font:800 13.5px/1 var(--font);color:var(--accent-ink);white-space:nowrap}
 .arow.ch{background:var(--accent-soft);box-shadow:var(--sh-1),inset 0 0 0 1.5px var(--accent)}
 .arow.off .an{opacity:.55;text-decoration:line-through}
+.aord{background:var(--surface);border-radius:var(--r-md);padding:12px;margin-bottom:8px;
+      box-shadow:var(--sh-1),var(--ring)}
+.aord.ch{box-shadow:var(--sh-1),inset 0 0 0 1.5px var(--accent)}
+.aord-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.aord-top .oid{font:800 14px/1 var(--font)}
+.aord-top .ots{font:600 11.5px/1 var(--font);color:var(--hint);margin-left:auto}
+.aord-meta{font:500 12.5px/1.4 var(--font);color:var(--text-2)}
+.aord-btns{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.aord-btns button{flex:1;min-width:92px;padding:10px 8px;border:0;border-radius:var(--r-sm);
+                  font:700 12.5px/1 var(--font);cursor:pointer;
+                  background:var(--surface-3);color:var(--text)}
+.aord-btns button.pri{background:var(--accent);color:var(--on-accent)}
+.aord-btns button.dng{background:var(--danger-soft);color:var(--danger)}
+.aord-pend{font:700 12px/1.3 var(--font);color:var(--accent-ink);margin-top:8px}
 .adm-add{width:100%;border:1.5px dashed var(--line-2);background:none;color:var(--accent-ink);
          border-radius:var(--r-md);padding:12px;font:700 13.5px/1 var(--font);cursor:pointer;
          margin-bottom:10px}
@@ -547,6 +561,9 @@ a.lrow{text-decoration:none}
         </div>
         <div class="adm-cards" id="admCards"></div>
 
+        <div class="blk-t" style="margin-top:20px">Buyurtmalar</div>
+        <div id="admOrders"></div>
+
         <div class="blk-t" style="margin-top:20px">Menyu</div>
         <div class="chips-row" id="admChips" style="margin-bottom:12px"></div>
         <div id="admList"></div>
@@ -710,7 +727,7 @@ a.lrow{text-decoration:none}
 'use strict';
 
 /* =============================== KONSTANTALAR =============================== */
-var BUILD = '8';                       /* deploy.py avtomatik oshiradi */
+var BUILD = '9';                       /* deploy.py avtomatik oshiradi */
 var BOT   = 'DarhonBurgerBot';         /* qotirilgan: keshlangan menu.json ga tayanmaymiz */
 var tg    = window.Telegram && window.Telegram.WebApp;
 
@@ -852,6 +869,34 @@ var ST = {
 };
 var STEPS = ['Yuborildi', 'Tayyorlanmoqda', 'Yo\'lda', 'Yetkazildi'];
 function isLive(st){ return st === 'new' || st === 'accepted' || st === 'way'; }
+
+/* admin uchun so'nggi buyurtmalar: id~holat~jami~vaqt~rejim~donalar */
+var ADMORDERS = [];
+try {
+  (Q.ro || '').split(',').forEach(function(s){
+    if (!s) return;
+    var a = s.split('~');
+    if (a.length < 4) return;
+    var id = parseInt(a[0], 10);
+    if (!isFinite(id) || id <= 0) return;
+    ADMORDERS.push({
+      id: id,
+      st: String(a[1] || 'new').replace(/[^a-z]/g, '').slice(0, 10) || 'new',
+      total: Math.max(0, parseInt(a[2], 10) || 0),
+      ts: (Math.max(0, parseInt(a[3], 10) || 0)) * 1000,
+      mode: (a[4] === 'p') ? 'pickup' : 'delivery',
+      q: Math.max(0, parseInt(a[5], 10) || 0)
+    });
+  });
+} catch(e){}
+
+var ANEXT = {
+  'new':      [['accepted', '✅ Qabul qilish', 'pri'], ['cancel', '❌ Bekor', 'dng']],
+  'accepted': [['way', '🚚 Yo\'lga chiqdi', 'pri'], ['cancel', '❌ Bekor', 'dng']],
+  'way':      [['done', '🎉 Yetkazildi', 'pri'], ['cancel', '❌ Bekor', 'dng']],
+  'done':     [],
+  'cancel':   []
+};
 var HASINFO = (P.bal !== null);
 var BONUS   = P.bal || 0;
 var REFS    = P.refs || 0;
@@ -2395,11 +2440,82 @@ function wipe(){
 }
 
 /* =============================== ADMIN PANEL =============================== */
-var ADRAFT = lsGet('ff_admin_draft', null) || { edits: {}, adds: [], dels: [], bnr: {} };
+var ADRAFT = lsGet('ff_admin_draft', null) || { edits: {}, adds: [], dels: [], bnr: {}, ost: {} };
+if (!ADRAFT.edits) ADRAFT.edits = {};
+if (!ADRAFT.adds)  ADRAFT.adds = [];
+if (!ADRAFT.dels)  ADRAFT.dels = [];
+if (!ADRAFT.bnr)   ADRAFT.bnr = {};
+if (!ADRAFT.ost)   ADRAFT.ost = {};
 var admCat = null, admPub = true;
 
 function admStore(){ lsSet('ff_admin_draft', ADRAFT); }
-function admClear(){ ADRAFT = { edits: {}, adds: [], dels: [], bnr: {} }; admStore(); }
+function admClear(){
+  ADRAFT = { edits: {}, adds: [], dels: [], bnr: {}, ost: {} };
+  admStore();
+}
+
+/* ---------------- buyurtmalar (admin) ---------------- */
+function renderAdmOrders(){
+  var box = $('admOrders');
+  box.innerHTML = '';
+  if (!ADMORDERS.length){
+    var p = el('p', 'hint');
+    p.textContent = 'Hozircha buyurtma yo\'q. Yangi buyurtma kelganda bot xabar beradi.';
+    box.appendChild(p);
+    return;
+  }
+  ADMORDERS.forEach(function(o){
+    var pend = ADRAFT.ost[o.id];
+    var cur = pend ? pend.v : o.st;
+    var meta = ST[cur] || ST['new'];
+    var c = el('div', 'aord' + (pend ? ' ch' : ''));
+
+    var top = el('div', 'aord-top');
+    var oid = el('span', 'oid'); oid.textContent = '#' + o.id;
+    var bg = el('span', 'badge-n ' + (cur === 'done' ? 'badge-done'
+                                      : (cur === 'cancel' ? 'badge-cx' : 'badge-live')));
+    bg.textContent = meta.t;
+    var ots = el('span', 'ots'); ots.textContent = o.ts ? fmtTs(o.ts) : '';
+    top.appendChild(oid); top.appendChild(bg); top.appendChild(ots);
+    c.appendChild(top);
+
+    var m = el('div', 'aord-meta');
+    m.textContent = money(o.total) + ' · ' + o.q + ' ta taom · ' +
+                    (o.mode === 'pickup' ? '🏃 olib ketish' : '🚚 yetkazish');
+    c.appendChild(m);
+
+    if (pend){
+      var pe = el('div', 'aord-pend');
+      pe.textContent = '⏳ Saqlanmagan o\'zgarish: ' + ((ST[pend.v] || {}).t || pend.v);
+      c.appendChild(pe);
+      var uw = el('div', 'aord-btns');
+      var ub = el('button'); ub.type = 'button'; ub.textContent = '↩️ Bekor qilish';
+      ub.onclick = function(){
+        buzz('light');
+        delete ADRAFT.ost[o.id];
+        admStore(); renderAdmin();
+      };
+      uw.appendChild(ub);
+      c.appendChild(uw);
+    } else {
+      var acts = ANEXT[o.st] || [];
+      if (acts.length){
+        var bw = el('div', 'aord-btns');
+        acts.forEach(function(a){
+          var b = el('button', a[2]); b.type = 'button'; b.textContent = a[1];
+          b.onclick = function(){
+            buzz('medium');
+            ADRAFT.ost[o.id] = { v: a[0], c: o.st };
+            admStore(); renderAdmin();
+          };
+          bw.appendChild(b);
+        });
+        c.appendChild(bw);
+      }
+    }
+    box.appendChild(c);
+  });
+}
 
 function aorig(it, f){
   if (f === 'hit') return (it.tags || []).join(',').indexOf('hit') >= 0;
@@ -2437,6 +2553,10 @@ function buildOps(){
   Object.keys(ADRAFT.bnr).forEach(function(id){
     ops.push({ op: 'banner', id: id, v: !!ADRAFT.bnr[id] });
   });
+  Object.keys(ADRAFT.ost).forEach(function(id){
+    var o = ADRAFT.ost[id];
+    ops.push({ op: 'ost', id: parseInt(id, 10), v: o.v, c: o.c });
+  });
   return ops;
 }
 
@@ -2457,6 +2577,8 @@ function renderAdmin(){
     d.appendChild(b); d.appendChild(s);
     cb.appendChild(d);
   });
+
+  renderAdmOrders();
 
   /* --- kategoriya chiplari --- */
   if (!admCat && CATS.length) admCat = CATS[0].id;
@@ -2515,7 +2637,7 @@ function renderAdmin(){
   $('admPubSw').classList.toggle('on', admPub);
   $('admHint').textContent = ops.length
     ? 'Saqlaganda o\'zgarishlar botga yuboriladi va ilova yopiladi.'
-    : 'Narx va nomlarni o\'zgartiring — «Saqlash» tugmasi shu yerda chiqadi.';
+    : 'Buyurtma holati yoki narxni o\'zgartiring — «Saqlash» tugmasi shu yerda chiqadi.';
 }
 
 function admRow(it){
