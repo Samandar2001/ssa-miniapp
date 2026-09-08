@@ -304,6 +304,11 @@ mark{background:var(--accent-soft);color:var(--accent-ink);border-radius:3px;pad
 .field.bad .phone{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
 .field.bad .phone input{box-shadow:none!important}
 .cnt-txt{text-align:right;color:var(--hint);font-size:11.5px;margin-top:4px}
+.geo-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:2px}
+.geo-row .btn{flex:0 0 auto}
+.geo-st{font-size:12.5px;color:var(--hint);flex:1;min-width:120px}
+.geo-st.ok{color:var(--success);font-weight:600}
+.geo-st.bad{color:var(--warn)}
 .collapsed{max-height:0;opacity:0;overflow:hidden;padding-top:0;padding-bottom:0;margin-bottom:0;
            transition:.22s}
 details.sumline summary{cursor:pointer;font-weight:700;list-style:none}
@@ -532,6 +537,10 @@ a.lrow{text-decoration:none}
             <label for="fLand">Mo'ljal / podez / qavat (ixtiyoriy)</label>
             <input id="fLand" maxlength="60">
           </div>
+          <div class="geo-row">
+            <button class="btn btn-ghost sm" id="btnGeo" type="button">📍 Joylashuvni biriktirish</button>
+            <span class="geo-st" id="geoSt">Kuryer sizni tezroq topadi</span>
+          </div>
         </div>
 
         <div class="card" id="blkPickup" hidden>
@@ -615,7 +624,7 @@ a.lrow{text-decoration:none}
 'use strict';
 
 /* =============================== KONSTANTALAR =============================== */
-var BUILD = '4';                       /* deploy.py avtomatik oshiradi */
+var BUILD = '5';                       /* deploy.py avtomatik oshiradi */
 var BOT   = 'DarhonBurgerBot';         /* qotirilgan: keshlangan menu.json ga tayanmaymiz */
 var tg    = window.Telegram && window.Telegram.WebApp;
 
@@ -693,7 +702,7 @@ var FORM    = lsGet('ff_form', {})   || {};
 var ADDRS   = lsGet('ff_addrs', [])  || [];
 var HIST    = lsGet('ff_orders', []) || [];
 var RECENT  = lsGet('ff_recent', []) || [];
-var mode = 'delivery', pay = 'naqd', useBonus = false, changeFrom = '';
+var mode = 'delivery', pay = 'naqd', useBonus = false, changeFrom = '', GEO = null;
 var curSheet = null, spyLock = 0, menuReady = false, offline = false;
 
 /* bot klaviatura URL'idan kelgan ko'rsatkichlar (FAQAT ko'rsatish uchun —
@@ -1533,7 +1542,8 @@ function fillCheckout(){
     nc.appendChild(c);
   });
 
-  /* bonus */
+  /* joylashuv va bonus */
+  setGeoState(GEO ? 'ok' : 'none');
   renderBonus();
   renderCoSum();
 }
@@ -1635,6 +1645,80 @@ $('bonusToggle').onclick = function(){
 };
 $('fNote').addEventListener('input', function(){ $('noteCnt').textContent = $('fNote').value.length; });
 
+/* ---------------- joylashuv ---------------- */
+function setGeoState(state, extra){
+  var st = $('geoSt'), b = $('btnGeo');
+  st.className = 'geo-st';
+  if (state === 'ok'){
+    st.className += ' ok';
+    st.textContent = '✅ Joylashuv biriktirildi' + (extra ? ' (±' + extra + ' m)' : '');
+    b.textContent = '🔄 Yangilash';
+  } else if (state === 'loading'){
+    st.textContent = 'Aniqlanmoqda...';
+    b.textContent = '📍 Joylashuv';
+  } else if (state === 'fail'){
+    st.className += ' bad';
+    st.textContent = 'Olinmadi — buyurtmadan keyin bot «📍 Joylashuvni yuborish» ' +
+                     'tugmasini beradi';
+    b.textContent = '📍 Qayta urinish';
+  } else {
+    st.textContent = 'Kuryer sizni tezroq topadi';
+    b.textContent = '📍 Joylashuvni biriktirish';
+  }
+}
+function setGeo(lat, lon, acc){
+  if (typeof lat !== 'number' || typeof lon !== 'number' ||
+      lat !== lat || lon !== lon ||
+      Math.abs(lat) > 90 || Math.abs(lon) > 180 || (lat === 0 && lon === 0)){
+    setGeoState('fail');
+    return;
+  }
+  GEO = [Math.round(lat * 1e6) / 1e6, Math.round(lon * 1e6) / 1e6];
+  buzz('ok');
+  setGeoState('ok', acc ? Math.round(acc) : 0);
+}
+function geoFallback(){
+  if (!navigator.geolocation){ setGeoState('fail'); return; }
+  var done = false;
+  var t = setTimeout(function(){ if (!done){ done = true; setGeoState('fail'); } }, 9000);
+  try {
+    navigator.geolocation.getCurrentPosition(
+      function(pos){
+        if (done) return;
+        done = true; clearTimeout(t);
+        setGeo(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy);
+      },
+      function(){ if (!done){ done = true; clearTimeout(t); setGeoState('fail'); } },
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 });
+  } catch(e){ done = true; clearTimeout(t); setGeoState('fail'); }
+}
+function askGeo(){
+  buzz('light');
+  setGeoState('loading');
+  var LM = null;
+  try { LM = (tg && ver('8.0')) ? tg.LocationManager : null; } catch(e){ LM = null; }
+  if (!LM){ geoFallback(); return; }
+  var grab = function(){
+    try {
+      LM.getLocation(function(loc){
+        if (loc && typeof loc.latitude === 'number'){
+          setGeo(loc.latitude, loc.longitude, loc.horizontal_accuracy);
+        } else if (LM.isAccessRequested && !LM.isAccessGranted){
+          setGeoState('fail');
+          try { LM.openSettings(); } catch(e){}
+        } else {
+          geoFallback();
+        }
+      });
+    } catch(e){ geoFallback(); }
+  };
+  try {
+    if (LM.isInited) grab();
+    else LM.init(grab);
+  } catch(e){ geoFallback(); }
+}
+$('btnGeo').onclick = askGeo;
+
 /* telefon maskasi */
 var OPS = ['20','33','50','55','77','88','90','91','93','94','95','97','98','99'];
 $('fPhone').addEventListener('input', function(){
@@ -1717,6 +1801,7 @@ function submit(){
     items: ls.slice(0, 60).map(function(l){ return { id: l.id, q: l.qty }; }),
     ub: (useBonus && PHONE_OK) ? bonusOff() : 0
   };
+  if (mode === 'delivery' && GEO) p.geo = GEO;
 
   var s = JSON.stringify(p);
   while (bytes(s) > 3500 && p.note.length){
@@ -1757,7 +1842,7 @@ function submit(){
   lsSet('ff_form', FORM);
   if (mode === 'delivery' && addr) pushAddr(addr);
   cart = {}; NOTES = {}; saveCart(); lsSet('ff_notes', NOTES);
-  useBonus = false; changeFrom = '';
+  useBonus = false; changeFrom = ''; GEO = null;
   buzz('ok');
   $('done').classList.add('on');
   setMain(false);
