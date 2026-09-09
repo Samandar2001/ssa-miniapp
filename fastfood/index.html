@@ -425,6 +425,22 @@ body.adm #tabbar{grid-template-columns:repeat(5,1fr)}
 .dngr{color:var(--danger);border:1px solid var(--danger);background:none}
 .chg-pill{display:inline-block;background:var(--accent);color:var(--on-accent);
           border-radius:var(--r-full);padding:2px 9px;font:800 12px/1.6 var(--font);margin-left:6px}
+/* ---------- xarita ---------- */
+#mapWrap{position:fixed;inset:0;z-index:92;display:none;background:var(--bg)}
+#mapWrap.on{display:block}
+#map{position:absolute;inset:0}
+.map-pin{position:absolute;left:50%;top:50%;transform:translate(-50%,-100%);z-index:3;
+         font-size:36px;font-family:var(--emoji);pointer-events:none;
+         filter:drop-shadow(0 3px 4px rgba(0,0,0,.4))}
+.map-top{position:absolute;left:12px;right:12px;top:calc(12px + env(safe-area-inset-top,0px));
+         z-index:4;background:var(--surface);color:var(--text);border-radius:var(--r-md);
+         padding:11px 14px;font:700 13.5px/1.35 var(--font);box-shadow:var(--sh-2);
+         text-align:center}
+.map-top.bad{background:var(--warn-soft);color:var(--warn)}
+.map-foot{position:absolute;left:12px;right:12px;z-index:4;display:flex;gap:8px;
+          bottom:calc(14px + max(var(--sa-b), env(safe-area-inset-bottom, 0px), 8px))}
+.map-foot .btn{flex:1;box-shadow:var(--sh-2)}
+.map-foot .btn-ghost{background:var(--surface)}
 .geo-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:2px}
 .geo-row .btn{flex:0 0 auto}
 .geo-st{font-size:12.5px;color:var(--hint);flex:1;min-width:120px}
@@ -717,9 +733,10 @@ a.lrow{text-decoration:none}
             <input id="fLand" maxlength="60">
           </div>
           <div class="geo-row">
-            <button class="btn btn-ghost sm" id="btnGeo" type="button">📍 Joylashuvni biriktirish</button>
-            <span class="geo-st" id="geoSt">Kuryer sizni tezroq topadi</span>
+            <button class="btn btn-ghost sm" id="btnGeo" type="button">📍 Joylashuvim</button>
+            <button class="btn btn-ghost sm" id="btnMap" type="button">🗺 Xaritadan</button>
           </div>
+          <div class="geo-st" id="geoSt" style="margin-top:8px">Kuryer sizni tezroq topadi</div>
         </div>
 
         <div class="card" id="blkPickup" hidden>
@@ -790,6 +807,15 @@ a.lrow{text-decoration:none}
   <div class="sheet-body" id="sheetBody"></div>
   <div class="sheet-foot" id="sheetFoot"></div>
 </div>
+<div id="mapWrap">
+  <div id="map"></div>
+  <div class="map-pin">📍</div>
+  <div class="map-top" id="mapInfo">Xarita yuklanmoqda...</div>
+  <div class="map-foot">
+    <button class="btn btn-ghost" id="mapGps" type="button">🎯 Joylashuvim</button>
+    <button class="btn btn-primary" id="mapOk" type="button">Tasdiqlash</button>
+  </div>
+</div>
 <div id="toast"><span id="toastText"></span><button id="toastBtn" hidden></button></div>
 <div id="done">
   <div>
@@ -806,7 +832,7 @@ a.lrow{text-decoration:none}
 'use strict';
 
 /* =============================== KONSTANTALAR =============================== */
-var BUILD = '10';                       /* deploy.py avtomatik oshiradi */
+var BUILD = '11';                       /* deploy.py avtomatik oshiradi */
 var BOT   = 'DarhonBurgerBot';         /* qotirilgan: keshlangan menu.json ga tayanmaymiz */
 var tg    = window.Telegram && window.Telegram.WebApp;
 
@@ -1001,11 +1027,34 @@ function lines(){
 }
 function count(){ var n = 0, k; for (k in cart) if (cart.hasOwnProperty(k)) n += cart[k]; return n; }
 function subtotal(){ var s = 0, l = lines(), i; for (i = 0; i < l.length; i++) s += l[i].sum; return s; }
+/* ---------------- masofa va yetkazish zonasi ---------------- */
+function distKm(a, b){
+  if (!a || !b) return null;
+  var R = 6371, rad = Math.PI / 180;
+  var la1 = a[0] * rad, la2 = b[0] * rad;
+  var dla = (b[0] - a[0]) * rad, dlo = (b[1] - a[1]) * rad;
+  var h = Math.sin(dla / 2) * Math.sin(dla / 2) +
+          Math.cos(la1) * Math.cos(la2) * Math.sin(dlo / 2) * Math.sin(dlo / 2);
+  return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
+}
+function geoKm(){
+  return (GEO && SHOP.geo) ? distKm(GEO, SHOP.geo) : null;
+}
+function zoneFee(km){
+  var z = SHOP.zones || [], i;
+  if (km === null || km === undefined || !z.length){
+    return { fee: SHOP.delivery_fee || 0, far: false, zoned: false };
+  }
+  for (i = 0; i < z.length; i++){
+    if (km <= z[i][0]) return { fee: z[i][1], far: false, zoned: true };
+  }
+  return { fee: z[z.length - 1][1], far: km > (SHOP.max_km || 0), zoned: true };
+}
 function fee(){
   if (mode === 'pickup') return 0;
   var st = subtotal();
   if (SHOP.free_delivery_from && st >= SHOP.free_delivery_from) return 0;
-  return SHOP.delivery_fee || 0;
+  return zoneFee(geoKm()).fee;
 }
 function bonusOff(){
   if (!useBonus || !BONUS) return 0;
@@ -2191,8 +2240,21 @@ function setGeoState(state, extra){
   var st = $('geoSt'), b = $('btnGeo');
   st.className = 'geo-st';
   if (state === 'ok'){
-    st.className += ' ok';
-    st.textContent = '✅ Joylashuv biriktirildi' + (extra ? ' (±' + extra + ' m)' : '');
+    var km = geoKm(), z = zoneFee(km);
+    var t = '✅ Joylashuv biriktirildi';
+    if (km !== null){
+      t = '✅ Do\'kondan ' + km.toFixed(1) + ' km';
+      if (mode === 'delivery'){
+        t += fee() ? (' · yetkazish ' + money(fee())) : ' · yetkazish bepul';
+      }
+    }
+    if (z.far){
+      st.className += ' bad';
+      t += ' ⚠️ zonadan tashqarida';
+    } else {
+      st.className += ' ok';
+    }
+    st.textContent = t;
     b.textContent = '🔄 Yangilash';
   } else if (state === 'loading'){
     st.textContent = 'Aniqlanmoqda...';
@@ -2217,6 +2279,7 @@ function setGeo(lat, lon, acc){
   GEO = [Math.round(lat * 1e6) / 1e6, Math.round(lon * 1e6) / 1e6];
   buzz('ok');
   setGeoState('ok', acc ? Math.round(acc) : 0);
+  try { renderCoSum(); renderChange(); } catch(e){}    /* yetkazish narxi o'zgargan bo'lishi mumkin */
 }
 function geoFallback(){
   if (!navigator.geolocation){ setGeoState('fail'); return; }
@@ -2259,6 +2322,137 @@ function askGeo(){
   } catch(e){ geoFallback(); }
 }
 $('btnGeo').onclick = askGeo;
+
+/* ---------------- xaritadan joy tanlash ---------------- */
+var mapObj = null, mapLoading = false;
+
+function loadLeaflet(cb){
+  if (window.L){ cb(true); return; }
+  if (mapLoading){ cb(false); return; }
+  mapLoading = true;
+  var css = document.createElement('link');
+  css.rel = 'stylesheet';
+  css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
+  document.head.appendChild(css);
+  var s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+  var done = false;
+  var t = setTimeout(function(){
+    if (!done){ done = true; mapLoading = false; cb(false); }
+  }, 10000);
+  s.onload = function(){
+    if (!done){ done = true; clearTimeout(t); mapLoading = false; cb(!!window.L); }
+  };
+  s.onerror = function(){
+    if (!done){ done = true; clearTimeout(t); mapLoading = false; cb(false); }
+  };
+  document.head.appendChild(s);
+}
+
+function mapMoved(){
+  if (!mapObj) return;
+  var c = mapObj.getCenter();
+  var km = SHOP.geo ? distKm([c.lat, c.lng], SHOP.geo) : null;
+  var z = zoneFee(km);
+  var t;
+  if (km === null){
+    t = 'Nishonni manzilingizga qo\'ying';
+  } else {
+    t = 'Do\'kondan ' + km.toFixed(1) + ' km · yetkazish ' + money(z.fee);
+    if (z.far) t += ' ⚠️ zonadan tashqarida';
+  }
+  var el2 = $('mapInfo');
+  el2.textContent = t;
+  el2.className = 'map-top' + (z.far ? ' bad' : '');
+}
+
+function initMap(){
+  if (mapObj){
+    var c0 = GEO || SHOP.geo;
+    if (c0) mapObj.setView(c0, GEO ? 17 : 14);
+    setTimeout(function(){ mapObj.invalidateSize(); mapMoved(); }, 150);
+    return;
+  }
+  var c = GEO || SHOP.geo || [41.311, 69.240];
+  mapObj = L.map('map', { zoomControl: false, attributionControl: false })
+            .setView(c, GEO ? 17 : 14);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+              { maxZoom: 19, crossOrigin: true }).addTo(mapObj);
+  if (SHOP.geo){
+    try {
+      L.circleMarker(SHOP.geo, { radius: 7, color: '#FF6B1A', weight: 2,
+                                 fillColor: '#FF6B1A', fillOpacity: .85 })
+       .addTo(mapObj).bindTooltip(SHOP.name || 'Do\'kon');
+    } catch(e){}
+  }
+  mapObj.on('move', mapMoved);
+  setTimeout(function(){ mapObj.invalidateSize(); mapMoved(); }, 200);
+}
+
+function openMap(){
+  buzz('light');
+  $('mapWrap').classList.add('on');
+  document.body.classList.add('stack');
+  if (NAV.stack.indexOf('map') < 0) NAV.stack.push('map');
+  showBack(true);
+  $('mapInfo').textContent = 'Xarita yuklanmoqda...';
+  $('mapInfo').className = 'map-top';
+  loadLeaflet(function(ok){
+    if (!ok){
+      closeMap();
+      buzz('err');
+      toast('Xarita yuklanmadi — «📍 Joylashuvim» tugmasidan foydalaning',
+            null, null, 5000);
+      return;
+    }
+    initMap();
+  });
+}
+function closeMap(){
+  $('mapWrap').classList.remove('on');
+  NAV.stack = NAV.stack.filter(function(x){ return x !== 'map'; });
+  if (!NAV.stack.length) document.body.classList.remove('stack');
+  showBack(NAV.stack.length > 0);
+}
+$('btnMap').onclick = openMap;
+$('mapOk').onclick = function(){
+  if (!mapObj){ closeMap(); return; }
+  var c = mapObj.getCenter();
+  setGeo(c.lat, c.lng, 0);
+  closeMap();
+  toast('📍 Manzil belgilandi');
+};
+$('mapGps').onclick = function(){
+  buzz('light');
+  $('mapInfo').textContent = 'Aniqlanmoqda...';
+  var apply = function(lat, lon){
+    if (mapObj){ mapObj.setView([lat, lon], 17); mapMoved(); }
+  };
+  var LM = null;
+  try { LM = (tg && ver('8.0')) ? tg.LocationManager : null; } catch(e){ LM = null; }
+  var viaBrowser = function(){
+    if (!navigator.geolocation){ mapMoved(); return; }
+    try {
+      navigator.geolocation.getCurrentPosition(
+        function(pos){ apply(pos.coords.latitude, pos.coords.longitude); },
+        function(){ mapMoved(); },
+        { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 });
+    } catch(e){ mapMoved(); }
+  };
+  if (LM){
+    var grab = function(){
+      try {
+        LM.getLocation(function(loc){
+          if (loc && typeof loc.latitude === 'number') apply(loc.latitude, loc.longitude);
+          else viaBrowser();
+        });
+      } catch(e){ viaBrowser(); }
+    };
+    try { if (LM.isInited) grab(); else LM.init(grab); } catch(e){ viaBrowser(); }
+  } else {
+    viaBrowser();
+  }
+};
 
 /* telefon maskasi */
 var OPS = ['20','33','50','55','77','88','90','91','93','94','95','97','98','99'];
@@ -3270,6 +3464,7 @@ function showBack(on){
   } catch(e){}
 }
 function onBack(){
+  if (NAV.stack.indexOf('map') >= 0){ closeMap(); return; }
   if (curSheet){ closeSheet(); return; }
   if (NAV.stack.indexOf('checkout') >= 0){ closeCheckout(); return; }
   showBack(false);

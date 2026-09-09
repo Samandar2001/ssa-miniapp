@@ -1,5 +1,5 @@
 {
-  "build": 10,
+  "build": 11,
   "shop": {
     "name": "Darhon Burger",
     "phone": "+998 90 000 00 00",
@@ -8,6 +8,25 @@
     "bot": "DarhonBurgerBot",
     "delivery_fee": 10000,
     "free_delivery_from": 150000,
+    "geo": [
+      41.2859,
+      69.2037
+    ],
+    "zones": [
+      [
+        3.0,
+        10000
+      ],
+      [
+        6.0,
+        15000
+      ],
+      [
+        10.0,
+        22000
+      ]
+    ],
+    "max_km": 12,
     "bonus": {
       "max_pct": 20,
       "min_order": 50000,
