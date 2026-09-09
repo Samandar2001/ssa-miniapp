@@ -200,6 +200,82 @@ h2{margin:0;font-size:17px;font-weight:800}
 .chips::-webkit-scrollbar{display:none}
 .chips.stuck{box-shadow:0 1px 0 var(--line)}
 
+/* ---------- filtr paneli ---------- */
+.fbar{display:flex;gap:8px;align-items:center;overflow-x:auto;padding:2px 0 12px;
+      scrollbar-width:none}
+.fbar::-webkit-scrollbar{display:none}
+.fbtn{flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;padding:8px 12px;
+      border-radius:var(--r-full);background:var(--surface-3);color:var(--text);
+      border:1px solid transparent;font:600 13px/1 var(--font);cursor:pointer;white-space:nowrap}
+.fbtn.on{background:var(--accent-soft);color:var(--accent-ink);border-color:var(--accent)}
+.fbtn .cv{font-size:14px;line-height:1}
+.vtog{flex:0 0 auto;display:flex;background:var(--surface-3);border-radius:var(--r-full);padding:3px}
+.vtog button{border:0;background:none;color:var(--hint);width:34px;height:28px;border-radius:var(--r-full);
+             font-size:14px;line-height:1;cursor:pointer}
+.vtog button.on{background:var(--surface);color:var(--accent-ink);box-shadow:var(--sh-1)}
+
+/* ---------- tepa bloklari ---------- */
+.again{display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:var(--r-lg);
+       padding:12px;margin-bottom:12px;box-shadow:var(--sh-1),var(--ring)}
+.again .ax{flex:1;min-width:0}
+.again .ax b{display:block;font:700 14px/1.25 var(--font)}
+.again .ax span{display:block;font:500 12px/1.35 var(--font);color:var(--hint);margin-top:2px;
+                overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.again button{flex:0 0 auto;border:0;background:var(--accent);color:var(--on-accent);
+              border-radius:var(--r-sm);padding:10px 14px;font:700 13px/1 var(--font);cursor:pointer}
+
+/* ---------- kartochka: nishonlar, chegirma ---------- */
+.bdgs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:4px}
+.bdg{font:800 9.5px/1 var(--font);letter-spacing:.3px;text-transform:uppercase;
+     padding:4px 7px;border-radius:var(--r-full);background:var(--surface-3);color:var(--text-2)}
+.bdg.hit{background:#FFE9D6;color:#C2410C}
+.bdg.new{background:#DCF3E6;color:#0F7B45}
+.bdg.spicy{background:#FFE1E1;color:#C22B2B}
+.bdg.veg{background:#E4F5D8;color:#3F7A16}
+.bdg.off{background:var(--danger);color:#fff}
+.dark .bdg.hit{background:#3A2413;color:#FFB27A}
+.dark .bdg.new{background:#15301F;color:#57D294}
+.dark .bdg.spicy{background:#3A1616;color:#FF8080}
+.dark .bdg.veg{background:#1E2E12;color:#9CD26A}
+.old{color:var(--hint);font-weight:600;font-size:12.5px;text-decoration:line-through;margin-left:6px}
+.meta-s{font:500 11.5px/1.3 var(--font);color:var(--hint);margin-top:3px}
+.ph{width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit}
+.fav{position:absolute;top:7px;right:7px;z-index:3;width:30px;height:30px;border:0;
+     background:rgba(255,255,255,.9);border-radius:50%;font-size:14px;line-height:1;
+     cursor:pointer;display:grid;place-items:center;box-shadow:var(--sh-1);color:var(--hint)}
+.dark .fav{background:rgba(20,17,16,.7)}
+.fav.on{color:#E5484D}
+.item .ctl{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.item .ctl .fav{position:static;box-shadow:none;background:none;width:26px;height:26px}
+
+/* ---------- grid ko'rinish ---------- */
+.glist{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gitem{display:flex;flex-direction:column;align-items:stretch;padding:0;overflow:hidden;
+       min-height:0;gap:0}
+/* min-height — eski WebView'da aspect-ratio ishlamasa yiqilib qolmasin */
+.gitem .gmedia{position:relative;width:100%;min-height:104px;aspect-ratio:1.45/1;
+               border-radius:0;display:grid;place-items:center;overflow:hidden;
+               background:var(--g-default)}
+.gitem .gmedia>span{font-size:44px;font-family:var(--emoji);transform:rotate(-6deg);
+                    filter:drop-shadow(0 3px 5px rgba(0,0,0,.2));line-height:1}
+.gitem .gmedia::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(120% 90% at 25% 12%,rgba(255,255,255,.4),transparent 62%)}
+.gitem .gmedia[data-cat=burger]{background:var(--g-burger)}
+.gitem .gmedia[data-cat=lavash]{background:var(--g-lavash)}
+.gitem .gmedia[data-cat=sides]{background:var(--g-sides)}
+.gitem .gmedia[data-cat=drink]{background:var(--g-drink)}
+.gitem .gmedia[data-cat=sauce]{background:var(--g-sauce)}
+.gitem .ginfo{padding:10px 11px 0;flex:1}
+.gitem .nm{font:700 13.5px/1.25 var(--font)}
+.gitem .gfoot{display:flex;align-items:center;gap:8px;padding:8px 11px 11px}
+.gitem .pr{flex:1;font-size:14px;margin-top:0}
+.gitem .ctl{flex-direction:row}
+.gitem .add{width:34px;height:34px;font-size:21px;border-radius:11px}
+.gitem .step button{width:28px;height:28px;font-size:17px}
+.gitem.in{background:var(--accent-soft)}
+.gitem.in::before{display:none}
+@media (max-width:340px){.glist{grid-template-columns:1fr}}
+
 .sec-title{display:flex;align-items:baseline;gap:8px;margin:18px 0 10px;font-size:17px;font-weight:800}
 .sec-title .cnt{font:600 12px/1 var(--font);color:var(--hint)}
 .item{position:relative;display:flex;gap:12px;align-items:center;background:var(--surface);
@@ -528,7 +604,10 @@ a.lrow{text-decoration:none}
           <button class="clear" id="qClear" hidden aria-label="Tozalash">×</button>
         </div>
         <div class="recent chips-row" id="recent"></div>
+        <div id="againBox"></div>
+        <div class="fbar" id="fbar"></div>
       </div>
+      <div id="popRail"></div>
       <div class="chips" id="chips"></div>
       <div class="wrap" id="list"></div>
     </section>
@@ -727,7 +806,7 @@ a.lrow{text-decoration:none}
 'use strict';
 
 /* =============================== KONSTANTALAR =============================== */
-var BUILD = '9';                       /* deploy.py avtomatik oshiradi */
+var BUILD = '10';                       /* deploy.py avtomatik oshiradi */
 var BOT   = 'DarhonBurgerBot';         /* qotirilgan: keshlangan menu.json ga tayanmaymiz */
 var tg    = window.Telegram && window.Telegram.WebApp;
 
@@ -1110,34 +1189,154 @@ function renderPromo(){
 }
 
 /* =============================== MENYU: RO'YXAT =============================== */
-function tileEl(it, cls){
-  var t = el('div', 'tile' + (cls ? ' ' + cls : ''));
+/* ---------------- ko'rinish holati ---------------- */
+var FAV = lsGet('ff_fav', {}) || {};
+var viewMode = lsGet('ff_view', 'grid') || 'grid';
+var sortBy = 'cat';                 /* cat | pop | cheap | exp */
+var favOnly = false, onlyAvail = false;
+
+function isFav(id){ return !!FAV[id]; }
+function tagsOf(it){ return (it.tags || []).join(','); }
+function hasTag(it, t){ return tagsOf(it).indexOf(t) >= 0; }
+function discount(it){
+  var o = parseInt(it.old, 10);
+  if (!isFinite(o) || o <= it.price) return 0;
+  return Math.round((o - it.price) * 100 / o);
+}
+function popScore(it){
+  var s = hasTag(it, 'hit') ? 1000 : 0;
+  HIST.forEach(function(h){
+    (h.items || []).forEach(function(x){ if (x.id === it.id) s += (x.q || 1); });
+  });
+  if (FAV[it.id]) s += 50;
+  return s;
+}
+function refreshMenu(){
+  if ($('q').value.trim()) doSearch(); else renderList();
+}
+
+/* ---------------- kartochka qismlari ---------------- */
+function mediaEl(it, cls){
+  var t = el('div', cls);
   t.setAttribute('data-cat', it.cat || '');
-  var s = el('span'); s.textContent = it.emoji || '🍽';
-  t.appendChild(s);
+  if (it.img){
+    var im = el('img', 'ph');
+    im.src = it.img; im.alt = it.name || '';
+    try { im.loading = 'lazy'; } catch(e){}
+    im.onerror = function(){
+      if (im.parentNode) im.parentNode.removeChild(im);
+      var s2 = el('span'); s2.textContent = it.emoji || '🍽';
+      t.appendChild(s2);
+    };
+    t.appendChild(im);
+  } else {
+    var s = el('span'); s.textContent = it.emoji || '🍽';
+    t.appendChild(s);
+  }
   return t;
 }
+function tileEl(it, cls){ return mediaEl(it, 'tile' + (cls ? ' ' + cls : '')); }
+
+function badgesEl(it){
+  var arr = [], d = discount(it);
+  if (d) arr.push(['off', '−' + d + '%']);
+  if (hasTag(it, 'hit')) arr.push(['hit', 'Hit']);
+  if (hasTag(it, 'new')) arr.push(['new', 'Yangi']);
+  if (hasTag(it, 'spicy')) arr.push(['spicy', 'Achchiq']);
+  if (hasTag(it, 'veg')) arr.push(['veg', 'Veg']);
+  if (!arr.length) return null;
+  var w = el('div', 'bdgs');
+  arr.forEach(function(b){
+    var s = el('span', 'bdg ' + b[0]); s.textContent = b[1]; w.appendChild(s);
+  });
+  return w;
+}
+function priceEl(it){
+  var p = el('div', 'pr');
+  p.appendChild(document.createTextNode(money(it.price)));
+  if (discount(it)){
+    var o = el('span', 'old'); o.textContent = num(it.old);
+    p.appendChild(o);
+  }
+  return p;
+}
+function metaEl(it){
+  var bits = [];
+  if (it.wt) bits.push(num(it.wt) + ' g');
+  if (it.kcal) bits.push(num(it.kcal) + ' kkal');
+  if (!bits.length) return null;
+  var m = el('div', 'meta-s'); m.textContent = bits.join(' · ');
+  return m;
+}
+function favBtn(it){
+  var b = el('button', 'fav' + (isFav(it.id) ? ' on' : ''));
+  b.type = 'button';
+  b.textContent = isFav(it.id) ? '❤️' : '🤍';
+  b.setAttribute('aria-label', 'Sevimli');
+  b.onclick = function(e){
+    e.stopPropagation();
+    buzz('light');
+    if (FAV[it.id]) delete FAV[it.id]; else FAV[it.id] = 1;
+    lsSet('ff_fav', FAV);
+    b.classList.toggle('on', isFav(it.id));
+    b.textContent = isFav(it.id) ? '❤️' : '🤍';
+    if (favOnly || sortBy === 'pop') refreshMenu(); else renderFilters();
+  };
+  return b;
+}
+
 function itemEl(it){
+  return (viewMode === 'grid') ? gridItemEl(it) : listItemEl(it);
+}
+function listItemEl(it){
   var a = el('article', 'item');
   a.setAttribute('data-id', it.id);
   if (it.stop) a.className += ' off';
   if (cart[it.id]) a.className += ' in';
   a.appendChild(tileEl(it));
   var info = el('div', 'info');
-  var nm = el('div', 'nm'); nm.textContent = it.name;
-  var ds = el('div', 'ds clamp2'); ds.textContent = it.desc || '';
-  var pr = el('div', 'pr'); pr.textContent = money(it.price);
-  info.appendChild(nm);
-  if (it.desc) info.appendChild(ds);
-  info.appendChild(pr);
+  var bd = badgesEl(it); if (bd) info.appendChild(bd);
+  var nm = el('div', 'nm'); nm.textContent = it.name; info.appendChild(nm);
+  if (it.desc){ var ds = el('div', 'ds clamp2'); ds.textContent = it.desc; info.appendChild(ds); }
+  var mt = metaEl(it); if (mt) info.appendChild(mt);
+  info.appendChild(priceEl(it));
   if (it.stop){
     var tag = el('span', 'off-tag'); tag.textContent = 'Hozircha yo\'q';
     info.appendChild(tag);
   }
   a.appendChild(info);
   var ctl = el('div', 'ctl');
+  ctl.appendChild(favBtn(it));
+  var holder = el('div', 'ctlx');
+  ctl.appendChild(holder);
   a.appendChild(ctl);
-  drawCtl(ctl, it);
+  drawCtl(holder, it);
+  a.onclick = function(){ if (!it.stop){ buzz('light'); openSheet(it.id); } };
+  return a;
+}
+function gridItemEl(it){
+  var a = el('article', 'item gitem');
+  a.setAttribute('data-id', it.id);
+  if (it.stop) a.className += ' off';
+  if (cart[it.id]) a.className += ' in';
+  var med = mediaEl(it, 'gmedia');
+  med.appendChild(favBtn(it));
+  a.appendChild(med);
+  var info = el('div', 'ginfo');
+  var bd = badgesEl(it); if (bd) info.appendChild(bd);
+  var nm = el('div', 'nm clamp2'); nm.textContent = it.name; info.appendChild(nm);
+  var mt = metaEl(it); if (mt) info.appendChild(mt);
+  if (it.stop){
+    var tag = el('span', 'off-tag'); tag.textContent = 'Hozircha yo\'q';
+    info.appendChild(tag);
+  }
+  a.appendChild(info);
+  var foot = el('div', 'gfoot');
+  foot.appendChild(priceEl(it));
+  var holder = el('div', 'ctlx');
+  foot.appendChild(holder);
+  a.appendChild(foot);
+  drawCtl(holder, it);
   a.onclick = function(){ if (!it.stop){ buzz('light'); openSheet(it.id); } };
   return a;
 }
@@ -1167,32 +1366,187 @@ function refreshItemControls(){
     var n = nodes[i], it = BY_ID[n.getAttribute('data-id')];
     if (!it) continue;
     n.classList.toggle('in', !!cart[it.id]);
-    drawCtl(n.querySelector('.ctl'), it);
+    var h = n.querySelector('.ctlx');
+    if (h) drawCtl(h, it);
   }
+}
+
+/* ---------------- filtr paneli ---------------- */
+function renderFilters(){
+  var bar = $('fbar');
+  if (!bar) return;
+  bar.innerHTML = '';
+
+  var vt = el('div', 'vtog');
+  [['grid', '▦'], ['list', '☰']].forEach(function(v){
+    var b = el('button', viewMode === v[0] ? 'on' : '');
+    b.type = 'button'; b.textContent = v[1];
+    b.setAttribute('aria-label', v[0] === 'grid' ? 'Katakcha' : 'Ro\'yxat');
+    b.onclick = function(){
+      if (viewMode === v[0]) return;
+      buzz('light');
+      viewMode = v[0];
+      lsSet('ff_view', viewMode);
+      refreshMenu();
+    };
+    vt.appendChild(b);
+  });
+  bar.appendChild(vt);
+
+  var favN = 0;
+  Object.keys(FAV).forEach(function(k){ if (BY_ID[k]) favN++; });
+  if (favN){
+    var fb = el('button', 'fbtn' + (favOnly ? ' on' : ''));
+    fb.type = 'button';
+    var hs = el('span', 'cv'); hs.textContent = '❤️';
+    fb.appendChild(hs);
+    fb.appendChild(document.createTextNode(String(favN)));
+    fb.onclick = function(){ buzz('light'); favOnly = !favOnly; refreshMenu(); };
+    bar.appendChild(fb);
+  } else {
+    favOnly = false;
+  }
+
+  [['cat', 'Kategoriya'], ['pop', 'Mashhur'], ['cheap', 'Arzon'], ['exp', 'Qimmat']]
+    .forEach(function(s){
+      var b = el('button', 'fbtn' + (sortBy === s[0] ? ' on' : ''));
+      b.type = 'button'; b.textContent = s[1];
+      b.onclick = function(){
+        if (sortBy === s[0]) return;
+        buzz('light'); sortBy = s[0]; refreshMenu();
+      };
+      bar.appendChild(b);
+    });
+
+  var stopN = 0;
+  ITEMS.forEach(function(x){ if (x.stop) stopN++; });
+  if (stopN){
+    var ab = el('button', 'fbtn' + (onlyAvail ? ' on' : ''));
+    ab.type = 'button'; ab.textContent = 'Faqat mavjud';
+    ab.onclick = function(){ buzz('light'); onlyAvail = !onlyAvail; refreshMenu(); };
+    bar.appendChild(ab);
+  }
+}
+
+function filteredItems(){
+  var arr = ITEMS.slice(0);
+  if (favOnly) arr = arr.filter(function(x){ return isFav(x.id); });
+  if (onlyAvail) arr = arr.filter(function(x){ return !x.stop; });
+  return arr;
+}
+function sortFlat(arr){
+  if (sortBy === 'cheap') arr.sort(function(a, b){ return a.price - b.price; });
+  else if (sortBy === 'exp') arr.sort(function(a, b){ return b.price - a.price; });
+  else arr.sort(function(a, b){ return popScore(b) - popScore(a); });
+  return arr;
+}
+function flatMode(){ return favOnly || sortBy !== 'cat'; }
+function listBox(){ return el('div', viewMode === 'grid' ? 'glist' : ''); }
+
+function emptyBox(){
+  var e = el('div', 'empty');
+  var ic = el('div', 'ic'); ic.textContent = favOnly ? '🤍' : '🍽';
+  var h = el('h3'); h.textContent = favOnly ? 'Sevimlilar bo\'sh' : 'Taom topilmadi';
+  var p = el('p');
+  p.textContent = favOnly ? 'Yoqqan taom kartochkasidagi yurakchani bosing'
+                          : 'Filtrni o\'zgartirib ko\'ring';
+  e.appendChild(ic); e.appendChild(h); e.appendChild(p);
+  return e;
+}
+
+/* ---------------- tepa bloklari ---------------- */
+function renderAgain(){
+  var box = $('againBox');
+  if (!box) return;
+  box.innerHTML = '';
+  if (flatMode() || !HIST.length) return;
+  var last = HIST[0];
+  var ok = (last.items || []).filter(function(x){
+    return BY_ID[x.id] && !BY_ID[x.id].stop;
+  });
+  if (!ok.length) return;
+  var w = el('div', 'again');
+  var ic = el('span');
+  ic.style.cssText = 'font-size:26px;font-family:var(--emoji);line-height:1';
+  ic.textContent = '🔁';
+  var ax = el('div', 'ax');
+  var b = el('b'); b.textContent = 'Yana o\'shani?';
+  var s = el('span');
+  s.textContent = ok.map(function(x){ return x.name + ' ×' + x.q; }).join(', ');
+  ax.appendChild(b); ax.appendChild(s);
+  var btn = el('button'); btn.type = 'button'; btn.textContent = 'Savatga';
+  btn.onclick = function(){ buzz('medium'); repeat(last); };
+  w.appendChild(ic); w.appendChild(ax); w.appendChild(btn);
+  box.appendChild(w);
+}
+
+function renderPopRail(){
+  var box = $('popRail');
+  if (!box) return;
+  box.innerHTML = '';
+  if (flatMode()) return;
+  var hits = ITEMS.filter(function(x){ return !x.stop && hasTag(x, 'hit'); }).slice(0, 8);
+  if (hits.length < 2) return;
+  var w = el('div', 'wrap');
+  var t = el('div', 'blk-t'); t.textContent = '🔥 Mashhur taomlar';
+  w.appendChild(t);
+  var rail = el('div', 'rail');
+  hits.forEach(function(it){
+    var b = el('button', 'mini'); b.type = 'button';
+    b.appendChild(tileEl(it, 'sm'));
+    var nm = el('div', 'nm'); nm.textContent = it.name;
+    var pr = el('div', 'pr'); pr.textContent = money(it.price);
+    b.appendChild(nm); b.appendChild(pr);
+    b.onclick = function(){ buzz('light'); openSheet(it.id); };
+    rail.appendChild(b);
+  });
+  w.appendChild(rail);
+  box.appendChild(w);
 }
 
 function renderList(){
   var box = $('list');
   box.innerHTML = '';
-  var i, j;
-  for (i = 0; i < CATS.length; i++){
-    var c = CATS[i];
-    var its = ITEMS.filter(function(x){ return x.cat === c.id; });
-    if (!its.length) continue;
-    var sec = el('section', 'cat'); sec.id = 'cat-' + c.id;
-    var h = el('h2', 'sec-title');
-    h.appendChild(document.createTextNode((c.emoji ? c.emoji + ' ' : '') + c.name));
-    var cnt = el('span', 'cnt'); cnt.textContent = its.length + ' ta';
-    h.appendChild(cnt);
-    sec.appendChild(h);
-    for (j = 0; j < its.length; j++) sec.appendChild(itemEl(its[j]));
-    box.appendChild(sec);
+  renderFilters();
+  renderAgain();
+  renderPopRail();
+
+  var arr = filteredItems();
+  if (flatMode()){
+    $('chips').style.display = 'none';
+    if (spyObs){ try { spyObs.disconnect(); } catch(e){} spyObs = null; }
+    if (!arr.length){ box.appendChild(emptyBox()); return; }
+    var t = el('h2', 'sec-title');
+    t.appendChild(document.createTextNode(favOnly ? '❤️ Sevimlilar' : 'Barcha taomlar'));
+    var c0 = el('span', 'cnt'); c0.textContent = arr.length + ' ta';
+    t.appendChild(c0);
+    box.appendChild(t);
+    var g0 = listBox();
+    sortFlat(arr).forEach(function(it){ g0.appendChild(itemEl(it)); });
+    box.appendChild(g0);
+  } else {
+    $('chips').style.display = '';
+    CATS.forEach(function(c){
+      var its = arr.filter(function(x){ return x.cat === c.id; });
+      if (!its.length) return;
+      var sec = el('section', 'cat'); sec.id = 'cat-' + c.id;
+      var h = el('h2', 'sec-title');
+      h.appendChild(document.createTextNode((c.emoji ? c.emoji + ' ' : '') + c.name));
+      var cnt = el('span', 'cnt'); cnt.textContent = its.length + ' ta';
+      h.appendChild(cnt);
+      sec.appendChild(h);
+      var g = listBox();
+      its.forEach(function(it){ g.appendChild(itemEl(it)); });
+      sec.appendChild(g);
+      box.appendChild(sec);
+    });
   }
+
   var up = buildUpsell('Nimadir unutdingizmi?');
   if (up) box.appendChild(up);
   var f = el('p', 'foot'); f.textContent = 'Narxlar so\'mda · v' + BUILD;
   box.appendChild(f);
-  initSpy();
+  if (!flatMode()) initSpy();
 }
 function buildUpsell(title){
   var pool = ITEMS.filter(function(x){
@@ -1300,10 +1654,15 @@ function doSearch(){
   var raw = $('q').value.trim(), q = norm(raw);
   $('qClear').hidden = !raw;
   renderRecent();
-  if (!q){ $('chips').style.display = ''; renderList(); return; }
+  if (!q){ renderList(); return; }
+  renderFilters();
+  $('againBox').innerHTML = '';
+  $('popRail').innerHTML = '';
   $('chips').style.display = 'none';
+  if (spyObs){ try { spyObs.disconnect(); } catch(e){} spyObs = null; }
+
   var byName = [], byDesc = [];
-  ITEMS.forEach(function(it){
+  filteredItems().forEach(function(it){
     if (norm(it.name).indexOf(q) >= 0) byName.push(it);
     else if (norm(it.desc).indexOf(q) >= 0) byDesc.push(it);
   });
@@ -1316,7 +1675,9 @@ function doSearch(){
     var p = el('p'); p.textContent = 'Balki bular qiziqarli bo\'lar?';
     e.appendChild(ic); e.appendChild(h); e.appendChild(p);
     box.appendChild(e);
-    popular(3).forEach(function(it){ box.appendChild(itemEl(it)); });
+    var g2 = listBox();
+    popular(3).forEach(function(it){ g2.appendChild(itemEl(it)); });
+    box.appendChild(g2);
     return;
   }
   var t = el('h2', 'sec-title');
@@ -1324,13 +1685,14 @@ function doSearch(){
   var c = el('span', 'cnt'); c.textContent = res.length + ' ta';
   t.appendChild(c);
   box.appendChild(t);
+  var g = listBox();
   res.forEach(function(it){
     var node = itemEl(it);
     var nm = node.querySelector('.nm');
-    nm.textContent = '';
-    nm.appendChild(hl(it.name, q));
-    box.appendChild(node);
+    if (nm){ nm.textContent = ''; nm.appendChild(hl(it.name, q)); }
+    g.appendChild(node);
   });
+  box.appendChild(g);
 }
 function popular(n){
   var hits = ITEMS.filter(function(x){
@@ -1366,12 +1728,22 @@ function openSheet(id){
   var q = cart[id] || 0, tmpQ = q || 1, tmpNote = NOTES[id] || '';
 
   var body = $('sheetBody'); body.innerHTML = '';
-  var hero = el('div', 'hero-tile'); hero.setAttribute('data-cat', it.cat || '');
-  var hs = el('span'); hs.textContent = it.emoji || '🍽'; hero.appendChild(hs);
+  var hero = mediaEl(it, 'hero-tile');
+  hero.appendChild(favBtn(it));
   body.appendChild(hero);
+  var bd = badgesEl(it); if (bd) body.appendChild(bd);
   var nm = el('h2', 's-nm'); nm.textContent = it.name; body.appendChild(nm);
   if (it.desc){ var ds = el('p', 's-ds'); ds.textContent = it.desc; body.appendChild(ds); }
-  var pr = el('div', 's-pr'); pr.textContent = money(it.price); body.appendChild(pr);
+  var mt = metaEl(it); if (mt) body.appendChild(mt);
+  var pr = el('div', 's-pr');
+  pr.appendChild(document.createTextNode(money(it.price)));
+  if (discount(it)){
+    var op = el('span', 'old');
+    op.style.fontSize = '15px';
+    op.textContent = num(it.old);
+    pr.appendChild(op);
+  }
+  body.appendChild(pr);
 
   /* izoh */
   var nb = el('div', 'blk');
@@ -2535,12 +2907,28 @@ function setEdit(id, f, v){
   if (!Object.keys(ADRAFT.edits[id]).length) delete ADRAFT.edits[id];
   admStore();
 }
+function setEditNum(id, f, v){
+  var it = BY_ID[id];
+  var orig = parseInt(aorig(it, f), 10) || 0;
+  var nv = parseInt(String(v).replace(/\D/g, ''), 10) || 0;
+  if (nv === orig){
+    if (ADRAFT.edits[id]){
+      delete ADRAFT.edits[id][f];
+      if (!Object.keys(ADRAFT.edits[id]).length) delete ADRAFT.edits[id];
+    }
+  } else {
+    if (!ADRAFT.edits[id]) ADRAFT.edits[id] = {};
+    ADRAFT.edits[id][f] = nv;
+  }
+  admStore();
+}
 function buildOps(){
   var ops = [], i;
   Object.keys(ADRAFT.edits).forEach(function(id){
     if (ADRAFT.dels.indexOf(id) >= 0) return;
     var e = ADRAFT.edits[id];
-    ['price', 'name', 'desc', 'emoji', 'stop', 'hit'].forEach(function(f){
+    ['price', 'name', 'desc', 'emoji', 'stop', 'hit', 'old', 'wt', 'kcal', 'img']
+      .forEach(function(f){
       if (e[f] !== undefined && e[f] !== null) ops.push({ op: f, id: id, v: e[f] });
     });
   });
@@ -2684,7 +3072,9 @@ function openAdmSheet(id, cat){
   var draft = isNew
     ? { cat: cat, name: '', price: 20000, desc: '', emoji: '🍽' }
     : { name: aeff(it, 'name'), price: aeff(it, 'price'), desc: aeff(it, 'desc'),
-        emoji: aeff(it, 'emoji'), stop: aeff(it, 'stop'), hit: aeff(it, 'hit') };
+        emoji: aeff(it, 'emoji'), stop: aeff(it, 'stop'), hit: aeff(it, 'hit'),
+        old: aeff(it, 'old') || '', wt: aeff(it, 'wt') || '',
+        kcal: aeff(it, 'kcal') || '', img: aeff(it, 'img') || '' };
 
   curSheet = 'adm';
   var body = $('sheetBody'); body.innerHTML = '';
@@ -2728,6 +3118,13 @@ function openAdmSheet(id, cat){
   body.appendChild(pf);
 
   if (!isNew){
+    field('Eski narx — chegirma uchun (bo\'sh = yo\'q)', draft.old,
+          function(v){ draft.old = v; }, 9);
+    field('Gramm (ixtiyoriy)', draft.wt, function(v){ draft.wt = v; }, 6);
+    field('Kaloriya (ixtiyoriy)', draft.kcal, function(v){ draft.kcal = v; }, 6);
+    field('Rasm havolasi https:// (ixtiyoriy)', draft.img,
+          function(v){ draft.img = v; }, 300);
+
     var card = el('div', 'card'); card.style.padding = '2px 14px';
     [['stop', 'Tugadi', 'Mini App\'da "hozircha yo\'q" deb ko\'rsatiladi'],
      ['hit', 'Mashhur (hit)', 'Tavsiyalar ro\'yxatiga tushadi']].forEach(function(o){
@@ -2778,6 +3175,10 @@ function openAdmSheet(id, cat){
       setEdit(id, 'emoji', (draft.emoji || '🍽').trim());
       setEdit(id, 'stop', !!draft.stop);
       setEdit(id, 'hit', !!draft.hit);
+      setEditNum(id, 'old', draft.old);
+      setEditNum(id, 'wt', draft.wt);
+      setEditNum(id, 'kcal', draft.kcal);
+      setEdit(id, 'img', (draft.img || '').trim());
     }
     buzz('medium');
     closeSheet();
