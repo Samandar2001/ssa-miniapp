@@ -832,7 +832,7 @@ a.lrow{text-decoration:none}
 'use strict';
 
 /* =============================== KONSTANTALAR =============================== */
-var BUILD = '11';                       /* deploy.py avtomatik oshiradi */
+var BUILD = '12';                       /* deploy.py avtomatik oshiradi */
 var BOT   = 'DarhonBurgerBot';         /* qotirilgan: keshlangan menu.json ga tayanmaymiz */
 var tg    = window.Telegram && window.Telegram.WebApp;
 
@@ -1002,6 +1002,39 @@ var ANEXT = {
   'done':     [],
   'cancel':   []
 };
+
+/* Telegram ilovani keshlab, eski URL bilan ochishi mumkin. Shuning uchun
+   admin o'zgartirgan holatlarni lokal eslab qolamiz va URL eskirgan bo'lsa
+   ustidan qo'llaymiz — aks holda buyurtma hali "Yangi" bo'lib ko'rinadi. */
+var OSTLOCAL = lsGet('ff_ost_local', {}) || {};
+(function(){
+  var now = +new Date(), changed = false;
+  Object.keys(OSTLOCAL).forEach(function(k){
+    if (!OSTLOCAL[k] || now - (OSTLOCAL[k].ts || 0) > 6 * 3600 * 1000){
+      delete OSTLOCAL[k]; changed = true;
+    }
+  });
+  if (changed) lsSet('ff_ost_local', OSTLOCAL);
+})();
+function applyLocalStatus(list){
+  var urlTs = (P.ts || 0) * 1000;
+  list.forEach(function(o){
+    var loc = OSTLOCAL[o.id];
+    if (loc && loc.v && loc.ts > urlTs) o.st = loc.v;
+  });
+}
+function rememberStatus(ops){
+  var now = +new Date(), any = false;
+  ops.forEach(function(op){
+    if (op.op === 'ost' && op.id){
+      OSTLOCAL[op.id] = { v: op.v, ts: now };
+      any = true;
+    }
+  });
+  if (any) lsSet('ff_ost_local', OSTLOCAL);
+}
+applyLocalStatus(ADMORDERS);
+applyLocalStatus(MYORDERS);
 var HASINFO = (P.bal !== null);
 var BONUS   = P.bal || 0;
 var REFS    = P.refs || 0;
@@ -3422,6 +3455,7 @@ $('admSaveBtn').onclick = function(){
   var sent = false;
   try { tg.sendData(s); sent = true; } catch(e){ sent = false; }
   if (!sent){ buzz('err'); toast('Yuborib bo\'lmadi'); return; }
+  rememberStatus(ops);        /* keshlangan URL bilan ochilsa ham yangi holat ko'rinsin */
   admClear();
   buzz('ok');
   showDone('O\'zgarishlar yuborildi',
