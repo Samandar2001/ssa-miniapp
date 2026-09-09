@@ -1,7 +1,7 @@
 {
-  "build": 12,
+  "build": 13,
   "shop": {
-    "name": "Darhon Burger",
+    "name": "Burger Sultan",
     "phone": "+998 90 000 00 00",
     "address": "Toshkent, Chilonzor 12-mavze",
     "hours": "10:00 - 23:00",
@@ -46,33 +46,43 @@
       "emoji": "🍔"
     },
     {
+      "id": "xotdog",
+      "name": "Xot-doglar",
+      "emoji": "🌭"
+    },
+    {
       "id": "lavash",
-      "name": "Lavash & Hot-dog",
+      "name": "Lavash",
       "emoji": "🌯"
     },
     {
-      "id": "sides",
-      "name": "Garnir",
-      "emoji": "🍟"
+      "id": "donar",
+      "name": "Donar",
+      "emoji": "🥙"
+    },
+    {
+      "id": "xaggi",
+      "name": "Xaggi",
+      "emoji": "🥪"
+    },
+    {
+      "id": "kabob",
+      "name": "Kabob",
+      "emoji": "🍢"
     },
     {
       "id": "drink",
       "name": "Ichimliklar",
       "emoji": "🥤"
-    },
-    {
-      "id": "sauce",
-      "name": "Souslar",
-      "emoji": "🥫"
     }
   ],
   "items": [
     {
       "id": "b1",
       "cat": "burger",
-      "name": "Darhon Burger",
-      "price": 42000,
-      "desc": "Ikki qavat mol go'shti, chedder, maxsus sous",
+      "name": "Burger Katletli",
+      "price": 21000,
+      "desc": "Mol go'shti kotleti",
       "emoji": "🍔",
       "tags": [
         "hit"
@@ -81,179 +91,616 @@
     {
       "id": "b2",
       "cat": "burger",
-      "name": "Chizburger",
-      "price": 32000,
-      "desc": "Mol go'shti, chedder pishloq, tuzlangan bodring",
+      "name": "Burger Katletli va pishloqli",
+      "price": 24000,
+      "desc": "Kotlet va pishloq",
       "emoji": "🧀"
     },
     {
       "id": "b3",
       "cat": "burger",
-      "name": "Chikenburger",
-      "price": 30000,
-      "desc": "Xrustyashiy tovuq filesi, salat, sous",
-      "emoji": "🐔"
-    },
-    {
-      "id": "b4",
-      "cat": "burger",
-      "name": "Dabl Burger",
-      "price": 52000,
-      "desc": "Ikki katta kotlet, ikki pishloq",
+      "name": "Burger Big",
+      "price": 28000,
+      "desc": "Katta hajm",
       "emoji": "🍔",
       "tags": [
         "hit"
       ]
     },
     {
-      "id": "b5",
+      "id": "b4",
       "cat": "burger",
-      "name": "Achchiq Burger",
-      "price": 38000,
-      "desc": "Jalapeno va achchiq sous bilan",
-      "emoji": "🌶"
+      "name": "Burger Duble cheese",
+      "price": 34000,
+      "desc": "Ikki qavat pishloq",
+      "emoji": "🧀"
     },
     {
-      "id": "l1",
+      "id": "b5",
+      "cat": "burger",
+      "name": "Burger Qazili",
+      "price": 27000,
+      "desc": "Qazi bilan",
+      "emoji": "🍔"
+    },
+    {
+      "id": "h1s",
+      "cat": "xotdog",
+      "name": "Xotdog Salatli (kichik)",
+      "price": 13000,
+      "emoji": "🌭",
+      "tags": [
+        "hit"
+      ]
+    },
+    {
+      "id": "h1m",
+      "cat": "xotdog",
+      "name": "Xotdog Salatli (o'rta)",
+      "price": 18000,
+      "emoji": "🌭"
+    },
+    {
+      "id": "h1l",
+      "cat": "xotdog",
+      "name": "Xotdog Salatli (katta)",
+      "price": 21000,
+      "emoji": "🌭"
+    },
+    {
+      "id": "h2s",
+      "cat": "xotdog",
+      "name": "Xotdog Salatli pishloqli (kichik)",
+      "price": 16000,
+      "emoji": "🌭"
+    },
+    {
+      "id": "h2m",
+      "cat": "xotdog",
+      "name": "Xotdog Salatli pishloqli (o'rta)",
+      "price": 21000,
+      "emoji": "🌭"
+    },
+    {
+      "id": "h2l",
+      "cat": "xotdog",
+      "name": "Xotdog Salatli pishloqli (katta)",
+      "price": 24000,
+      "emoji": "🌭"
+    },
+    {
+      "id": "h3s",
+      "cat": "xotdog",
+      "name": "Xotdog Qazili (kichik)",
+      "price": 15000,
+      "emoji": "🌭"
+    },
+    {
+      "id": "h3m",
+      "cat": "xotdog",
+      "name": "Xotdog Qazili (o'rta)",
+      "price": 20000,
+      "emoji": "🌭"
+    },
+    {
+      "id": "h3l",
+      "cat": "xotdog",
+      "name": "Xotdog Qazili (katta)",
+      "price": 25000,
+      "emoji": "🌭"
+    },
+    {
+      "id": "h4s",
+      "cat": "xotdog",
+      "name": "Xotdog Katletli (kichik)",
+      "price": 19000,
+      "emoji": "🌭"
+    },
+    {
+      "id": "h4m",
+      "cat": "xotdog",
+      "name": "Xotdog Katletli (o'rta)",
+      "price": 27000,
+      "emoji": "🌭"
+    },
+    {
+      "id": "h4l",
+      "cat": "xotdog",
+      "name": "Xotdog Katletli (katta)",
+      "price": 35000,
+      "emoji": "🌭"
+    },
+    {
+      "id": "h5s",
+      "cat": "xotdog",
+      "name": "Xotdog Shashlikli (kichik)",
+      "price": 18000,
+      "emoji": "🌭"
+    },
+    {
+      "id": "h5m",
+      "cat": "xotdog",
+      "name": "Xotdog Shashlikli (o'rta)",
+      "price": 27000,
+      "emoji": "🌭"
+    },
+    {
+      "id": "h5l",
+      "cat": "xotdog",
+      "name": "Xotdog Shashlikli (katta)",
+      "price": 35000,
+      "emoji": "🌭"
+    },
+    {
+      "id": "l1s",
       "cat": "lavash",
-      "name": "Lavash (tovuq)",
-      "price": 28000,
-      "desc": "Tovuq go'shti, sabzavot, sous",
+      "name": "Lavash Go'shtli (kichik)",
+      "price": 30000,
       "emoji": "🌯",
       "tags": [
         "hit"
       ]
     },
     {
-      "id": "l2",
+      "id": "l1m",
       "cat": "lavash",
-      "name": "Lavash (mol)",
-      "price": 33000,
-      "desc": "Mol go'shti, sabzavot, sous",
+      "name": "Lavash Go'shtli (o'rta)",
+      "price": 35000,
       "emoji": "🌯"
     },
     {
-      "id": "l3",
+      "id": "l1l",
       "cat": "lavash",
-      "name": "Hot-dog",
-      "price": 18000,
-      "desc": "Klassik hot-dog, ketchup va gorchitsa",
-      "emoji": "🌭"
-    },
-    {
-      "id": "l4",
-      "cat": "lavash",
-      "name": "Shaurma XXL",
+      "name": "Lavash Go'shtli (katta)",
       "price": 40000,
-      "desc": "Katta hajm, qo'shimcha go'sht",
       "emoji": "🌯"
     },
     {
-      "id": "s1",
-      "cat": "sides",
-      "name": "Fri kartoshka",
-      "price": 15000,
-      "desc": "O'rta porsiya",
-      "emoji": "🍟",
+      "id": "l2s",
+      "cat": "lavash",
+      "name": "Lavash Pishloqli (kichik)",
+      "price": 33000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l2m",
+      "cat": "lavash",
+      "name": "Lavash Pishloqli (o'rta)",
+      "price": 38000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l2l",
+      "cat": "lavash",
+      "name": "Lavash Pishloqli (katta)",
+      "price": 43000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l3s",
+      "cat": "lavash",
+      "name": "Lavash Tovuq go'shtli (kichik)",
+      "price": 30000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l3m",
+      "cat": "lavash",
+      "name": "Lavash Tovuq go'shtli (o'rta)",
+      "price": 35000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l3l",
+      "cat": "lavash",
+      "name": "Lavash Tovuq go'shtli (katta)",
+      "price": 40000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l4s",
+      "cat": "lavash",
+      "name": "Lavash Tovuq go'shtli va pishloqli (kichik)",
+      "price": 33000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l4m",
+      "cat": "lavash",
+      "name": "Lavash Tovuq go'shtli va pishloqli (o'rta)",
+      "price": 38000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l4l",
+      "cat": "lavash",
+      "name": "Lavash Tovuq go'shtli va pishloqli (katta)",
+      "price": 43000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l5s",
+      "cat": "lavash",
+      "name": "Lavash Kabobli va pishloqli (kichik)",
+      "price": 30000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l5m",
+      "cat": "lavash",
+      "name": "Lavash Kabobli va pishloqli (o'rta)",
+      "price": 35000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l5l",
+      "cat": "lavash",
+      "name": "Lavash Kabobli va pishloqli (katta)",
+      "price": 40000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l6s",
+      "cat": "lavash",
+      "name": "Lavash Qazili va go'shtli (kichik)",
+      "price": 34000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l6m",
+      "cat": "lavash",
+      "name": "Lavash Qazili va go'shtli (o'rta)",
+      "price": 40000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l6l",
+      "cat": "lavash",
+      "name": "Lavash Qazili va go'shtli (katta)",
+      "price": 45000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l7s",
+      "cat": "lavash",
+      "name": "Lavash Sasiskali (kichik)",
+      "price": 25000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l7m",
+      "cat": "lavash",
+      "name": "Lavash Sasiskali (o'rta)",
+      "price": 30000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l7l",
+      "cat": "lavash",
+      "name": "Lavash Sasiskali (katta)",
+      "price": 35000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l8s",
+      "cat": "lavash",
+      "name": "Lavash Sasiskali va pishloqli (kichik)",
+      "price": 30000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l8m",
+      "cat": "lavash",
+      "name": "Lavash Sasiskali va pishloqli (o'rta)",
+      "price": 35000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l8l",
+      "cat": "lavash",
+      "name": "Lavash Sasiskali va pishloqli (katta)",
+      "price": 40000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l9s",
+      "cat": "lavash",
+      "name": "Lavash Shashlikli (kichik)",
+      "price": 30000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l9m",
+      "cat": "lavash",
+      "name": "Lavash Shashlikli (o'rta)",
+      "price": 35000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "l9l",
+      "cat": "lavash",
+      "name": "Lavash Shashlikli (katta)",
+      "price": 40000,
+      "emoji": "🌯"
+    },
+    {
+      "id": "d1s",
+      "cat": "donar",
+      "name": "Donar Go'shtli (kichik)",
+      "price": 30000,
+      "emoji": "🥙",
       "tags": [
         "hit"
       ]
     },
     {
-      "id": "s2",
-      "cat": "sides",
-      "name": "Fri katta",
-      "price": 20000,
-      "desc": "Katta porsiya",
-      "emoji": "🍟"
+      "id": "d1m",
+      "cat": "donar",
+      "name": "Donar Go'shtli (o'rta)",
+      "price": 35000,
+      "emoji": "🥙"
     },
     {
-      "id": "s3",
-      "cat": "sides",
-      "name": "Naggets (6 dona)",
-      "price": 22000,
-      "desc": "Tovuq nagetslari",
-      "emoji": "🍗"
+      "id": "d1l",
+      "cat": "donar",
+      "name": "Donar Go'shtli (katta)",
+      "price": 40000,
+      "emoji": "🥙"
     },
     {
-      "id": "s4",
-      "cat": "sides",
-      "name": "Piyoz halqalari",
-      "price": 18000,
-      "desc": "Xrustyashiy onion rings",
-      "emoji": "🧅"
+      "id": "d2s",
+      "cat": "donar",
+      "name": "Donar Pishloqli (kichik)",
+      "price": 33000,
+      "emoji": "🥙"
     },
     {
-      "id": "d1",
-      "cat": "drink",
-      "name": "Coca-Cola 0.5",
-      "price": 9000,
-      "desc": "",
-      "emoji": "🥤"
+      "id": "d2m",
+      "cat": "donar",
+      "name": "Donar Pishloqli (o'rta)",
+      "price": 38000,
+      "emoji": "🥙"
     },
     {
-      "id": "d2",
-      "cat": "drink",
-      "name": "Fanta 0.5",
-      "price": 9000,
-      "desc": "",
-      "emoji": "🥤"
+      "id": "d2l",
+      "cat": "donar",
+      "name": "Donar Pishloqli (katta)",
+      "price": 43000,
+      "emoji": "🥙"
     },
     {
-      "id": "d3",
-      "cat": "drink",
-      "name": "Suv 0.5",
-      "price": 4000,
-      "desc": "",
-      "emoji": "💧"
+      "id": "d3s",
+      "cat": "donar",
+      "name": "Donar Tovuq go'shtli (kichik)",
+      "price": 30000,
+      "emoji": "🥙"
     },
     {
-      "id": "d4",
-      "cat": "drink",
-      "name": "Choy",
-      "price": 5000,
-      "desc": "Qora yoki ko'k",
-      "emoji": "🍵"
+      "id": "d3m",
+      "cat": "donar",
+      "name": "Donar Tovuq go'shtli (o'rta)",
+      "price": 35000,
+      "emoji": "🥙"
     },
     {
-      "id": "d5",
-      "cat": "drink",
-      "name": "Milkshake",
-      "price": 25000,
-      "desc": "Shokolad / vanil / qulupnay",
-      "emoji": "🥤"
+      "id": "d3l",
+      "cat": "donar",
+      "name": "Donar Tovuq go'shtli (katta)",
+      "price": 40000,
+      "emoji": "🥙"
+    },
+    {
+      "id": "d4s",
+      "cat": "donar",
+      "name": "Donar Tovuq go'shtli va pishloqli (kichik)",
+      "price": 33000,
+      "emoji": "🥙"
+    },
+    {
+      "id": "d4m",
+      "cat": "donar",
+      "name": "Donar Tovuq go'shtli va pishloqli (o'rta)",
+      "price": 38000,
+      "emoji": "🥙"
+    },
+    {
+      "id": "d4l",
+      "cat": "donar",
+      "name": "Donar Tovuq go'shtli va pishloqli (katta)",
+      "price": 43000,
+      "emoji": "🥙"
+    },
+    {
+      "id": "d5s",
+      "cat": "donar",
+      "name": "Donar Qazili va go'shtli (kichik)",
+      "price": 32000,
+      "emoji": "🥙"
+    },
+    {
+      "id": "d5m",
+      "cat": "donar",
+      "name": "Donar Qazili va go'shtli (o'rta)",
+      "price": 37000,
+      "emoji": "🥙"
+    },
+    {
+      "id": "d5l",
+      "cat": "donar",
+      "name": "Donar Qazili va go'shtli (katta)",
+      "price": 42000,
+      "emoji": "🥙"
+    },
+    {
+      "id": "x1s",
+      "cat": "xaggi",
+      "name": "Xaggi Go'shtli (kichik)",
+      "price": 30000,
+      "emoji": "🥪"
+    },
+    {
+      "id": "x1m",
+      "cat": "xaggi",
+      "name": "Xaggi Go'shtli (o'rta)",
+      "price": 35000,
+      "emoji": "🥪"
+    },
+    {
+      "id": "x1l",
+      "cat": "xaggi",
+      "name": "Xaggi Go'shtli (katta)",
+      "price": 40000,
+      "emoji": "🥪"
+    },
+    {
+      "id": "x2s",
+      "cat": "xaggi",
+      "name": "Xaggi Pishloqli (kichik)",
+      "price": 33000,
+      "emoji": "🥪"
+    },
+    {
+      "id": "x2m",
+      "cat": "xaggi",
+      "name": "Xaggi Pishloqli (o'rta)",
+      "price": 38000,
+      "emoji": "🥪"
+    },
+    {
+      "id": "x2l",
+      "cat": "xaggi",
+      "name": "Xaggi Pishloqli (katta)",
+      "price": 43000,
+      "emoji": "🥪"
+    },
+    {
+      "id": "x3s",
+      "cat": "xaggi",
+      "name": "Xaggi Tovuq go'shtli (kichik)",
+      "price": 30000,
+      "emoji": "🥪"
+    },
+    {
+      "id": "x3m",
+      "cat": "xaggi",
+      "name": "Xaggi Tovuq go'shtli (o'rta)",
+      "price": 35000,
+      "emoji": "🥪"
+    },
+    {
+      "id": "x3l",
+      "cat": "xaggi",
+      "name": "Xaggi Tovuq go'shtli (katta)",
+      "price": 40000,
+      "emoji": "🥪"
+    },
+    {
+      "id": "x4s",
+      "cat": "xaggi",
+      "name": "Xaggi Tovuq go'shtli va sirli (kichik)",
+      "price": 33000,
+      "emoji": "🥪"
+    },
+    {
+      "id": "x4m",
+      "cat": "xaggi",
+      "name": "Xaggi Tovuq go'shtli va sirli (o'rta)",
+      "price": 38000,
+      "emoji": "🥪"
+    },
+    {
+      "id": "x4l",
+      "cat": "xaggi",
+      "name": "Xaggi Tovuq go'shtli va sirli (katta)",
+      "price": 43000,
+      "emoji": "🥪"
+    },
+    {
+      "id": "x5s",
+      "cat": "xaggi",
+      "name": "Xaggi Qazili va go'shtli (kichik)",
+      "price": 35000,
+      "emoji": "🥪"
+    },
+    {
+      "id": "x5m",
+      "cat": "xaggi",
+      "name": "Xaggi Qazili va go'shtli (o'rta)",
+      "price": 40000,
+      "emoji": "🥪"
+    },
+    {
+      "id": "x5l",
+      "cat": "xaggi",
+      "name": "Xaggi Qazili va go'shtli (katta)",
+      "price": 45000,
+      "emoji": "🥪"
+    },
+    {
+      "id": "k1",
+      "cat": "kabob",
+      "name": "Non kabob (kichik)",
+      "price": 35000,
+      "emoji": "🍢"
+    },
+    {
+      "id": "k2",
+      "cat": "kabob",
+      "name": "Non kabob (katta)",
+      "price": 40000,
+      "emoji": "🍢"
     },
     {
       "id": "c1",
-      "cat": "sauce",
-      "name": "Ketchup",
-      "price": 2000,
-      "desc": "",
-      "emoji": "🥫"
+      "cat": "drink",
+      "name": "Coca-Cola",
+      "price": 4000,
+      "emoji": "🥤"
     },
     {
       "id": "c2",
-      "cat": "sauce",
-      "name": "Mayonez",
-      "price": 2000,
-      "desc": "",
-      "emoji": "🥫"
+      "cat": "drink",
+      "name": "Aysti",
+      "price": 10000,
+      "emoji": "🧊"
     },
     {
       "id": "c3",
-      "cat": "sauce",
-      "name": "Sirli sous",
-      "price": 3000,
-      "desc": "Uy sousi",
-      "emoji": "🥫"
+      "cat": "drink",
+      "name": "Kofe 3v1",
+      "price": 5000,
+      "desc": "Idish bilan +1 000 so'm",
+      "emoji": "☕"
     },
     {
       "id": "c4",
-      "cat": "sauce",
-      "name": "Chili sous",
+      "cat": "drink",
+      "name": "Kofe qora",
+      "price": 8000,
+      "desc": "Idish bilan +1 000 so'm",
+      "emoji": "☕"
+    },
+    {
+      "id": "c5",
+      "cat": "drink",
+      "name": "Choy",
+      "price": 2000,
+      "desc": "Idish bilan +1 000 so'm",
+      "emoji": "🍵"
+    },
+    {
+      "id": "c6",
+      "cat": "drink",
+      "name": "Limon choy",
+      "price": 7000,
+      "emoji": "🍋"
+    },
+    {
+      "id": "c7",
+      "cat": "drink",
+      "name": "Novvot choy",
       "price": 3000,
-      "desc": "Achchiq",
-      "emoji": "🌶"
+      "emoji": "🍵"
     }
   ],
   "banners": [
@@ -284,25 +731,25 @@
     {
       "id": "hit",
       "badge": "HIT",
-      "title": "Darhon Burger",
-      "sub": "Ikki qavat go'sht, chedder, maxsus sous",
-      "emoji": "🍔",
+      "title": "Lavash Go'shtli",
+      "sub": "Eng ko'p buyurtma qilinadigan taom",
+      "emoji": "🌯",
       "bg": "#FF6B1A",
       "bg2": "#FF9D2F",
-      "act": "item",
-      "val": "b1",
+      "act": "cat",
+      "val": "lavash",
       "active": true
     },
     {
-      "id": "xxl",
-      "badge": "YANGI",
-      "title": "Shaurma XXL",
-      "sub": "Katta hajm, qo'shimcha go'sht",
-      "emoji": "🌯",
+      "id": "burger",
+      "badge": "MENYU",
+      "title": "Burgerlar",
+      "sub": "Katletli, Big, Duble cheese",
+      "emoji": "🍔",
       "bg": "#1F2937",
       "bg2": "#4B5563",
-      "act": "item",
-      "val": "l4",
+      "act": "cat",
+      "val": "burger",
       "active": true
     }
   ]
