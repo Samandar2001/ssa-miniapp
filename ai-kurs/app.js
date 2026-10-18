@@ -116,7 +116,7 @@ function mdToHtml(src, opt = {}) {
 
 // ---------------- navigatsiya ----------------
 const TABS = {
-  student: [['home', '📚', 'Darslarim'], ['profile', '👤', 'Profil']],
+  student: [['home', '🏠', 'Kurs'], ['prompts', '📋', 'Promptlar'], ['work', '📝', 'Natijalar'], ['profile', '👤', 'Profil']],
   teacher: [['groups', '👥', 'Guruhlar'], ['courses', '📖', 'Darslar'], ['profile', '👤', 'Profil']],
   admin: [['dash', '📊', 'Panel'], ['groups', '👥', 'Guruhlar'], ['students', '🎓', 'Talabalar'], ['courses', '📖', 'Darslar'], ['profile', '👤', 'Profil']],
 };
@@ -138,7 +138,7 @@ function renderTabs() {
   $('#tabs').innerHTML = '<div class="in">' + tabsFor().map(([k, ic, l]) =>
     `<button class="tab ${S.tab === k && !S.stack.length ? 'on' : ''}" data-act="tab" data-k="${k}"><span class="ic">${ic}</span>${l}${k === 'groups' && rev ? `<span class="dot">${rev}</span>` : ''}</button>`).join('') + '</div>';
 }
-function setTab(k) { S.tab = k; S.stack = []; render(); window.scrollTo(0, 0); }
+function setTab(k) { S.tab = k; S.stack = []; S.cache.promptsList = null; render(); window.scrollTo(0, 0); }
 function go(view, params = {}) { S.stack.push({ view, params }); render(); window.scrollTo(0, 0); haptic(); }
 function back() { S.stack.pop(); render(); }
 function current() { return S.stack.length ? S.stack[S.stack.length - 1] : { view: S.tab, params: {} }; }
@@ -151,7 +151,7 @@ async function render() {
   try {
     const html = await fn(params);
     if (current().view !== view) return;
-    const banner = isPreview() ? `<div class="card tight row between mb" style="border-left:5px solid var(--warn)"><div class="small"><b>👀 Talaba ko'rinishi</b><br><span class="muted">Ilova talabaga shunday ko'rinadi</span></div><button class="btn sm" data-act="previewOff">⚙️ Panelga qaytish</button></div>` : '';
+    const banner = isPreview() ? `<div class="card tight row between mb" style="border-left:5px solid var(--warn)"><div class="small"><b>👀 Talaba ko'rinishi</b><br><span class="muted">Ilova talabaga shunday ko'rinadi</span></div><button class="btn sm" data-act="previewOff">⚙️ Panelga qaytish</button></div>${previewCourses().length > 1 ? `<div class="chips"><span class="tiny muted" style="align-self:center">Kurs:</span>${previewCourses().map((k) => `<button class="chip ${k === curEnrollment().course ? 'on' : ''}" data-act="pickPreview" data-c="${k}">${h(course(k).title)}</button>`).join('')}</div>` : ''}` : '';
     app.innerHTML = `<div class="view">${banner}${S.stack.length && !inTg() ? '<button class="btn sm ghost mb" data-act="back">← Orqaga</button>' : ''}${html}</div>`;
   } catch (e) {
     app.innerHTML = `<div class="view"><div class="empty"><div class="e">⚠️</div>${h(e.message)}<div class="mt"><button class="btn sm" data-act="reload">Qayta urinish</button></div></div></div>`;
@@ -194,61 +194,155 @@ function contacts() {
   </div>`;
 }
 
-function enrollmentBlock(e) {
+// ---- talaba: joriy kurs ----
+function previewEnrollment(k) {
+  const c = course(k);
+  return {
+    id: 0, course: k, courseTitle: c.title, package: 'full', packageTitle: "To'liq kurs (1–12)", status: 'active', preview: true,
+    group: { name: 'Namuna guruh', schedule: 'Sh, Ya 10:00–13:00', location: "O'quv markazi" },
+    teacher: null, attended: 0, submissions: 0, reviewed: 0,
+    lessons: c.lessons.map((l) => ({ n: l.n, title: l.title, inPackage: true, unlocked: true, opened_at: null, done: 0, submitted: false })),
+  };
+}
+function previewCourses() { return (S.me && S.me.teaches && S.me.teaches.length) ? S.me.teaches : ['biznes', 'umumiy']; }
+function curEnrollment() {
+  if (isPreview()) {
+    const ks = previewCourses();
+    return previewEnrollment(ks.includes(S.previewCourse) ? S.previewCourse : ks[0]);
+  }
+  const list = (S.me && S.me.enrollments) || [];
+  return list.find((e) => e.course === S.curCourse) || list[0] || null;
+}
+function courseSwitcher() {
+  if (isPreview()) return ''; // admin uchun kurs tanlash bannerda
+  const list = S.me.enrollments;
+  if (list.length < 2) return '';
+  const cur = curEnrollment().course;
+  return `<div class="chips">${list.map((e) => `<button class="chip ${e.course === cur ? 'on' : ''}" data-act="pickCourse" data-c="${e.course}">${h(e.courseTitle)}</button>`).join('')}</div>`;
+}
+
+const DAY = 864e5;
+const isNew = (l) => l.unlocked && l.opened_at && !l.done && Date.now() - new Date(l.opened_at).getTime() < 3 * DAY;
+
+function lessonRow(e, l, color) {
+  let st;
+  if (!l.unlocked) st = '<span class="badge">🔒</span>';
+  else if (l.done || l.submitted) st = `<span class="badge ok">✓ Bajarildi</span>`;
+  else if (isNew(l)) st = '<span class="badge warn">🆕 Yangi</span>';
+  else st = '<span class="badge info">Ochiq</span>';
+  return `<button class="item ${l.unlocked ? '' : 'locked'}" ${l.unlocked ? `data-act="openLesson" data-c="${e.course}" data-n="${l.n}"` : 'data-act="lockedLesson"'}>
+    <div class="num" ${l.unlocked ? `style="background:${(l.done || l.submitted) ? 'var(--ok)' : color};color:#fff"` : ''}>${(l.done || l.submitted) ? '✓' : l.n}</div>
+    <div class="grow"><div class="b">${h(l.title)}</div>${l.unlocked && l.opened_at ? `<div class="tiny muted">${l.n}-dars · ochilgan ${h(fmtDate(l.opened_at))}</div>` : `<div class="tiny muted">${l.n}-dars</div>`}</div>${st}</button>`;
+}
+
+function studentHome(e) {
   const c = course(e.course);
-  const total = e.lessons.filter((l) => l.inPackage).length;
-  const opened = e.lessons.filter((l) => l.unlocked).length;
-  const doneLessons = e.lessons.filter((l) => l.unlocked && l.done).length;
-  const cert = S.me.certificates.find((x) => x.course === e.course);
+  const inPkg = e.lessons.filter((l) => l.inPackage);
+  const opened = inPkg.filter((l) => l.unlocked);
+  const doneL = inPkg.filter((l) => l.unlocked && (l.done || l.submitted));
+  const pct = inPkg.length ? Math.round((opened.length / inPkg.length) * 100) : 0;
+  const exDone = inPkg.reduce((s, l) => s + (l.done || 0), 0);
+  const cert = !e.preview && S.me.certificates.find((x) => x.course === e.course);
+  const first = (S.me.user.full_name || S.me.user.name || '').split(' ')[0];
+
+  // keyingi qadam
+  const pend = opened.filter((l) => !l.done && !l.submitted);
+  const todo = pend.filter(isNew).sort((a, b) => b.n - a.n)[0] || pend.sort((a, b) => a.n - b.n)[0];
+  let next;
+  if (cert) next = `<div class="next ok"><div class="k">🎓 KURS TUGATILDI</div><div class="t">Tabriklaymiz! Sertifikatingiz tayyor.</div><button class="btn sm ok" data-act="openCert" data-code="${h(cert.code)}">Sertifikatni ochish</button></div>`;
+  else if (todo) next = `<div class="next"><div class="k">${isNew(todo) ? '🆕 YANGI DARS' : '▶️ DAVOM ETING'}</div><div class="t">${todo.n}-dars: ${h(todo.title)}</div><button class="btn sm" data-act="openLesson" data-c="${e.course}" data-n="${todo.n}">Darsni ochish</button></div>`;
+  else if (opened.length && opened.length === inPkg.length) next = `<div class="next ok"><div class="k">✅ HAMMA DARSLAR</div><div class="t">Barcha darslar bajarildi. Sertifikatni o'qituvchingiz beradi.</div></div>`;
+  else if (opened.length) next = `<div class="next"><div class="k">⏳ KEYINGI DARS</div><div class="t">Ochilgan darslar bajarildi 👏 Keyingisi${e.group && e.group.schedule ? ' — ' + h(e.group.schedule) : ''} darsida ochiladi.</div></div>`;
+  else next = `<div class="next"><div class="k">🚀 BOSHLANISH</div><div class="t">Birinchi dars ${e.group && e.group.start_date ? h(fmtDate(e.group.start_date)) + ' kuni ' : ''}o'qituvchi uni boshlaganda ochiladi va botga xabar keladi.</div></div>`;
+
+  // darslar modullar bo'yicha
+  const mods = e.package === 'full'
+    ? [1, 2].map((m) => { const pk = (c.packages || []).find((x) => x.key === 'modul' + m); return [pk ? pk.title : m + '-modul', inPkg.filter((l) => (m === 1 ? l.n <= 6 : l.n > 6))]; })
+    : [[e.packageTitle, inPkg]];
+
   return `
-  <div class="lesson-head ${e.course}"><div class="k">${h(e.packageTitle).toUpperCase()}</div><h1>${h(c.title)}</h1>
-    ${e.group ? `<div style="opacity:.92;margin-top:6px">👥 ${h(e.group.name)}${e.group.schedule ? '<br>📅 ' + h(e.group.schedule) : ''}${e.group.start_date ? ' · boshlanish ' + h(fmtDate(e.group.start_date)) : ''}${e.group.location ? '<br>📍 ' + h(e.group.location) : ''}</div>` : ''}
-    <div class="row mt"><div class="bar grow" style="background:rgba(255,255,255,.2)"><i style="width:${total ? Math.round(opened / total * 100) : 0}%;background:#fff"></i></div><span class="small" style="opacity:.9">${opened}/${total} dars</span></div>
+  ${courseSwitcher()}
+  <div class="hero2 ${e.course}">
+    <div class="grow">
+      <div class="k">${first ? 'Salom, ' + h(first) + '! 👋' : 'Xush kelibsiz! 👋'}</div>
+      <h1>${h(c.title)}</h1>
+      <div class="sub">${e.group ? '👥 ' + h(e.group.name) : ''}</div>
+    </div>
+    <div class="ring" style="--p:${pct}"><div><b>${opened.length}</b><span>/${inPkg.length}</span></div></div>
   </div>
-  ${cert ? `<div class="card row" data-act="openCert" data-code="${h(cert.code)}" style="cursor:pointer;border-left:5px solid var(--ok)"><div style="font-size:30px">🎓</div><div class="grow"><div class="b">Kurs tugatildi!</div><div class="small muted">Sertifikat: ${h(cert.code)}</div></div><span class="chev">›</span></div>` : ''}
-  ${opened === 0 ? "<div class=\"card small\">⏳ Birinchi dars o'qituvchi uni boshlaganda shu yerda ochiladi va sizga botda xabar keladi.</div>" : `<div class="small muted mb" style="margin-left:4px">Mashqlari belgilangan darslar: ${doneLessons}/${opened}</div>`}
-  <div class="list">${e.lessons.filter((l) => l.inPackage).map((l) => `
-    <button class="item ${l.unlocked ? '' : 'locked'}" ${l.unlocked ? `data-act="openLesson" data-c="${e.course}" data-n="${l.n}"` : 'data-act="lockedLesson"'}>
-      <div class="num" ${l.unlocked ? `style="background:${c.color};color:#fff"` : ''}>${l.n}</div>
-      <div class="grow b">${h(l.title)}</div>${l.unlocked ? (l.done ? `<span class="badge ok">✓ ${l.done}</span>` : '<span class="badge info">Ochiq</span>') : '<span class="badge">🔒</span>'}</button>`).join('')}</div>`;
+  ${next}
+  <div class="mini">
+    <div><b>${opened.length}</b><span>dars ochildi</span></div>
+    <div><b>${exDone}</b><span>mashq bajarildi</span></div>
+    <div><b>${e.attended}${opened.length ? '/' + opened.length : ''}</b><span>davomat</span></div>
+    <div><b>${e.submissions}</b><span>topshiriq</span></div>
+  </div>
+  ${!S.me.user.full_name && !e.preview ? `<div class="card row" data-act="tab" data-k="profile" style="cursor:pointer;border-left:5px solid var(--warn)"><div class="grow small">✍️ Sertifikatga yoziladigan <b>ism familiyangizni</b> profilda kiriting</div><span class="chev">›</span></div>` : ''}
+  ${e.group ? `<div class="card col small">
+    ${e.group.schedule ? `<div>📅 <b>Jadval:</b> ${h(e.group.schedule)}${e.group.start_date ? ' · boshlanish ' + h(fmtDate(e.group.start_date)) : ''}</div>` : ''}
+    ${e.group.location ? `<div>📍 <b>Manzil:</b> ${h(e.group.location)}</div>` : ''}
+    ${e.teacher ? `<div class="row between"><div>👩‍🏫 <b>O'qituvchi:</b> ${h(e.teacher.name)}</div>${e.teacher.username ? `<button class="btn sm ghost" data-act="link" data-url="https://t.me/${h(e.teacher.username)}">✉️ Yozish</button>` : ''}</div>` : ''}
+  </div>` : ''}
+  ${mods.map(([title, ls]) => ls.length ? `<div class="section-title row between"><span>${h(title)}</span><span>${ls.filter((l) => l.unlocked && (l.done || l.submitted)).length}/${ls.length}</span></div>
+    <div class="list">${ls.map((l) => lessonRow(e, l, c.color)).join('')}</div>` : '').join('')}
+  ${!cert ? `<div class="card small muted center">🎓 Sertifikat kurs oxirida beriladi · bajarilgan darslar: <b>${doneL.length}/${inPkg.length}</b></div>` : ''}`;
 }
 
 V.home = async () => {
   if (!S.initData) return `<div class="empty"><div class="e">🤖</div>Ilovani Telegram'dagi bot orqali oching.${CFG.BOT_USERNAME ? `<div class="mt"><a class="btn" href="https://t.me/${h(CFG.BOT_USERNAME)}">Botga o'tish</a></div>` : ''}</div>`;
   if (S.cache.fresh) S.cache.fresh = false; else await loadMe();
-  if (isPreview()) {
-    const ks = S.me.teaches.length ? S.me.teaches : ['biznes', 'umumiy'];
-    if (ks.length === 1) return previewBlock(ks[0]);
-    return '<div class="title mb">Kurslarim</div>' + ks.map((k) => `
-      <button class="course ${k}" data-act="go" data-v="prevCourse" data-c="${k}"><span class="arrow">→</span>
-        <span class="badge-acc">Talaba ko'rinishi</span><h2>${h(course(k).title)}</h2><div style="opacity:.9">Namuna guruh</div>
-        <div class="facts"><span>${course(k).lessons.length} dars</span></div></button>`).join('');
-  }
-  const list = S.me.enrollments;
-  if (!list.length) return joinScreen();
-  const nameHint = !S.me.user.full_name ? `<div class="card row" data-act="tab" data-k="profile" style="cursor:pointer;border-left:5px solid var(--warn)"><div class="grow small">✍️ Sertifikatga yoziladigan <b>ism familiyangizni</b> profilda kiriting</div><span class="chev">›</span></div>` : '';
-  if (list.length === 1) return nameHint + enrollmentBlock(list[0]);
-  return nameHint + '<div class="title mb">Kurslarim</div>' + list.map((e) => `
-    <button class="course ${e.course}" data-act="openEnr" data-id="${e.id}"><span class="arrow">→</span>
-      <span class="badge-acc">${h(e.packageTitle)}</span><h2>${h(e.courseTitle)}</h2><div style="opacity:.9">${e.group ? h(e.group.name) : ''}</div>
-      <div class="facts"><span>${e.lessons.filter((l) => l.unlocked).length}/${e.lessons.filter((l) => l.inPackage).length} dars ochiq</span></div></button>`).join('');
+  const e = curEnrollment();
+  return e ? studentHome(e) : joinScreen();
 };
 
-// Talaba ko'rinishi uchun namuna: hamma darslar ochiq
-function previewBlock(k) {
-  const c = course(k);
-  return enrollmentBlock({
-    id: 0, course: k, courseTitle: c.title, packageTitle: "To'liq kurs (1–12)", status: 'active',
-    group: { name: 'Namuna guruh', schedule: 'Sh, Ya 10:00–13:00' },
-    lessons: c.lessons.map((l) => ({ n: l.n, title: l.title, inPackage: true, unlocked: true, done: 0 })),
-  });
-}
-V.prevCourse = ({ c }) => previewBlock(c);
+V.prompts = async () => {
+  if (!S.me) await loadMe();
+  const e = curEnrollment();
+  if (!e) return joinScreen();
+  const key = e.course + (isPreview() ? ':p' : '');
+  if (!S.cache.promptsList || S.cache.promptsKey !== key) {
+    S.cache.promptsList = (await api('my_prompts', { course: e.course })).prompts;
+    S.cache.promptsKey = key;
+  }
+  const q = (S.form.pq || '').toLowerCase();
+  const list = S.cache.promptsList.filter((p) => !q || (p.title + ' ' + p.text + ' ' + p.lesson).toLowerCase().includes(q));
+  const byLesson = {};
+  for (const p of list) (byLesson[p.n] ||= []).push(p);
+  S.cache.prompts = S.cache.prompts || {};
+  return `${courseSwitcher()}
+  <div class="title">Promptlar</div>
+  <div class="muted small mb">Ochilgan darslardagi tayyor so'rovlar — nusxa oling va [qavs] ichini o'zingiznikiga almashtiring.</div>
+  <div class="row mb"><input id="pq" class="grow" value="${h(S.form.pq || '')}" placeholder="Qidirish: post, rezyume, jadval..."><button class="btn sm" data-act="promptSearch">🔎</button></div>
+  ${list.length ? Object.entries(byLesson).map(([n, ps]) => `
+    <div class="section-title">${n}-dars · ${h(ps[0].lesson)}</div>
+    ${ps.map((p) => { const id = 'p' + Math.random().toString(36).slice(2, 8); S.cache.prompts[id] = p.text; return `
+      <div class="card" style="padding:12px 12px 4px"><div class="b mb" style="font-size:14px">${h(p.title)}</div>
+        <div class="prompt" style="margin:0 0 8px"><pre>${h(p.text)}</pre><div class="copy"><button class="btn sm ghost" data-act="copyPrompt" data-id="${id}">📋 Nusxa olish</button></div></div></div>`; }).join('')}`).join('')
+  : `<div class="empty"><div class="e">📋</div>${q ? 'Hech narsa topilmadi' : "Darslar ochilgach, ulardagi promptlar shu yerda to'planadi."}</div>`}`;
+};
+
+V.work = async () => {
+  if (!S.me) await loadMe();
+  const d = await api('my_work');
+  const subs = d.submissions;
+  const reviewed = subs.filter((s) => s.feedback || s.score != null);
+  return `<div class="title">Natijalarim</div>
+  <div class="muted small mb">Darslardan yuborgan natijalaringiz va o'qituvchi izohlari.</div>
+  ${subs.length ? `<div class="mini" style="grid-template-columns:repeat(3,1fr)">
+    <div><b>${subs.length}</b><span>yuborildi</span></div><div><b>${reviewed.length}</b><span>izoh olindi</span></div>
+    <div><b>${reviewed.filter((s) => s.score != null).length ? Math.round(reviewed.filter((s) => s.score != null).reduce((a, s) => a + s.score, 0) / reviewed.filter((s) => s.score != null).length) : '—'}</b><span>o'rtacha baho</span></div></div>
+    ${subs.map((s) => `<div class="card small col" data-act="openLesson" data-c="${s.course}" data-n="${s.lesson_no}" style="cursor:pointer">
+      <div class="row between"><b>${s.lesson_no}-dars · ${h(s.lessonTitle)}</b><span class="muted tiny">${h(fmtDate(s.created_at))}</span></div>
+      ${s.text ? `<div>${h(s.text)}</div>` : ''}${s.link ? `<div class="ellipsis" style="color:var(--link)">🔗 ${h(s.link)}</div>` : ''}
+      ${s.feedback || s.score != null ? `<div style="border-left:3px solid var(--ok);padding-left:10px">💬 ${h(s.feedback || '')}${s.score != null ? ` <span class="badge ok">${s.score}</span>` : ''}</div>` : "<div class=\"tiny muted\">⏳ O'qituvchi ko'rib chiqadi</div>"}
+    </div>`).join('')}`
+  : `<div class="empty"><div class="e">📝</div>Hali natija yubormadingiz.<div class="small mt">Har bir dars sahifasining pastida «Natijangizni yuboring» bo'limi bor.</div></div>`}`;
+};
 
 V.enr = async ({ id }) => {
   if (!S.me) await loadMe();
   const e = S.me.enrollments.find((x) => x.id === Number(id));
-  return e ? enrollmentBlock(e) : '<div class="empty">Topilmadi</div>';
+  return e ? studentHome(e) : '<div class="empty">Topilmadi</div>';
 };
 
 V.lesson = async ({ c, n }) => {
@@ -562,6 +656,9 @@ const ACT = {
   link: (d) => openLink(d.url),
   copy: (d) => copy(d.t),
   copyPrompt: (d) => copy(S.cache.prompts[d.id]),
+  pickPreview: (d) => { S.previewCourse = d.c; S.cache.fresh = S.tab === 'home'; haptic(); render(); },
+  pickCourse: (d) => { S.curCourse = d.c; S.cache.fresh = S.tab === 'home'; haptic(); render(); },
+  promptSearch: () => { S.form.pq = $('#pq').value; render(); },
   share: (d) => {
     const text = `«${d.name}» guruhiga qo'shilish uchun havolani bosing:`;
     const url = `https://t.me/share/url?url=${encodeURIComponent(d.url)}&text=${encodeURIComponent(text)}`;
@@ -645,7 +742,7 @@ document.addEventListener('change', (ev) => {
 });
 document.addEventListener('keydown', (ev) => {
   if (ev.key !== 'Enter') return;
-  const k = { 'u-q': 'userSearch', sq: 'studSearch', aq: 'addSearch', 'j-code': 'join' }[ev.target.id];
+  const k = { 'u-q': 'userSearch', sq: 'studSearch', aq: 'addSearch', pq: 'promptSearch', 'j-code': 'join' }[ev.target.id];
   if (k) ACT[k]({}, ev.target.closest('.card') && ev.target.closest('.card').querySelector('.btn'));
 });
 
