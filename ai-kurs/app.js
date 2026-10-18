@@ -83,8 +83,9 @@ function mdToHtml(src, opt = {}) {
         out += `<div class="formula">${h(buf.join(' ').replace(/\\text\{([^}]*)\}/g, '$1').replace(/\\times/g, '×'))}</div>`;
       } else {
         const id = 'p' + Math.random().toString(36).slice(2, 8);
-        (S.cache.prompts ||= {})[id] = buf.join('\n');
-        out += `<div class="prompt"><pre>${h(buf.join('\n'))}</pre><div class="copy"><button class="btn sm ghost" data-act="copyPrompt" data-id="${id}">📋 Nusxa olish</button></div></div>`;
+        const f = fillPrompt(buf.join('\n'), S.cache.lc);
+        (S.cache.prompts ||= {})[id] = f.text;
+        out += `<div class="prompt"><pre>${f.html}</pre><div class="copy"><button class="btn sm ghost" data-act="copyPrompt" data-id="${id}">📋 Nusxa olish</button></div></div>`;
       }
       continue;
     }
@@ -219,15 +220,127 @@ function courseSwitcher() {
   return `<div class="chips">${list.map((e) => `<button class="chip ${e.course === cur ? 'on' : ''}" data-act="pickCourse" data-c="${e.course}">${h(e.courseTitle)}</button>`).join('')}</div>`;
 }
 
+// ---- shaxsiylashtirish: talaba javoblariga moslashish ----
+const SOHA = {
+  biznes: [['cafe', '🍽', 'Kafe / restoran'], ['shop', '🛍', "Do'kon / savdo"], ['online', '📦', 'Onlayn savdo'], ['service', '💇', "Xizmat ko'rsatish"], ['edu', '🎓', "Ta'lim markazi"], ['prod', '🏭', 'Ishlab chiqarish'], ['other', '✏️', 'Boshqa']],
+  umumiy: [['student', '🎒', 'Talaba'], ['teacher', '👩‍🏫', "O'qituvchi"], ['office', '💼', 'Ofis xodimi'], ['biz', '🏪', 'Tadbirkor'], ['creative', '🎨', 'Dizayn / SMM'], ['med', '🩺', 'Tibbiyot'], ['home', '🏠', 'Uy bekasi'], ['other', '✏️', 'Boshqa']],
+};
+const GOALS = [['time', '⏱', 'Vaqt tejash'], ['money', '💰', "Ko'proq daromad"], ['content', '📣', 'Kontent yaratish'], ['docs', '📄', 'Hujjat ishlari'], ['learn', '📚', "O'rganish"]];
+const LEVELS = [['new', '🌱', 'Hech ishlatmaganman'], ['some', '🙂', 'Ba\'zan ishlataman'], ['daily', '🚀', 'Har kuni ishlataman']];
+const LIKES = [['text', '✍️', 'Matn'], ['image', '🖼', 'Rasm'], ['video', '🎬', 'Video'], ['table', '📊', 'Jadval / hisob'], ['auto', '🤖', 'Avtomatlashtirish']];
+// har bir dars qaysi maqsad/qiziqishga xizmat qiladi
+const LESSON_TAGS = {
+  biznes: { 1: ['time'], 2: ['content', 'text', 'money'], 3: ['content', 'image', 'video'], 4: ['money', 'content', 'image'], 5: ['money', 'text'], 6: ['money', 'text'], 7: ['docs', 'table', 'time'], 8: ['docs', 'time', 'text'], 9: ['auto', 'time'], 10: ['auto', 'table', 'time'], 11: ['auto', 'time'], 12: ['money', 'docs'] },
+  umumiy: { 1: ['learn'], 2: ['learn', 'text'], 3: ['text', 'docs', 'content'], 4: ['docs', 'table', 'time'], 5: ['learn', 'docs'], 6: ['learn'], 7: ['time'], 8: ['image', 'content'], 9: ['image', 'content', 'docs'], 10: ['video', 'content'], 11: ['learn'], 12: ['content', 'learn'] },
+};
+const TAG_RE = {
+  text: /post|matn|xat|javob|tavsif|e'lon|maqola/i, image: /rasm|logo|banner|dizayn|foto|surat|vizual/i, video: /video|reels|ssenariy|ovoz/i,
+  table: /jadval|excel|hisob|sheets|summa|moliya|xarajat/i, auto: /bot|avtomat|crm|zapier|make\.com|n8n/i,
+  content: /post|kontent|reels|instagram|telegram kanal|banner/i, docs: /hujjat|shartnoma|ariza|rezyume|xat|hisobot/i, money: /sotuv|narx|mijoz|aksiya|reklama|daromad/i,
+};
+const opt = (list, k) => list.find((x) => x[0] === k);
+const myI = () => (S.me && S.me.user && S.me.user.interests) || null;
+const myTags = (i = myI()) => (i ? [...(i.goals || []), ...(i.likes || [])] : []);
+const sohaLabel = (i, c) => { if (!i) return ''; const o = opt(SOHA[c] || [], i.soha); return i.soha_text || (o && i.soha !== 'other' ? o[2] : ''); };
+const lessonFit = (c, n, i = myI()) => { const t = myTags(i); return (LESSON_TAGS[c] && LESSON_TAGS[c][n] || []).filter((x) => t.includes(x)).length; };
+function recommended(c, i = myI()) {
+  if (!i) return new Set();
+  const ns = Object.keys(LESSON_TAGS[c] || {}).map(Number).map((n) => [n, lessonFit(c, n, i)]).filter((x) => x[1] > 0).sort((a, b) => b[1] - a[1] || a[0] - b[0]);
+  return new Set(ns.slice(0, 4).map((x) => x[0]));
+}
+const textFits = (s, i = myI()) => myTags(i).some((t) => TAG_RE[t] && TAG_RE[t].test(s));
+
+// promptdagi [qavs]larni talaba ma'lumoti bilan to'ldirish
+function fillPrompt(raw, c) {
+  const i = myI();
+  const soha = i ? (sohaLabel(i, c) || '').toLowerCase() : '';
+  const val = (k) => {
+    if (!i) return '';
+    k = k.toLowerCase().trim();
+    if (['biznes turi', 'turi', 'soha', 'kasb'].includes(k)) return soha;
+    if (['biznes nomi', 'nomi'].includes(k)) return i.name;
+    if (k === 'mahsulot') return i.product;
+    if (k === 'shahar') return i.city;
+    if (k === 'lavozim' && c === 'umumiy') return i.soha_text;
+    return '';
+  };
+  let text = '', html = '', last = 0;
+  for (const m of raw.matchAll(/\[([^\[\]\n]{1,60})\]/g)) {
+    const v = val(m[1]);
+    text += raw.slice(last, m.index) + (v || m[0]);
+    html += h(raw.slice(last, m.index)) + (v ? `<mark>${h(v)}</mark>` : `<span class="ph">${h(m[0])}</span>`);
+    last = m.index + m[0].length;
+  }
+  return { text: text + raw.slice(last), html: html + h(raw.slice(last)) };
+}
+
+function interestLine(i, c) {
+  if (!i) return '';
+  const s = opt(SOHA[c] || [], i.soha);
+  const parts = [`${s ? s[1] : '✏️'} ${h(sohaLabel(i, c) || (s ? s[2] : ''))}`];
+  for (const g of i.goals || []) { const o = opt(GOALS, g); if (o) parts.push(o[1] + ' ' + o[2]); }
+  const l = opt(LEVELS, i.level); if (l) parts.push(l[1]);
+  return parts.join(' · ');
+}
+
+// o'qituvchi uchun: guruh qiziqishlari xulosasi (darsni shunga moslash uchun)
+function groupInterests(students, c) {
+  const xs = students.map((s) => s.interests).filter(Boolean);
+  if (!xs.length) return '';
+  const count = (get, list) => { const m = {}; for (const i of xs) for (const k of [].concat(get(i) || [])) m[k] = (m[k] || 0) + 1;
+    return Object.entries(m).sort((a, b) => b[1] - a[1]).map(([k, n]) => { const o = opt(list, k); return o ? `<span class="chip">${o[1]} ${h(o[2])} · ${n}</span>` : ''; }).join(''); };
+  return `<div class="card tight col"><div class="tiny muted">🎯 Guruh qiziqishlari · ${xs.length}/${students.length} javob berdi</div>
+    <div class="wrapchips">${count((i) => i.soha, SOHA[c] || [])}</div>
+    <div class="wrapchips">${count((i) => i.goals, GOALS)}${count((i) => i.level, LEVELS)}</div></div>`;
+}
+
+// ---- onboarding: 5 savol ----
+const OB_STEPS = 5;
+function obState() {
+  if (!S.form.ob) { const i = myI() || {}; S.form.ob = { step: 0, soha: i.soha || '', soha_text: i.soha_text || '', name: i.name || '', product: i.product || '', city: i.city || '', goals: [...(i.goals || [])], level: i.level || '', likes: [...(i.likes || [])] }; }
+  return S.form.ob;
+}
+function onboard(c) {
+  const o = obState();
+  const tile = (list, field, multi) => `<div class="tiles">${list.map(([k, ic, l]) => {
+    const on = multi ? o[field].includes(k) : o[field] === k;
+    return `<button class="tile ${on ? 'on' : ''}" data-act="obPick" data-f="${field}" data-k="${k}" data-m="${multi ? 1 : ''}"><span>${ic}</span>${h(l)}</button>`; }).join('')}</div>`;
+  const biz = c === 'biznes';
+  const steps = [
+    [biz ? 'Biznesingiz qaysi sohada?' : 'Siz kimsiz?', tile(SOHA[c] || SOHA.umumiy, 'soha')],
+    [biz ? 'Biznesingiz haqida' : "O'zingiz haqingizda", `<div class="col">
+      ${o.soha === 'other' || !biz ? `<input id="ob-soha_text" value="${h(o.soha_text)}" placeholder="${biz ? 'Soha: masalan, mebel ishlab chiqarish' : 'Kasbingiz: masalan, buxgalter'}">` : ''}
+      ${biz ? `<input id="ob-name" value="${h(o.name)}" placeholder="Biznes nomi">
+      <input id="ob-product" value="${h(o.product)}" placeholder="Asosiy mahsulot / xizmat">` : ''}
+      <input id="ob-city" value="${h(o.city)}" placeholder="Shahar"></div>
+      <div class="tiny muted mt">✨ Promptlarga avtomatik qo'yiladi</div>`],
+    ['Asosiy maqsadingiz?', tile(GOALS, 'goals', true) + '<div class="tiny muted mt">2 tagacha</div>'],
+    ["AI'dan foydalanganmisiz?", tile(LEVELS, 'level')],
+    ['Nima qiziq?', tile(LIKES, 'likes', true)],
+  ];
+  const [q, body] = steps[o.step];
+  const last = o.step === OB_STEPS - 1;
+  return `<div class="ob">
+    <div class="ob-top"><div class="dots">${steps.map((_, i) => `<i class="${i <= o.step ? 'on' : ''}"></i>`).join('')}</div>${myI() || isPreview() ? '' : '<button class="link small" data-act="obSkip">Keyinroq</button>'}</div>
+    <div class="k">${o.step + 1}/${OB_STEPS}</div><h1>${q}</h1>${body}
+    <div class="ob-nav">${o.step ? '<button class="btn ghost" data-act="obBack">←</button>' : ''}<button class="btn" data-act="obNext">${last ? 'Tayyor ✓' : 'Keyingi'}</button></div>
+  </div>`;
+}
+function obSaveInputs() {
+  const o = obState();
+  for (const f of ['soha_text', 'name', 'product', 'city']) { const el = $('#ob-' + f); if (el) o[f] = el.value; }
+}
+V.onboard = () => onboard(curEnrollment() ? curEnrollment().course : 'umumiy');
+
 const DAY = 864e5;
 const isNew = (l) => l.unlocked && l.opened_at && !l.done && Date.now() - new Date(l.opened_at).getTime() < 3 * DAY;
 
-function lessonRow(e, l, color) {
+function lessonRow(e, l, color, rec) {
   const fin = l.done || l.submitted;
   const st = !l.unlocked ? '<span class="lk">🔒</span>' : isNew(l) && !fin ? '<span class="badge warn">Yangi</span>' : '<span class="chev">›</span>';
   return `<button class="item ${l.unlocked ? '' : 'locked'}" ${l.unlocked ? `data-act="openLesson" data-c="${e.course}" data-n="${l.n}"` : 'data-act="lockedLesson"'}>
     <div class="num" ${l.unlocked ? `style="background:${fin ? 'var(--ok)' : color};color:#fff"` : ''}>${fin ? '✓' : l.n}</div>
-    <div class="grow b">${h(l.title)}</div>${st}</button>`;
+    <div class="grow b">${h(l.title)}${rec && rec.has(l.n) ? ' <span class="star">⭐</span>' : ''}</div>${st}</button>`;
 }
 
 function studentHome(e) {
@@ -238,6 +351,7 @@ function studentHome(e) {
   const pct = inPkg.length ? Math.round((opened.length / inPkg.length) * 100) : 0;
   const cert = !e.preview && S.me.certificates.find((x) => x.course === e.course);
   const first = (S.me.user.full_name || S.me.user.name || '').split(' ')[0];
+  const rec = recommended(e.course);
 
   // keyingi qadam
   const pend = opened.filter((l) => !l.done && !l.submitted);
@@ -271,6 +385,8 @@ function studentHome(e) {
     <div><b>${e.attended}</b><span>davomat</span></div>
     <div><b>${e.submissions}</b><span>topshiriq</span></div>
   </div>
+  ${myI() ? `<button class="next" data-act="go" data-v="onboard"><div class="ic">🎯</div><div class="grow"><div class="k">Siz uchun ⭐</div><div class="t wrap">${interestLine(myI(), e.course)}</div></div><span class="chev">✏️</span></button>`
+    : `<button class="next warn" data-act="go" data-v="onboard"><div class="ic">🎯</div><div class="grow"><div class="k">5 ta savol · 1 daqiqa</div><div class="t">Kursni o'zingizga moslang</div></div><span class="chev">›</span></button>`}
   ${!S.me.user.full_name && !e.preview ? `<button class="next warn" data-act="tab" data-k="profile"><div class="ic">✍️</div><div class="grow t">Ism familiyangizni kiriting</div><span class="chev">›</span></button>` : ''}
   ${e.group && (e.group.schedule || e.group.location || e.teacher) ? `<div class="info">
     ${e.group.schedule ? `<span>📅 ${h(e.group.schedule)}</span>` : ''}
@@ -278,13 +394,14 @@ function studentHome(e) {
     ${e.teacher ? (e.teacher.username ? `<button data-act="link" data-url="https://t.me/${h(e.teacher.username)}">💬 ${h(e.teacher.name)}</button>` : `<span>👤 ${h(e.teacher.name)}</span>`) : ''}
   </div>` : ''}
   ${mods.map(([title, ls]) => ls.length ? `<div class="section-title row between"><span>${h(title)}</span><span>${ls.filter((l) => l.unlocked && (l.done || l.submitted)).length}/${ls.length}</span></div>
-    <div class="list">${ls.map((l) => lessonRow(e, l, c.color)).join('')}</div>` : '').join('')}`;
+    <div class="list">${ls.map((l) => lessonRow(e, l, c.color, rec)).join('')}</div>` : '').join('')}`;
 }
 
 V.home = async () => {
   if (!S.initData) return `<div class="empty"><div class="e">🤖</div>Ilovani Telegram'dagi bot orqali oching.${CFG.BOT_USERNAME ? `<div class="mt"><a class="btn" href="https://t.me/${h(CFG.BOT_USERNAME)}">Botga o'tish</a></div>` : ''}</div>`;
   if (S.cache.fresh) S.cache.fresh = false; else await loadMe();
   const e = curEnrollment();
+  if (e && !e.preview && !myI() && !S.obSkip) return onboard(e.course);
   return e ? studentHome(e) : joinScreen();
 };
 
@@ -298,18 +415,21 @@ V.prompts = async () => {
     S.cache.promptsKey = key;
   }
   const q = (S.form.pq || '').toLowerCase();
-  const list = S.cache.promptsList.filter((p) => !q || (p.title + ' ' + p.text + ' ' + p.lesson).toLowerCase().includes(q));
+  const fitOnly = !!myI() && S.form.pf !== 'all';
+  const all = S.cache.promptsList.map((p) => ({ ...p, fit: textFits(p.title + ' ' + p.text) || lessonFit(e.course, p.n) > 1 }));
+  const list = all.filter((p) => (!q || (p.title + ' ' + p.text + ' ' + p.lesson).toLowerCase().includes(q)) && (!fitOnly || q || p.fit));
   const byLesson = {};
   for (const p of list) (byLesson[p.n] ||= []).push(p);
   S.cache.prompts = S.cache.prompts || {};
   return `${courseSwitcher()}
   <div class="title mb">Promptlar</div>
   <div class="row mb"><input id="pq" class="grow" value="${h(S.form.pq || '')}" placeholder="🔎 Qidirish"><button class="btn sm" data-act="promptSearch">Izlash</button></div>
+  ${myI() ? `<div class="chips"><button class="chip ${fitOnly ? 'on' : ''}" data-act="pf" data-k="fit">⭐ Sizga mos · ${all.filter((p) => p.fit).length}</button><button class="chip ${fitOnly ? '' : 'on'}" data-act="pf" data-k="all">Hammasi · ${all.length}</button></div>` : ''}
   ${list.length ? Object.entries(byLesson).map(([n, ps]) => `
     <div class="section-title">${n}. ${h(ps[0].lesson)}</div>
-    ${ps.map((p) => { const id = 'p' + Math.random().toString(36).slice(2, 8); S.cache.prompts[id] = p.text; return `
-      <div class="pc"><div class="row between"><b>${h(p.title)}</b><button class="chip" data-act="copyPrompt" data-id="${id}">📋 Nusxa</button></div>
-        <pre data-act="expand">${h(p.text)}</pre></div>`; }).join('')}`).join('')
+    ${ps.sort((a, b) => b.fit - a.fit).map((p) => { const id = 'p' + Math.random().toString(36).slice(2, 8); const f = fillPrompt(p.text, e.course); S.cache.prompts[id] = f.text; return `
+      <div class="pc"><div class="row between"><b>${p.fit && myI() ? '⭐ ' : ''}${h(p.title)}</b><button class="chip" data-act="copyPrompt" data-id="${id}">📋 Nusxa</button></div>
+        <pre data-act="expand">${f.html}</pre></div>`; }).join('')}`).join('')
   : `<div class="empty"><div class="e">📋</div>${q ? 'Topilmadi' : "Hali yo'q"}</div>`}`;
 };
 
@@ -340,15 +460,19 @@ V.enr = async ({ id }) => {
 V.lesson = async ({ c, n }) => {
   const d = await api('lesson', { course: c, n: Number(n), preview: isPreview() });
   S.cache.lesson = { c, n: Number(n), progress: new Set(d.progress) };
+  S.cache.lc = c;
   const l = d.lesson;
+  const I = myI();
   const ex = (title) => {
     const on = S.cache.lesson.progress.has(title);
-    return `<div class="ex-done"><button class="toggle ${on ? 'on' : ''}" data-act="toggleEx" data-item="${h(title)}">${on ? '✓' : ''}</button><span class="small muted">${on ? 'Bajarildi' : 'Bajardim'}</span></div>`;
+    return `${I && textFits(title) ? '<div class="fit">⭐ Sizga mos</div>' : ''}<div class="ex-done"><button class="toggle ${on ? 'on' : ''}" data-act="toggleEx" data-item="${h(title)}">${on ? '✓' : ''}</button><span class="small muted">${on ? 'Bajarildi' : 'Bajardim'}</span></div>`;
   };
   const subs = d.submissions || [];
   return `
   <div class="lesson-head ${c}"><div class="k">${n}-DARS · ${h(course(c).title.toUpperCase())}</div><h1>${h(l.title)}</h1></div>
   <div class="lead ${c}">${inline(l.lead)}</div>
+  ${I && !d.full ? [lessonFit(c, Number(n), I) ? '⭐ Maqsadingizga mos dars' : '', sohaLabel(I, c) ? `🎯 Mashqlarni <b>${h(I.name || sohaLabel(I, c))}</b> misolida bajaring — promptlarga ma'lumotingiz qo'yilgan` : '', I.level === 'new' ? '🌱 <b>chatgpt.com</b> yoki <b>gemini.google.com</b> → promptni nusxa oling → joylang' : '']
+    .filter(Boolean).map((t, i, a) => (i ? '' : '<div class="tip">') + t + (i === a.length - 1 ? '</div>' : '<br>')).join('') : ''}
   <div class="facts-grid">
     ${l.result ? `<div class="fact"><div class="l">Natija</div>${inline(l.result)}</div>` : ''}
     ${l.tools ? `<div class="fact"><div class="l">Asboblar</div>${inline(l.tools)}</div>` : ''}
@@ -390,6 +514,7 @@ V.profile = async () => {
     ${isStaff() ? (isPreview()
       ? '<button class="item" data-act="previewOff"><div class="num">⚙️</div><div class="grow b">Panelga qaytish</div><span class="chev">›</span></button>'
       : "<button class=\"item\" data-act=\"previewOn\"><div class=\"num\">🎒</div><div class=\"grow\"><div class=\"b\">Talaba ko'rinishi</div><div class=\"small muted\">Ilova talabaga qanday ko'rinishini sinab ko'ring</div></div><span class=\"chev\">›</span></button>") : ''}
+    ${S.me.enrollments.length || isPreview() ? `<button class="item" data-act="go" data-v="onboard"><div class="num">🎯</div><div class="grow"><div>Qiziqishlarim</div>${myI() ? `<div class="tiny muted">${interestLine(myI(), curEnrollment() ? curEnrollment().course : 'umumiy')}</div>` : ''}</div><span class="chev">›</span></button>` : ''}
     <button class="item" data-act="go" data-v="verify"><div class="num">🔎</div><div class="grow">Sertifikatni tekshirish</div><span class="chev">›</span></button>
     ${S.me.enrollments.length ? "<button class=\"item\" data-act=\"go\" data-v=\"joinMore\"><div class=\"num\">➕</div><div class=\"grow\">Boshqa guruhga qo'shilish (kod bilan)</div><span class=\"chev\">›</span></button>" : ''}
     ${isAdmin() ? `<button class="item" data-act="go" data-v="users"><div class="num">🧑‍🤝‍🧑</div><div class="grow">Foydalanuvchilar va rollar</div><span class="chev">›</span></button>
@@ -508,8 +633,9 @@ V.group = async ({ id }) => {
     return `<div class="item"><button class="toggle ${on ? 'on' : ''}" data-act="att" data-gid="${g.id}" data-n="${lt.n}" data-u="${s.tg_id}" data-on="${on ? 1 : 0}">${on ? '✓' : ''}</button><div class="grow">${h(s.name)}</div></div>`;
   }).join('') || "<div class=\"item muted\">Talaba yo'q</div>"}</div>` : ''}
   <div class="section-title">Talabalar</div>
+  ${groupInterests(d.students, g.course)}
   <div class="list">${d.students.map((s) => `
-    <div class="item"><div class="grow"><div class="b">${h(s.name)}</div>
+    <div class="item"><div class="grow"><div class="b">${h(s.name)}</div>${s.interests ? `<div class="tiny">${interestLine(s.interests, g.course)}</div>` : ''}
       <div class="small muted">${s.phone ? `<a href="tel:${h(String(s.phone).replace(/\s/g, ''))}">${h(s.phone)}</a> · ` : ''}davomat ${s.present.length}/${opened.size} · mashq ${s.done} · topshiriq ${s.submissions}</div></div>
       ${s.certificate ? `<span class="badge ok">🎓 ${h(s.certificate)}</span>` : `<button class="btn sm ghost" data-act="issueCert" data-e="${s.enrollment_id}" data-name="${h(s.name)}" title="Sertifikat berish">🎓</button>`}
     </div>`).join('') || "<div class=\"item muted\">Hali talaba yo'q — yuqoridagi havolani yuboring.</div>"}</div>
@@ -651,6 +777,30 @@ const ACT = {
   pickPreview: (d) => { S.previewCourse = d.c; S.cache.fresh = S.tab === 'home'; haptic(); render(); },
   pickCourse: (d) => { S.curCourse = d.c; S.cache.fresh = S.tab === 'home'; haptic(); render(); },
   expand: (d, el) => el.classList.toggle('open'),
+  pf: (d) => { S.form.pf = d.k; render(); },
+  obPick: (d) => {
+    const o = obState(); obSaveInputs();
+    if (d.m) {
+      const a = o[d.f]; const i = a.indexOf(d.k);
+      if (i >= 0) a.splice(i, 1); else { if (d.f === 'goals' && a.length >= 2) a.shift(); a.push(d.k); }
+      haptic(); render();
+    } else { o[d.f] = d.k; haptic(); render(); setTimeout(() => { if (S.form.ob === o) ACT.obNext(); }, 220); }
+  },
+  obBack: () => { const o = obState(); obSaveInputs(); o.step = Math.max(0, o.step - 1); render(); },
+  obSkip: () => { S.obSkip = true; S.form.ob = null; render(); },
+  obNext: (d, el) => {
+    const o = obState(); obSaveInputs();
+    const err = [!o.soha && 'Birini tanlang', o.soha === 'other' && !o.soha_text.trim() && 'Sohangizni yozing', !o.goals.length && 'Kamida bittasini tanlang', !o.level && 'Birini tanlang', !o.likes.length && 'Kamida bittasini tanlang'][o.step];
+    if (err) { haptic('err'); return toast(err); }
+    if (o.step < OB_STEPS - 1) { o.step++; render(); window.scrollTo(0, 0); return; }
+    run(async () => {
+      const r = await api('interests_save', o);
+      S.me.user.interests = r.interests; S.form.ob = null; S.cache.promptsList = null; S.cache.fresh = true;
+      haptic('ok'); toast('Kurs sizga moslandi ✓');
+      if (S.stack.length) back(); else render();
+      window.scrollTo(0, 0);
+    }, el);
+  },
   promptSearch: () => { S.form.pq = $('#pq').value; render(); },
   share: (d) => {
     const text = `«${d.name}» guruhiga qo'shilish uchun havolani bosing:`;
