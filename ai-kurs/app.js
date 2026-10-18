@@ -120,7 +120,15 @@ const TABS = {
   teacher: [['groups', '👥', 'Guruhlar'], ['courses', '📖', 'Darslar'], ['profile', '👤', 'Profil']],
   admin: [['dash', '📊', 'Panel'], ['groups', '👥', 'Guruhlar'], ['students', '🎓', 'Talabalar'], ['courses', '📖', 'Darslar'], ['profile', '👤', 'Profil']],
 };
+// Admin/o'qituvchi uchun "Talaba ko'rinishi" (faqat interfeys; huquqlar serverda tekshiriladi)
+const isPreview = () => !!S.preview && isStaff();
+function setPreview(on) {
+  S.preview = !!on;
+  try { localStorage.setItem('preview', on ? '1' : ''); } catch (_) {}
+  S.cache.fresh = false; S.tab = tabsFor()[0][0]; S.stack = []; haptic('ok'); render(); window.scrollTo(0, 0);
+}
 function tabsFor() {
+  if (isPreview()) return TABS.student;
   const t = TABS[role()] || TABS.student;
   if (role() === 'teacher' && S.me && S.me.enrollments.length) return [t[0], t[1], ['home', '🎒', "O'qishim"], t[2]];
   return t;
@@ -143,7 +151,8 @@ async function render() {
   try {
     const html = await fn(params);
     if (current().view !== view) return;
-    app.innerHTML = `<div class="view">${S.stack.length && !inTg() ? '<button class="btn sm ghost mb" data-act="back">← Orqaga</button>' : ''}${html}</div>`;
+    const banner = isPreview() ? `<div class="card tight row between mb" style="border-left:5px solid var(--warn)"><div class="small"><b>👀 Talaba ko'rinishi</b><br><span class="muted">Ilova talabaga shunday ko'rinadi</span></div><button class="btn sm" data-act="previewOff">⚙️ Panelga qaytish</button></div>` : '';
+    app.innerHTML = `<div class="view">${banner}${S.stack.length && !inTg() ? '<button class="btn sm ghost mb" data-act="back">← Orqaga</button>' : ''}${html}</div>`;
   } catch (e) {
     app.innerHTML = `<div class="view"><div class="empty"><div class="e">⚠️</div>${h(e.message)}<div class="mt"><button class="btn sm" data-act="reload">Qayta urinish</button></div></div></div>`;
   }
@@ -207,6 +216,14 @@ function enrollmentBlock(e) {
 V.home = async () => {
   if (!S.initData) return `<div class="empty"><div class="e">🤖</div>Ilovani Telegram'dagi bot orqali oching.${CFG.BOT_USERNAME ? `<div class="mt"><a class="btn" href="https://t.me/${h(CFG.BOT_USERNAME)}">Botga o'tish</a></div>` : ''}</div>`;
   if (S.cache.fresh) S.cache.fresh = false; else await loadMe();
+  if (isPreview()) {
+    const ks = S.me.teaches.length ? S.me.teaches : ['biznes', 'umumiy'];
+    if (ks.length === 1) return previewBlock(ks[0]);
+    return '<div class="title mb">Kurslarim</div>' + ks.map((k) => `
+      <button class="course ${k}" data-act="go" data-v="prevCourse" data-c="${k}"><span class="arrow">→</span>
+        <span class="badge-acc">Talaba ko'rinishi</span><h2>${h(course(k).title)}</h2><div style="opacity:.9">Namuna guruh</div>
+        <div class="facts"><span>${course(k).lessons.length} dars</span></div></button>`).join('');
+  }
   const list = S.me.enrollments;
   if (!list.length) return joinScreen();
   const nameHint = !S.me.user.full_name ? `<div class="card row" data-act="tab" data-k="profile" style="cursor:pointer;border-left:5px solid var(--warn)"><div class="grow small">✍️ Sertifikatga yoziladigan <b>ism familiyangizni</b> profilda kiriting</div><span class="chev">›</span></div>` : '';
@@ -217,6 +234,17 @@ V.home = async () => {
       <div class="facts"><span>${e.lessons.filter((l) => l.unlocked).length}/${e.lessons.filter((l) => l.inPackage).length} dars ochiq</span></div></button>`).join('');
 };
 
+// Talaba ko'rinishi uchun namuna: hamma darslar ochiq
+function previewBlock(k) {
+  const c = course(k);
+  return enrollmentBlock({
+    id: 0, course: k, courseTitle: c.title, packageTitle: "To'liq kurs (1–12)", status: 'active',
+    group: { name: 'Namuna guruh', schedule: 'Sh, Ya 10:00–13:00' },
+    lessons: c.lessons.map((l) => ({ n: l.n, title: l.title, inPackage: true, unlocked: true, done: 0 })),
+  });
+}
+V.prevCourse = ({ c }) => previewBlock(c);
+
 V.enr = async ({ id }) => {
   if (!S.me) await loadMe();
   const e = S.me.enrollments.find((x) => x.id === Number(id));
@@ -224,7 +252,7 @@ V.enr = async ({ id }) => {
 };
 
 V.lesson = async ({ c, n }) => {
-  const d = await api('lesson', { course: c, n: Number(n) });
+  const d = await api('lesson', { course: c, n: Number(n), preview: isPreview() });
   S.cache.lesson = { c, n: Number(n), progress: new Set(d.progress) };
   const l = d.lesson;
   const ex = (title) => {
@@ -273,6 +301,9 @@ V.profile = async () => {
     <button class="item" data-act="openCert" data-code="${h(c.code)}"><div class="num">🎓</div><div class="grow"><div class="b">${h(course(c.course).title)}</div><div class="small muted">${h(c.code)} · ${h(fmtDate(c.issued_at))}</div></div><span class="chev">›</span></button>`).join('')}</div>` : ''}
   <div class="section-title">Boshqa</div>
   <div class="list">
+    ${isStaff() ? (isPreview()
+      ? '<button class="item" data-act="previewOff"><div class="num">⚙️</div><div class="grow b">Panelga qaytish</div><span class="chev">›</span></button>'
+      : "<button class=\"item\" data-act=\"previewOn\"><div class=\"num\">🎒</div><div class=\"grow\"><div class=\"b\">Talaba ko'rinishi</div><div class=\"small muted\">Ilova talabaga qanday ko'rinishini sinab ko'ring</div></div><span class=\"chev\">›</span></button>") : ''}
     <button class="item" data-act="go" data-v="verify"><div class="num">🔎</div><div class="grow">Sertifikatni tekshirish</div><span class="chev">›</span></button>
     ${S.me.enrollments.length ? "<button class=\"item\" data-act=\"go\" data-v=\"joinMore\"><div class=\"num\">➕</div><div class=\"grow\">Boshqa guruhga qo'shilish (kod bilan)</div><span class=\"chev\">›</span></button>" : ''}
     ${isAdmin() ? `<button class="item" data-act="go" data-v="users"><div class="num">🧑‍🤝‍🧑</div><div class="grow">Foydalanuvchilar va rollar</div><span class="chev">›</span></button>
@@ -524,6 +555,8 @@ function drawCert(c) {
 // ---------------- harakatlar ----------------
 const ACT = {
   back, reload: () => render(),
+  previewOn: () => setPreview(true),
+  previewOff: () => setPreview(false),
   tab: (d) => setTab(d.k),
   go: (d) => go(d.v, { ...d }),
   link: (d) => openLink(d.url),
@@ -691,6 +724,7 @@ async function boot() {
     tg.BackButton && tg.BackButton.onClick(back);
   }
   S.catalog = await (await fetch('catalog.json?v=' + Date.now())).json();
+  try { S.preview = localStorage.getItem('preview') === '1'; } catch (_) {}
   CFG.API_URL = await resolveApi();
   if (!CFG.API_URL) {
     app.innerHTML = '<div class="view"><div class="empty"><div class="e">🔌</div><div class="b">Server hozir yangilanmoqda</div><div class="mt">Bir daqiqadan keyin qayta urinib ko\'ring.</div><div class="mt"><button class="btn sm" onclick="location.reload()">Qayta urinish</button></div></div></div>';
