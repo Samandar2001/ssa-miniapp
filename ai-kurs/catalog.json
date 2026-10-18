@@ -1,0 +1,253 @@
+{
+ "generated": "2026-10-18T08:40:21.753Z",
+ "courses": [
+  {
+   "key": "biznes",
+   "title": "AI biznesda",
+   "subtitle": "Biznes egalari uchun amaliy kurs",
+   "color": "#0F3D5E",
+   "accent": "#F28C28",
+   "hours": 36,
+   "lessonHours": 3,
+   "weeks": 6,
+   "lead": "12 ta amaliy dars, 6 hafta, 36 soat. Har bir biznes egasi kursni o'z biznesida ishlab turgan AI tizimi va 90 kunlik reja bilan tugatadi.",
+   "packages": [
+    {
+     "key": "master",
+     "title": "Kirish master-klassi",
+     "desc": "1-darsning 3 soatlik varianti: Vaqt auditi va top 5",
+     "price": 400000
+    },
+    {
+     "key": "modul1",
+     "title": "1-modul: Marketing va mijozlar",
+     "desc": "1–6-darslar, 18 soat",
+     "price": 3300000
+    },
+    {
+     "key": "modul2",
+     "title": "2-modul: Operatsiya va avtomatlashtirish",
+     "desc": "7–12-darslar, 18 soat",
+     "price": 3300000
+    },
+    {
+     "key": "full",
+     "title": "To'liq kurs",
+     "desc": "12 dars, 36 soat, 30 kunlik Telegram yordami, 2 ta klinika",
+     "price": 6000000,
+     "main": true
+    },
+    {
+     "key": "impl",
+     "title": "Kurs + joriy etish",
+     "desc": "To'liq kurs + o'qituvchi biznesingizda bitta tizimni birga ishga tushiradi",
+     "price": 7500000
+    }
+   ],
+   "overview": [
+    {
+     "title": "Bir qarashda",
+     "md": "| Savol | Javob |\n| --- | --- |\n| Kimga | Kichik va o'rta biznes egalari, rahbarlar, marketing bo'limi boshliqlari |\n| Format | Offline, sinfda; shanba va yakshanba, har dars 3 soat |\n| Davomiyligi | 6 hafta, 12 dars, jami 36 soat |\n| Guruh | 8–12 kishi |\n| Til | O'zbek tili |\n| Narx | 6 000 000 so'm (tavsiya, batafsil \"Bozor va narx\" bo'limida) |\n| Talaba olib keladi | Noutbuk, Google akkaunt, Telegram, o'z biznesi ma'lumotlari |\n| Kurs oxirida | Biznesda ishlab turgan AI tizimi, kontent-reja, mijoz yordamchisi, 90 kunlik reja |\n\nKursning asosiy qoidasi: har bir mashq talabaning o'z biznesi ma'lumotlari ustida bajariladi. Shuning uchun darsdan keyin u o'qigan narsasi bilan emas, tayyor ish bilan ketadi."
+    },
+    {
+     "title": "Kurs yo'li",
+     "md": "Darslar bir-biriga bog'langan: 2-darsdagi brend pasporti 5-darsdagi yordamchiga beriladi, 5-darsdagi FAQ esa 9-darsdagi botning javoblariga aylanadi."
+    },
+    {
+     "title": "Har bir dars qanday o'tadi",
+     "md": "Har bir dars bir xil ritmda o'tadi, shuning uchun talaba ham, o'qituvchi ham keyin nima bo'lishini biladi.\n\n| Qism | Vaqt | Nima bo'ladi |\n| --- | --- | --- |\n| Kirish | 15 daqiqa | Oldingi darsdan keyin nima qilingani, savollar |\n| Ko'rsatish | 20–30 daqiqa | O'qituvchi bitta real biznes misolida ekranda ko'rsatadi |\n| Amaliyot | 90–110 daqiqa | Har kim o'z biznesi ustida ishlaydi, o'qituvchi aylanib yordam beradi |\n| Tanaffus | 10 daqiqa | Choy-kofe, tanishish |\n| Taqdimot | 20 daqiqa | 3–5 kishi natijasini ekranda ko'rsatadi |\n| Yakun | 10 daqiqa | Natijalar saqlanadi, keyingi darsga nima olib kelinadi |\n\nO'qituvchi gapirish vaqti darsning 25% dan oshmasligi kerak. Qolgan vaqtda talabalar o'zlari ishlaydi."
+    },
+    {
+     "title": "Kursdan keyin",
+     "md": "Kurs tugagandan keyin 30 kun davomida talaba yolg'iz qolmaydi. Bu raqobatchilarda deyarli yo'q.\n\n- **Telegram guruh:** savollarga 24 soat ichida javob beriladi.\n- **2 ta onlayn klinika:** 2- va 4-haftada, 1 soatdan. Har kim joriy etishda duch kelgan muammosini olib keladi.\n- **Shablonlar kutubxonasi:** kursdagi barcha promptlar va varaqlar bitta joyda.\n- **30-kunda so'rovnoma:** nima joriy qilindi, qancha vaqt tejaldi. Eng yaxshi natijalar keyingi oqim reklamasi uchun keys sifatida ishlatiladi (talaba roziligi bilan)."
+    }
+   ],
+   "lessons": [
+    {
+     "n": 1,
+     "title": "Biznesda AI xaritasi",
+     "result": "\"Vaqt auditi\" varag'i va top 5 AI imkoniyati ro'yxati"
+    },
+    {
+     "n": 2,
+     "title": "Marketing va kontent",
+     "result": "Brend pasporti, 12 postlik kontent-reja, 10 ta post, 3 ta rasm, 1 ta Reels ssenariysi"
+    },
+    {
+     "n": 3,
+     "title": "Vizual kontent va video",
+     "result": "5 ta mahsulot rasmi, aksiya banneri, karusel, 1 ta Reels video"
+    },
+    {
+     "n": 4,
+     "title": "Reklama va marketplace",
+     "result": "6 ta reklama matni (A/B), auditoriya tavsifi, marketplace kartochkasi, sotuv sahifasi matni, A/B kuzatuv jadvali"
+    },
+    {
+     "n": 5,
+     "title": "Sotuv va mijozlar",
+     "result": "FAQ bazasi, sotuv skripti, e'tirozlar jadvali, sinovdan o'tgan mijoz yordamchisi"
+    },
+    {
+     "n": 6,
+     "title": "Mijoz sharhlari va xizmat",
+     "result": "Sharhlar tahlili va 3 ta tuzatish rejasi, javob shablonlari, Google Forms so'rovnomasi, xizmat standarti"
+    },
+    {
+     "n": 7,
+     "title": "Hujjat, moliya, tahlil",
+     "result": "Savdo hisoboti + 3 xulosa + 1 qaror, shartnoma tekshiruvi jadvali, raqobatchilar jadvali"
+    },
+    {
+     "n": 8,
+     "title": "HR va jamoa",
+     "result": "Vakansiya e'loni, intervyu savollari + baholash kartochkasi, SOP yo'riqnoma, 1-hafta rejasi, xodimlar uchun test"
+    },
+    {
+     "n": 9,
+     "title": "Avtomatlashtirish — Telegram bot",
+     "result": "Ishlab turgan zanjir: Telegram bot → AI → Google Sheets → Telegram xabar"
+    },
+    {
+     "n": 10,
+     "title": "Avtomatlashtirish — CRM va hisobot",
+     "result": "2 ta ishlab turgan zanjir: kunlik AI hisobot va mini-CRM eslatmasi"
+    },
+    {
+     "n": 11,
+     "title": "AI yordamchilar jamoasi",
+     "result": "NotebookLM'dagi bilim bazasi, 3 ta AI yordamchi, sinov jadvali, yangilash tartibi"
+    },
+    {
+     "n": 12,
+     "title": "Qoidalar, strategiya va himoya",
+     "result": "AI qoidalari (\"svetofor\"), 3 oylik xarajat-foyda hisobi, 90 kunlik reja, himoya"
+    }
+   ]
+  },
+  {
+   "key": "umumiy",
+   "title": "AI bilan ishlash",
+   "subtitle": "Hamma uchun amaliy kurs",
+   "color": "#3B2F8F",
+   "accent": "#14A38B",
+   "hours": 24,
+   "lessonHours": 2,
+   "weeks": 6,
+   "lead": "12 ta amaliy dars, 6 hafta, 24 soat. Texnik bilimi yo'q har qanday odam kursni AI'dan kundalik hayot va ishda mustaqil foydalana olib tugatadi.",
+   "packages": [
+    {
+     "key": "open",
+     "title": "Ochiq dars",
+     "desc": "1-darsning 1,5 soatlik qisqa varianti",
+     "price": 0
+    },
+    {
+     "key": "modul1",
+     "title": "1-modul",
+     "desc": "1–6-darslar: yozish, hujjatlar, qidiruv, o'rganish",
+     "price": 1100000
+    },
+    {
+     "key": "modul2",
+     "title": "2-modul",
+     "desc": "7–12-darslar: kundalik hayot, rasm, video, xavfsizlik, loyiha",
+     "price": 1100000
+    },
+    {
+     "key": "full",
+     "title": "To'liq kurs",
+     "desc": "12 dars, sertifikat, 30 kunlik Telegram yordami",
+     "price": 2000000,
+     "main": true
+    },
+    {
+     "key": "family",
+     "title": "Oilaviy",
+     "desc": "2 kishi bir guruhda (masalan, ota-ona va farzand)",
+     "price": 3400000
+    }
+   ],
+   "overview": [
+    {
+     "title": "Bir qarashda",
+     "md": "| Savol | Javob |\n| --- | --- |\n| Kimga | Texnik bilimi yo'q kattalar: ofis xodimi, o'qituvchi, ota-ona, nafaqaga chiqqanlar, talabalar |\n| Yosh | 16 yoshdan katta, yuqori chegara yo'q. Asosiy auditoriya — 30–60 yosh |\n| Format | Offline, sinfda; haftada 2 marta, har dars 2 soat |\n| Davomiyligi | 6 hafta, 12 dars, jami 24 soat |\n| Guruh | 12–16 kishi |\n| Til | O'zbek tili |\n| Narx | 2 000 000 so'm (tavsiya, batafsil \"Bozor va narx\" bo'limida) |\n| Talaba olib keladi | Noutbuk yoki smartfon, Google akkaunt |\n| Kurs oxirida | 12 ta amaliy natija, o'z prompt shablonlari to'plami, sertifikat |\n\nKursning asosiy qoidasi: nazariya kam, amaliyot ko'p. Har bir darsda talaba o'z hayotidagi haqiqiy vazifani bajaradi va natijasini o'zi bilan olib ketadi."
+    },
+    {
+     "title": "Kurs yo'li",
+     "md": "Kurs ikki moduldan iborat: 1–6-darslar AI bilan yozish, o'qish va o'rganishni o'rgatadi, 7–12-darslar uni kundalik hayot, ijod va xavfsizlikka olib chiqadi.\n\n| Hafta | Birinchi dars | Ikkinchi dars |\n| --- | --- | --- |\n| 1-hafta | 1. AI nima va u bilan qanday gaplashiladi | 2. Yaxshi so'rov yozish |\n| 2-hafta | 3. Matn bilan ishlash | 4. Hujjat va jadvallar |\n| 3-hafta | 5. Qidiruv va fakt tekshirish | 6. AI — shaxsiy o'qituvchi |\n| 4-hafta | 7. AI kundalik hayotda | 8. Rasm va dizayn |\n| 5-hafta | 9. Taqdimot va foto | 10. Ovoz va video |\n| 6-hafta | 11. Xavfsizlik va firibgarlik | 12. Yakuniy loyiha |"
+    },
+    {
+     "title": "Har bir dars qanday o'tadi",
+     "md": "Har bir dars bir xil ritmda o'tadi. Kattalar uchun bu muhim: keyin nima bo'lishini bilgan odam xotirjam o'rganadi.\n\n| Qism | Vaqt | Nima bo'ladi |\n| --- | --- | --- |\n| Kirish | 10 daqiqa | Oldingi darsdan keyin kim nima qildi, savollar |\n| Ko'rsatish | 15 daqiqa | O'qituvchi ekranda bitta hayotiy misolni ko'rsatadi |\n| Amaliyot | 65–75 daqiqa | Har kim o'z vazifasi ustida ishlaydi, juftlikda yoki yolg'iz |\n| Tanaffus | 10 daqiqa |  |\n| Natijalar | 15 daqiqa | 3–4 kishi natijasini ekranda ko'rsatadi |\n| Yakun | 5 daqiqa | Tarqatma varaq, keyingi darsga nima olib kelinadi |\n\nO'qituvchi gapirish vaqti darsning 25% dan oshmasligi kerak. Har bir yangi tugma yoki menyu avval ekranda ko'rsatiladi, keyin hamma birga bosadi."
+    },
+    {
+     "title": "Kursdan keyin",
+     "md": "- **Telegram guruh:** kurs tugagandan keyin 30 kun davomida savollarga javob beriladi.\n- **Prompt to'plami:** barcha darslardagi shablonlar bitta faylda yuboriladi.\n- **Bitta onlayn uchrashuv:** kursdan 2 hafta keyin, 1 soat — kim nimani ishlatyapti, qanday muammo chiqdi.\n- **Biznes kursiga yo'l:** biznesi bor talabalarga \"AI biznesda\" kursi taklif qilinadi."
+    }
+   ],
+   "lessons": [
+    {
+     "n": 1,
+     "title": "AI nima va u bilan qanday gaplashiladi",
+     "result": "ChatGPT va Gemini'da akkaunt (xohlovchi uchun Claude ham), 10 ta bajarilgan vazifa"
+    },
+    {
+     "n": 2,
+     "title": "Yaxshi so'rov yozish",
+     "result": "O'zining 5 ta prompt shabloni, telefonda yoki noutbukda saqlangan"
+    },
+    {
+     "n": 3,
+     "title": "Matn bilan ishlash",
+     "result": "Rezyume, rasmiy xat yoki ariza, teskari tarjima bilan tekshirilgan tarjima"
+    },
+    {
+     "n": 4,
+     "title": "Hujjat va jadvallar",
+     "result": "O'z hujjatining xulosasi, NotebookLM'dagi \"daftar\", formulalari ishlaydigan xarajatlar jadvali"
+    },
+    {
+     "n": 5,
+     "title": "Qidiruv va fakt tekshirish",
+     "result": "O'z savoli bo'yicha manbalari bor 1 sahifalik hisobot, tekshirilgan bitta \"yangilik\""
+    },
+    {
+     "n": 6,
+     "title": "AI — shaxsiy o'qituvchi",
+     "result": "30 kunlik o'qish rejasi (kuniga 20 daqiqa), 5 savollik test, til mashqi suhbati"
+    },
+    {
+     "n": 7,
+     "title": "AI kundalik hayotda",
+     "result": "Haftalik reja, oylik byudjet jadvali, 3 ta variantli xarid taqqoslash jadvali"
+    },
+    {
+     "n": 8,
+     "title": "Rasm va dizayn",
+     "result": "3 ta tayyor rasm yoki banner, telefonda saqlangan"
+    },
+    {
+     "n": 9,
+     "title": "Taqdimot va foto",
+     "result": "8–10 slaydlik taqdimot (spiker matni bilan), 2–3 ta tahrirlangan foto"
+    },
+    {
+     "n": 10,
+     "title": "Ovoz va video",
+     "result": "Ovozli suhbat tajribasi, matnga aylantirilgan audio, 30 soniyalik video"
+    },
+    {
+     "n": 11,
+     "title": "Xavfsizlik va firibgarlik",
+     "result": "Shaxsiy xavfsizlik ro'yxati, yoqilgan ikki bosqichli himoya, oila uchun xavfsizlik varag'i"
+    },
+    {
+     "n": 12,
+     "title": "Yakuniy loyiha",
+     "result": "Yakuniy loyiha taqdimoti (4 daqiqa + 1 daqiqa savol), sertifikat"
+    }
+   ]
+  }
+ ]
+}
