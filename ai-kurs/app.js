@@ -151,7 +151,7 @@ async function render() {
   try {
     const html = await fn(params);
     if (current().view !== view) return;
-    const banner = isPreview() ? `<div class="card tight row between mb" style="border-left:5px solid var(--warn)"><div class="small"><b>👀 Talaba ko'rinishi</b><br><span class="muted">Ilova talabaga shunday ko'rinadi</span></div><button class="btn sm" data-act="previewOff">⚙️ Panelga qaytish</button></div>${previewCourses().length > 1 ? `<div class="chips"><span class="tiny muted" style="align-self:center">Kurs:</span>${previewCourses().map((k) => `<button class="chip ${k === curEnrollment().course ? 'on' : ''}" data-act="pickPreview" data-c="${k}">${h(course(k).title)}</button>`).join('')}</div>` : ''}` : '';
+    const banner = isPreview() ? `<div class="pbar"><span>👀</span>${previewCourses().length > 1 ? previewCourses().map((k) => `<button class="chip ${k === curEnrollment().course ? 'on' : ''}" data-act="pickPreview" data-c="${k}">${h(course(k).title)}</button>`).join('') : '<b class="grow small">Talaba ko\'rinishi</b>'}<button class="chip x" data-act="previewOff">✕</button></div>` : '';
     app.innerHTML = `<div class="view">${banner}${S.stack.length && !inTg() ? '<button class="btn sm ghost mb" data-act="back">← Orqaga</button>' : ''}${html}</div>`;
   } catch (e) {
     app.innerHTML = `<div class="view"><div class="empty"><div class="e">⚠️</div>${h(e.message)}<div class="mt"><button class="btn sm" data-act="reload">Qayta urinish</button></div></div></div>`;
@@ -173,14 +173,12 @@ function joinScreen() {
   <div class="hero">
     <div class="kicker">AI kurslari</div>
     <h1>Xush kelibsiz! 👋</h1>
-    <p>Bu ilova «AI bilan ishlash» va «AI biznesda» kurslari talabalari uchun. Kirish uchun o'qituvchingiz bergan guruh kodini kiriting.</p>
+    <p>Guruh kodini kiriting</p>
   </div>
   <div class="card col">
-    <label class="label" style="margin-top:0">Guruh kodi</label>
-    <input id="j-code" placeholder="Masalan: K7M2QX" autocomplete="off" style="text-transform:uppercase;font-size:20px;letter-spacing:.12em;text-align:center">
+    <input id="j-code" placeholder="K7M2QX" autocomplete="off" style="text-transform:uppercase;font-size:22px;letter-spacing:.14em;text-align:center">
     <button class="btn" data-act="join">Kirish</button>
   </div>
-  <div class="card small muted">💡 O'qituvchingiz yuborgan havolani bossangiz, guruhga avtomatik qo'shilasiz — kod kiritish shart emas.</div>
   ${contacts()}`;
 }
 
@@ -225,14 +223,11 @@ const DAY = 864e5;
 const isNew = (l) => l.unlocked && l.opened_at && !l.done && Date.now() - new Date(l.opened_at).getTime() < 3 * DAY;
 
 function lessonRow(e, l, color) {
-  let st;
-  if (!l.unlocked) st = '<span class="badge">🔒</span>';
-  else if (l.done || l.submitted) st = `<span class="badge ok">✓ Bajarildi</span>`;
-  else if (isNew(l)) st = '<span class="badge warn">🆕 Yangi</span>';
-  else st = '<span class="badge info">Ochiq</span>';
+  const fin = l.done || l.submitted;
+  const st = !l.unlocked ? '<span class="lk">🔒</span>' : isNew(l) && !fin ? '<span class="badge warn">Yangi</span>' : '<span class="chev">›</span>';
   return `<button class="item ${l.unlocked ? '' : 'locked'}" ${l.unlocked ? `data-act="openLesson" data-c="${e.course}" data-n="${l.n}"` : 'data-act="lockedLesson"'}>
-    <div class="num" ${l.unlocked ? `style="background:${(l.done || l.submitted) ? 'var(--ok)' : color};color:#fff"` : ''}>${(l.done || l.submitted) ? '✓' : l.n}</div>
-    <div class="grow"><div class="b">${h(l.title)}</div>${l.unlocked && l.opened_at ? `<div class="tiny muted">${l.n}-dars · ochilgan ${h(fmtDate(l.opened_at))}</div>` : `<div class="tiny muted">${l.n}-dars</div>`}</div>${st}</button>`;
+    <div class="num" ${l.unlocked ? `style="background:${fin ? 'var(--ok)' : color};color:#fff"` : ''}>${fin ? '✓' : l.n}</div>
+    <div class="grow b">${h(l.title)}</div>${st}</button>`;
 }
 
 function studentHome(e) {
@@ -241,19 +236,19 @@ function studentHome(e) {
   const opened = inPkg.filter((l) => l.unlocked);
   const doneL = inPkg.filter((l) => l.unlocked && (l.done || l.submitted));
   const pct = inPkg.length ? Math.round((opened.length / inPkg.length) * 100) : 0;
-  const exDone = inPkg.reduce((s, l) => s + (l.done || 0), 0);
   const cert = !e.preview && S.me.certificates.find((x) => x.course === e.course);
   const first = (S.me.user.full_name || S.me.user.name || '').split(' ')[0];
 
   // keyingi qadam
   const pend = opened.filter((l) => !l.done && !l.submitted);
   const todo = pend.filter(isNew).sort((a, b) => b.n - a.n)[0] || pend.sort((a, b) => a.n - b.n)[0];
+  const nx = (cls, ic, k, t, btn = '') => `<div class="next ${cls}"><div class="ic">${ic}</div><div class="grow"><div class="k">${k}</div><div class="t">${t}</div></div>${btn}</div>`;
   let next;
-  if (cert) next = `<div class="next ok"><div class="k">🎓 KURS TUGATILDI</div><div class="t">Tabriklaymiz! Sertifikatingiz tayyor.</div><button class="btn sm ok" data-act="openCert" data-code="${h(cert.code)}">Sertifikatni ochish</button></div>`;
-  else if (todo) next = `<div class="next"><div class="k">${isNew(todo) ? '🆕 YANGI DARS' : '▶️ DAVOM ETING'}</div><div class="t">${todo.n}-dars: ${h(todo.title)}</div><button class="btn sm" data-act="openLesson" data-c="${e.course}" data-n="${todo.n}">Darsni ochish</button></div>`;
-  else if (opened.length && opened.length === inPkg.length) next = `<div class="next ok"><div class="k">✅ HAMMA DARSLAR</div><div class="t">Barcha darslar bajarildi. Sertifikatni o'qituvchingiz beradi.</div></div>`;
-  else if (opened.length) next = `<div class="next"><div class="k">⏳ KEYINGI DARS</div><div class="t">Ochilgan darslar bajarildi 👏 Keyingisi${e.group && e.group.schedule ? ' — ' + h(e.group.schedule) : ''} darsida ochiladi.</div></div>`;
-  else next = `<div class="next"><div class="k">🚀 BOSHLANISH</div><div class="t">Birinchi dars ${e.group && e.group.start_date ? h(fmtDate(e.group.start_date)) + ' kuni ' : ''}o'qituvchi uni boshlaganda ochiladi va botga xabar keladi.</div></div>`;
+  if (cert) next = nx('ok', '🎓', 'Kurs tugatildi', 'Sertifikat tayyor', `<button class="btn sm ok" data-act="openCert" data-code="${h(cert.code)}">Ochish</button>`);
+  else if (todo) next = nx('', isNew(todo) ? '🆕' : '▶️', isNew(todo) ? 'Yangi dars' : 'Davom eting', `${todo.n}. ${h(todo.title)}`, `<button class="btn sm" data-act="openLesson" data-c="${e.course}" data-n="${todo.n}">Ochish</button>`);
+  else if (opened.length && opened.length === inPkg.length) next = nx('ok', '✅', 'Barcha darslar', 'Bajarildi');
+  else if (opened.length) next = nx('', '⏳', 'Keyingi dars', e.group && e.group.schedule ? h(e.group.schedule) : 'Darsda ochiladi');
+  else next = nx('', '🚀', 'Boshlanish', e.group && e.group.start_date ? h(fmtDate(e.group.start_date)) : 'Birinchi darsda ochiladi');
 
   // darslar modullar bo'yicha
   const mods = e.package === 'full'
@@ -271,21 +266,19 @@ function studentHome(e) {
     <div class="ring" style="--p:${pct}"><div><b>${opened.length}</b><span>/${inPkg.length}</span></div></div>
   </div>
   ${next}
-  <div class="mini">
-    <div><b>${opened.length}</b><span>dars ochildi</span></div>
-    <div><b>${exDone}</b><span>mashq bajarildi</span></div>
-    <div><b>${e.attended}${opened.length ? '/' + opened.length : ''}</b><span>davomat</span></div>
+  <div class="mini" style="grid-template-columns:repeat(3,1fr)">
+    <div><b>${doneL.length}/${inPkg.length}</b><span>bajarildi</span></div>
+    <div><b>${e.attended}</b><span>davomat</span></div>
     <div><b>${e.submissions}</b><span>topshiriq</span></div>
   </div>
-  ${!S.me.user.full_name && !e.preview ? `<div class="card row" data-act="tab" data-k="profile" style="cursor:pointer;border-left:5px solid var(--warn)"><div class="grow small">✍️ Sertifikatga yoziladigan <b>ism familiyangizni</b> profilda kiriting</div><span class="chev">›</span></div>` : ''}
-  ${e.group ? `<div class="card col small">
-    ${e.group.schedule ? `<div>📅 <b>Jadval:</b> ${h(e.group.schedule)}${e.group.start_date ? ' · boshlanish ' + h(fmtDate(e.group.start_date)) : ''}</div>` : ''}
-    ${e.group.location ? `<div>📍 <b>Manzil:</b> ${h(e.group.location)}</div>` : ''}
-    ${e.teacher ? `<div class="row between"><div>👩‍🏫 <b>O'qituvchi:</b> ${h(e.teacher.name)}</div>${e.teacher.username ? `<button class="btn sm ghost" data-act="link" data-url="https://t.me/${h(e.teacher.username)}">✉️ Yozish</button>` : ''}</div>` : ''}
+  ${!S.me.user.full_name && !e.preview ? `<button class="next warn" data-act="tab" data-k="profile"><div class="ic">✍️</div><div class="grow t">Ism familiyangizni kiriting</div><span class="chev">›</span></button>` : ''}
+  ${e.group && (e.group.schedule || e.group.location || e.teacher) ? `<div class="info">
+    ${e.group.schedule ? `<span>📅 ${h(e.group.schedule)}</span>` : ''}
+    ${e.group.location ? `<span>📍 ${h(e.group.location)}</span>` : ''}
+    ${e.teacher ? (e.teacher.username ? `<button data-act="link" data-url="https://t.me/${h(e.teacher.username)}">💬 ${h(e.teacher.name)}</button>` : `<span>👤 ${h(e.teacher.name)}</span>`) : ''}
   </div>` : ''}
   ${mods.map(([title, ls]) => ls.length ? `<div class="section-title row between"><span>${h(title)}</span><span>${ls.filter((l) => l.unlocked && (l.done || l.submitted)).length}/${ls.length}</span></div>
-    <div class="list">${ls.map((l) => lessonRow(e, l, c.color)).join('')}</div>` : '').join('')}
-  ${!cert ? `<div class="card small muted center">🎓 Sertifikat kurs oxirida beriladi · bajarilgan darslar: <b>${doneL.length}/${inPkg.length}</b></div>` : ''}`;
+    <div class="list">${ls.map((l) => lessonRow(e, l, c.color)).join('')}</div>` : '').join('')}`;
 }
 
 V.home = async () => {
@@ -310,15 +303,14 @@ V.prompts = async () => {
   for (const p of list) (byLesson[p.n] ||= []).push(p);
   S.cache.prompts = S.cache.prompts || {};
   return `${courseSwitcher()}
-  <div class="title">Promptlar</div>
-  <div class="muted small mb">Ochilgan darslardagi tayyor so'rovlar — nusxa oling va [qavs] ichini o'zingiznikiga almashtiring.</div>
-  <div class="row mb"><input id="pq" class="grow" value="${h(S.form.pq || '')}" placeholder="Qidirish: post, rezyume, jadval..."><button class="btn sm" data-act="promptSearch">🔎</button></div>
+  <div class="title mb">Promptlar</div>
+  <div class="row mb"><input id="pq" class="grow" value="${h(S.form.pq || '')}" placeholder="🔎 Qidirish"><button class="btn sm" data-act="promptSearch">Izlash</button></div>
   ${list.length ? Object.entries(byLesson).map(([n, ps]) => `
-    <div class="section-title">${n}-dars · ${h(ps[0].lesson)}</div>
+    <div class="section-title">${n}. ${h(ps[0].lesson)}</div>
     ${ps.map((p) => { const id = 'p' + Math.random().toString(36).slice(2, 8); S.cache.prompts[id] = p.text; return `
-      <div class="card" style="padding:12px 12px 4px"><div class="b mb" style="font-size:14px">${h(p.title)}</div>
-        <div class="prompt" style="margin:0 0 8px"><pre>${h(p.text)}</pre><div class="copy"><button class="btn sm ghost" data-act="copyPrompt" data-id="${id}">📋 Nusxa olish</button></div></div></div>`; }).join('')}`).join('')
-  : `<div class="empty"><div class="e">📋</div>${q ? 'Hech narsa topilmadi' : "Darslar ochilgach, ulardagi promptlar shu yerda to'planadi."}</div>`}`;
+      <div class="pc"><div class="row between"><b>${h(p.title)}</b><button class="chip" data-act="copyPrompt" data-id="${id}">📋 Nusxa</button></div>
+        <pre data-act="expand">${h(p.text)}</pre></div>`; }).join('')}`).join('')
+  : `<div class="empty"><div class="e">📋</div>${q ? 'Topilmadi' : "Hali yo'q"}</div>`}`;
 };
 
 V.work = async () => {
@@ -326,17 +318,17 @@ V.work = async () => {
   const d = await api('my_work');
   const subs = d.submissions;
   const reviewed = subs.filter((s) => s.feedback || s.score != null);
-  return `<div class="title">Natijalarim</div>
-  <div class="muted small mb">Darslardan yuborgan natijalaringiz va o'qituvchi izohlari.</div>
+  const scored = reviewed.filter((s) => s.score != null);
+  return `<div class="title mb">Natijalar</div>
   ${subs.length ? `<div class="mini" style="grid-template-columns:repeat(3,1fr)">
-    <div><b>${subs.length}</b><span>yuborildi</span></div><div><b>${reviewed.length}</b><span>izoh olindi</span></div>
-    <div><b>${reviewed.filter((s) => s.score != null).length ? Math.round(reviewed.filter((s) => s.score != null).reduce((a, s) => a + s.score, 0) / reviewed.filter((s) => s.score != null).length) : '—'}</b><span>o'rtacha baho</span></div></div>
+    <div><b>${subs.length}</b><span>yuborildi</span></div><div><b>${reviewed.length}</b><span>izoh</span></div>
+    <div><b>${scored.length ? Math.round(scored.reduce((a, s) => a + s.score, 0) / scored.length) : '—'}</b><span>baho</span></div></div>
     ${subs.map((s) => `<div class="card small col" data-act="openLesson" data-c="${s.course}" data-n="${s.lesson_no}" style="cursor:pointer">
-      <div class="row between"><b>${s.lesson_no}-dars · ${h(s.lessonTitle)}</b><span class="muted tiny">${h(fmtDate(s.created_at))}</span></div>
-      ${s.text ? `<div>${h(s.text)}</div>` : ''}${s.link ? `<div class="ellipsis" style="color:var(--link)">🔗 ${h(s.link)}</div>` : ''}
-      ${s.feedback || s.score != null ? `<div style="border-left:3px solid var(--ok);padding-left:10px">💬 ${h(s.feedback || '')}${s.score != null ? ` <span class="badge ok">${s.score}</span>` : ''}</div>` : "<div class=\"tiny muted\">⏳ O'qituvchi ko'rib chiqadi</div>"}
+      <div class="row between"><b>${s.lesson_no}. ${h(s.lessonTitle)}</b>${s.score != null ? `<span class="badge ok">${s.score}</span>` : s.feedback ? '' : '<span class="badge">⏳</span>'}</div>
+      ${s.text ? `<div class="muted clamp2">${h(s.text)}</div>` : ''}${s.link ? `<div class="ellipsis" style="color:var(--link)">🔗 ${h(s.link)}</div>` : ''}
+      ${s.feedback ? `<div class="fb">💬 ${h(s.feedback)}</div>` : ''}
     </div>`).join('')}`
-  : `<div class="empty"><div class="e">📝</div>Hali natija yubormadingiz.<div class="small mt">Har bir dars sahifasining pastida «Natijangizni yuboring» bo'limi bor.</div></div>`}`;
+  : `<div class="empty"><div class="e">📝</div>Hali yo'q</div>`}`;
 };
 
 V.enr = async ({ id }) => {
@@ -351,7 +343,7 @@ V.lesson = async ({ c, n }) => {
   const l = d.lesson;
   const ex = (title) => {
     const on = S.cache.lesson.progress.has(title);
-    return `<div class="ex-done"><button class="toggle ${on ? 'on' : ''}" data-act="toggleEx" data-item="${h(title)}">${on ? '✓' : ''}</button><span class="small muted">${on ? 'Bajarildi' : 'Bajarganimda belgilayman'}</span></div>`;
+    return `<div class="ex-done"><button class="toggle ${on ? 'on' : ''}" data-act="toggleEx" data-item="${h(title)}">${on ? '✓' : ''}</button><span class="small muted">${on ? 'Bajarildi' : 'Bajardim'}</span></div>`;
   };
   const subs = d.submissions || [];
   return `
@@ -362,12 +354,12 @@ V.lesson = async ({ c, n }) => {
     ${l.tools ? `<div class="fact"><div class="l">Asboblar</div>${inline(l.tools)}</div>` : ''}
     ${l.idea ? `<div class="fact"><div class="l">Asosiy g'oya</div>${inline(l.idea)}</div>` : ''}
   </div>
-  ${l.sections.map((s) => `<div class="card md">${s.teacher ? "<div class=\"tag-teacher\">O'qituvchi uchun</div>" : ''}<h2>${h(s.title)}</h2>${mdToHtml(s.md, s.title === 'Mashqlar' && !d.full ? { exercise: ex } : {})}</div>`).join('')}
+  ${l.sections.map((s, i) => `<details class="card md sec" ${i === 0 || s.title === 'Mashqlar' ? 'open' : ''}><summary>${s.teacher ? "<span class=\"tag-teacher\">O'qituvchi</span>" : ''}<h2>${h(s.title)}</h2></summary>${mdToHtml(s.md, s.title === 'Mashqlar' && !d.full ? { exercise: ex } : {})}</details>`).join('')}
   ${d.full ? '' : `
-  <div class="section-title">Natijangizni yuboring</div>
+  <div class="section-title">Natija yuborish</div>
   <div class="card col">
-    <textarea id="s-text" placeholder="Nima qildingiz? Natijani qisqacha yozing yoki matnni joylang"></textarea>
-    <input id="s-link" placeholder="Havola (Google Docs, Canva, Drive...) — ixtiyoriy" inputmode="url">
+    <textarea id="s-text" placeholder="Natijangiz"></textarea>
+    <input id="s-link" placeholder="Havola (ixtiyoriy)" inputmode="url">
     <button class="btn" data-act="submitWork">Yuborish</button>
   </div>
   ${subs.map((s) => `<div class="card small"><div class="muted tiny">${h(fmtDate(s.created_at))}</div>${s.text ? `<div>${h(s.text)}</div>` : ''}${s.link ? `<div><a href="#" data-act="link" data-url="${h(s.link)}">${h(s.link)}</a></div>` : ''}
@@ -658,6 +650,7 @@ const ACT = {
   copyPrompt: (d) => copy(S.cache.prompts[d.id]),
   pickPreview: (d) => { S.previewCourse = d.c; S.cache.fresh = S.tab === 'home'; haptic(); render(); },
   pickCourse: (d) => { S.curCourse = d.c; S.cache.fresh = S.tab === 'home'; haptic(); render(); },
+  expand: (d, el) => el.classList.toggle('open'),
   promptSearch: () => { S.form.pq = $('#pq').value; render(); },
   share: (d) => {
     const text = `«${d.name}» guruhiga qo'shilish uchun havolani bosing:`;
