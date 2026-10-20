@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-18T08:40:21.753Z",
+ "generated": "2026-10-20T09:57:02.973Z",
  "courses": [
   {
    "key": "biznes",
@@ -7,10 +7,10 @@
    "subtitle": "Biznes egalari uchun amaliy kurs",
    "color": "#0F3D5E",
    "accent": "#F28C28",
-   "hours": 36,
+   "hours": 48,
    "lessonHours": 3,
-   "weeks": 6,
-   "lead": "12 ta amaliy dars, 6 hafta, 36 soat. Har bir biznes egasi kursni o'z biznesida ishlab turgan AI tizimi va 90 kunlik reja bilan tugatadi.",
+   "weeks": 8,
+   "lead": "16 ta amaliy dars, 8 hafta, 48 soat. Har bir biznes egasi kursni o'z sayti, biznes Telegram boti, AI yordamchisi, avtomatlashtirilgan hisobotlari va 90 kunlik reja bilan tugatadi.",
    "packages": [
     {
      "key": "master",
@@ -20,38 +20,60 @@
     },
     {
      "key": "modul1",
-     "title": "1-modul: Marketing va mijozlar",
-     "desc": "1–6-darslar, 18 soat",
-     "price": 3300000
+     "title": "1-qism: Marketing, sayt va sotuv",
+     "desc": "1–8-darslar, 24 soat",
+     "price": 4400000
     },
     {
      "key": "modul2",
-     "title": "2-modul: Operatsiya va avtomatlashtirish",
-     "desc": "7–12-darslar, 18 soat",
-     "price": 3300000
+     "title": "2-qism: Botlar, avtomatlashtirish va boshqaruv",
+     "desc": "9–16-darslar, 24 soat",
+     "price": 4400000
     },
     {
      "key": "full",
      "title": "To'liq kurs",
-     "desc": "12 dars, 36 soat, 30 kunlik Telegram yordami, 2 ta klinika",
-     "price": 6000000,
+     "desc": "16 dars, 48 soat, 30 kunlik Telegram yordami, 2 ta klinika",
+     "price": 8000000,
      "main": true
     },
     {
      "key": "impl",
      "title": "Kurs + joriy etish",
      "desc": "To'liq kurs + o'qituvchi biznesingizda bitta tizimni birga ishga tushiradi",
-     "price": 7500000
+     "price": 9500000
+    }
+   ],
+   "modules": [
+    {
+     "title": "1-modul: Marketing",
+     "from": 1,
+     "to": 4
+    },
+    {
+     "title": "2-modul: Onlayn mavjudlik va sotuv",
+     "from": 5,
+     "to": 8
+    },
+    {
+     "title": "3-modul: Botlar va avtomatlashtirish",
+     "from": 9,
+     "to": 12
+    },
+    {
+     "title": "4-modul: Boshqaruv",
+     "from": 13,
+     "to": 16
     }
    ],
    "overview": [
     {
      "title": "Bir qarashda",
-     "md": "| Savol | Javob |\n| --- | --- |\n| Kimga | Kichik va o'rta biznes egalari, rahbarlar, marketing bo'limi boshliqlari |\n| Format | Offline, sinfda; shanba va yakshanba, har dars 3 soat |\n| Davomiyligi | 6 hafta, 12 dars, jami 36 soat |\n| Guruh | 8–12 kishi |\n| Til | O'zbek tili |\n| Narx | 6 000 000 so'm (tavsiya, batafsil \"Bozor va narx\" bo'limida) |\n| Talaba olib keladi | Noutbuk, Google akkaunt, Telegram, o'z biznesi ma'lumotlari |\n| Kurs oxirida | Biznesda ishlab turgan AI tizimi, kontent-reja, mijoz yordamchisi, 90 kunlik reja |\n\nKursning asosiy qoidasi: har bir mashq talabaning o'z biznesi ma'lumotlari ustida bajariladi. Shuning uchun darsdan keyin u o'qigan narsasi bilan emas, tayyor ish bilan ketadi."
+     "md": "| Savol | Javob |\n| --- | --- |\n| Kimga | Kichik va o'rta biznes egalari, rahbarlar, marketing bo'limi boshliqlari |\n| Format | Offline, sinfda; shanba va yakshanba, har dars 3 soat |\n| Davomiyligi | 8 hafta, 16 dars, jami 48 soat (4 modul × 4 dars) |\n| Guruh | 8–12 kishi |\n| Til | O'zbek tili |\n| Narx | 8 000 000 so'm (tavsiya, batafsil \"Bozor va narx\" bo'limida) |\n| Talaba olib keladi | Noutbuk, Google akkaunt, Telegram, o'z biznesi ma'lumotlari |\n| Kurs oxirida | Biznes sayti va xaritalardagi profil, Metricool'dagi kontent-reja, biznes Telegram boti, 24/7 AI yordamchi, kunlik AI hisobot va mini-CRM, 90 kunlik reja |\n\nKursning asosiy qoidasi: har bir mashq talabaning o'z biznesi ma'lumotlari ustida bajariladi. Shuning uchun darsdan keyin u o'qigan narsasi bilan emas, tayyor ish bilan ketadi."
     },
     {
      "title": "Kurs yo'li",
-     "md": "Darslar bir-biriga bog'langan: 2-darsdagi brend pasporti 5-darsdagi yordamchiga beriladi, 5-darsdagi FAQ esa 9-darsdagi botning javoblariga aylanadi."
+     "md": "| Modul | Darslar | Moduldan keyin egasida bor narsa |\n| --- | --- | --- |\n| 1. Marketing | 1–4 | Top 5, brend pasporti, kontent-reja, rasm va video, Metricool'da rejalashtirilgan postlar |\n| 2. Onlayn mavjudlik va sotuv | 5–8 | Sayt, xaritalardagi profil, reklama va marketplace matnlari, FAQ, sotuv skripti, sharhlarga javoblar |\n| 3. Botlar va avtomatlashtirish | 9–12 | API kalitlar, biznes Telegram boti, 24/7 AI yordamchi, kunlik hisobot va mini-CRM |\n| 4. Boshqaruv | 13–16 | Savdo tahlili, HR hujjatlari, rahbar uchun AI, AI qoidalari va 90 kunlik reja |\n\nDarslar bir-biriga bog'langan: 2-darsdagi brend pasporti 5-darsdagi saytga va 7-darsdagi yordamchiga beriladi; 7-darsdagi FAQ 10-darsdagi botning javoblariga aylanadi; 11-darsda shu bot butun bilim bazasidan javob beradigan AI yordamchiga aylanib, saytga ulanadi."
     },
     {
      "title": "Har bir dars qanday o'tadi",
@@ -75,51 +97,71 @@
     },
     {
      "n": 3,
-     "title": "Vizual kontent va video",
-     "result": "5 ta mahsulot rasmi, aksiya banneri, karusel, 1 ta Reels video"
+     "title": "Vizual kontent, video va AI ovoz",
+     "result": "5 ta mahsulot rasmi, aksiya banneri, karusel, 1 ta ovozli Reels video"
     },
     {
      "n": 4,
+     "title": "Metricool — kontentni rejalashtirish va tahlil",
+     "result": "Metricool'da 1 haftalik post jadvali, raqobatchilar ro'yxati va AI yozgan oylik hisobot + 3 qaror"
+    },
+    {
+     "n": 5,
+     "title": "Biznes sayti va xaritalar",
+     "result": "Bepul subdomendagi jonli sayt havolasi + 3 ta xaritaga yuborilgan ariza"
+    },
+    {
+     "n": 6,
      "title": "Reklama va marketplace",
      "result": "6 ta reklama matni (A/B), auditoriya tavsifi, marketplace kartochkasi, sotuv sahifasi matni, A/B kuzatuv jadvali"
     },
     {
-     "n": 5,
+     "n": 7,
      "title": "Sotuv va mijozlar",
      "result": "FAQ bazasi, sotuv skripti, e'tirozlar jadvali, sinovdan o'tgan mijoz yordamchisi"
     },
     {
-     "n": 6,
+     "n": 8,
      "title": "Mijoz sharhlari va xizmat",
      "result": "Sharhlar tahlili va 3 ta tuzatish rejasi, javob shablonlari, Google Forms so'rovnomasi, xizmat standarti"
     },
     {
-     "n": 7,
+     "n": 9,
+     "title": "API kalitlar va avtomatlashtirish asoslari",
+     "result": "Xavfsiz saqlangan kalitlar va 2 ta ishlab turgan zanjir: \"Yangi ariza → AI → Telegram\" va \"Har kuni ertalab vazifalar\""
+    },
+    {
+     "n": 10,
+     "title": "Biznes Telegram boti",
+     "result": "Ishlab turgan bot: Telegram → AI → katalog va buyurtmalar jadvali → egasiga xabar"
+    },
+    {
+     "n": 11,
+     "title": "Biznesning AI yordamchisi",
+     "result": "Bilim bazasi, 3 ta AI yordamchi, botga va saytga ulangan mijozlar yordamchisi, sinov jadvali, yangilash tartibi"
+    },
+    {
+     "n": 12,
+     "title": "CRM va kunlik hisobot",
+     "result": "2 ta ishlab turgan zanjir: kunlik AI hisobot va mini-CRM eslatmasi"
+    },
+    {
+     "n": 13,
      "title": "Hujjat, moliya, tahlil",
      "result": "Savdo hisoboti + 3 xulosa + 1 qaror, shartnoma tekshiruvi jadvali, raqobatchilar jadvali"
     },
     {
-     "n": 8,
+     "n": 14,
      "title": "HR va jamoa",
      "result": "Vakansiya e'loni, intervyu savollari + baholash kartochkasi, SOP yo'riqnoma, 1-hafta rejasi, xodimlar uchun test"
     },
     {
-     "n": 9,
-     "title": "Avtomatlashtirish — Telegram bot",
-     "result": "Ishlab turgan zanjir: Telegram bot → AI → Google Sheets → Telegram xabar"
+     "n": 15,
+     "title": "Rahbar uchun AI — uchrashuv, xat, taqdimot va biznes-reja",
+     "result": "Vazifalar jadvali, rasmiy xat, 10 slaydlik taqdimot qoralamasi, biznes-reja skeleti"
     },
     {
-     "n": 10,
-     "title": "Avtomatlashtirish — CRM va hisobot",
-     "result": "2 ta ishlab turgan zanjir: kunlik AI hisobot va mini-CRM eslatmasi"
-    },
-    {
-     "n": 11,
-     "title": "AI yordamchilar jamoasi",
-     "result": "NotebookLM'dagi bilim bazasi, 3 ta AI yordamchi, sinov jadvali, yangilash tartibi"
-    },
-    {
-     "n": 12,
+     "n": 16,
      "title": "Qoidalar, strategiya va himoya",
      "result": "AI qoidalari (\"svetofor\"), 3 oylik xarajat-foyda hisobi, 90 kunlik reja, himoya"
     }
@@ -168,6 +210,7 @@
      "price": 3400000
     }
    ],
+   "modules": null,
    "overview": [
     {
      "title": "Bir qarashda",

@@ -230,7 +230,8 @@ const LEVELS = [['new', '🌱', 'Hech ishlatmaganman'], ['some', '🙂', 'Ba\'za
 const LIKES = [['text', '✍️', 'Matn'], ['image', '🖼', 'Rasm'], ['video', '🎬', 'Video'], ['table', '📊', 'Jadval / hisob'], ['auto', '🤖', 'Avtomatlashtirish']];
 // har bir dars qaysi maqsad/qiziqishga xizmat qiladi
 const LESSON_TAGS = {
-  biznes: { 1: ['time'], 2: ['content', 'text', 'money'], 3: ['content', 'image', 'video'], 4: ['money', 'content', 'image'], 5: ['money', 'text'], 6: ['money', 'text'], 7: ['docs', 'table', 'time'], 8: ['docs', 'time', 'text'], 9: ['auto', 'time'], 10: ['auto', 'table', 'time'], 11: ['auto', 'time'], 12: ['money', 'docs'] },
+  biznes: { 1: ['time'], 2: ['content', 'text', 'money'], 3: ['content', 'image', 'video'], 4: ['content', 'time', 'table'], 5: ['money', 'content', 'text'], 6: ['money', 'content', 'image'], 7: ['money', 'text'], 8: ['money', 'text'],
+    9: ['auto', 'time'], 10: ['auto', 'money', 'time'], 11: ['auto', 'time', 'text'], 12: ['auto', 'table', 'time'], 13: ['docs', 'table', 'time'], 14: ['docs', 'time', 'text'], 15: ['docs', 'time', 'text'], 16: ['money', 'docs'] },
   umumiy: { 1: ['learn'], 2: ['learn', 'text'], 3: ['text', 'docs', 'content'], 4: ['docs', 'table', 'time'], 5: ['learn', 'docs'], 6: ['learn'], 7: ['time'], 8: ['image', 'content'], 9: ['image', 'content', 'docs'], 10: ['video', 'content'], 11: ['learn'], 12: ['content', 'learn'] },
 };
 const TAG_RE = {
@@ -367,8 +368,11 @@ function studentHome(e) {
   else next = nx('', '🚀', 'Boshlanish', e.group && e.group.start_date ? h(fmtDate(e.group.start_date)) : 'Birinchi darsda ochiladi');
 
   // darslar modullar bo'yicha
-  const mods = e.package === 'full'
-    ? [1, 2].map((m) => { const pk = (c.packages || []).find((x) => x.key === 'modul' + m); return [pk ? pk.title : m + '-modul', inPkg.filter((l) => (m === 1 ? l.n <= 6 : l.n > 6))]; })
+  const half = Math.ceil(c.lessons.length / 2);
+  const mods = c.modules
+    ? c.modules.map((m) => [m.title, inPkg.filter((l) => l.n >= m.from && l.n <= m.to)])
+    : e.package === 'full'
+    ? [1, 2].map((m) => { const pk = (c.packages || []).find((x) => x.key === 'modul' + m); return [pk ? pk.title : m + '-modul', inPkg.filter((l) => (m === 1 ? l.n <= half : l.n > half))]; })
     : [[e.packageTitle, inPkg]];
 
   return `
@@ -698,7 +702,7 @@ V.groupEdit = async ({ id }) => {
   return `<div class="title mb">${id ? 'Guruhni tahrirlash' : 'Yangi guruh'}</div>
   <div class="card col">
     ${id ? '' : `<label class="label" style="margin-top:0">Kurs</label><select id="g-course">${S.catalog.courses.map((c) => `<option value="${c.key}">${h(c.title)}</option>`).join('')}</select>
-    <label class="label">Dastur</label><select id="g-package"><option value="full">To'liq kurs (1–12 darslar)</option><option value="modul1">1-modul (1–6 darslar)</option><option value="modul2">2-modul (7–12 darslar)</option></select>`}
+    <label class="label">Dastur</label><select id="g-package"><option value="full">To'liq kurs (barcha darslar)</option><option value="modul1">1-qism (darslarning birinchi yarmi)</option><option value="modul2">2-qism (ikkinchi yarmi)</option></select>`}
     <label class="label">Nomi</label><input id="g-name" value="${h(g.name || '')}" placeholder="Masalan: Biznes-1 (shanba-yakshanba)">
     <label class="label">Jadval</label><input id="g-schedule" value="${h(g.schedule || '')}" placeholder="Sh, Ya 10:00–13:00">
     <label class="label">Boshlanish sanasi</label><input id="g-start" type="date" value="${h(g.start_date || '')}">
