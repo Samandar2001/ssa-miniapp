@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-20T09:57:02.973Z",
+ "generated": "2026-11-02T09:54:50.489Z",
  "courses": [
   {
    "key": "biznes",
@@ -173,10 +173,10 @@
    "subtitle": "Hamma uchun amaliy kurs",
    "color": "#3B2F8F",
    "accent": "#14A38B",
-   "hours": 24,
+   "hours": 32,
    "lessonHours": 2,
-   "weeks": 6,
-   "lead": "12 ta amaliy dars, 6 hafta, 24 soat. Texnik bilimi yo'q har qanday odam kursni AI'dan kundalik hayot va ishda mustaqil foydalana olib tugatadi.",
+   "weeks": 8,
+   "lead": "16 ta amaliy dars, 2 oy, 32 soat. Asosiy asbob — Claude. Texnik bilimi yo'q har qanday odam kursni AI'dan kundalik hayot, ish va qo'shimcha daromad uchun mustaqil foydalana olib tugatadi.",
    "packages": [
     {
      "key": "open",
@@ -186,39 +186,50 @@
     },
     {
      "key": "modul1",
-     "title": "1-modul",
-     "desc": "1–6-darslar: yozish, hujjatlar, qidiruv, o'rganish",
-     "price": 1100000
+     "title": "1-oy",
+     "desc": "1–8-darslar: Claude bilan yozish, hujjatlar, qidiruv, shaxsiy yordamchi",
+     "price": 1500000
     },
     {
      "key": "modul2",
-     "title": "2-modul",
-     "desc": "7–12-darslar: kundalik hayot, rasm, video, xavfsizlik, loyiha",
-     "price": 1100000
+     "title": "2-oy",
+     "desc": "9–16-darslar: rasm, video, ish, qo'shimcha daromad, avtomatlashtirish, xavfsizlik",
+     "price": 1500000
     },
     {
      "key": "full",
      "title": "To'liq kurs",
-     "desc": "12 dars, sertifikat, 30 kunlik Telegram yordami",
-     "price": 2000000,
+     "desc": "16 dars, 2 oy, sertifikat, 30 kunlik Telegram yordami",
+     "price": 2800000,
      "main": true
     },
     {
      "key": "family",
      "title": "Oilaviy",
-     "desc": "2 kishi bir guruhda (masalan, ota-ona va farzand)",
-     "price": 3400000
+     "desc": "2 kishi bir guruhda, oyiga (masalan, ota-ona va farzand)",
+     "price": 2500000
     }
    ],
-   "modules": null,
+   "modules": [
+    {
+     "title": "1-modul: Asoslar, yozish va shaxsiy yordamchi",
+     "from": 1,
+     "to": 8
+    },
+    {
+     "title": "2-modul: Ijod, ish, daromad va xavfsizlik",
+     "from": 9,
+     "to": 16
+    }
+   ],
    "overview": [
     {
      "title": "Bir qarashda",
-     "md": "| Savol | Javob |\n| --- | --- |\n| Kimga | Texnik bilimi yo'q kattalar: ofis xodimi, o'qituvchi, ota-ona, nafaqaga chiqqanlar, talabalar |\n| Yosh | 16 yoshdan katta, yuqori chegara yo'q. Asosiy auditoriya — 30–60 yosh |\n| Format | Offline, sinfda; haftada 2 marta, har dars 2 soat |\n| Davomiyligi | 6 hafta, 12 dars, jami 24 soat |\n| Guruh | 12–16 kishi |\n| Til | O'zbek tili |\n| Narx | 2 000 000 so'm (tavsiya, batafsil \"Bozor va narx\" bo'limida) |\n| Talaba olib keladi | Noutbuk yoki smartfon, Google akkaunt |\n| Kurs oxirida | 12 ta amaliy natija, o'z prompt shablonlari to'plami, sertifikat |\n\nKursning asosiy qoidasi: nazariya kam, amaliyot ko'p. Har bir darsda talaba o'z hayotidagi haqiqiy vazifani bajaradi va natijasini o'zi bilan olib ketadi."
+     "md": "| Savol | Javob |\n| --- | --- |\n| Kimga | Texnik bilimi yo'q kattalar: ofis xodimi, o'qituvchi, ota-ona, nafaqaga chiqqanlar, talabalar |\n| Yosh | 16 yoshdan katta, yuqori chegara yo'q. Asosiy auditoriya — 30–60 yosh |\n| Format | Offline, sinfda; haftada 2 marta, har dars 2 soat |\n| Davomiyligi | 2 oy (8 hafta), 16 dars, jami 32 soat |\n| Guruh | 12–16 kishi |\n| Til | O'zbek tili |\n| Narx | Oyiga 1 500 000 so'm; birinchi guruh uchun oyiga 1 200 000 so'm (batafsil \"Bozor va narx\" bo'limida) |\n| Talaba olib keladi | Noutbuk yoki smartfon, Google akkaunt |\n| Kurs oxirida | 16 ta amaliy natija, shaxsiy AI yordamchi, yangilangan rezyume, qo'shimcha daromad rejasi, o'z prompt shablonlari to'plami, sertifikat |\n\nKursning asosiy qoidasi: nazariya kam, amaliyot ko'p. Har bir darsda talaba o'z hayotidagi haqiqiy vazifani bajaradi va natijasini o'zi bilan olib ketadi."
     },
     {
      "title": "Kurs yo'li",
-     "md": "Kurs ikki moduldan iborat: 1–6-darslar AI bilan yozish, o'qish va o'rganishni o'rgatadi, 7–12-darslar uni kundalik hayot, ijod va xavfsizlikka olib chiqadi.\n\n| Hafta | Birinchi dars | Ikkinchi dars |\n| --- | --- | --- |\n| 1-hafta | 1. AI nima va u bilan qanday gaplashiladi | 2. Yaxshi so'rov yozish |\n| 2-hafta | 3. Matn bilan ishlash | 4. Hujjat va jadvallar |\n| 3-hafta | 5. Qidiruv va fakt tekshirish | 6. AI — shaxsiy o'qituvchi |\n| 4-hafta | 7. AI kundalik hayotda | 8. Rasm va dizayn |\n| 5-hafta | 9. Taqdimot va foto | 10. Ovoz va video |\n| 6-hafta | 11. Xavfsizlik va firibgarlik | 12. Yakuniy loyiha |"
+     "md": "Kurs ikki moduldan iborat: 1–8-darslar Claude bilan yozish, o'qish, o'rganish va shaxsiy yordamchi yaratishni o'rgatadi, 9–16-darslar AI'ni ijod, ish, qo'shimcha daromad, avtomatlashtirish va xavfsizlikka olib chiqadi.\n\n| Hafta | Birinchi dars | Ikkinchi dars |\n| --- | --- | --- |\n| 1-hafta | 1. AI nima va u bilan qanday gaplashiladi | 2. Yaxshi so'rov yozish |\n| 2-hafta | 3. Matn bilan ishlash | 4. Hujjat va jadvallar |\n| 3-hafta | 5. Qidiruv va fakt tekshirish | 6. AI — shaxsiy o'qituvchi |\n| 4-hafta | 7. Shaxsiy AI yordamchi | 8. AI kundalik hayotda |\n| 5-hafta | 9. Rasm va dizayn | 10. Taqdimot va foto |\n| 6-hafta | 11. Ovoz va video | 12. AI bilan ish va karyera |\n| 7-hafta | 13. AI bilan qo'shimcha daromad | 14. Oddiy avtomatlashtirish |\n| 8-hafta | 15. Xavfsizlik va firibgarlik | 16. Yakuniy loyiha |"
     },
     {
      "title": "Har bir dars qanday o'tadi",
@@ -233,7 +244,7 @@
     {
      "n": 1,
      "title": "AI nima va u bilan qanday gaplashiladi",
-     "result": "ChatGPT va Gemini'da akkaunt (xohlovchi uchun Claude ham), 10 ta bajarilgan vazifa"
+     "result": "Claude'da akkaunt (claude.ai va telefonda ilova), 10 ta bajarilgan vazifa; ChatGPT va Gemini bilan qisqa tanishuv"
     },
     {
      "n": 2,
@@ -248,7 +259,7 @@
     {
      "n": 4,
      "title": "Hujjat va jadvallar",
-     "result": "O'z hujjatining xulosasi, NotebookLM'dagi \"daftar\", formulalari ishlaydigan xarajatlar jadvali"
+     "result": "O'z hujjatining xulosasi, bir nechta hujjatdan manbali javoblar, formulalari ishlaydigan xarajatlar jadvali"
     },
     {
      "n": 5,
@@ -262,31 +273,51 @@
     },
     {
      "n": 7,
+     "title": "Shaxsiy AI yordamchi",
+     "result": "\"Men haqimda\" ko'rsatmasi, 1–2 ta yordamchi-loyiha (Project), o'z hujjati yuklangan yordamchi"
+    },
+    {
+     "n": 8,
      "title": "AI kundalik hayotda",
      "result": "Haftalik reja, oylik byudjet jadvali, 3 ta variantli xarid taqqoslash jadvali"
     },
     {
-     "n": 8,
+     "n": 9,
      "title": "Rasm va dizayn",
      "result": "3 ta tayyor rasm yoki banner, telefonda saqlangan"
     },
     {
-     "n": 9,
+     "n": 10,
      "title": "Taqdimot va foto",
      "result": "8–10 slaydlik taqdimot (spiker matni bilan), 2–3 ta tahrirlangan foto"
     },
     {
-     "n": 10,
+     "n": 11,
      "title": "Ovoz va video",
      "result": "Ovozli suhbat tajribasi, matnga aylantirilgan audio, 30 soniyalik video"
     },
     {
-     "n": 11,
+     "n": 12,
+     "title": "AI bilan ish va karyera",
+     "result": "Rezyume (o'zbekcha, ruscha, xohlasa inglizcha) Word faylda, kuzatuv xati, 10 ta savol-javob, mashq suhbati"
+    },
+    {
+     "n": 13,
+     "title": "AI bilan qo'shimcha daromad",
+     "result": "Taklif matni, narx jadvali, portfolio sahifasi (Claude'da), Telegram/Instagram e'loni, 3 mijoz rejasi"
+    },
+    {
+     "n": 14,
+     "title": "Oddiy avtomatlashtirish",
+     "result": "Telegram'da rejalashtirilgan 4 ta eslatma, Google Forms → Sheets xarajatlar jadvali, Claude artifact — xarajat hisoblagich"
+    },
+    {
+     "n": 15,
      "title": "Xavfsizlik va firibgarlik",
      "result": "Shaxsiy xavfsizlik ro'yxati, yoqilgan ikki bosqichli himoya, oila uchun xavfsizlik varag'i"
     },
     {
-     "n": 12,
+     "n": 16,
      "title": "Yakuniy loyiha",
      "result": "Yakuniy loyiha taqdimoti (4 daqiqa + 1 daqiqa savol), sertifikat"
     }

@@ -232,7 +232,8 @@ const LIKES = [['text', '✍️', 'Matn'], ['image', '🖼', 'Rasm'], ['video', 
 const LESSON_TAGS = {
   biznes: { 1: ['time'], 2: ['content', 'text', 'money'], 3: ['content', 'image', 'video'], 4: ['content', 'time', 'table'], 5: ['money', 'content', 'text'], 6: ['money', 'content', 'image'], 7: ['money', 'text'], 8: ['money', 'text'],
     9: ['auto', 'time'], 10: ['auto', 'money', 'time'], 11: ['auto', 'time', 'text'], 12: ['auto', 'table', 'time'], 13: ['docs', 'table', 'time'], 14: ['docs', 'time', 'text'], 15: ['docs', 'time', 'text'], 16: ['money', 'docs'] },
-  umumiy: { 1: ['learn'], 2: ['learn', 'text'], 3: ['text', 'docs', 'content'], 4: ['docs', 'table', 'time'], 5: ['learn', 'docs'], 6: ['learn'], 7: ['time'], 8: ['image', 'content'], 9: ['image', 'content', 'docs'], 10: ['video', 'content'], 11: ['learn'], 12: ['content', 'learn'] },
+  umumiy: { 1: ['learn'], 2: ['learn', 'text'], 3: ['text', 'docs', 'content'], 4: ['docs', 'table', 'time'], 5: ['learn', 'docs'], 6: ['learn'], 7: ['learn', 'time', 'auto'], 8: ['time'],
+    9: ['image', 'content'], 10: ['image', 'content', 'docs'], 11: ['video', 'content'], 12: ['docs', 'text', 'learn'], 13: ['money', 'content', 'text'], 14: ['auto', 'time', 'table'], 15: ['learn'], 16: ['content', 'learn'] },
 };
 const TAG_RE = {
   text: /post|matn|xat|javob|tavsif|e'lon|maqola/i, image: /rasm|logo|banner|dizayn|foto|surat|vizual/i, video: /video|reels|ssenariy|ovoz/i,
@@ -548,13 +549,13 @@ V.rating = async () => {
     <div class="bar mt" style="background:rgba(255,255,255,.2)"><i style="width:${pct}%;background:#fff"></i></div>
     <div class="tiny" style="opacity:.85;margin-top:6px">${L.next ? `Keyingi darajagacha ${L.next - r.me.xp} ball` : 'Eng yuqori daraja 🎉'}</div>
   </div>
-  <div class="mini" style="grid-template-columns:repeat(4,1fr)">
+  <div class="mini" style="grid-template-columns:repeat(3,1fr)">
     <div><b>${P.ex * 10}</b><span>mashq</span></div><div><b>${P.sub * 20}</b><span>topshiriq</span></div>
-    <div><b>${P.q * 4}</b><span>test</span></div><div><b>${P.att * 15}</b><span>davomat</span></div>
+    <div><b>${P.att * 15}</b><span>davomat</span></div>
   </div>
   <div class="section-title">Guruh top-10</div>
   <div class="list">${r.top.map((x) => `<div class="item ${x.me ? 'meRow' : ''}"><div class="num">${medal(x.rank)}</div><div class="grow b">${h(x.short)}${x.me ? ' (siz)' : ''}</div><b>${x.xp}</b></div>`).join('')}</div>
-  <div class="tiny muted center">Mashq 10 · topshiriq 20 · test javobi 4 · davomat 15 · sertifikat 50 ball</div>`;
+  <div class="tiny muted center">Mashq 10 · topshiriq 20 · davomat 15 · sertifikat 50 ball</div>`;
 };
 
 // ---------------- sinf rejimi (o'qituvchi: darsni ekranga slayd qilib chiqarish) ----------------
@@ -751,7 +752,7 @@ V.group = async ({ id }) => {
   ${groupInterests(d.students, g.course)}
   <div class="list">${d.students.map((s) => `
     <div class="item"><div class="grow"><div class="b">${h(s.name)}</div>${s.interests ? `<div class="tiny">${interestLine(s.interests, g.course)}</div>` : ''}
-      <div class="small muted">${s.phone ? `<a href="tel:${h(String(s.phone).replace(/\s/g, ''))}">${h(s.phone)}</a> · ` : ''}davomat ${s.present.length}/${opened.size} · mashq ${s.done} · topshiriq ${s.submissions} · test ${s.quizzes || 0} · <b>${s.xp || 0} ball</b></div></div>
+      <div class="small muted">${s.phone ? `<a href="tel:${h(String(s.phone).replace(/\s/g, ''))}">${h(s.phone)}</a> · ` : ''}davomat ${s.present.length}/${opened.size} · mashq ${s.done} · topshiriq ${s.submissions} · <b>${s.xp || 0} ball</b></div></div>
       ${s.certificate ? `<span class="badge ok">🎓 ${h(s.certificate)}</span>` : `<button class="btn sm ghost" data-act="issueCert" data-e="${s.enrollment_id}" data-name="${h(s.name)}" title="Sertifikat berish">🎓</button>`}
     </div>`).join('') || "<div class=\"item muted\">Hali talaba yo'q — yuqoridagi havolani yuboring.</div>"}</div>
   <div class="section-title">Guruhga e'lon</div>
