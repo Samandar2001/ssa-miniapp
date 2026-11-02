@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-02T09:54:50.489Z",
+ "generated": "2026-11-02T10:21:10.685Z",
  "courses": [
   {
    "key": "biznes",
@@ -229,7 +229,7 @@
     },
     {
      "title": "Kurs yo'li",
-     "md": "Kurs ikki moduldan iborat: 1–8-darslar Claude bilan yozish, o'qish, o'rganish va shaxsiy yordamchi yaratishni o'rgatadi, 9–16-darslar AI'ni ijod, ish, qo'shimcha daromad, avtomatlashtirish va xavfsizlikka olib chiqadi.\n\n| Hafta | Birinchi dars | Ikkinchi dars |\n| --- | --- | --- |\n| 1-hafta | 1. AI nima va u bilan qanday gaplashiladi | 2. Yaxshi so'rov yozish |\n| 2-hafta | 3. Matn bilan ishlash | 4. Hujjat va jadvallar |\n| 3-hafta | 5. Qidiruv va fakt tekshirish | 6. AI — shaxsiy o'qituvchi |\n| 4-hafta | 7. Shaxsiy AI yordamchi | 8. AI kundalik hayotda |\n| 5-hafta | 9. Rasm va dizayn | 10. Taqdimot va foto |\n| 6-hafta | 11. Ovoz va video | 12. AI bilan ish va karyera |\n| 7-hafta | 13. AI bilan qo'shimcha daromad | 14. Oddiy avtomatlashtirish |\n| 8-hafta | 15. Xavfsizlik va firibgarlik | 16. Yakuniy loyiha |"
+     "md": "Kurs ikki moduldan iborat: 1–8-darslar Claude bilan yozish, o'qish, o'rganish va shaxsiy yordamchi yaratishni o'rgatadi, 9–16-darslar AI'ni ijod, ish, qo'shimcha daromad, avtomatlashtirish va xavfsizlikka olib chiqadi.\n\n| Hafta | Birinchi dars | Ikkinchi dars |\n| --- | --- | --- |\n| 1-hafta | 1. AI nima va u bilan qanday gaplashiladi | 2. Yaxshi so'rov yozish |\n| 2-hafta | 3. Matn bilan ishlash | 4. Hujjat va jadvallar |\n| 3-hafta | 5. Qidiruv va fakt tekshirish | 6. AI — shaxsiy o'qituvchi |\n| 4-hafta | 7. Shaxsiy AI yordamchi | 8. AI kundalik hayotda |\n| 5-hafta | 9. Rasm va dizayn | 10. Taqdimot va foto |\n| 6-hafta | 11. Ovoz va video | 12. AI bilan ish va karyera |\n| 7-hafta | 13. AI bilan qo'shimcha daromad | 14. Oddiy avtomatlashtirish |\n| 8-hafta | 15. Xavfsizlik va firibgarlik | 16. Yakuniy loyiha |\n\nKursning ipi — yakuniy loyiha. Har darsning natijasi botdagi «Natijalar»ga yuboriladi va kurs oxirida talabaning shaxsiy portfoliosiga aylanadi. 8-darsda (1-oy yakuni) har kim o'z hayoti yoki ishidagi bitta haqiqiy vazifani tanlaydi, 9–15-darslarda unga bo'lak-bo'lak qo'shib boradi, 16-darsda esa guruh oldida ko'rsatadi."
     },
     {
      "title": "Har bir dars qanday o'tadi",
@@ -254,7 +254,7 @@
     {
      "n": 3,
      "title": "Matn bilan ishlash",
-     "result": "Rezyume, rasmiy xat yoki ariza, teskari tarjima bilan tekshirilgan tarjima"
+     "result": "Uch uslubdagi e'lon, \"o'zim haqimda\" matni, rasmiy xat yoki ariza, tekshirilgan tarjima"
     },
     {
      "n": 4,
